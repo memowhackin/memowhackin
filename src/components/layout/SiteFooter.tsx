@@ -34,7 +34,23 @@ const socials = [
   },
 ] as const;
 
-/** Certifications, in the order the frame lists them. */
+/**
+ * Certifications, in the order the frame lists them. One height each, and every
+ * badge takes the width its own artwork asks for — which is the same width, to
+ * within a pixel, now that all three files are the frame's own.
+ *
+ * The OSAI file was not. It was a crop of the badge, blown up about 7% with the
+ * hexagon's left and right edges cut away and its outline lost, so the lettering
+ * ran to the very edge of the picture with nothing around it. Beside two badges
+ * that were whole, it read as a different, fatter shape.
+ *
+ * Everything this went through before was an attempt to fix that in CSS: a
+ * shared hexagon clip to disguise the missing outline, then a scale to push the
+ * short points back out to that clip, then a narrower box to compensate for the
+ * width. All of them reshaped artwork to work around a broken source. With the
+ * frame's export in place there is nothing to work around, so the clip, the
+ * scale and the per-badge box are all gone.
+ */
 const badges = [
   {
     key: "oscp",
@@ -47,7 +63,7 @@ const badges = [
     key: "osai",
     name: "OSAI",
     src: "/assets/badge-osai.webp",
-    width: 290,
+    width: 289,
     height: 330,
   },
   {
@@ -58,9 +74,6 @@ const badges = [
     height: 78,
   },
 ] as const;
-
-const BADGE_HEXAGON =
-  "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)";
 
 /** The industry partners shown above the divider. */
 const partners = [
@@ -307,11 +320,7 @@ export function SiteFooter() {
                          * renders as a flat bar, because an explicit width
                          * outranks the ratio.
                          */
-                        className="h-14 w-auto object-cover sm:h-16"
-                        style={{
-                          aspectRatio: "0.866",
-                          clipPath: BADGE_HEXAGON,
-                        }}
+                        className="h-14 w-auto sm:h-16"
                       />
                     </li>
                   ))}

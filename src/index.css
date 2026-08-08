@@ -266,20 +266,62 @@ body {
 }
 
 /*
+ * The sky behind "Get hacked by AssistSec." — lavender at the top edge, gone to
+ * `ink` by the foot of the copy.
+ *
+ * Three stops could not carry it. A ramp this long crossing this much of the
+ * hue circle puts each 8-bit step several pixels apart, so it arrived as a stack
+ * of flat horizontal bands — which is what made a plain CSS gradient look like a
+ * badly compressed photograph. The stops below are sampled off the frame's own
+ * render at ten depths and rescaled to this section (the frame's group is nearly
+ * three times as tall as its content, so its 0-35% is this section's 0-91%).
+ * Interpolating in oklab rather than sRGB keeps the middle of the ramp off the
+ * grey it otherwise cuts through.
+ */
+@utility brand-sky {
+  background-color: var(--color-ink);
+  background-image: linear-gradient(
+    to bottom in oklab,
+    #ad9dee 0%,
+    #ad9dee 10%,
+    #9587da 21%,
+    #7165bb 31%,
+    #564ba5 39%,
+    #3f368e 47%,
+    #2e276e 57%,
+    #221d51 67%,
+    #151236 78%,
+    #110f2a 91%
+  );
+}
+
+/*
  * The connector dropping from each agent alert into the rooftops. The frame
- * draws it (nodes 96:41809, 96:41839–40, 246:16238) as a 2px line in `accent`
- * on a `1.5 5` dash — a fine bead rather than a rule, which is what a dotted
- * CSS border cannot spell: `border-dotted` gives round dots on the border's own
- * width and spacing, and at 1px in lavender the whole thing disappeared into
- * the sky it is drawn over. The gradient reproduces the dash exactly.
+ * draws it (nodes 96:41809, 96:41839–40, 246:16238) as a 2px line on a `1.5 5`
+ * dash — a fine bead rather than a rule, which is what a dotted CSS border
+ * cannot spell: `border-dotted` gives round dots on the border's own width and
+ * spacing. The gradient reproduces the dash exactly.
+ *
+ * The colour is the one thing here that is not the frame's. The frame draws
+ * these in `accent`, a dark indigo, because in the frame they hang over the
+ * pale top of the sky. On this page the alerts sit lower, against the city
+ * itself — and measured down their length, that dark line came out between
+ * 1.02:1 and 1.44:1 against what is behind it. It was not faint, it was
+ * invisible.
+ *
+ * Lavender alone does not fix it either: one of the four crosses a lit building
+ * where a light line washes out just as badly. So the line is light and carries
+ * a dark halo, which is what lets one colour hold over both the rooftops and
+ * the sky behind them.
  */
 @utility alert-drop {
   width: 2px;
   background-image: repeating-linear-gradient(
     to bottom,
-    var(--color-indigo-deep) 0 1.5px,
+    var(--color-lavender) 0 1.5px,
     transparent 1.5px 6.5px
   );
+  filter: drop-shadow(0 0 0.1875rem rgb(13 11 33 / 0.95));
 }
 
 /* Gradient hairline used between sections and under the footer links. */

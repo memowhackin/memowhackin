@@ -6,14 +6,21 @@ import { useMediaQuery } from "@/components/common/useMediaQuery";
 import { site } from "@/config/site";
 
 /*
- * The backdrop footage only earns its bytes where it will actually be seen
- * moving: a phone gets the poster frame, and so does anyone who has asked for
- * reduced motion — a looping video being exactly what that preference is about.
- * Deciding here rather than in CSS means the file is never fetched in those
- * cases instead of being fetched and then hidden.
+ * The backdrop plays everywhere except where someone has asked it not to. A
+ * looping video is exactly what `prefers-reduced-motion` is about, and deciding
+ * here rather than in CSS means the file is never fetched in that case instead
+ * of being fetched and then hidden.
+ *
+ * There is deliberately no width in this query. There used to be — the footage
+ * was withheld under 48rem to keep a 1.7MB download off phones — but that asset
+ * is long gone and the one in its place is a 164KB webm, less than the hero
+ * screenshot beside it. What the breakpoint bought after that was nothing, and
+ * what it cost was a width at which the backdrop changed character: the video
+ * stopped and a CSS approximation took over, so the page had a seam at 768 that
+ * had to be kept invisible from both sides. It never quite was. One backdrop, at
+ * every width, is both simpler and the thing that actually moves on a phone.
  */
-const BACKDROP_PLAYS =
-  "(min-width: 48rem) and (prefers-reduced-motion: no-preference)";
+const BACKDROP_PLAYS = "(prefers-reduced-motion: no-preference)";
 
 /*
  * The frame's backdrop ("Moodboard - 2 → Banner Bg") masks every one of its
@@ -81,7 +88,11 @@ const BANNER_FOOTAGE_BOX =
 const BANNER_SHAFT_SOFTEN = "blur-[7.29vw]";
 
 const BANNER_SHAFTS = [
-  { key: "a", src: "/assets/hero-shaft-a.webp", className: "opacity-70" },
+  {
+    key: "a",
+    src: "/assets/hero-shaft-a.webp",
+    className: "opacity-70",
+  },
   {
     key: "b",
     src: "/assets/hero-shaft-b.webp",
@@ -172,6 +183,11 @@ export function Hero() {
             and hung off the top edge, which is what puts the bright of the
             plume where the frame puts it rather than a hand's width to the
             left. Both the still and the video take the same box.
+          */}
+          {/*
+            The still under the footage. It is the frame the loop returns to, so
+            it stands in seamlessly while the video is still arriving, and for
+            anyone who has asked for reduced motion.
           */}
           <div
             className={clsx(BANNER_FOOTAGE_BOX, "bg-cover bg-center")}

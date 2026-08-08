@@ -1,3 +1,4 @@
+import { Fragment, type CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
@@ -10,6 +11,46 @@ const pillars = [
   { key: "experts", icon: "/assets/icon-experts.svg" },
   { key: "insight", icon: "/assets/icon-insight.svg" },
 ] as const;
+
+/**
+ * The icon disc, and the line the rails are threaded along — the rails meet the
+ * discs at their centres, so both are written from this one value.
+ */
+const DISC = "clamp(6rem,13vw,9.5rem)";
+const RAIL_LINE = `calc(${DISC} / 2)`;
+
+/**
+ * The disc itself, as the frame fills it: lavender at a fifth fading out down
+ * the circle, over a dark wash, on a 10px backdrop blur.
+ *
+ * The icon export cannot supply this. It carries the circle in a `foreignObject`
+ * — the backdrop blur is an HTML div inside the SVG — and a `foreignObject` is
+ * inert when the file is used as an `<img>` source, so all that arrives is the
+ * glyph. The disc has to be built under it, which is what this is. It had been
+ * standing in as a flat 8% white.
+ */
+const DISC_FILL =
+  "bg-[linear-gradient(180deg,rgb(173_157_238/0.2)_0%,rgb(173_157_238/0)_100%),linear-gradient(0deg,rgb(34_18_15/0.2)_0%,rgb(34_18_15/0.2)_100%)]";
+
+/** The diamond the frame puts at both ends of every rail junction. */
+function RailNode({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <span
+      aria-hidden="true"
+      style={style}
+      className={clsx(
+        "bg-lavender/70 absolute hidden size-1.5 -translate-x-1/2 rotate-45 rounded-xs lg:block",
+        className,
+      )}
+    />
+  );
+}
 
 /** One pillar. Split out so each can hold its own reveal state. */
 function Pillar({
@@ -49,26 +90,10 @@ function Pillar({
         />
 
         {/*
-          Where the rail meets the next pillar it turns and drops, with the
-          diamond the frame puts on the junction. Solid dividers running the
-          full height of the cell were standing in for this.
-        */}
-        {index > 0 && (
-          <>
-            <span
-              className="bg-lavender/40 absolute top-1/2 left-0 hidden h-[13rem] w-px lg:block"
-              aria-hidden="true"
-            />
-            <span
-              className="bg-lavender/70 absolute top-1/2 left-0 hidden size-1.5 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-xs lg:block"
-              aria-hidden="true"
-            />
-          </>
-        )}
-
-        {/*
           Translucent with a ring, as drawn — an opaque `ink-deep` disc punched
-          a hole in the gradient behind it.
+          a hole in the gradient behind it. The drops that turn off this rail
+          belong to the section, not to a cell: they have to reach the lower
+          rail, which is past the end of every cell.
         */}
         <img
           src={pillar.icon}
@@ -77,7 +102,11 @@ function Pillar({
           height={156}
           loading="lazy"
           aria-hidden="true"
-          className="ring-lavender-soft/25 relative size-[clamp(6rem,13vw,9.5rem)] rounded-full bg-white/8 ring-1 backdrop-blur-sm"
+          className={clsx(
+            "ring-lavender-soft/25 relative rounded-full ring-1 backdrop-blur-[0.625rem]",
+            DISC_FILL,
+          )}
+          style={{ width: DISC, height: DISC }}
         />
       </div>
 
@@ -85,7 +114,19 @@ function Pillar({
         {t(`why.${pillar.key}.title`)}
       </h3>
 
-      <p className="text-mist/80 max-w-[18rem] text-sm leading-6 text-pretty">
+      {/*
+        Narrow enough that each sentence takes its own line, which is how the
+        frame breaks all three. At 18rem the first line ran on into the second
+        sentence and the block came out ragged against its neighbours.
+
+        Measured against the three: the widest single sentence sets the floor at
+        193px, and the first that would pull a word up from the sentence after it
+        sets the ceiling at 198px. 12.2rem sits in that window. It is narrow
+        because the copy is what makes it narrow — if these strings change, or a
+        licensed Uncut Sans replaces the Inter standing in for it, this wants
+        measuring again rather than nudging.
+      */}
+      <p className="text-mist/80 max-w-[12.2rem] text-sm leading-6 text-pretty">
         {t(`why.${pillar.key}.body`)}
       </p>
     </li>
@@ -105,7 +146,7 @@ export function WhyAssistSec() {
   return (
     <SectionShell
       data-testid="why-assistsec"
-      className="from-lavender via-indigo to-ink bg-gradient-to-b from-0% via-35% to-90%"
+      className="brand-sky"
       /*
         The page's section rhythm is 16/24/28, which services, the report block
         and the blog all run. This section was on 16/20/24 — 96px of air at a
@@ -145,32 +186,67 @@ export function WhyAssistSec() {
         {t("why.title")}
       </h2>
 
-      <ul className="grid w-full gap-12 lg:grid-cols-3 lg:gap-0">
-        {pillars.map((pillar, index) => (
-          <Pillar key={pillar.key} pillar={pillar} index={index} />
+      {/*
+        The pillars and the call to action share one box, because the rails that
+        join them do. The frame runs a drop off the upper rail at each of the two
+        gaps between the discs, all the way down into the lower rail, with a
+        diamond at both ends — so the three pillars and the button read as one
+        bracketed figure rather than as a row with a line under it.
+
+        Each drop is drawn here rather than inside a cell for the simple reason
+        that it has to outlive one: it starts on the disc's centre line and ends
+        on the lower rail, which is past the foot of every cell. Held inside a
+        cell at a fixed 13rem it stopped in mid-air short of the rail.
+
+        `top` is the disc's own centre and `bottom` is half the button — so both
+        ends stay on their rails as the disc scales and the copy reflows.
+      */}
+      <div className="relative flex w-full flex-col gap-12 lg:gap-16">
+        {(["left-1/3", "left-2/3"] as const).map((column) => (
+          <Fragment key={column}>
+            <span
+              aria-hidden="true"
+              className={clsx(
+                "bg-lavender/40 absolute bottom-6 hidden w-px lg:block",
+                column,
+              )}
+              style={{ top: RAIL_LINE }}
+            />
+            <RailNode
+              className={clsx("-translate-y-1/2", column)}
+              style={{ top: RAIL_LINE }}
+            />
+            <RailNode className={clsx("bottom-6 translate-y-1/2", column)} />
+          </Fragment>
         ))}
-      </ul>
 
-      <div className="relative flex w-full justify-center">
-        {/* Lower rail the call-to-action sits on. */}
-        <div
-          className="bg-lavender/40 absolute top-1/2 right-[6%] left-[6%] hidden h-px lg:block"
-          aria-hidden="true"
-        />
+        <ul className="grid w-full gap-12 lg:grid-cols-3 lg:gap-0">
+          {pillars.map((pillar, index) => (
+            <Pillar key={pillar.key} pillar={pillar} index={index} />
+          ))}
+        </ul>
 
-        {/*
+        <div className="relative flex w-full justify-center">
+          {/* Lower rail the call-to-action sits on, edge to edge as drawn. */}
+          <div
+            className="bg-lavender/40 absolute inset-x-0 top-1/2 hidden h-px lg:block"
+            aria-hidden="true"
+          />
+
+          {/*
           The same size as every other in-page call to action. At `sm` this one
           came out 126×41 in 14px type against the 148×48 in 16px that the
           skyline, the report and the closing block all use — the one primary
           action on the page that looked like a secondary one.
         */}
-        <BrandButton
-          href={site.bookDemoUrl}
-          data-testid="why-book-demo"
-          className="relative"
-        >
-          {t("why.cta")}
-        </BrandButton>
+          <BrandButton
+            href={site.bookDemoUrl}
+            data-testid="why-book-demo"
+            className="relative"
+          >
+            {t("why.cta")}
+          </BrandButton>
+        </div>
       </div>
     </SectionShell>
   );

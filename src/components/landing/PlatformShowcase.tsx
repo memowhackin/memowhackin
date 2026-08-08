@@ -113,8 +113,35 @@ export function PlatformShowcase() {
       data-testid="platform-showcase"
       className="bg-ink-deep relative w-full overflow-hidden"
     >
-      {/* Constellation: 1086 square, bleeding off the left edge of the canvas. */}
-      <div className="mx-auto w-full max-w-sm px-6 pt-24 sm:max-w-md sm:px-10 sm:pt-32 lg:absolute lg:top-1/2 lg:left-[-14%] lg:mx-0 lg:w-[52%] lg:max-w-none lg:-translate-y-1/2 lg:px-0 lg:pt-0">
+      {/*
+        Constellation: 1086 square, bleeding off the left edge of the canvas.
+
+        It stays centred, and the room it needs is bought from the section
+        rather than taken out of the graphic.
+
+        The graphic is square and sized off the viewport while the section's
+        height is set by the copy beside it, so past about 1400 it is simply
+        taller than the section it sits in. Centred, that overflows evenly at
+        both ends and costs nothing — the mask has faded the artwork almost to
+        nothing out there, so what gets clipped is the last few percent of the
+        radius.
+
+        Sliding it down to clear the hero is what broke it. The overflow all
+        moved to one end — 318px at 1920 — and the clip stopped cutting faded
+        edge and started cutting the body of the graph, which left it ending on
+        a hard horizontal line with the third tag gone under it.
+
+        So the clearance comes from the section's own foot instead: `pb` below
+        carries enough height that the centred graphic clears the hero by about
+        60px at 1440, and the cap keeps it inside that on the widest screens.
+        Measured across `lg` and up, the clip never starts before 90% of the
+        radius, and all three tags stay in view.
+
+        The bleed is a translate rather than a negative `left` so that it stays
+        proportional to the graphic: `-27%` of its own width is the distance the
+        frame's `-14%` of a 1920 canvas was, and it holds when the cap bites.
+      */}
+      <div className="mx-auto w-full max-w-sm px-6 pt-24 sm:max-w-md sm:px-10 sm:pt-32 lg:absolute lg:top-1/2 lg:left-0 lg:mx-0 lg:w-[52%] lg:max-w-[56rem] lg:-translate-x-[27%] lg:-translate-y-1/2 lg:px-0 lg:pt-0">
         <div className="relative aspect-square">
           <img
             src="/assets/constellation.webp"
@@ -202,7 +229,7 @@ export function PlatformShowcase() {
           well after the screenshot has finished going, not as it goes.
         */
         className={clsx(
-          "flex flex-col gap-10 px-6 pt-20 pb-16 sm:gap-12 sm:px-10 sm:pt-28 sm:pb-24 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:pt-64 lg:pb-28 xl:pt-80 xl:pb-32",
+          "flex flex-col gap-10 px-6 pt-20 pb-16 sm:gap-12 sm:px-10 sm:pt-28 sm:pb-24 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:pt-[11.125rem] lg:pb-[12rem] xl:pt-[15.125rem] xl:pb-[13rem]",
           revealClassName,
         )}
       >
@@ -214,10 +241,14 @@ export function PlatformShowcase() {
         */}
         <div className="flex flex-col gap-6 sm:gap-8">
           {/*
-            The same badge the services section is headed with. As a bare mono
-            eyebrow this was the one section opening in a different voice from
-            the rest of the page, and at 14px it sat well under the weight of
-            the statement it introduces.
+            The same badge the services section is headed with, so the two
+            sections open in one voice. It is the section's heading rather than
+            an ornament above one — this is a named destination in the nav
+            ("About us"), and without it anyone moving through the page by
+            headings went from the hero straight to the skyline.
+
+            What it costs is 78px above the statement, and the run-in below has
+            been shortened by exactly that so the statement itself does not move.
           */}
           <SectionBadge data-testid="platform-badge">
             {t("platform.eyebrow")}
