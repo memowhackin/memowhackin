@@ -43,12 +43,17 @@ const badges = [
     width: 520,
     height: 600,
   },
+  /*
+   * Re-exported. The original was 224×352 with the hexagon squashed to a 0.679
+   * aspect where its two siblings are 0.878, so at a shared height it rendered
+   * 50px wide against their 68 and read as the odd one out.
+   */
   {
     key: "osai",
     name: "OSAI",
     src: "/assets/badge-osai.webp",
-    width: 224,
-    height: 352,
+    width: 290,
+    height: 330,
   },
   {
     key: "oswe",
@@ -225,7 +230,11 @@ export function SiteFooter() {
           </nav>
 
           {/* The oversized ghost mark that sits in the right-hand column. */}
-          <LogoMark className="text-lavender/10 hidden h-32 w-auto self-center justify-self-end lg:block xl:h-44" />
+          {/*
+            The frame sets this as a large soft watermark filling the column,
+            not a small mark tucked in the corner.
+          */}
+          <LogoMark className="text-lavender/12 hidden h-44 w-auto self-center justify-self-end lg:block xl:h-56" />
         </div>
 
         <div className="mt-12 flex flex-col gap-4 pb-10 text-sm leading-6 text-white sm:flex-row sm:items-center sm:justify-between lg:mt-16">
@@ -257,7 +266,7 @@ export function SiteFooter() {
       </div>
 
       {/* Oversized outlined wordmark bleeding off the bottom edge. */}
-      <LogoWordmarkOutline className="text-lavender/25 relative -mb-6 h-24 w-full sm:h-32 lg:h-44" />
+      <LogoWordmarkOutline className="text-lavender/30 relative -mb-4 h-24 w-full sm:h-36 lg:h-52" />
     </footer>
   );
 }

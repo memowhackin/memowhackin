@@ -88,8 +88,12 @@
    * Figma value at that width and scales down instead of overflowing on narrow
    * viewports.
    */
-  --text-hero: clamp(2.25rem, 3.75vw, 4.5rem); /* 72px */
-  --text-hero--line-height: 1.2;
+  /*
+   * Measured off the frame render: the hero headline occupies 113px for two
+   * rows at a 1920 canvas, so it is nearer 3.75rem than the 4.5rem this had.
+   */
+  --text-hero: clamp(2.25rem, 3.125vw, 3.75rem); /* 60px */
+  --text-hero--line-height: 1.15;
   --text-hero--letter-spacing: -0.03em;
 
   /*

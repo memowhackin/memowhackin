@@ -149,11 +149,13 @@ export function AutonomousAgents() {
         </BrandButton>
 
         {/*
-          Below `lg` there is no room to scatter the alerts over the city, so
-          the same four run as a wrapped row under the call to action instead of
-          being dropped from the layout altogether.
+          The scatter is drawn for a 1920 canvas and only has room from `2xl`.
+          Below that the copy block takes a larger share of the section — the
+          type does not shrink in step with the width — and the middle alert
+          lands on the call to action. So the same four run as a wrapped row
+          under it instead of being dropped from the layout altogether.
         */}
-        <ul className="mt-2 flex flex-wrap justify-center gap-2 lg:hidden">
+        <ul className="mt-2 flex flex-wrap justify-center gap-2 2xl:hidden">
           {alerts.map((alert) => (
             <li
               key={alert.key}
@@ -175,7 +177,7 @@ export function AutonomousAgents() {
           key={alert.key}
           data-testid={`agents-alert-${alert.key}`}
           className={clsx(
-            "absolute hidden flex-col items-start lg:flex",
+            "absolute hidden flex-col items-start 2xl:flex",
             alert.position,
           )}
         >
