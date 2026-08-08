@@ -225,7 +225,7 @@ export function SiteFooter() {
             src="/assets/wordmark-assistsec.svg"
             alt=""
             width={1608}
-            height={234}
+            height={248}
             loading="lazy"
             aria-hidden="true"
             className="pointer-events-none absolute top-1/2 left-1/2 -z-10 w-[86%] max-w-none -translate-x-1/2 -translate-y-1/2 brightness-[1.6] sm:w-[80%] sm:brightness-125 lg:left-0 lg:w-[74%] lg:translate-x-0 lg:brightness-100"
