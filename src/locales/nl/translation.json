@@ -1,0 +1,152 @@
+{
+  "app": {
+    "title": "AssistSec",
+    "description": "AI-ondersteunde penetratietesten. De meest ervaren pentesters van Europa, versterkt door autonome agents."
+  },
+  "nav": {
+    "services": "Diensten",
+    "aboutUs": "Over ons",
+    "demonstrate": "Demonstratie",
+    "blog": "Blog",
+    "login": "Inloggen",
+    "bookDemo": "Demo boeken",
+    "language": "Taal",
+    "openMenu": "Menu openen",
+    "closeMenu": "Menu sluiten",
+    "primary": "Hoofdmenu",
+    "skipToContent": "Naar de inhoud"
+  },
+  "announcement": {
+    "badge": "Ontdek",
+    "text": "Gebruik onze gratis scanner om uw beveiliging te controleren!"
+  },
+  "hero": {
+    "title": "Cyberveiligheid met AI-assisted pentesting.",
+    "body": "Wij zetten de beste pentesters van Europa in om organisaties digitaal weerbaar te maken. Met geavanceerde tests en red teaming leggen we kwetsbaarheden bloot voordat aanvallers ze misbruiken.",
+    "cta": "Boek een live demo",
+    "dashboardAlt": "AssistSec-portaal met API-beveiligingsbevindingen"
+  },
+  "platform": {
+    "poweredBy": "Aangedreven door innovatie en next-generation kunstmatige intelligentie",
+    "tags": {
+      "apiTesting": "API-testen",
+      "credentials": "Inloggegevens beveiligd",
+      "pentesting": "Pentesting"
+    },
+    "leadStrong": "Wij combineren de expertise van de meest ervaren pentesters van Europa om organisaties digitaal weerbaar te maken. Met geavanceerde penetratietesten en offensieve red teaming,",
+    "leadMuted": "leggen we kwetsbaarheden proactief bloot voordat kwaadwillenden ze kunnen misbruiken.",
+    "partnerAlt": "{{name}}-logo"
+  },
+  "agents": {
+    "title": "Autonome agents\nvoor het testwerk.",
+    "subtitle": "Senior securityexperts beoordelen elke bevinding.",
+    "cta": "Demo boeken",
+    "skylineAlt": "Skyline van de stad in de schemering",
+    "alerts": {
+      "apiTesting": "API-testen",
+      "files": "Melding beveiligde bestanden",
+      "credentials": "Melding gestolen inloggegevens",
+      "attack": "Cyberaanval gedetecteerd"
+    }
+  },
+  "services": {
+    "badge": "Onze diensten",
+    "exploreMore": "Lees meer",
+    "pentesting": {
+      "title": "Pentesting",
+      "body": "Applicaties, API's en infrastructuur. Autonome AI-agents worden grondig gevalideerd door experts om betrouwbaarheid en prestaties te garanderen."
+    },
+    "cloud": {
+      "title": "Cloud security testing",
+      "body": "AWS, Azure en GCP zijn cruciale cloudplatformen. Wij onderzoeken de configuraties en veelvoorkomende misconfiguraties om uw risico's scherp in beeld te brengen."
+    },
+    "redTeaming": {
+      "title": "Red teaming",
+      "body": "Realistische simulaties van end-to-end scenario's, ontworpen samen met offensieve specialisten voor een volledige beproeving van uw weerbaarheid."
+    },
+    "alt": {
+      "pentesting": "Overzicht van dreigingsdekking in het AssistSec-portaal",
+      "cloud": "Overzicht van de totale beveiligingsscore in het AssistSec-portaal",
+      "redTeaming": "Dekking van cloud- en identityproviders in het AssistSec-portaal"
+    }
+  },
+  "why": {
+    "title": "Laat u hacken door AssistSec.",
+    "cta": "Demo boeken",
+    "scope": {
+      "title": "Eigen scope",
+      "body": "Web, API, cloud of red team. Afgestemd op uw risico's."
+    },
+    "experts": {
+      "title": "AI + experts",
+      "body": "Agents doen het zware werk. Elke bevinding wordt gevalideerd."
+    },
+    "insight": {
+      "title": "Direct inzicht",
+      "body": "Bevindingen staan live in uw portaal. Geen wachten op het rapport."
+    }
+  },
+  "benefits": {
+    "title": "Wat zijn de voordelen van een AI-assisted pentest?",
+    "reportIntro": "De bevindingen worden opgenomen in een eindrapport, inclusief een heldere managementsamenvatting.",
+    "reportBody": "Kwetsbaarheden worden beoordeeld en voorzien van aanbevelingen, geprioriteerd op basis van risico.",
+    "cta": "Voorbeeldrapport aanvragen",
+    "labels": {
+      "summary": "Managementsamenvatting",
+      "vectors": "Mogelijke aanvalsvectoren",
+      "risk": "Gerangschikte risicobeoordeling",
+      "scope": "Testscope en methodologie",
+      "steps": "Stappen voor het oplossen"
+    }
+  },
+  "blog": {
+    "title": "Onze laatste blogs",
+    "viewAll": "Alle blogs bekijken",
+    "viewDetails": "Lees verder",
+    "outroIntro": "Wilt u weten welke ontwikkelingen er spelen en waar onze specialisten aan werken? Ontdek hier het laatste nieuws over pentesting, hacking, security research en compliance.",
+    "outroFollow": "Wil je op de hoogte blijven van alle updates? Volg ons dan op",
+    "posts": {
+      "rules": {
+        "date": "4 jun 2026",
+        "title": "Hoe AI-pentesting de spelregels verandert",
+        "excerpt": "Geautomatiseerde scans en menselijke expertise versterken elkaar. Zo ziet dat er in de praktijk uit."
+      },
+      "owasp": {
+        "date": "28 mrt 2026",
+        "title": "OWASP Top 10 in 2026: wat u moet weten",
+        "excerpt": "Een praktische gids voor ontwikkel- en securityteams die kwetsbaarheden structureel willen aanpakken."
+      },
+      "compliance": {
+        "date": "4 jun 2026",
+        "title": "Compliance zonder in te leveren op snelheid",
+        "excerpt": "ISO 27001 en NIS2 vragen om aantoonbare beheersing. Zo blijft u audit-ready zonder vaart te verliezen."
+      }
+    },
+    "linkedIn": "linkedIn"
+  },
+  "cta": {
+    "title": "Interesse in een pentest?",
+    "body": "Ontdek hoe AI-ondersteunde pentesting uw organisatie sneller en grondiger inzicht geeft in kwetsbaarheden.",
+    "action": "Demo boeken",
+    "imageAlt": "Uitgestoken robothand"
+  },
+  "trusted": {
+    "title": "Wij werken samen met experts uit de industrie om de volgende generatie penetratietesten te leveren."
+  },
+  "footer": {
+    "about": "Wij zijn een AI-ondersteund penetratietestbedrijf. We leveren ethical hacking-diensten en bieden daarnaast abonnementen aan in een SaaS-model.",
+    "quickLinks": "Snelle links",
+    "connect": "Volg ons op",
+    "home": "Home",
+    "copyright": "© Copyright {{year}} AssistSec. Alle rechten voorbehouden.",
+    "terms": "Algemene voorwaarden",
+    "privacy": "Privacybeleid",
+    "badgeAlt": "{{name}}-certificeringsbadge",
+    "partnerAlt": "{{name}}-logo"
+  },
+  "error": {
+    "title": "Er is iets misgegaan",
+    "notFound": "Deze pagina bestaat niet.",
+    "backHome": "Terug naar home"
+  }
+}

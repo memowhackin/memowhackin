@@ -1,0 +1,196 @@
+/*
+ * Fonts. The Figma file specifies Uncut Sans (UI/body), Neue Haas Grotesk Text
+ * Pro (hero headline) and Geist Mono (display headings). The first two are not
+ * distributable — they are named first in the stacks below so a licensed copy
+ * drops in without code changes, with Inter (the closest neo-grotesque Google
+ * serves) carrying the design until then. Geist Mono is the real thing.
+ */
+/*
+ * Weights are exactly the ones the site paints: Geist Mono 400 (display
+ * headings) and 500 (eyebrow labels); Inter 400/500/600 for body, medium and
+ * the announcement badge, plus 700 for the error and not-found headings.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/*
+ * Single brand theme. The AssistSec landing design is dark by definition (one
+ * fixed look, no light variant), so there is one DaisyUI theme and no toggle.
+ */
+@plugin "daisyui" {
+  themes: assistsec --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "assistsec";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #110f2a;
+  --color-base-200: #0d0b21;
+  --color-base-300: #292362;
+  --color-base-content: #edeff7;
+
+  --color-primary: #ad9dee;
+  --color-primary-content: #0d0b21;
+  --color-secondary: #413994;
+  --color-secondary-content: #ede9ff;
+  --color-accent: #ff4e22;
+  --color-accent-content: #ffffff;
+  --color-neutral: #292362;
+  --color-neutral-content: #edeff7;
+
+  --color-info: #ad9dee;
+  --color-info-content: #0d0b21;
+  --color-success: #34d399;
+  --color-success-content: #0d0b21;
+  --color-warning: #fbbf24;
+  --color-warning-content: #0d0b21;
+  --color-error: #ff4e22;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 2.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 1rem;
+  --border: 1px;
+}
+
+/*
+ * Brand tokens straight from the Figma file ("🌟 Design → Homepage - 1").
+ * Use them as Tailwind utilities (`bg-ink`, `text-lavender`, `font-display`)
+ * rather than hard-coding values in components.
+ */
+@theme {
+  --font-sans:
+    "Uncut Sans", "Neue Haas Grotesk Text Pro", "Inter", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-display: "Geist Mono", ui-monospace, monospace;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  --color-ink: #110f2a;
+  --color-ink-deep: #0d0b21;
+  --color-indigo-deep: #292362;
+  --color-indigo: #413994;
+  --color-lavender: #ad9dee;
+  --color-lavender-soft: #ede9ff;
+  --color-mist: #edeff7;
+  --color-mist-dim: #d3d6e0;
+  --color-ember: #ff4e22;
+  --color-slate-ink: #141517;
+
+  /*
+   * Display sizes. The design is drawn at a 1920px canvas; each clamp holds the
+   * Figma value at that width and scales down instead of overflowing on narrow
+   * viewports.
+   */
+  --text-hero: clamp(2.25rem, 3.75vw, 4.5rem); /* 72px */
+  --text-hero--line-height: 1.2;
+  --text-hero--letter-spacing: -0.03em;
+
+  --text-display: clamp(2.75rem, 6.25vw, 7.5rem); /* 120px */
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.06em;
+
+  --text-section: clamp(2rem, 2.92vw, 3.5rem); /* 56px */
+  --text-section--line-height: 1.2;
+  --text-section--letter-spacing: -0.02em;
+
+  --text-service: clamp(1.75rem, 2.08vw, 2.5rem); /* 40px */
+  --text-service--line-height: 1.2;
+  --text-service--letter-spacing: -0.02em;
+
+  /* The brand sweep used on buttons, rules and section washes. */
+  --brand-sweep: linear-gradient(
+    109.47deg,
+    var(--color-ink-deep) 4.85%,
+    var(--color-indigo-deep) 18.14%,
+    var(--color-indigo) 64.11%,
+    var(--color-lavender) 87.1%
+  );
+  --brand-sweep-vertical: linear-gradient(
+    180deg,
+    var(--color-ink-deep) 0%,
+    var(--color-indigo-deep) 34%,
+    var(--color-indigo) 82%,
+    var(--color-lavender) 121%
+  );
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  font-family: var(--font-sans);
+  /* The design is drawn edge to edge; nothing may scroll sideways. */
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /*
+   * Kill the decorative motion outright rather than merely shortening it: the
+   * hero banner is a looping video, which is exactly what this preference is
+   * asking us not to play.
+   */
+  video {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * One visible focus treatment for every interactive element, so keyboard users
+ * get the same affordance the pointer hover states give.
+ */
+:where(a, button, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+@utility brand-sweep {
+  background-image: var(--brand-sweep);
+}
+
+/* Vertical variant, used by the header and nav call-to-action buttons. */
+@utility brand-sweep-y {
+  background-image: var(--brand-sweep-vertical);
+}
+
+/* Gradient hairline used between sections and under the footer links. */
+@utility brand-rule {
+  height: 1px;
+  background-image: var(--brand-sweep);
+  border: 0;
+}
+
+/*
+ * Eyebrow labels ("QUICK LINKS", "OUR LATEST BLOGS"): 14px medium, uppercase,
+ * 0.08em tracking — one rule so every section spells it the same way.
+ */
+@utility eyebrow {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

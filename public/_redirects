@@ -1,0 +1,3 @@
+# SPA fallback for static hosts (Cloudflare Pages, Netlify): serve index.html
+# for any path so client-side routes like /items/3/edit work on hard refresh.
+/*    /index.html   200
