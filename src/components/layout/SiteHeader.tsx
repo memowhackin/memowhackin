@@ -65,6 +65,11 @@ function useActiveSection(): string | undefined {
 export function SiteHeader() {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  // Read during the initial state, as `useMediaQuery` does, so a reload part-way
+  // down the page draws the header solid on its first paint.
+  const [scrolled, setScrolled] = useState(
+    () => typeof window !== "undefined" && window.scrollY > 8,
+  );
   const barRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -143,10 +148,36 @@ export function SiteHeader() {
     };
   }, []);
 
+  /*
+   * The frame draws the nav on the hero banner, not on a bar of its own: the
+   * announcement strip and the nav row sit inside the banner frame, over the
+   * light. A ground of its own here was cutting the top off the backdrop.
+   *
+   * It only earns one once it has left the hero, where it would otherwise be
+   * reading over live copy — hence the scrolled flag rather than dropping the
+   * background outright. The open mobile panel counts as scrolled: the panel
+   * itself is opaque and a transparent row above it would look detached.
+   */
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 8);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
   return (
     <header
       ref={headerRef}
-      className="bg-ink-deep/80 sticky top-0 z-50 w-full backdrop-blur-md"
+      className={clsx(
+        "sticky top-0 z-50 w-full transition-colors duration-300",
+        scrolled || menuOpen
+          ? "bg-ink-deep/80 backdrop-blur-md"
+          : "bg-transparent",
+      )}
     >
       <div ref={barRef}>
         {/* Announcement strip — the gradient bar across the top of the frame. */}

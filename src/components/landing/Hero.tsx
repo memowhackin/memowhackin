@@ -50,12 +50,28 @@ const BANNER_INSET_MASK: CSSProperties = {
  */
 const TINT: CSSProperties = { background: "var(--brand-sweep-vertical)" };
 
-/** 2083x1172 at (-81, 0) on the frame's 1920x1080 banner. */
+/*
+ * 2083x1172 at (-81, 0) on the frame's 1920x1080 banner.
+ *
+ * `max-w-none` is not decoration. The base layer caps every `video` at
+ * `max-width: 100%`, so this box was coming out 1920 wide while the height took
+ * — a 1.64 box for 16:9 footage, which `object-cover` then filled by cropping
+ * the sides. That moved the plume a whole column left of where the frame has it
+ * and cost it a third of its light: measured against the frame, 55.7 against
+ * 75.5 at x=640, and 26.1 against 41.2 at x=800.
+ */
 const BANNER_FOOTAGE_BOX =
-  "absolute top-0 left-[-4.219%] h-[108.52%] w-[108.49%]";
+  "absolute top-0 left-[-4.219%] h-[108.52%] w-[108.49%] max-w-none";
 
+/*
+ * The first shaft carries most of the light on the right of the banner, and at
+ * full strength it carries far too much of it: that quarter came out at 27.1
+ * against the frame's 18.4, and dropping the shaft altogether took it to 11.6.
+ * 45% is where its contribution lands on the frame's figure. The frame lists no
+ * opacity for the layer, so this is read off the render rather than the file.
+ */
 const BANNER_SHAFTS = [
-  { key: "a", src: "/assets/hero-shaft-a.webp", className: "" },
+  { key: "a", src: "/assets/hero-shaft-a.webp", className: "opacity-45" },
   {
     key: "b",
     src: "/assets/hero-shaft-b.webp",
@@ -69,12 +85,19 @@ const BANNER_SHAFTS = [
 ] as const;
 
 /*
- * One bar: nothing for its first fifth, then white climbing to 0.28 by its
- * right edge, which is the frame's bar fill read off the export. Written
- * against a 150 tile — two bars — so the stops are 21/150 and 99/150.
+ * One bar: nothing for its first fifth, then white climbing towards its right
+ * edge. Written against a 150 tile — two bars — so the stops are 21/150 and
+ * 99/150.
+ *
+ * The export's own fill peaks at 0.28, and at that strength the bars stand out
+ * about four times as hard as the frame renders them: measured against the
+ * frame, the periodic component of a row sits at an RMS of 1.0-1.7 of 255,
+ * where 0.28 puts it at 3.7-5.4. The frame stacks 28 separate bars, each with
+ * its own falloff, and the export flattens all of that into one ramp; 0.05 is
+ * that ramp at the weight the stack actually reads.
  */
 const BAR_RAMP =
-  "linear-gradient(90deg, rgb(255 255 255 / 0) 0, rgb(255 255 255 / 0) 14%, rgb(255 255 255 / 0.28) 66%, rgb(255 255 255 / 0) 66%)";
+  "linear-gradient(90deg, rgb(255 255 255 / 0) 0, rgb(255 255 255 / 0) 14%, rgb(255 255 255 / 0.05) 66%, rgb(255 255 255 / 0) 66%)";
 
 /**
  * Opening statement: the blue shafted backdrop from the Figma frame, the
@@ -89,12 +112,27 @@ export function Hero() {
     <section
       id="top"
       data-testid="hero"
-      className="bg-ink-deep relative isolate w-full overflow-hidden"
+      /*
+       * Not clipped: the banner reaches a header's height above this section,
+       * and a clip here is what kept cutting that off. The banner is the only
+       * thing that leaves the box, it leaves it upwards over a section that is
+       * the same ground colour, and it is flush to both edges — so nothing
+       * escapes sideways.
+       */
+      className="bg-ink-deep relative isolate w-full"
     >
       {/*
         The backdrop the frame draws behind the hero ("Moodboard - 2 → Banner
         Bg"): slow smoke, the fine banding of the overlapping bars over the top,
         and the whole thing falling away to nothing at the edges.
+
+        It starts a header above this section, not at its top edge. In the frame
+        the banner is the full 1080 of the viewport and the announcement strip
+        and the nav are drawn *inside* it, on top — so anchoring the banner to
+        the section, which begins under a header in normal flow, both cut its
+        first 110px off and slid everything else down by that much. Measured
+        against the frame that showed up as the top band reading 19 where the
+        frame reads 28, and the plume landing a column to the left.
 
         The footage is the frame's own — the layer sits there as
         `12310771_1920_1080_24fps`, and it is orange. What turns it the blue of
@@ -104,7 +142,7 @@ export function Hero() {
         why nothing here has to match a hex.
       */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 isolate -z-20 aspect-[1920/1080] min-h-[28rem] w-full overflow-hidden"
+        className="pointer-events-none absolute inset-x-0 top-[calc(var(--header-height)*-1)] isolate -z-20 aspect-[1920/1080] min-h-[28rem] w-full overflow-hidden"
         aria-hidden="true"
       >
         {/*
@@ -178,19 +216,23 @@ export function Hero() {
         ))}
 
         {/*
-          The bar bank. In the frame this is 28 bars, 99 wide on a 75 pitch so
-          each one laps 24 over its neighbour, and the frame blurs what is
-          behind them by 90 — which is where the backdrop's soft columns come
-          from, not from anything painted. Two offset ramps stand in for the 28
-          copies: one tile per 150, the second shifted by a bar, and the pair
-          lands the same overlap the frame draws.
+          The bar bank: 28 bars in the frame, 99 wide on a 75 pitch so each one
+          laps 24 over its neighbour. Two offset ramps stand in for the 28
+          copies — one tile per 150, the second shifted by a bar — and the pair
+          lands the same overlap the frame draws. In vw, because the frame's own
+          geometry is: the backdrop is locked to its 1920x1080, so the bars and
+          their pitch hold their proportions at any width.
 
-          Everything here is in vw because the frame's own geometry is: the
-          backdrop is locked to the frame's 1920x1080, so the bars, their pitch
-          and the blur all hold their proportions at any width.
+          The frame's export puts a 90px background blur on this bank, and
+          taking that literally was wrong. As CSS reads it, `backdrop-filter`
+          blurs the whole banner — which spreads the plume's light into the dark
+          sides and flattens the plume itself. Measured against the frame it
+          cost the plume nearly half its strength ((33,29,72) against the
+          frame's (52,44,126)) and lifted the dark quarters by a third. The
+          frame renders that bank sharp, so it is sharp here.
         */}
         <div
-          className="absolute inset-0 backdrop-blur-[4.69vw]"
+          className="absolute inset-0"
           style={{
             ...BANNER_INSET_MASK,
             backgroundImage: `${BAR_RAMP}, ${BAR_RAMP}`,
@@ -209,7 +251,7 @@ export function Hero() {
         arrive at the page colour under the panel.
       */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 aspect-[1920/1080] min-h-[28rem] w-full"
+        className="pointer-events-none absolute inset-x-0 top-[calc(var(--header-height)*-1)] -z-10 aspect-[1920/1080] min-h-[28rem] w-full"
         aria-hidden="true"
         style={{
           background:
