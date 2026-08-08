@@ -4,38 +4,44 @@ import { BrandButton } from "@/components/common/BrandButton";
 import { sectionIds, site } from "@/config/site";
 
 /**
- * Agent alerts strung over the city, below the copy.
+ * Agent alerts scattered over the skyline.
  *
- * They are laid out as a distributed row rather than pinned at percentage
- * coordinates. Absolute placement had to dodge both the headline and the
- * centred call to action, and the gaps it had to thread moved with every
- * breakpoint — at some widths a pin landed on the copy, at others on the unlit
- * base of the photograph. `stagger` keeps the scattered feel of the frame;
- * `drop` is the tick pinning each alert to the roof beneath it.
+ * The columns are the Figma placements as fractions of the 1920 canvas, and
+ * `drop` is the frame's own connector length (Lines 589-592: 189px, or 114px
+ * for the short one over the centre) held as a fraction too, so the whole
+ * arrangement scales with the section instead of being re-guessed per
+ * breakpoint.
+ *
+ * Rows included: the section holds the frame's own 1920×1406, so these are the
+ * drawn positions unchanged.
  */
 const alerts = [
   {
     key: "apiTesting",
     label: "agents.alerts.apiTesting",
-    stagger: "mt-0",
-    drop: "h-10",
+    position: "left-[26.93%] top-[42.6%]",
+    drop: "h-[9.84vw]",
+  },
+  {
+    key: "files",
+    label: "agents.alerts.files",
+    position: "left-[54.74%] top-[47.08%]",
+    drop: "h-[5.94vw]",
+  },
+  {
+    key: "credentials",
+    label: "agents.alerts.credentials",
+    position: "left-[68.44%] top-[48.29%]",
+    drop: "h-[9.84vw]",
   },
   {
     key: "attack",
     label: "agents.alerts.attack",
-    stagger: "mt-10",
-    drop: "h-14",
-  },
-  { key: "files", label: "agents.alerts.files", stagger: "mt-3", drop: "h-12" },
-  {
-    key: "credentials",
-    label: "agents.alerts.credentials",
-    stagger: "mt-12",
-    drop: "h-10",
+    position: "left-[5.05%] top-[53.7%]",
+    drop: "h-[9.84vw]",
   },
 ] as const;
 
-/** Shared chip styling for both the pinned and the stacked presentation. */
 /*
  * Look only — no display utility. The pinned copies below are switched off with
  * `hidden`, and Tailwind emits that rule ahead of the display utilities, so an
@@ -47,6 +53,15 @@ const alertClassName =
 /**
  * The manifesto section: oversized mono headline over the skyline photograph,
  * with the agent alerts floating above the city.
+ *
+ * From `lg` up the section is the frame's 1920×1406, which is also the exact
+ * proportion of the photograph, so nothing is cropped and every placement
+ * inside it is the drawn one. An earlier pass cut this to 1920×1100 because the
+ * section looked like a screen of empty dark — but that was the heavy wash that
+ * used to sit over the picture, not the height.
+ *
+ * Below `lg` the copy needs more room than the ratio allows, so the section
+ * grows to fit and the alerts stack under the call to action instead.
  */
 export function AutonomousAgents() {
   const { t } = useTranslation();
@@ -55,65 +70,69 @@ export function AutonomousAgents() {
     <section
       id={sectionIds.demonstrate}
       data-testid="autonomous-agents"
-      /*
-       * The height tracks the viewport width, not its height. The photograph
-       * is 1920×1406, so a cover fit scales it with the width: at a fixed
-       * height the slice on show shrank as the screen widened, and past about
-       * 2000px the city had scrolled out of frame entirely, leaving flat navy.
-       * Tying the two together keeps roughly the same band of the picture at
-       * every width.
-       */
-      className="bg-ink-deep relative isolate flex min-h-[clamp(26rem,40vw,58rem)] w-full flex-col overflow-hidden"
+      className="bg-ink-deep relative isolate w-full overflow-hidden lg:aspect-[1920/1406]"
     >
       {/*
-        The photograph is a warm sunset — oranges and pinks — which was the one
-        warm thing on an otherwise indigo page and read as a stock image dropped
-        into the layout. Desaturating it and laying the brand indigo over it in
-        `color` blend mode keeps the photograph's luminance while taking its hue
-        from the palette, so the city belongs to the rest of the site.
+        The photograph carries the whole section on its own. Sampling the
+        frame's render against this file, the two agree to within a few values
+        at every depth: the lavender sky, the warm horizon and the dark base are
+        all in the picture, and its last rows land on #110f2a — the colour the
+        next section opens on. So it is drawn untouched, at its own 1920×1406.
+
+        It had been desaturated and given an indigo `color` blend to pull the
+        warm sunset into the palette. That was a misread: the warmth is the
+        design.
       */}
-      <div className="absolute inset-0 -z-20">
-        <img
-          src="/assets/skyline.webp"
-          alt={t("agents.skylineAlt")}
-          width={1920}
-          height={1406}
-          loading="lazy"
-          /* Anchored just above the bottom edge: the last strip of the photo is
-             unlit foreground, and dropping it keeps the rooftops in the frame. */
-          className="size-full object-cover object-[50%_82%] [filter:saturate(0.55)]"
-        />
-        <div
-          className="bg-indigo absolute inset-0 mix-blend-color"
-          aria-hidden="true"
-        />
-      </div>
+      <img
+        src="/assets/skyline.webp"
+        alt={t("agents.skylineAlt")}
+        width={1920}
+        height={1406}
+        loading="lazy"
+        className="absolute inset-0 -z-20 size-full object-cover object-bottom"
+      />
 
       {/*
-        Legibility wash. The headline sits over the busiest part of the picture,
-        so the top stays dark through the copy and only opens up below the call
-        to action, where the rooftops and the alerts are.
+        The one departure from the frame. Over the untouched sky the headline
+        sits at about 2.6:1 and the sub-heading nearer 1.9:1, which is not
+        readable. This is the lightest scrim that carries them past 4.5:1; it is
+        gone by the horizon, so the city and the alerts below are the
+        photograph as drawn.
       */}
       <div
         className="absolute inset-0 -z-10"
         aria-hidden="true"
         style={{
           background:
-            "linear-gradient(to bottom, #0d0b21 0%, #0d0b21d9 24%, #0d0b2159 52%, #0d0b2166 82%, #110f2a 100%)",
+            "linear-gradient(to bottom, rgba(13,11,33,0.55) 0%, rgba(13,11,33,0.42) 28%, rgba(13,11,33,0) 52%)",
         }}
       />
 
-      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 pt-14 pb-10 text-center sm:px-10 sm:pt-20 lg:px-16 lg:pt-24 2xl:px-0">
+      {/*
+        Spacing runs in `vw` from `lg` up for the same reason as the alerts: the
+        frame's 168px lead-in and 64px gaps are fractions of a 1920 canvas, and
+        holding them as fractions keeps the copy sitting where it was drawn.
+      */}
+      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 pt-14 pb-12 text-center sm:px-10 sm:pt-20 lg:max-w-none lg:gap-[3.33vw] lg:px-16 lg:pt-[8.75vw] lg:pb-0">
         {/*
-          The frame draws this on two fixed rows and closes the word gaps to
-          hit them. Reproducing that with negative `word-spacing` pulled the
-          words of the second row into each other and left the full stop
-          floating clear of "work" — Geist Mono's space is already 0.6em, so
-          subtracting a third of an em from it is far too much. The measure and
-          `text-balance` set the two rows instead, which also lets the break
-          move as the type scales and as the copy changes language.
+          Straight from the frame (node 83:41778): each word is its own element
+          on two rows, `gap-[32px]` between words and `gap-[24px]` between the
+          rows, over `leading-[0.9]` at 120px.
+
+          Geist Mono's own space is 0.6em — 72px at that size — and the
+          -0.06em tracking takes another 7.2px off it, so word-spacing has to
+          give back 32.8px, not the 40px that the raw 72→32 difference
+          suggests. At -0.333em the gap measured 24.8px against the drawn 32.
+          0.9 leading plus the 24px row gap is a line box of 1.1. Splitting the
+          sentence into per-word elements to match literally would hard-code
+          English word order, so the break stays a newline in the translation
+          and each language decides where it falls.
+
+          All of this is scoped to `lg`: below it the forced break made four
+          ragged rows on a phone, so the newline collapses to an ordinary space
+          and the headline wraps to fit.
         */}
-        <h2 className="font-display text-display text-lavender-soft mx-auto max-w-[19ch] font-normal text-balance lg:leading-[1.05]">
+        <h2 className="font-display text-display text-lavender-soft mx-auto max-w-[19ch] font-normal text-balance whitespace-normal lg:max-w-none lg:leading-[1.1] lg:whitespace-pre-line lg:[word-spacing:-0.2733em]">
           {t("agents.title")}
         </h2>
 
@@ -125,17 +144,16 @@ export function AutonomousAgents() {
           href={site.bookDemoUrl}
           variant="dark"
           data-testid="agents-book-demo"
-          className="mt-2"
         >
           {t("agents.cta")}
         </BrandButton>
 
         {/*
-          Below `lg` there is no clear sky to pin the alerts over, so the same
-          four run as a wrapped row under the call to action instead of being
-          dropped from the layout altogether.
+          Below `lg` there is no room to scatter the alerts over the city, so
+          the same four run as a wrapped row under the call to action instead of
+          being dropped from the layout altogether.
         */}
-        <ul className="mt-4 flex flex-wrap justify-center gap-2 lg:hidden">
+        <ul className="mt-2 flex flex-wrap justify-center gap-2 lg:hidden">
           {alerts.map((alert) => (
             <li
               key={alert.key}
@@ -152,42 +170,33 @@ export function AutonomousAgents() {
         </ul>
       </div>
 
-      {/* The alerts strung across the rooftops, under the copy. */}
-      <div
-        className="mx-auto hidden w-full max-w-[100rem] items-start justify-between px-10 pt-4 lg:flex xl:px-16"
-        aria-hidden="true"
-      >
-        {alerts.map((alert) => (
-          <span
-            key={alert.key}
-            data-testid={`agents-alert-${alert.key}`}
-            className={clsx("flex flex-col items-start", alert.stagger)}
-          >
-            <span className={clsx(alertClassName, "inline-flex")}>
-              <span
-                className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
-                aria-hidden="true"
-              />
-              {t(alert.label)}
-            </span>
-
-            {/*
-              A short tick, not a drop to the floor: it reads as the alert being
-              pinned to the roof just below it. Run it to the bottom of the
-              section and it becomes a long line trailing off into the dark.
-            */}
+      {alerts.map((alert) => (
+        <span
+          key={alert.key}
+          data-testid={`agents-alert-${alert.key}`}
+          className={clsx(
+            "absolute hidden flex-col items-start lg:flex",
+            alert.position,
+          )}
+        >
+          <span className={clsx(alertClassName, "inline-flex")}>
             <span
-              className={clsx(
-                "border-lavender/50 ml-2 w-0 border-l border-dotted",
-                alert.drop,
-              )}
+              className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
+              aria-hidden="true"
             />
+            {t(alert.label)}
           </span>
-        ))}
-      </div>
 
-      {/* Keeps a margin of city under the alerts. */}
-      <div className="min-h-12 flex-1 sm:min-h-20 lg:min-h-24" />
+          {/* Connector running from the alert down into the skyline. */}
+          <span
+            className={clsx(
+              "border-lavender/50 ml-2 w-0 border-l border-dotted",
+              alert.drop,
+            )}
+            aria-hidden="true"
+          />
+        </span>
+      ))}
     </section>
   );
 }

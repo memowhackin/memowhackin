@@ -27,7 +27,12 @@ const variants: Record<BrandButtonVariant, string> = {
     "bg-lavender text-ink-deep rounded-field hover:bg-lavender-soft active:bg-lavender/85",
   sweep:
     "brand-sweep-y border-indigo-deep/30 text-mist rounded-selector border-4 hover:brightness-125 active:brightness-95",
-  dark: "bg-ink-deep border-indigo-deep rounded-field border text-white hover:border-lavender/60 hover:bg-indigo-deep/40 active:bg-indigo-deep/70",
+  /*
+   * The frame draws this one (node 83:41767) as a plain dark block with an 8px
+   * radius and no outline. It had a 4px radius and an indigo border, which over
+   * the skyline's warm sky read as a cut-out rather than a button.
+   */
+  dark: "bg-ink-deep rounded-lg text-white hover:bg-ink-deep/80 active:bg-ink-deep/90",
   ghost:
     "border-lavender/40 text-mist rounded-selector border hover:border-lavender hover:bg-lavender/10 active:bg-lavender/20",
 };

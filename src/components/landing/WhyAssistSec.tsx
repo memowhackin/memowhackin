@@ -33,7 +33,6 @@ function Pillar({
       data-testid={`why-${pillar.key}`}
       className={clsx(
         "flex flex-col items-center gap-6 text-center lg:px-6",
-        index > 0 && "lg:border-lavender/40 lg:border-l",
         revealClassName,
       )}
     >
@@ -43,6 +42,29 @@ function Pillar({
           className="bg-lavender/40 absolute inset-x-0 top-1/2 hidden h-px lg:block"
           aria-hidden="true"
         />
+
+        {/*
+          Where the rail meets the next pillar it turns and drops, with the
+          diamond the frame puts on the junction. Solid dividers running the
+          full height of the cell were standing in for this.
+        */}
+        {index > 0 && (
+          <>
+            <span
+              className="bg-lavender/40 absolute top-1/2 left-0 hidden h-[13rem] w-px lg:block"
+              aria-hidden="true"
+            />
+            <span
+              className="bg-lavender/70 absolute top-1/2 left-0 hidden size-1.5 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-xs lg:block"
+              aria-hidden="true"
+            />
+          </>
+        )}
+
+        {/*
+          Translucent with a ring, as drawn — an opaque `ink-deep` disc punched
+          a hole in the gradient behind it.
+        */}
         <img
           src={pillar.icon}
           alt=""
@@ -50,7 +72,7 @@ function Pillar({
           height={156}
           loading="lazy"
           aria-hidden="true"
-          className="bg-ink-deep relative size-[clamp(6rem,13vw,9.5rem)] rounded-full"
+          className="ring-lavender-soft/25 relative size-[clamp(6rem,13vw,9.5rem)] rounded-full bg-white/8 ring-1 backdrop-blur-sm"
         />
       </div>
 
@@ -82,10 +104,15 @@ export function WhyAssistSec() {
       innerClassName="flex flex-col items-center gap-12 py-16 sm:py-20 lg:gap-16 lg:py-24"
     >
       {/*
-        Dark type on the lavender top of the gradient: the muted light grey the
-        frame uses sits at roughly 1.6:1 against it, which is unreadable.
+        The frame sets this in a pale lavender on the lavender sky — about
+        1.6:1, which no one can read, so an earlier pass flipped it to dark
+        type. That fixed the contrast and lost the design: it is meant to be a
+        quiet line of light sitting in the gradient, not a dark heading stamped
+        on it. It stays light and goes to the brightest brand tone, and the
+        smallest size steps up to 20px so the whole range clears the large-text
+        threshold rather than only the desktop one.
       */}
-      <h2 className="font-display text-ink-deep/85 text-center text-sm tracking-[0.4em] uppercase sm:text-xl sm:tracking-[0.5em] lg:text-[1.875rem]">
+      <h2 className="font-display text-lavender-soft/90 text-center text-xl tracking-[0.35em] uppercase sm:text-2xl sm:tracking-[0.5em] lg:text-[1.875rem]">
         {t("why.title")}
       </h2>
 
