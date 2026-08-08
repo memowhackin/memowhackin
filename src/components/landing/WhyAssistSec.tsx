@@ -31,8 +31,13 @@ function Pillar({
       ref={revealRef}
       style={revealStyle}
       data-testid={`why-${pillar.key}`}
+      /*
+       * No horizontal padding on the cell. The upper rail is drawn per cell as
+       * `inset-x-0`, so any padding here becomes a gap in the line where one
+       * pillar meets the next; the copy is held in by its own `max-w` instead.
+       */
       className={clsx(
-        "flex flex-col items-center gap-6 text-center lg:px-6",
+        "flex flex-col items-center gap-6 text-center",
         revealClassName,
       )}
     >
@@ -102,17 +107,35 @@ export function WhyAssistSec() {
       data-testid="why-assistsec"
       className="from-lavender via-indigo to-ink bg-gradient-to-b from-0% via-35% to-90%"
       innerClassName="flex flex-col items-center gap-12 py-16 sm:py-20 lg:gap-16 lg:py-24"
+      /*
+       * The heading sits at the top of the section, which is where the gradient
+       * is at its lightest, and light type on it measured 2.4:1 on a phone —
+       * unreadable, and the reason an earlier pass flipped the heading to dark
+       * and lost the design with it. This is the least the section can be
+       * darkened to carry it: a wash that is nothing at the very top edge (so
+       * the join with the stripe band above stays seamless), strongest across
+       * the heading, and gone again before the first pillar.
+       */
+      backdrop={
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-64"
+          aria-hidden="true"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(13,11,33,0) 0%, rgba(13,11,33,0.34) 30%, rgba(13,11,33,0.3) 55%, rgba(13,11,33,0) 100%)",
+          }}
+        />
+      }
     >
       {/*
-        The frame sets this in a pale lavender on the lavender sky — about
-        1.6:1, which no one can read, so an earlier pass flipped it to dark
-        type. That fixed the contrast and lost the design: it is meant to be a
-        quiet line of light sitting in the gradient, not a dark heading stamped
-        on it. It stays light and goes to the brightest brand tone, and the
-        smallest size steps up to 20px so the whole range clears the large-text
-        threshold rather than only the desktop one.
+        The frame sets this in a pale lavender on the lavender sky, which no one
+        can read. It stays light — it is meant to be a quiet line of light
+        sitting in the gradient, not a dark heading stamped on it — and clears
+        the contrast threshold through the wash above instead. The smallest step
+        is 24px so the whole range is large text at every width rather than only
+        on the desktop.
       */}
-      <h2 className="font-display text-lavender-soft/90 text-center text-xl tracking-[0.35em] uppercase sm:text-2xl sm:tracking-[0.5em] lg:text-[1.875rem]">
+      <h2 className="font-display text-lavender-soft text-center text-2xl tracking-[0.25em] uppercase sm:text-[1.75rem] sm:tracking-[0.4em] lg:text-[1.875rem] lg:tracking-[0.5em]">
         {t("why.title")}
       </h2>
 

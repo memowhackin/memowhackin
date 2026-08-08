@@ -1,18 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { BrandButton } from "@/components/common/BrandButton";
-import { useMediaQuery } from "@/components/common/useMediaQuery";
 import { site } from "@/config/site";
 
 /**
- * Opening statement: the looping banner video from the Figma frame, the
+ * Opening statement: the blue shafted backdrop from the Figma frame, the
  * headline block, and the portal screenshot sitting on the full-bleed diamond
  * band that runs behind it.
  */
 export function Hero() {
   const { t } = useTranslation();
-  const showBanner = useMediaQuery(
-    "(min-width: 48rem) and (prefers-reduced-motion: no-preference)",
-  );
 
   return (
     <section
@@ -21,36 +17,48 @@ export function Hero() {
       className="bg-ink-deep relative isolate w-full overflow-hidden"
     >
       {/*
-        Banner video, exported from the Figma file, with the grid overlay on
-        top. At 1.7MB it is three quarters of the page's asset weight for a
-        decorative layer sitting at 40% opacity, so it is never fetched on a
-        phone or for a reader who has asked for reduced motion — CSS alone
-        would hide it after paying for the download.
+        The backdrop the frame draws behind the hero: columns of blue light on a
+        near-black ground, blurred to 90px, with the fine banding of the
+        overlapping bars over the top and the whole thing falling away to
+        nothing at the edges.
+
+        It is drawn rather than filmed. The other homepage frame's backdrop
+        arrived as a 1.7MB looping export — three quarters of the page's asset
+        weight for a decorative layer — which had to be withheld from phones and
+        from anyone asking for reduced motion to be affordable at all. This
+        costs nothing to fetch, so every viewport gets the design, and the
+        stylesheet's reduced-motion rule settles it on a still frame.
       */}
-      {showBanner && (
-        <video
-          className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-[70%] w-full object-cover opacity-40"
-          src="/assets/hero-banner.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden="true"
-          tabIndex={-1}
-        />
-      )}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[70%] opacity-40"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-[70%] overflow-hidden"
         aria-hidden="true"
         style={{
-          backgroundImage:
-            "linear-gradient(to right, #292362 1px, transparent 1px), linear-gradient(to bottom, #292362 1px, transparent 1px)",
-          backgroundSize: "5rem 5rem",
           maskImage:
-            "radial-gradient(80% 60% at 50% 40%, #000 0%, transparent 100%)",
+            "radial-gradient(85% 70% at 50% 38%, #000 0%, #000 45%, transparent 100%)",
         }}
-      />
-      {/* Keeps the copy legible over the brightest frames of the video. */}
+      >
+        {/*
+          The two beam layers run against each other — one drifting right, one
+          swaying back and stretching — so the light never settles into a
+          repeat. They are inset past both edges by a quarter so neither drift
+          can pull a hard edge into view.
+        */}
+        <div className="hero-beams animate-beam-drift absolute -inset-x-1/4 inset-y-0 blur-[5.625rem]" />
+        <div className="hero-beams animate-beam-sway absolute -inset-x-1/4 inset-y-0 blur-[3.75rem]" />
+
+        {/* The bloom the frame puts behind the headline. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(60% 55% at 50% 30%, color-mix(in oklab, var(--color-indigo-bright) 45%, transparent) 0%, color-mix(in oklab, var(--color-indigo-deep) 30%, transparent) 48%, transparent 100%)",
+          }}
+        />
+
+        <div className="hero-banding absolute inset-0" />
+      </div>
+
+      {/* Keeps the copy legible over the brightest part of the backdrop. */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[70%]"
         aria-hidden="true"
@@ -87,30 +95,43 @@ export function Hero() {
         clearing it — hence the negative margin and the raised button above.
       */}
       <div className="relative mt-10 sm:mt-12 lg:-mt-4">
+        {/*
+          The band is masked at both ends. Drawn as a plain box it began and
+          ended on two razor-straight horizontal lines running the full width of
+          the page, on either side of the panel — the single most unfinished
+          edge on the landing page. Fading it in and out turns the same artwork
+          into something the section can hold.
+        */}
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-repeat-x opacity-90 sm:h-56 lg:h-72"
           aria-hidden="true"
           style={{
             backgroundImage: "url('/assets/lattice-band.webp')",
             backgroundSize: "auto 100%",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, #000 24%, #000 58%, transparent 100%)",
+          }}
+        />
+
+        {/*
+          The panel is taller than the room the section gives it, so the
+          section's clip cut it off on a hard line part-way down a table. This
+          dissolves the last of it into the background instead.
+
+          It spans the section rather than the content column: the diamond band
+          bleeds past the column's gutters, so a dissolve that stopped at the
+          column left the band's own bottom edge standing.
+        */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 sm:h-40 lg:h-48"
+          aria-hidden="true"
+          style={{
+            background:
+              "linear-gradient(to bottom, transparent 0%, #0d0b21b3 55%, #0d0b21 100%)",
           }}
         />
 
         <div className="relative mx-auto w-full max-w-[91rem] px-6 sm:px-10 lg:px-16 2xl:px-0">
-          {/*
-            The panel is taller than the room the section gives it, so the
-            section's clip cut it off on a hard line part-way down a table. This
-            dissolves the last of it into the background instead.
-          */}
-          <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 sm:h-40"
-            aria-hidden="true"
-            style={{
-              background:
-                "linear-gradient(to bottom, transparent 0%, #0d0b21cc 65%, #0d0b21 100%)",
-            }}
-          />
-
           <img
             src="/assets/hero-dashboard.webp"
             alt={t("hero.dashboardAlt")}

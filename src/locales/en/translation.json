@@ -31,6 +31,7 @@
     "dashboardAlt": "AssistSec portal showing API security findings"
   },
   "platform": {
+    "eyebrow": "About AssistSec",
     "poweredBy": "Powered by innovation and next-generation artificial intelligence",
     "tags": {
       "apiTesting": "API testing",
@@ -141,6 +142,7 @@
     "about": "We are an AI-assisted penetration testing company. We provide Ethical Hacking services, and also provide subscriptions in some sort of SaaS model.",
     "quickLinks": "Quick links",
     "connect": "Connect with",
+    "certifications": "Certifications",
     "home": "Home",
     "copyright": "© Copyright {{year}} AssistSec. All Rights Reserved.",
     "terms": "Terms of Service",
@@ -150,6 +152,8 @@
   },
   "error": {
     "title": "Something went wrong",
+    "body": "This page could not be loaded. Trying again usually fixes it.",
+    "retry": "Try again",
     "notFound": "This page does not exist.",
     "backHome": "Back to home"
   }

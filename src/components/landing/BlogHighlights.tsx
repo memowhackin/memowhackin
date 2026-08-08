@@ -27,7 +27,7 @@ function BlogCard({ post, index }: { post: string; index: number }) {
       style={revealStyle}
       data-testid={`blog-post-${post}`}
       className={clsx(
-        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
+        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
         revealClassName,
       )}
     >

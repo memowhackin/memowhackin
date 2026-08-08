@@ -16,8 +16,6 @@ Never commit, push, merge, or perform any other write git operations. Read-only 
 
 If you are unsure, ask the user instead of guessing — it is always better to ask clarifying questions than to do useless work.
 
-Always add a unique, descriptive, stable `data-testid` attribute to interactive and testable UI elements.
-
 ## Architecture Overview
 
 **Stack:** React 19 + TypeScript (strict), Vite, TanStack Router (file-based), Tailwind CSS v4 +

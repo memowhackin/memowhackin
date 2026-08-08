@@ -1,8 +1,9 @@
-import clsx from "clsx";
 import type { ReactNode } from "react";
-
-type BrandButtonVariant = "solid" | "sweep" | "dark" | "ghost";
-type BrandButtonSize = "sm" | "md";
+import {
+  brandButtonClass,
+  type BrandButtonSize,
+  type BrandButtonVariant,
+} from "@/components/common/brandButtonClass";
 
 interface BrandButtonProps {
   href: string;
@@ -22,29 +23,9 @@ interface BrandButtonProps {
   "data-testid": string;
 }
 
-const variants: Record<BrandButtonVariant, string> = {
-  solid:
-    "bg-lavender text-ink-deep rounded-field hover:bg-lavender-soft active:bg-lavender/85",
-  sweep:
-    "brand-sweep-y border-indigo-deep/30 text-mist rounded-selector border-4 hover:brightness-125 active:brightness-95",
-  /*
-   * The frame draws this one (node 83:41767) as a plain dark block with an 8px
-   * radius and no outline. It had a 4px radius and an indigo border, which over
-   * the skyline's warm sky read as a cut-out rather than a button.
-   */
-  dark: "bg-ink-deep rounded-lg text-white hover:bg-ink-deep/80 active:bg-ink-deep/90",
-  ghost:
-    "border-lavender/40 text-mist rounded-selector border hover:border-lavender hover:bg-lavender/10 active:bg-lavender/20",
-};
-
-/* Both sizes clear the comfortable touch target on the smallest phones. */
-const sizes: Record<BrandButtonSize, string> = {
-  sm: "min-h-10 px-5 py-2.5 text-sm",
-  md: "min-h-12 px-6 py-3 text-base",
-};
-
 /**
- * The call-to-action used across every landing section.
+ * The call-to-action used across every landing section. The look itself lives in
+ * `brandButtonClass`, which the router links on the error pages share.
  *
  * `className` cannot hide the button: the base class list sets `inline-flex`,
  * and Tailwind emits `.hidden` ahead of the display utilities, so an unprefixed
@@ -66,12 +47,7 @@ export function BrandButton({
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer noopener" : undefined}
       data-testid={testId}
-      className={clsx(
-        "focus-visible:outline-lavender inline-flex max-w-full items-center justify-center gap-2 text-center leading-normal font-medium text-balance transition focus-visible:outline-2 focus-visible:outline-offset-4",
-        variants[variant],
-        sizes[size],
-        className,
-      )}
+      className={brandButtonClass({ variant, size, className })}
     >
       {children}
     </a>

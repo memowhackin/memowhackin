@@ -1,6 +1,11 @@
+import type { CSSProperties } from "react";
+
 interface LogoProps {
   /** Extra classes for the root `<svg>` (sizing, colour). */
   className?: string;
+  /** Inline styles for the root `<svg>`, for treatments Tailwind has no utility
+   * for — the footer watermark's mask, chiefly. */
+  style?: CSSProperties;
 }
 
 /**
@@ -115,21 +120,25 @@ export function LogoMark({ className }: LogoProps) {
   );
 }
 
-/** Outlined wordmark used as the oversized watermark in the footer. */
-export function LogoWordmarkOutline({ className }: LogoProps) {
+/**
+ * The wordmark on its own, used as the oversized watermark in the footer.
+ *
+ * Solid, not outlined. Drawn as a hairline outline at this size it read as a
+ * wireframe — the dot of the `i`, the crossbar of the `t` and the terminals of
+ * the `c` come apart into floating strokes, and every one of them cut across the
+ * legal row sitting on top. Filled, at a low opacity, it reads as what it is.
+ */
+export function LogoWordmark({ className, style }: LogoProps) {
   return (
     <svg
       viewBox="24 0 140.15 20"
       preserveAspectRatio="xMidYMid meet"
       fill="none"
       className={className}
+      style={style}
       aria-hidden="true"
     >
-      <g
-        stroke="currentColor"
-        strokeWidth="0.35"
-        vectorEffect="non-scaling-stroke"
-      >
+      <g fill="currentColor">
         <path
           transform="translate(127.91 5.08) scale(0.101562 0.101563)"
           d="M66.7 0.67C86.93 -2.33 112.24 4.81 126.47 19.96C143.22 37.78 145.65 56.79 145.37 80.21L31.76 80.26C42.51 123.05 85.12 131.26 116.95 104.29L118.11 104.09C122.74 107.79 131.87 117.78 136.36 122.45C107.9 150.82 60.17 155.53 28.01 131.11C13.03 119.69 3.24 102.76 0.83 84.08C-5.26 39.18 22.65 6.43 66.7 0.67ZM31.73 60.5L75.21 60.52L114.55 60.42C112.03 36.66 96.37 24.54 72.69 25.7C50.03 27.89 37.71 38.36 31.73 60.5Z"

@@ -66,6 +66,8 @@ export function SiteHeader() {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const barRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const activeSection = useActiveSection();
 
   /*
@@ -95,18 +97,34 @@ export function SiteHeader() {
     };
   }, []);
 
-  // Escape closes the menu, matching the expectation set by every other
-  // dismissible overlay. Only bound while the menu is actually open.
+  /*
+   * Escape closes the menu and a press outside it dismisses it, matching the
+   * expectation set by every other dismissible overlay. Escape also hands focus
+   * back to the button that opened the panel, which is otherwise lost to the
+   * collapsed panel. Both are only bound while the menu is actually open.
+   */
   useEffect(() => {
     if (!menuOpen) return;
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key !== "Escape") return;
+
+      setMenuOpen(false);
+      toggleRef.current?.focus();
+    }
+
+    function onPointerDown(event: PointerEvent) {
+      const target = event.target;
+      if (target instanceof Node && headerRef.current?.contains(target)) return;
+
+      setMenuOpen(false);
     }
 
     window.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
     };
   }, [menuOpen]);
 
@@ -126,7 +144,10 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="bg-ink-deep/80 sticky top-0 z-50 w-full backdrop-blur-md">
+    <header
+      ref={headerRef}
+      className="bg-ink-deep/80 sticky top-0 z-50 w-full backdrop-blur-md"
+    >
       <div ref={barRef}>
         {/* Announcement strip — the gradient bar across the top of the frame. */}
         <a
@@ -227,6 +248,7 @@ export function SiteHeader() {
             </div>
 
             <button
+              ref={toggleRef}
               type="button"
               onClick={() => {
                 setMenuOpen((open) => !open);
@@ -247,17 +269,32 @@ export function SiteHeader() {
         </div>
       </div>
 
+      {/*
+        The panel expands rather than appearing: a single grid row animated
+        between zero and one `fr`, which needs no measured height and so cannot
+        disagree with the content it is holding.
+
+        Both tracks are wrapped in `minmax(0, …)`. A bare `0fr` track still takes
+        an automatic minimum of min-content, so the collapsed panel kept the full
+        height of the menu inside it and never actually closed.
+
+        `inert` is what takes the collapsed panel out of the page: a clipped
+        zero-height row still hands every link inside it to the Tab order.
+      */}
       <div
         id="mobile-menu"
         data-testid="mobile-menu"
+        inert={!menuOpen}
         className={clsx(
-          "border-indigo-deep/60 bg-ink-deep max-h-[calc(100dvh-var(--header-height))] overflow-y-auto overscroll-contain border-t lg:hidden",
-          menuOpen ? "block" : "hidden",
+          "bg-ink-deep grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out lg:hidden",
+          menuOpen
+            ? "border-indigo-deep/60 grid-rows-[minmax(0,1fr)] border-t"
+            : "grid-rows-[minmax(0,0fr)]",
         )}
       >
         <nav
           aria-label={t("nav.primary")}
-          className="flex flex-col gap-1 px-4 py-4 sm:px-10"
+          className="flex max-h-[calc(100dvh-var(--header-height))] min-h-0 flex-col gap-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-10"
         >
           {navItems.map((item) => {
             const current = activeSection === item.target;

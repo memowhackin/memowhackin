@@ -21,12 +21,11 @@ interface Reveal<T extends HTMLElement> {
  * wrapper component: an extra `<div>` around a grid or flex child would become
  * the item itself and change the layout it is decorating.
  *
- * The two states are mutually exclusive class strings rather than one string
- * overriding the other, because Tailwind emits `opacity-0` and `opacity-100`
- * into the same layer and the winner would come down to their order in the
- * stylesheet. Both are behind `motion-safe`, so a reader who has asked for
- * reduced motion gets the finished state on the first paint and never the
- * hidden one.
+ * The reveal runs as the `reveal` keyframe animation (see `index.css`) rather
+ * than as a transition, which leaves the element's own `transition` free for
+ * hover and focus states. Both states are behind `motion-safe`, so a reader who
+ * has asked for reduced motion gets the finished state on the first paint and
+ * never the hidden one.
  */
 export function useReveal<T extends HTMLElement>({
   delay,
@@ -73,11 +72,14 @@ export function useReveal<T extends HTMLElement>({
   return {
     ref,
     className: revealed
-      ? "transition duration-700 ease-out motion-safe:translate-y-0 motion-safe:opacity-100"
-      : "transition duration-700 ease-out motion-safe:translate-y-4 motion-safe:opacity-0",
+      ? "motion-safe:animate-reveal"
+      : "motion-safe:opacity-0",
+    // `both` fill mode holds the element at the keyframe's opening frame for
+    // the length of the delay, so a staggered item stays hidden until its turn
+    // instead of flashing in and then re-animating.
     style:
       delay === undefined
         ? undefined
-        : { transitionDelay: `${delay.toString()}ms` },
+        : { animationDelay: `${delay.toString()}ms` },
   };
 }

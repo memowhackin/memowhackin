@@ -44,24 +44,33 @@ const partners = [
  * graphic's own box.
  *
  * The frame draws that box 1086 square, running from x=-310 to x=776 on the
- * canvas. These had been measured against a 776-wide box that started at the
- * canvas edge, which left every tag too far to the left.
+ * canvas, and scatters the tags across it. Held at the drawn radius they landed
+ * out where the graph has already faded to nothing, so each one read as a chip
+ * dropped on empty background rather than as a node on the graph. They are
+ * pulled in to sit on the dense body of the constellation, spaced around the
+ * brand mark at its centre.
+ *
+ * The vertical band is deliberately narrow. The box is square and grows with the
+ * viewport while the section's height is set by the copy beside it, so on a wide
+ * screen only the middle slice of the box is on screen at all — at 2560 that is
+ * the middle 47% of it, and a tag drawn at the frame's radius was cut in half by
+ * the section's own edge.
  */
 const tags = [
   {
     key: "apiTesting",
     label: "platform.tags.apiTesting",
-    position: "left-[67.1%] top-[22.3%]",
+    position: "left-[66%] top-[33%]",
   },
   {
     key: "credentials",
     label: "platform.tags.credentials",
-    position: "left-[77%] top-[58.7%]",
+    position: "left-[71%] top-[60%]",
   },
   {
     key: "pentesting",
     label: "platform.tags.pentesting",
-    position: "left-[39.4%] top-[66.3%]",
+    position: "left-[44%] top-[67%]",
   },
 ] as const;
 
@@ -91,7 +100,7 @@ export function PlatformShowcase() {
       className="bg-ink-deep relative w-full overflow-hidden"
     >
       {/* Constellation: 1086 square, bleeding off the left edge of the canvas. */}
-      <div className="mx-auto w-full max-w-sm px-6 pt-14 sm:max-w-md sm:px-10 sm:pt-20 lg:absolute lg:top-1/2 lg:left-[-14%] lg:mx-0 lg:w-[52%] lg:max-w-none lg:-translate-y-1/2 lg:px-0 lg:pt-0">
+      <div className="mx-auto w-full max-w-sm px-6 pt-24 sm:max-w-md sm:px-10 sm:pt-32 lg:absolute lg:top-1/2 lg:left-[-14%] lg:mx-0 lg:w-[52%] lg:max-w-none lg:-translate-y-1/2 lg:px-0 lg:pt-0">
         <div className="relative aspect-square">
           <img
             src="/assets/constellation.webp"
@@ -105,10 +114,15 @@ export function PlatformShowcase() {
              * Radii of 50% reach exactly the edges of the box, so the screen
              * blend has faded out completely by the time it gets there and
              * leaves no rectangle behind.
+             *
+             * The solid core runs to 30% rather than 15%: the graph is the only
+             * thing carrying the left half of this section, and starting the
+             * falloff a sixth of the way out left it a faint smudge with three
+             * bright tags sitting on top of it.
              */
             style={{
               maskImage:
-                "radial-gradient(50% 50% at 50% 50%, #000 15%, transparent 100%)",
+                "radial-gradient(50% 50% at 50% 50%, #000 30%, transparent 100%)",
             }}
           />
 
@@ -145,15 +159,40 @@ export function PlatformShowcase() {
       {/* Copy column: x=776 to x=1784 on the canvas, set in normal flow. */}
       <div
         ref={revealRef}
+        /*
+          The lead-in is deliberately long. The hero's panel dissolves into this
+          section's own background, so there is no colour seam to mark the join —
+          which meant the statement started the moment the screenshot faded out
+          and read as though it had been cut off the section above. The extra
+          height is the transition.
+
+          The frame leaves 200px of clear ground between the foot of the hero
+          and the top of "We combine the expertise…", and the hero above this is
+          still dissolving through the last of that gap, so the run-in is longer
+          again here than the frame's own number: the statement should arrive
+          well after the screenshot has finished going, not as it goes.
+        */
         className={clsx(
-          "flex flex-col gap-10 px-6 pt-10 pb-16 sm:gap-12 sm:px-10 sm:pb-24 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:py-28 xl:py-32",
+          "flex flex-col gap-10 px-6 pt-20 pb-16 sm:gap-12 sm:px-10 sm:pt-28 sm:pb-24 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:pt-64 lg:pb-28 xl:pt-80 xl:pb-32",
           revealClassName,
         )}
       >
-        <p className="text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
-          <span className="text-mist">{t("platform.leadStrong")}</span>{" "}
-          <span className="text-mist/60">{t("platform.leadMuted")}</span>
-        </p>
+        {/*
+          The section is a named destination in the header nav ("About us") and
+          had no heading at all, so anyone moving through the page by headings
+          skipped from the hero straight to the skyline. It doubles as the visual
+          start the band was missing.
+        */}
+        <div className="flex flex-col gap-6 sm:gap-8">
+          <h2 className="font-display eyebrow text-lavender">
+            {t("platform.eyebrow")}
+          </h2>
+
+          <p className="text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
+            <span className="text-mist">{t("platform.leadStrong")}</span>{" "}
+            <span className="text-mist/60">{t("platform.leadMuted")}</span>
+          </p>
+        </div>
 
         <div className="flex flex-col gap-6">
           <p className="text-lavender max-w-sm text-base leading-[1.4] sm:text-lg">

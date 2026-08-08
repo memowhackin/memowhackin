@@ -31,6 +31,7 @@
     "dashboardAlt": "AssistSec-portaal met API-beveiligingsbevindingen"
   },
   "platform": {
+    "eyebrow": "Over AssistSec",
     "poweredBy": "Aangedreven door innovatie en next-generation kunstmatige intelligentie",
     "tags": {
       "apiTesting": "API-testen",
@@ -141,6 +142,7 @@
     "about": "Wij zijn een AI-ondersteund penetratietestbedrijf. We leveren ethical hacking-diensten en bieden daarnaast abonnementen aan in een SaaS-model.",
     "quickLinks": "Snelle links",
     "connect": "Volg ons op",
+    "certifications": "Certificeringen",
     "home": "Home",
     "copyright": "© Copyright {{year}} AssistSec. Alle rechten voorbehouden.",
     "terms": "Algemene voorwaarden",
@@ -150,6 +152,8 @@
   },
   "error": {
     "title": "Er is iets misgegaan",
+    "body": "Deze pagina kon niet worden geladen. Opnieuw proberen lost het meestal op.",
+    "retry": "Opnieuw proberen",
     "notFound": "Deze pagina bestaat niet.",
     "backHome": "Terug naar home"
   }
