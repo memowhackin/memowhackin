@@ -1,10 +1,14 @@
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
+import { useReveal } from "@/components/common/useReveal";
 import { site } from "@/config/site";
 
 /** Final conversion block, with the two robotic hands reaching in from the sides. */
 export function ClosingCta() {
   const { t } = useTranslation();
+  const { ref: revealRef, className: revealClassName } =
+    useReveal<HTMLDivElement>();
 
   return (
     <section
@@ -29,7 +33,13 @@ export function ClosingCta() {
         className="pointer-events-none absolute top-[24%] -left-[3%] -z-10 hidden w-[32%] md:block"
       />
 
-      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 py-20 text-center sm:px-10 sm:py-24 lg:px-16 lg:py-32 xl:py-40 2xl:px-0">
+      <div
+        ref={revealRef}
+        className={clsx(
+          "mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 py-20 text-center sm:px-10 sm:py-24 lg:px-16 lg:py-32 xl:py-40 2xl:px-0",
+          revealClassName,
+        )}
+      >
         <h2 className="font-display text-mist max-w-3xl text-2xl leading-tight font-normal text-balance sm:text-3xl lg:text-[2.5rem]">
           {t("cta.title")}
         </h2>

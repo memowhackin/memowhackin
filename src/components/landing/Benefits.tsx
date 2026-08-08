@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
 import { SectionShell } from "@/components/common/SectionShell";
+import { useReveal } from "@/components/common/useReveal";
 import { LogoMark } from "@/components/common/Logo";
 import { site } from "@/config/site";
 
@@ -143,6 +144,13 @@ function ReportPreview() {
 /** Report preview on the left, benefit copy and sample-report CTA on the right. */
 export function Benefits() {
   const { t } = useTranslation();
+  const { ref: reportRef, className: reportClassName } =
+    useReveal<HTMLDivElement>();
+  const {
+    ref: copyRef,
+    className: copyClassName,
+    style: copyStyle,
+  } = useReveal<HTMLDivElement>({ delay: 120 });
 
   return (
     <SectionShell
@@ -150,7 +158,10 @@ export function Benefits() {
       className="bg-ink"
       innerClassName="grid items-center gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-12 lg:py-28 xl:gap-20"
     >
-      <div className="flex flex-col gap-6">
+      <div
+        ref={reportRef}
+        className={clsx("flex flex-col gap-6", reportClassName)}
+      >
         {/*
           The stack sizes to the report rather than to a drawn aspect ratio: at
           narrow widths a fixed ratio was shorter than the page's own content,
@@ -185,7 +196,11 @@ export function Benefits() {
         </ul>
       </div>
 
-      <div className="flex flex-col gap-8">
+      <div
+        ref={copyRef}
+        style={copyStyle}
+        className={clsx("flex flex-col gap-8", copyClassName)}
+      >
         <h2 className="font-display text-section text-mist font-normal text-balance">
           {t("benefits.title")}
         </h2>

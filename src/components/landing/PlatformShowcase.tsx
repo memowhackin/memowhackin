@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { LogoMark } from "@/components/common/Logo";
+import { useReveal } from "@/components/common/useReveal";
 import { sectionIds } from "@/config/site";
 
 /**
@@ -46,17 +47,17 @@ const tags = [
   {
     key: "apiTesting",
     label: "platform.tags.apiTesting",
-    position: "left-[53.9%] top-[22.3%]",
+    position: "left-[52%] top-[26%]",
   },
   {
     key: "pentesting",
     label: "platform.tags.pentesting",
-    position: "left-[18%] top-[66.3%]",
+    position: "left-[26%] top-[70%]",
   },
   {
     key: "credentials",
     label: "platform.tags.credentials",
-    position: "left-[64%] top-[58.7%]",
+    position: "left-[62%] top-[58%]",
   },
 ] as const;
 
@@ -69,6 +70,8 @@ const tags = [
  */
 export function PlatformShowcase() {
   const { t } = useTranslation();
+  const { ref: revealRef, className: revealClassName } =
+    useReveal<HTMLDivElement>();
 
   return (
     <section
@@ -76,16 +79,16 @@ export function PlatformShowcase() {
       data-testid="platform-showcase"
       className="bg-ink-deep relative w-full overflow-hidden"
     >
-      <div className="mx-auto grid w-full max-w-[120rem] items-center gap-10 pt-14 pb-16 sm:gap-14 sm:pt-20 sm:pb-24 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-10 lg:py-20 xl:gap-16">
-        <div className="mx-auto w-full max-w-sm px-6 sm:max-w-md sm:px-10 lg:mx-0 lg:max-w-none lg:px-0">
+      <div className="mx-auto grid w-full max-w-[120rem] items-center gap-10 pt-14 pb-16 sm:gap-14 sm:pt-20 sm:pb-24 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-stretch lg:gap-10 lg:py-20 xl:gap-16">
+        <div className="mx-auto w-full max-w-sm px-6 sm:max-w-md sm:px-10 lg:relative lg:mx-0 lg:min-h-[26rem] lg:max-w-none lg:px-0">
           {/*
-            The export is drawn portrait. Left to its own ratio on a wide
-            column it grew to over 45rem and set the height of the whole
-            section, leaving the copy beside it floating in about as much empty
-            space again — so its height is capped and the cover crop takes the
-            middle of the graph.
+            The export is drawn portrait, and at 1552×2172 its own proportions
+            set the height of the whole section — over 45rem on a wide column,
+            with the copy beside it then floating in about as much empty space
+            again. Taking it out of the flow from `lg` up leaves the row height
+            to the copy and lets the cover crop keep the middle of the graph.
           */}
-          <div className="relative aspect-[776/1086] max-h-[34rem] lg:max-h-[30rem] xl:max-h-[34rem]">
+          <div className="relative aspect-[776/1086] max-h-[34rem] lg:absolute lg:inset-0 lg:aspect-auto lg:max-h-none">
             <img
               src="/assets/constellation.webp"
               alt=""
@@ -101,8 +104,11 @@ export function PlatformShowcase() {
                * two-axis mask, so it is set here.
                */
               style={{
+                // Radii of 50% reach exactly the edges of the box, so the
+                // screen blend has faded out completely by the time it gets
+                // there and leaves no rectangle behind.
                 maskImage:
-                  "radial-gradient(58% 55% at 42% 50%, #000 25%, transparent 100%)",
+                  "radial-gradient(50% 50% at 50% 50%, #000 15%, transparent 100%)",
               }}
             />
 
@@ -119,7 +125,10 @@ export function PlatformShowcase() {
                 key={tag.key}
                 data-testid={`platform-tag-${tag.key}`}
                 className={clsx(
-                  "bg-lavender text-ink-deep absolute inline-flex max-w-[70%] -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md px-2.5 py-1.5 text-xs leading-none font-medium shadow-lg sm:text-sm",
+                  // A wrapped capability tag reads as a broken label, so they
+                  // stay on one line and sit far enough inside the graphic that
+                  // the section's clipped edges never cut one in half.
+                  "bg-lavender text-ink-deep absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md px-2.5 py-1.5 text-xs leading-none font-medium whitespace-nowrap shadow-lg sm:text-sm",
                   tag.position,
                 )}
               >
@@ -133,7 +142,13 @@ export function PlatformShowcase() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-10 px-6 sm:gap-12 sm:px-10 lg:px-0 lg:pr-10 xl:pr-16 2xl:pr-24">
+        <div
+          ref={revealRef}
+          className={clsx(
+            "flex flex-col justify-center gap-10 px-6 sm:gap-12 sm:px-10 lg:px-0 lg:pr-10 xl:pr-16 2xl:pr-24",
+            revealClassName,
+          )}
+        >
           {/*
             Capped on both axes. Uncapped it reached 2.5rem over a 57rem
             measure on a wide screen — around 46 characters a line, which is

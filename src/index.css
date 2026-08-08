@@ -88,8 +88,13 @@
   --text-hero--line-height: 1.2;
   --text-hero--letter-spacing: -0.03em;
 
-  --text-display: clamp(2.75rem, 6.25vw, 7.5rem); /* 120px */
-  --text-display--line-height: 0.9;
+  /*
+   * The floor is well under the 6.25vw ramp on purpose. At 2.75rem a phone got
+   * roughly seven characters to a line, which broke the display heading into
+   * four ragged rows; 1.875rem keeps it to two or three.
+   */
+  --text-display: clamp(1.875rem, 6.25vw, 7.5rem); /* 120px */
+  --text-display--line-height: 0.95;
   --text-display--letter-spacing: -0.06em;
 
   --text-section: clamp(2rem, 2.92vw, 3.5rem); /* 56px */

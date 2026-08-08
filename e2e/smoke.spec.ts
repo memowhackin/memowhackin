@@ -102,6 +102,36 @@ for (const viewport of viewports) {
   });
 }
 
+/*
+ * Sections fade in as they scroll into view, which means every one of them
+ * starts invisible. Skipping past a section must never leave it that way: the
+ * reader can jump straight to an anchor and then scroll back up over content
+ * that was never once on screen.
+ */
+test("reveals content that was skipped past rather than scrolled to", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByTestId("nav-blog").click();
+  await page.getByTestId("hero").scrollIntoViewIfNeeded();
+
+  await expect
+    .poll(
+      () =>
+        page.evaluate(() =>
+          [...document.querySelectorAll("[data-testid]")]
+            .filter(
+              (el) =>
+                getComputedStyle(el).opacity !== "1" &&
+                el.getBoundingClientRect().height > 0,
+            )
+            .map((el) => el.getAttribute("data-testid")),
+        ),
+      { timeout: 10_000 },
+    )
+    .toEqual([]);
+});
+
 test("keeps the menu button on screen at the narrowest width", async ({
   page,
 }) => {

@@ -1,9 +1,76 @@
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 import { ArrowUpRight } from "lucide-react";
 import { SectionShell } from "@/components/common/SectionShell";
+import { useReveal } from "@/components/common/useReveal";
 import { sectionIds, site } from "@/config/site";
 
 const posts = ["rules", "owasp", "compliance"] as const;
+
+/** One teaser card. Split out so each can hold its own reveal state. */
+function BlogCard({ post, index }: { post: string; index: number }) {
+  const { t } = useTranslation();
+  const {
+    ref: revealRef,
+    className: revealClassName,
+    style: revealStyle,
+  } = useReveal<HTMLLIElement>({ delay: index * 90 });
+
+  return (
+    /*
+     * The whole card is the target: the "View details" link is stretched
+     * over it so a tap anywhere opens the article, which is what a card
+     * of this shape promises on touch.
+     */
+    <li
+      ref={revealRef}
+      style={revealStyle}
+      data-testid={`blog-post-${post}`}
+      className={clsx(
+        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
+        revealClassName,
+      )}
+    >
+      <img
+        src="/assets/blog-pattern.webp"
+        alt=""
+        width={488}
+        height={84}
+        loading="lazy"
+        aria-hidden="true"
+        className="h-20 w-full object-cover sm:h-24 lg:h-28"
+      />
+
+      <div className="flex flex-1 flex-col gap-5 p-6 sm:p-7 lg:pt-8">
+        <p className="font-display eyebrow text-lavender">
+          {t(`blog.posts.${post}.date`)}
+        </p>
+
+        <h3 className="font-display text-mist text-lg leading-snug font-normal text-pretty sm:text-xl">
+          {t(`blog.posts.${post}.title`)}
+        </h3>
+
+        <p className="text-mist/75 flex-1 text-base leading-relaxed text-pretty">
+          {t(`blog.posts.${post}.excerpt`)}
+        </p>
+
+        <a
+          href={`${site.scannerBaseUrl}/blog`}
+          target="_blank"
+          rel="noreferrer noopener"
+          data-testid={`blog-post-${post}-link`}
+          className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition before:absolute before:inset-0 before:content-['']"
+        >
+          {t("blog.viewDetails")}
+          <ArrowUpRight
+            className="size-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            aria-hidden="true"
+          />
+        </a>
+      </div>
+    </li>
+  );
+}
 
 /** Latest-articles teaser. Copy is static until a blog API exists. */
 export function BlogHighlights() {
@@ -37,55 +104,8 @@ export function BlogHighlights() {
       </div>
 
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          /*
-           * The whole card is the target: the "View details" link is stretched
-           * over it so a tap anywhere opens the article, which is what a card
-           * of this shape promises on touch.
-           */
-          <li
-            key={post}
-            data-testid={`blog-post-${post}`}
-            className="border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border transition hover:-translate-y-1"
-          >
-            <img
-              src="/assets/blog-pattern.webp"
-              alt=""
-              width={488}
-              height={84}
-              loading="lazy"
-              aria-hidden="true"
-              className="h-20 w-full object-cover sm:h-24 lg:h-28"
-            />
-
-            <div className="flex flex-1 flex-col gap-5 p-6 sm:p-7 lg:pt-8">
-              <p className="font-display eyebrow text-lavender">
-                {t(`blog.posts.${post}.date`)}
-              </p>
-
-              <h3 className="font-display text-mist text-lg leading-snug font-normal text-pretty sm:text-xl">
-                {t(`blog.posts.${post}.title`)}
-              </h3>
-
-              <p className="text-mist/75 flex-1 text-base leading-relaxed text-pretty">
-                {t(`blog.posts.${post}.excerpt`)}
-              </p>
-
-              <a
-                href={`${site.scannerBaseUrl}/blog`}
-                target="_blank"
-                rel="noreferrer noopener"
-                data-testid={`blog-post-${post}-link`}
-                className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition before:absolute before:inset-0 before:content-['']"
-              >
-                {t("blog.viewDetails")}
-                <ArrowUpRight
-                  className="size-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  aria-hidden="true"
-                />
-              </a>
-            </div>
-          </li>
+        {posts.map((post, index) => (
+          <BlogCard key={post} post={post} index={index} />
         ))}
       </ul>
 
