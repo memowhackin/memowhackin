@@ -64,14 +64,24 @@ const BANNER_FOOTAGE_BOX =
   "absolute top-0 left-[-4.219%] h-[108.52%] w-[108.49%] max-w-none";
 
 /*
- * The first shaft carries most of the light on the right of the banner, and at
- * full strength it carries far too much of it: that quarter came out at 27.1
- * against the frame's 18.4, and dropping the shaft altogether took it to 11.6.
- * 45% is where its contribution lands on the frame's figure. The frame lists no
- * opacity for the layer, so this is read off the render rather than the file.
+ * The two light shafts, blurred to 7.29vw — 140px on the frame's canvas.
+ *
+ * The exports are hard-edged diagonal bands, and laid on sharp that is exactly
+ * what they read as: wedges cutting across the banner like a spotlight. The
+ * frame has no such edge anywhere. What it has on the right is a broad, smooth
+ * glow, and no single frame of the footage accounts for it — the whole clip was
+ * searched against the frame's own column profile and the closest second still
+ * left that side 6 short. Blurred, the same artwork becomes that glow: the
+ * wedges go and the profile lands within 1.6 of the frame across the width.
+ *
+ * The first shaft carries most of that light and at full strength carries too
+ * much — its quarter came out at 27.1 against the frame's 18.4 — so it is held
+ * at 70%. The frame lists no opacity for the layer; this is read off the render.
  */
+const BANNER_SHAFT_SOFTEN = "blur-[7.29vw]";
+
 const BANNER_SHAFTS = [
-  { key: "a", src: "/assets/hero-shaft-a.webp", className: "opacity-45" },
+  { key: "a", src: "/assets/hero-shaft-a.webp", className: "opacity-70" },
   {
     key: "b",
     src: "/assets/hero-shaft-b.webp",
@@ -200,7 +210,11 @@ export function Hero() {
         {BANNER_SHAFTS.map((shaft) => (
           <div
             key={shaft.key}
-            className={clsx("absolute inset-0 isolate", shaft.className)}
+            className={clsx(
+              "absolute inset-0 isolate",
+              BANNER_SHAFT_SOFTEN,
+              shaft.className,
+            )}
             style={BANNER_INSET_MASK}
           >
             <img
