@@ -95,7 +95,7 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
         <a
           href={`#${sectionIds.demonstrate}`}
           data-testid={`service-${service.key}-explore`}
-          className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition"
+          className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition pointer-coarse:min-h-11"
         >
           {t("services.exploreMore")}
           <ArrowUpRight

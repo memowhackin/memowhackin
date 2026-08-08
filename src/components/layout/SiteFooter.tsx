@@ -59,17 +59,6 @@ const badges = [
   },
 ] as const;
 
-/*
- * The three exports do not agree on their own geometry. OSCP and OSWE are
- * regular hexagons — √3/2, crisp points top and bottom — but the OSAI artwork
- * comes out of the source a little wide, with both vertices blunted flat, so at
- * a shared height the row read as three different shapes rather than as one set
- * of certifications.
- *
- * Every badge is clipped to the same hexagon instead of being trusted to carry
- * its own. It costs OSCP and OSWE nothing (their artwork already sits inside
- * this outline) and gives OSAI back the points its export is missing.
- */
 const BADGE_HEXAGON =
   "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)";
 
@@ -216,10 +205,24 @@ export function SiteFooter() {
             word centres on the row instead.
 
             Everything paints over it (`-z-10`), and at this stroke weight
-            nothing it crosses loses contrast. What it cannot keep as it shrinks
-            is its weight: the frame's strokes are hairlines at 1920, and on a
-            phone the same word is a fifth of that, so they fall under a pixel.
-            They are lifted back as the viewport narrows.
+            nothing it crosses loses contrast.
+
+            What it cannot keep as it shrinks is its weight. The frame's strokes
+            are hairlines at 1920, so on a phone — where the row is around 270px
+            across, a sixth of the artwork — they land under a pixel and the
+            word comes out as grey haze rather than as letterforms. Brightness
+            was being wound up to 1.6 to fight that, which only made the haze
+            brighter.
+
+            So it fades out as it loses resolution instead of switching off. The
+            steps are close together (480, 544, 640, 768) and carry a transition,
+            which is what makes a drag-resize read as the word receding into the
+            ground rather than as a layer being toggled. By 480 it is gone.
+
+            Opacity has to be stepped rather than driven straight off the width:
+            `calc()` will not divide a length by a length, so there is no way to
+            turn "how wide is the viewport" into a bare number for `opacity`
+            without script. Four steps and a half-second crossfade get there.
           */}
           <img
             src="/assets/wordmark-assistsec.svg"
@@ -228,7 +231,7 @@ export function SiteFooter() {
             height={248}
             loading="lazy"
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-1/2 -z-10 w-[86%] max-w-none -translate-x-1/2 -translate-y-1/2 brightness-[1.6] sm:w-[80%] sm:brightness-125 lg:left-0 lg:w-[74%] lg:translate-x-0 lg:brightness-100"
+            className="pointer-events-none absolute top-1/2 left-1/2 -z-10 hidden w-[80%] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 brightness-125 transition-[opacity,filter] duration-500 ease-out min-[30rem]:block min-[34rem]:opacity-45 sm:opacity-70 md:opacity-100 lg:left-0 lg:w-[74%] lg:translate-x-0 lg:brightness-100"
           />
 
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-16 xl:gap-x-20">
@@ -284,7 +287,12 @@ export function SiteFooter() {
                     <a
                       href={link.href}
                       data-testid={`footer-link-${link.key}`}
-                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:min-h-9"
+                      /*
+                       * The tighter desktop row is for mice only. Keyed to `lg`
+                       * alone it also applied to a 1024px tablet, where these
+                       * links are thumbed and 36px is too small to hit.
+                       */
+                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:pointer-fine:min-h-9"
                     >
                       {t(link.label)}
                     </a>
@@ -305,7 +313,12 @@ export function SiteFooter() {
                       target="_blank"
                       rel="noreferrer noopener"
                       data-testid={`footer-social-${key}`}
-                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:min-h-9"
+                      /*
+                       * The tighter desktop row is for mice only. Keyed to `lg`
+                       * alone it also applied to a 1024px tablet, where these
+                       * links are thumbed and 36px is too small to hit.
+                       */
+                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:pointer-fine:min-h-9"
                     >
                       {label}
                     </a>
@@ -335,7 +348,7 @@ export function SiteFooter() {
               href={`${site.scannerBaseUrl}/terms`}
               target="_blank"
               rel="noreferrer noopener"
-              className="hover:text-lavender inline-flex min-h-9 items-center transition"
+              className="hover:text-lavender inline-flex min-h-9 items-center transition pointer-coarse:min-h-11"
               data-testid="footer-terms"
             >
               {t("footer.terms")}
@@ -345,7 +358,7 @@ export function SiteFooter() {
               href={`${site.scannerBaseUrl}/privacy`}
               target="_blank"
               rel="noreferrer noopener"
-              className="hover:text-lavender inline-flex min-h-9 items-center transition"
+              className="hover:text-lavender inline-flex min-h-9 items-center transition pointer-coarse:min-h-11"
               data-testid="footer-privacy"
             >
               {t("footer.privacy")}

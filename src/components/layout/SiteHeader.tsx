@@ -186,7 +186,7 @@ export function SiteHeader() {
           target="_blank"
           rel="noreferrer noopener"
           data-testid="announcement-bar"
-          className="brand-sweep flex w-full items-center justify-center gap-2 px-4 py-2 text-center transition hover:brightness-110"
+          className="brand-sweep flex w-full items-center justify-center gap-2 px-4 py-2 text-center transition hover:brightness-110 pointer-coarse:min-h-11"
         >
           {/*
             The badge is the first thing to go on a narrow viewport: the sentence
@@ -210,7 +210,7 @@ export function SiteHeader() {
             href="#top"
             data-testid="header-logo"
             aria-label={t("app.title")}
-            className="inline-flex shrink-0 items-center py-2"
+            className="inline-flex shrink-0 items-center py-2 pointer-coarse:min-h-11"
           >
             <LogoLockup className="text-mist h-5 w-auto sm:h-6" />
           </a>
@@ -229,7 +229,7 @@ export function SiteHeader() {
                   aria-current={current ? "true" : undefined}
                   data-testid={`nav-${item.key}`}
                   className={clsx(
-                    "decoration-lavender relative py-2 text-base underline-offset-8 transition hover:underline",
+                    "decoration-lavender pointer-coarse:min-h-11 relative inline-flex items-center py-2 text-base underline-offset-8 transition hover:underline",
                     current
                       ? "text-lavender"
                       : "hover:text-lavender text-white",
@@ -256,7 +256,7 @@ export function SiteHeader() {
               target="_blank"
               rel="noreferrer noopener"
               data-testid="header-login"
-              className="hover:text-lavender hidden text-base whitespace-nowrap text-white transition lg:inline"
+              className="hover:text-lavender hidden items-center text-base whitespace-nowrap text-white transition lg:inline-flex pointer-coarse:min-h-11"
             >
               {t("nav.login")}
             </a>

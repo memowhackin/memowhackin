@@ -97,7 +97,19 @@
    * Measured off the frame render: the hero headline occupies 113px for two
    * rows at a 1920 canvas, so it is nearer 3.75rem than the 4.5rem this had.
    */
-  --text-hero: clamp(2.25rem, 3.125vw, 3.75rem); /* 60px */
+  /*
+   * Every ramp below is written as `floor + vw` rather than as bare `vw`.
+   *
+   * A bare ramp only leaves its floor once the viewport is wide enough for the
+   * fraction to beat it — 3.125vw does not pass 2.25rem until 1152px — so every
+   * heading on the page sat pinned at its minimum across the whole tablet range
+   * and then jumped. Measured at 1024 that left the hero headline at 36px while
+   * the closing headline beside it was 40 and the manifesto 64: the largest
+   * statement on the page rendering as the smallest. Each ramp now runs from its
+   * floor at about 480px to the drawn size at 1920, so the mid-range grows
+   * evenly and the design width is unchanged.
+   */
+  --text-hero: clamp(2.25rem, 1.72rem + 1.69vw, 3.75rem); /* 60px */
   --text-hero--line-height: 1.15;
   --text-hero--letter-spacing: -0.03em;
 
@@ -110,11 +122,11 @@
   --text-display--line-height: 0.95;
   --text-display--letter-spacing: -0.06em;
 
-  --text-section: clamp(2rem, 2.92vw, 3.5rem); /* 56px */
+  --text-section: clamp(2rem, 1.5rem + 1.667vw, 3.5rem); /* 56px */
   --text-section--line-height: 1.2;
   --text-section--letter-spacing: -0.02em;
 
-  --text-service: clamp(1.75rem, 2.08vw, 2.5rem); /* 40px */
+  --text-service: clamp(1.75rem, 1.5rem + 0.833vw, 2.5rem); /* 40px */
   --text-service--line-height: 1.2;
   --text-service--letter-spacing: -0.02em;
 

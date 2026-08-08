@@ -93,7 +93,7 @@ export function BlogHighlights() {
           target="_blank"
           rel="noreferrer noopener"
           data-testid="blog-view-all"
-          className="text-mist hover:text-lavender group inline-flex items-center gap-2 py-1 text-base font-medium transition"
+          className="text-mist hover:text-lavender group inline-flex items-center gap-2 py-1 text-base font-medium transition pointer-coarse:min-h-11"
         >
           {t("blog.viewAll")}
           <ArrowUpRight

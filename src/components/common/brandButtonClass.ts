@@ -26,9 +26,12 @@ const variants: Record<BrandButtonVariant, string> = {
     "border-lavender/40 text-mist rounded-selector border hover:border-lavender hover:bg-lavender/10 active:bg-lavender/20",
 };
 
-/* Both sizes clear the comfortable touch target on the smallest phones. */
+/*
+ * `md` clears the comfortable touch target on its own. `sm` is drawn at 40 and
+ * takes the same floor as the sweep pill wherever it is thumbed.
+ */
 const sizes: Record<BrandButtonSize, string> = {
-  sm: "min-h-10 px-5 py-2.5 text-sm leading-normal",
+  sm: "pointer-coarse:min-h-11 min-h-10 px-5 py-2.5 text-sm leading-normal",
   md: "min-h-12 px-6 py-3 text-base leading-normal",
 };
 
@@ -41,12 +44,13 @@ const sizes: Record<BrandButtonSize, string> = {
  * (node 246:12074): 199×44 around 18/26 type with 28px sides, and 8/10 rather
  * than 9/9 — the label sits a hair above centre.
  *
- * 35px is under the comfortable touch target, so `sm` keeps a 44px floor up to
- * the `sm` breakpoint. That is the only width at which this pill is thumbed:
- * the header hides it below `sm` and the mobile menu carries it instead.
+ * 35px is under the comfortable touch target, so `sm` takes a 44px floor on a
+ * coarse pointer and keeps the frame's height everywhere else. The breakpoint
+ * is the wrong question here — a 1024px tablet is thumbed and a 640px window on
+ * a desktop is not — so the floor follows the input device, not the width.
  */
 const sweepSizes: Record<BrandButtonSize, string> = {
-  sm: "min-h-11 px-5 py-[0.34375rem] text-base leading-6 sm:min-h-0",
+  sm: "px-5 py-[0.34375rem] text-base leading-6 pointer-coarse:min-h-11",
   md: "min-h-11 px-7 pt-2 pb-2.5 text-lg leading-[1.625rem]",
 };
 
