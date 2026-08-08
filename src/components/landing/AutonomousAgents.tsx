@@ -4,17 +4,41 @@ import { BrandButton } from "@/components/common/BrandButton";
 import { sectionIds, site } from "@/config/site";
 
 /**
- * Agent alerts pinned over the skyline. Positions are the Figma coordinates as
- * percentages of the photograph, so they hold as the image scales. `drop` is
- * the connector line that runs from the alert down into the city (Line 589-592
- * in the frame).
+ * Agent alerts pinned over the skyline. Positions are percentages of the band
+ * of sky between the copy and the rooftops, so they hold as the section grows
+ * and shrinks. `drop` is the connector line that runs from the alert down into
+ * the city (Line 589-592 in the frame).
  */
 const alerts = [
-  { key: "attack", label: "agents.alerts.attack", position: "left-[5.1%] top-[53.7%]", drop: "7rem" },
-  { key: "apiTesting", label: "agents.alerts.apiTesting", position: "left-[26.9%] top-[42.6%]", drop: "7rem" },
-  { key: "files", label: "agents.alerts.files", position: "left-[52%] top-[43.5%]", drop: "4.25rem" },
-  { key: "credentials", label: "agents.alerts.credentials", position: "left-[70%] top-[50.5%]", drop: "7rem" },
+  {
+    key: "attack",
+    label: "agents.alerts.attack",
+    position: "left-[4%] top-[34%]",
+    drop: "5rem",
+  },
+  {
+    key: "apiTesting",
+    label: "agents.alerts.apiTesting",
+    position: "left-[27%] top-[10%]",
+    drop: "6rem",
+  },
+  {
+    key: "files",
+    label: "agents.alerts.files",
+    position: "left-[52%] top-[13%]",
+    drop: "4.5rem",
+  },
+  {
+    key: "credentials",
+    label: "agents.alerts.credentials",
+    position: "left-[70%] top-[28%]",
+    drop: "5rem",
+  },
 ] as const;
+
+/** Shared chip styling for both the pinned and the stacked presentation. */
+const alertClassName =
+  "bg-lavender text-ink-deep inline-flex items-center gap-2 rounded-md px-2.5 py-1.5 text-xs leading-none font-medium shadow-lg sm:text-sm";
 
 /**
  * The manifesto section: oversized mono headline over the skyline photograph,
@@ -27,7 +51,7 @@ export function AutonomousAgents() {
     <section
       id={sectionIds.demonstrate}
       data-testid="autonomous-agents"
-      className="bg-ink-deep relative isolate w-full overflow-hidden"
+      className="bg-ink-deep relative isolate flex min-h-[clamp(30rem,80svh,50rem)] w-full flex-col overflow-hidden"
     >
       <img
         src="/assets/skyline.webp"
@@ -35,7 +59,7 @@ export function AutonomousAgents() {
         width={1920}
         height={1406}
         loading="lazy"
-        className="absolute inset-x-0 bottom-0 -z-20 h-full w-full object-cover object-bottom"
+        className="absolute inset-0 -z-20 size-full object-cover object-bottom"
       />
       <div
         className="absolute inset-0 -z-10"
@@ -46,7 +70,7 @@ export function AutonomousAgents() {
         }}
       />
 
-      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 pt-16 pb-72 text-center sm:px-10 sm:pt-24 sm:pb-96 lg:px-16 lg:pt-32 lg:pb-[34rem] xl:pb-[40rem] 2xl:px-0">
+      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 pt-14 pb-10 text-center sm:px-10 sm:pt-20 lg:px-16 lg:pt-24 2xl:px-0">
         {/*
           The frame sets the headline on two fixed rows: 32px between words
           and 24px between the rows, which on top of the 0.9 type leading works
@@ -59,7 +83,9 @@ export function AutonomousAgents() {
           {t("agents.title")}
         </h2>
 
-        <p className="text-mist text-base">{t("agents.subtitle")}</p>
+        <p className="text-mist max-w-xl text-base text-pretty">
+          {t("agents.subtitle")}
+        </p>
 
         <BrandButton
           href={site.bookDemoUrl}
@@ -69,30 +95,55 @@ export function AutonomousAgents() {
         >
           {t("agents.cta")}
         </BrandButton>
+
+        {/*
+          Below `lg` there is no clear sky to pin the alerts over, so the same
+          four run as a wrapped row under the call to action instead of being
+          dropped from the layout altogether.
+        */}
+        <ul className="mt-4 flex flex-wrap justify-center gap-2 lg:hidden">
+          {alerts.map((alert) => (
+            <li
+              key={alert.key}
+              data-testid={`agents-alert-compact-${alert.key}`}
+              className={alertClassName}
+            >
+              <span
+                className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
+                aria-hidden="true"
+              />
+              {t(alert.label)}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      {alerts.map((alert) => (
-        <span
-          key={alert.key}
-          data-testid={`agents-alert-${alert.key}`}
-          className={clsx(
-            "bg-lavender text-ink-deep absolute hidden items-center gap-2 rounded-md px-2.5 py-1.5 text-xs leading-none font-medium shadow-lg lg:inline-flex xl:text-sm",
-            alert.position,
-          )}
-        >
+      {/* The band of sky the alerts are pinned into. */}
+      <div className="relative min-h-32 flex-1 sm:min-h-44 lg:min-h-60">
+        {alerts.map((alert) => (
           <span
-            className="bg-ink-deep size-1.5 rounded-xs"
-            aria-hidden="true"
-          />
-          {t(alert.label)}
-          {/* Connector dropping from the alert into the skyline. */}
-          <span
-            className="border-lavender/60 absolute top-full left-2 w-0 border-l border-dotted"
-            style={{ height: alert.drop }}
-            aria-hidden="true"
-          />
-        </span>
-      ))}
+            key={alert.key}
+            data-testid={`agents-alert-${alert.key}`}
+            className={clsx(
+              alertClassName,
+              "absolute hidden lg:inline-flex",
+              alert.position,
+            )}
+          >
+            <span
+              className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
+              aria-hidden="true"
+            />
+            {t(alert.label)}
+            {/* Connector dropping from the alert into the skyline. */}
+            <span
+              className="border-lavender/60 absolute top-full left-2 w-0 border-l border-dotted"
+              style={{ height: alert.drop }}
+              aria-hidden="true"
+            />
+          </span>
+        ))}
+      </div>
     </section>
   );
 }

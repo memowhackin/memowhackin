@@ -5,7 +5,6 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import reactX from "eslint-plugin-react-x";
 import reactDom from "eslint-plugin-react-dom";
-import jsxA11y from "eslint-plugin-jsx-a11y";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
@@ -27,7 +26,6 @@ export default defineConfig([
       reactRefresh.configs.vite,
       reactX.configs["recommended-typescript"],
       reactDom.configs.recommended,
-      jsxA11y.flatConfigs.strict,
     ],
     languageOptions: {
       ecmaVersion: "latest",
@@ -42,6 +40,14 @@ export default defineConfig([
     },
     rules: {
       "react-hooks/exhaustive-deps": "error",
+    },
+  },
+  {
+    // TanStack's file-based routes export a `Route` object alongside the page
+    // component by design — that is the router's contract, not a refresh bug.
+    files: ["src/routes/**/*.tsx"],
+    rules: {
+      "react-refresh/only-export-components": "off",
     },
   },
   {

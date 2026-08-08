@@ -29,7 +29,7 @@ export function ClosingCta() {
         className="pointer-events-none absolute top-[24%] -left-[3%] -z-10 hidden w-[32%] md:block"
       />
 
-      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 py-20 text-center sm:px-10 sm:py-28 lg:px-16 lg:py-40 xl:py-48 2xl:px-0">
+      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 py-20 text-center sm:px-10 sm:py-24 lg:px-16 lg:py-32 xl:py-40 2xl:px-0">
         <h2 className="font-display text-mist max-w-3xl text-2xl leading-tight font-normal text-balance sm:text-3xl lg:text-[2.5rem]">
           {t("cta.title")}
         </h2>

@@ -45,12 +45,16 @@ test("points login and demo at the scanner app", async ({ page }) => {
 test("switches language to Dutch", async ({ page }) => {
   await page.goto("/");
 
-  await page.getByTestId("language-switcher").selectOption("nl");
+  await page.getByTestId("language-switcher-nl").click();
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Cyberveiligheid",
   );
   await expect(page.getByTestId("header-login")).toHaveText("Inloggen");
+  await expect(page.getByTestId("language-switcher-nl")).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
 });
 
 test("opens the mobile menu on a narrow viewport", async ({ page }) => {
@@ -61,4 +65,56 @@ test("opens the mobile menu on a narrow viewport", async ({ page }) => {
   await page.getByTestId("mobile-menu-toggle").click();
   await expect(page.getByTestId("mobile-menu")).toBeVisible();
   await expect(page.getByTestId("mobile-nav-services")).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("mobile-menu")).toBeHidden();
+});
+
+/*
+ * The page is one long document with no horizontal scroller anywhere in it, so
+ * a sideways overflow at any width is a layout bug rather than a design choice.
+ * The narrowest case also has to keep the menu button reachable: it is the only
+ * way to the navigation once the bar collapses.
+ */
+const viewports = [
+  { name: "small mobile", width: 320, height: 640 },
+  { name: "mobile", width: 390, height: 844 },
+  { name: "tablet", width: 768, height: 1024 },
+  { name: "laptop", width: 1280, height: 800 },
+  { name: "desktop", width: 1920, height: 1080 },
+  { name: "large desktop", width: 2560, height: 1200 },
+];
+
+for (const viewport of viewports) {
+  test(`lays out without sideways overflow on ${viewport.name}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    await page.getByTestId("site-footer").scrollIntoViewIfNeeded();
+
+    const overflow = await page.evaluate(() => {
+      const doc = document.documentElement;
+      return doc.scrollWidth - doc.clientWidth;
+    });
+
+    expect(overflow).toBeLessThanOrEqual(1);
+  });
+}
+
+test("keeps the menu button on screen at the narrowest width", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto("/");
+
+  const toggle = page.getByTestId("mobile-menu-toggle");
+  const box = await toggle.boundingBox();
+
+  expect(box).not.toBeNull();
+  expect(box?.x ?? 0).toBeGreaterThanOrEqual(0);
+  expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(320);
+
+  await toggle.click();
+  await expect(page.getByTestId("mobile-book-demo")).toBeVisible();
 });

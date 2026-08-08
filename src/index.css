@@ -127,6 +127,23 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  /*
+   * Published by SiteHeader from the measured height of the sticky bar. The
+   * fallback is only ever used for the first frame, before the observer runs.
+   */
+  --header-height: 7rem;
+}
+
+/*
+ * The header is sticky, so an anchor that lands flush with the viewport top
+ * lands *under* it. Every in-page target clears the bar plus a little air, so
+ * the section reads as the start of something rather than as a fragment.
+ */
+:where(main[id], section[id]) {
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
 body {
   background-color: var(--color-ink);
   font-family: var(--font-sans);

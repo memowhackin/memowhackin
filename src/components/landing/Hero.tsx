@@ -48,13 +48,13 @@ export function Hero() {
         }}
       />
 
-      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center px-6 pt-16 sm:px-10 sm:pt-24 lg:px-16 lg:pt-32 xl:pt-40 2xl:px-0">
+      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center px-6 pt-14 sm:px-10 sm:pt-20 lg:px-16 lg:pt-28 xl:pt-32 2xl:px-0">
         <div className="flex w-full max-w-[52.5rem] flex-col items-center gap-6 text-center">
           <h1 className="text-hero text-balance text-white">
             {t("hero.title")}
           </h1>
 
-          <p className="max-w-[50.625rem] text-base leading-[1.6] text-pretty text-white/80 sm:text-lg">
+          <p className="max-w-[45rem] text-base leading-[1.6] text-pretty text-white/80 sm:text-lg">
             {t("hero.body")}
           </p>
         </div>
@@ -63,7 +63,7 @@ export function Hero() {
           href={site.bookDemoUrl}
           variant="sweep"
           data-testid="hero-book-demo"
-          className="mt-10 sm:mt-14 lg:mt-16"
+          className="mt-10 sm:mt-12 lg:mt-14"
         >
           {t("hero.cta")}
         </BrandButton>
@@ -72,7 +72,7 @@ export function Hero() {
       {/* Portal screenshot on the full-bleed diamond band, as in the frame. */}
       <div className="relative mt-12 sm:mt-16 lg:mt-20">
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-repeat-x sm:h-56 lg:h-72 opacity-90"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-repeat-x opacity-90 sm:h-56 lg:h-72"
           aria-hidden="true"
           style={{
             backgroundImage: "url('/assets/lattice-band.webp')",

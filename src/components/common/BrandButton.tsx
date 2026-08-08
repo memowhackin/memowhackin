@@ -23,20 +23,29 @@ interface BrandButtonProps {
 }
 
 const variants: Record<BrandButtonVariant, string> = {
-  solid: "bg-lavender text-ink-deep rounded-field hover:bg-lavender-soft",
+  solid:
+    "bg-lavender text-ink-deep rounded-field hover:bg-lavender-soft active:bg-lavender/85",
   sweep:
-    "brand-sweep-y border-indigo-deep/30 text-mist rounded-selector border-4 hover:brightness-125",
-  dark: "bg-ink-deep border-indigo-deep rounded-field border text-white hover:border-lavender/60",
+    "brand-sweep-y border-indigo-deep/30 text-mist rounded-selector border-4 hover:brightness-125 active:brightness-95",
+  dark: "bg-ink-deep border-indigo-deep rounded-field border text-white hover:border-lavender/60 hover:bg-indigo-deep/40 active:bg-indigo-deep/70",
   ghost:
-    "border-lavender/40 text-mist rounded-selector border hover:border-lavender hover:bg-lavender/10",
+    "border-lavender/40 text-mist rounded-selector border hover:border-lavender hover:bg-lavender/10 active:bg-lavender/20",
 };
 
+/* Both sizes clear the comfortable touch target on the smallest phones. */
 const sizes: Record<BrandButtonSize, string> = {
-  sm: "px-5 py-2.5 text-sm",
-  md: "px-6 py-3 text-base",
+  sm: "min-h-10 px-5 py-2.5 text-sm",
+  md: "min-h-12 px-6 py-3 text-base",
 };
 
-/** The call-to-action used across every landing section. */
+/**
+ * The call-to-action used across every landing section.
+ *
+ * `className` cannot hide the button: the base class list sets `inline-flex`,
+ * and Tailwind emits `.hidden` ahead of the display utilities, so an unprefixed
+ * `hidden` passed in here loses the cascade. Wrap the button in an element that
+ * carries the responsive display classes instead.
+ */
 export function BrandButton({
   href,
   children,
@@ -53,7 +62,7 @@ export function BrandButton({
       rel={external ? "noreferrer noopener" : undefined}
       data-testid={testId}
       className={clsx(
-        "focus-visible:outline-lavender inline-flex items-center justify-center gap-2 leading-normal font-medium whitespace-nowrap transition focus-visible:outline-2 focus-visible:outline-offset-4",
+        "focus-visible:outline-lavender inline-flex max-w-full items-center justify-center gap-2 text-center leading-normal font-medium text-balance transition focus-visible:outline-2 focus-visible:outline-offset-4",
         variants[variant],
         sizes[size],
         className,

@@ -17,26 +17,36 @@ export function BlogHighlights() {
       innerClassName="flex flex-col gap-10 py-16 sm:py-24 lg:py-28"
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h2 className="font-display text-mist text-base tracking-[0.235em] uppercase sm:text-xl">{t("blog.title")}</h2>
+        <h2 className="font-display text-mist text-base tracking-[0.235em] uppercase sm:text-xl">
+          {t("blog.title")}
+        </h2>
 
         <a
           href={`${site.scannerBaseUrl}/blog`}
           target="_blank"
           rel="noreferrer noopener"
           data-testid="blog-view-all"
-          className="text-mist hover:text-lavender inline-flex items-center gap-2 text-base font-medium transition"
+          className="text-mist hover:text-lavender group inline-flex items-center gap-2 py-1 text-base font-medium transition"
         >
           {t("blog.viewAll")}
-          <ArrowUpRight className="size-5" aria-hidden="true" />
+          <ArrowUpRight
+            className="size-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            aria-hidden="true"
+          />
         </a>
       </div>
 
-      <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
+          /*
+           * The whole card is the target: the "View details" link is stretched
+           * over it so a tap anywhere opens the article, which is what a card
+           * of this shape promises on touch.
+           */
           <li
             key={post}
             data-testid={`blog-post-${post}`}
-            className="border-indigo-deep bg-ink-deep hover:border-lavender/60 flex flex-col overflow-hidden rounded-2xl border transition"
+            className="border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border transition hover:-translate-y-1"
           >
             <img
               src="/assets/blog-pattern.webp"
@@ -45,40 +55,41 @@ export function BlogHighlights() {
               height={84}
               loading="lazy"
               aria-hidden="true"
-              className="h-[7.1875rem] w-full object-cover"
+              className="h-20 w-full object-cover sm:h-24 lg:h-28"
             />
 
-            <div className="flex flex-1 flex-col gap-6 px-8 pt-12 pb-10">
+            <div className="flex flex-1 flex-col gap-5 p-6 sm:p-7 lg:pt-8">
               <p className="font-display eyebrow text-lavender">
                 {t(`blog.posts.${post}.date`)}
               </p>
 
-              <div className="flex flex-1 flex-col gap-6">
-                <h3 className="font-display text-mist text-xl leading-[1.28] font-normal">
-                  {t(`blog.posts.${post}.title`)}
-                </h3>
+              <h3 className="font-display text-mist text-lg leading-snug font-normal text-pretty sm:text-xl">
+                {t(`blog.posts.${post}.title`)}
+              </h3>
 
-                <p className="text-mist/75 flex-1 text-base leading-6">
-                  {t(`blog.posts.${post}.excerpt`)}
-                </p>
-              </div>
+              <p className="text-mist/75 flex-1 text-base leading-relaxed text-pretty">
+                {t(`blog.posts.${post}.excerpt`)}
+              </p>
 
               <a
                 href={`${site.scannerBaseUrl}/blog`}
                 target="_blank"
                 rel="noreferrer noopener"
                 data-testid={`blog-post-${post}-link`}
-                className="text-mist hover:text-lavender inline-flex w-fit items-center gap-2 text-base font-medium transition"
+                className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition before:absolute before:inset-0 before:content-['']"
               >
                 {t("blog.viewDetails")}
-                <ArrowUpRight className="size-5" aria-hidden="true" />
+                <ArrowUpRight
+                  className="size-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
+                />
               </a>
             </div>
           </li>
         ))}
       </ul>
 
-      <div className="text-mist/80 flex flex-col gap-6 text-lg leading-[1.4] sm:text-xl">
+      <div className="text-mist/80 flex max-w-3xl flex-col gap-6 text-lg leading-[1.45] text-pretty sm:text-xl">
         <p>{t("blog.outroIntro")}</p>
         <p>
           {t("blog.outroFollow")}{" "}

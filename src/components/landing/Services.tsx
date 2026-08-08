@@ -41,8 +41,13 @@ function RuleNode({ className }: { className?: string }) {
 }
 
 /**
- * Service rows drawn on the hairline grid from the design: mono title top-left,
- * copy and link bottom-left, screenshot bleeding out of the opposite cell.
+ * Service rows drawn on the hairline grid from the design: mono title, copy and
+ * link on one side, the portal screenshot on the other.
+ *
+ * The frame stretches the copy over a tall cell with the title pinned to the
+ * top and the link to the bottom; at real text lengths that leaves a hole in
+ * the middle of every row, so the block is kept together and centred against
+ * the screenshot instead.
  */
 export function Services() {
   const { t } = useTranslation();
@@ -52,7 +57,7 @@ export function Services() {
       id={sectionIds.services}
       data-testid="services"
       className="bg-ink"
-      innerClassName="flex flex-col items-center gap-12 py-16 sm:py-24 lg:gap-16 lg:py-28"
+      innerClassName="flex flex-col items-center gap-10 py-16 sm:py-24 lg:gap-14 lg:py-28"
     >
       <span className="border-indigo-deep bg-ink-deep text-mist rounded-selector inline-flex items-center gap-2 border px-4 py-2 text-sm font-medium">
         <LogoMark className="text-lavender size-4" />
@@ -65,7 +70,7 @@ export function Services() {
           <li
             key={service.key}
             data-testid={`service-${service.key}`}
-            className="relative grid lg:grid-cols-2"
+            className="relative grid items-center gap-8 py-10 sm:gap-10 lg:grid-cols-2 lg:gap-0 lg:py-14"
           >
             {/*
               The frame rules the grid with unbroken hairlines that pass behind
@@ -89,34 +94,39 @@ export function Services() {
 
             <div
               className={clsx(
-                "flex flex-col justify-between gap-10 py-10 lg:min-h-[33.5rem] lg:py-14",
-                service.imageFirst ? "lg:order-2 lg:pl-14" : "lg:pr-14",
+                "flex flex-col gap-5 sm:gap-6",
+                service.imageFirst
+                  ? "lg:order-2 lg:pl-10 xl:pl-14"
+                  : "lg:pr-10 xl:pr-14",
               )}
             >
-              <h3 className="font-display text-service text-mist font-normal">
+              <h3 className="font-display text-service text-mist font-normal text-balance">
                 {t(`services.${service.key}.title`)}
               </h3>
 
-              <div className="flex flex-col gap-8">
-                <p className="text-mist/80 max-w-md text-base leading-6">
-                  {t(`services.${service.key}.body`)}
-                </p>
+              <p className="text-mist/80 max-w-prose text-base leading-relaxed text-pretty">
+                {t(`services.${service.key}.body`)}
+              </p>
 
-                <a
-                  href={`#${sectionIds.demonstrate}`}
-                  data-testid={`service-${service.key}-explore`}
-                  className="text-mist hover:text-lavender inline-flex w-fit items-center gap-2 text-base font-medium transition"
-                >
-                  {t("services.exploreMore")}
-                  <ArrowUpRight className="size-5" aria-hidden="true" />
-                </a>
-              </div>
+              <a
+                href={`#${sectionIds.demonstrate}`}
+                data-testid={`service-${service.key}-explore`}
+                className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition"
+              >
+                {t("services.exploreMore")}
+                <ArrowUpRight
+                  className="size-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
+                />
+              </a>
             </div>
 
             <div
               className={clsx(
-                "relative min-h-56 overflow-hidden lg:min-h-0",
-                service.imageFirst ? "lg:order-1 lg:pr-14" : "lg:pl-14",
+                "border-indigo-deep/70 bg-ink-deep relative overflow-hidden rounded-xl border",
+                service.imageFirst
+                  ? "lg:order-1 lg:mr-10 xl:mr-14"
+                  : "lg:ml-10 xl:ml-14",
               )}
             >
               <img
@@ -125,10 +135,12 @@ export function Services() {
                 width={720}
                 height={586}
                 loading="lazy"
-                className={clsx(
-                  "size-full object-cover",
-                  service.imageFirst ? "object-left" : "object-right",
-                )}
+                /*
+                 * These are product screenshots: anchoring the crop to the top
+                 * left keeps the panel heading and the chart in frame at every
+                 * width, where a centred crop showed an unreadable slice.
+                 */
+                className="aspect-[4/3] w-full object-cover object-left-top sm:aspect-[16/10] lg:aspect-[16/9]"
               />
             </div>
           </li>

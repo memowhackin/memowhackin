@@ -107,8 +107,9 @@ Brand tokens, straight from the Figma frame — use these utilities instead of h
   flex/grid. `oxfmt` sorts Tailwind classes (`sortTailwindcss`) — let it.
 - **Images** live in `public/assets/` as `.webp`, exported from the Figma file. Always set `width`,
   `height`, `alt` (via i18n) and `loading="lazy"`; decorative layers get `aria-hidden`.
-- **Accessibility is enforced** by `eslint-plugin-jsx-a11y` (strict). Give icon-only buttons an
-  `aria-label` and mark decorative icons `aria-hidden`.
+- **Accessibility is a hand-held convention** — `eslint-plugin-jsx-a11y` is deprecated and no longer
+  installed, so nothing lints it for you. Give icon-only buttons an `aria-label`, mark decorative
+  icons and layers `aria-hidden`, and keep every control reachable and labelled by hand.
 - **`data-testid` on every interactive/testable element**, with stable, descriptive names
   (e.g. `hero-book-demo`, `service-cloud-explore`). The e2e suite asserts on section testids.
 - **User-facing text goes through i18n** — no string literals in JSX. Add keys to both locale files.
@@ -117,7 +118,7 @@ Brand tokens, straight from the Figma frame — use these utilities instead of h
 
 The source of truth is the Figma file, canvas `🌟 Design`, frame `Homepage - 1` (node `49:19107`),
 reachable over the Figma MCP server with file key `5OEOY7bxZ6mmvcJYo4KwPo`. Use `get_design_context`
-on a *leaf* frame — the whole page frame exceeds the response limit and comes back as bare metadata.
+on a _leaf_ frame — the whole page frame exceeds the response limit and comes back as bare metadata.
 
 The exported `Assist Sec.fig` at the repo root is the offline fallback. It is a zip: `canvas.fig` is a
 zstd-compressed Kiwi message holding the node tree, `images/` holds the raw bitmaps and `videos/`

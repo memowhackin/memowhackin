@@ -14,7 +14,11 @@
     "openMenu": "Menu openen",
     "closeMenu": "Menu sluiten",
     "primary": "Hoofdmenu",
-    "skipToContent": "Naar de inhoud"
+    "skipToContent": "Naar de inhoud",
+    "languageNames": {
+      "en": "Engels",
+      "nl": "Nederlands"
+    }
   },
   "announcement": {
     "badge": "Ontdek",

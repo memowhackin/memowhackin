@@ -24,10 +24,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "baseUrl": "src",
     "paths": {
-      "@/*": ["*"],
-      "localization/*": ["localization/*"]
+      "@/*": ["./src/*"],
+      "localization/*": ["./src/localization/*"]
     }
   },
   "include": ["src", "i18next.config.ts"]

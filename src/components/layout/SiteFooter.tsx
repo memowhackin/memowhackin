@@ -36,25 +36,91 @@ const socials = [
 
 /** Certifications, in the order the frame lists them. */
 const badges = [
-  { key: "oscp", name: "OSCP", src: "/assets/badge-oscp.webp", width: 520, height: 600 },
-  { key: "osai", name: "OSAI", src: "/assets/badge-osai.webp", width: 224, height: 352 },
-  { key: "oswe", name: "OSWE", src: "/assets/badge-oswe.svg", width: 68, height: 78 },
+  {
+    key: "oscp",
+    name: "OSCP",
+    src: "/assets/badge-oscp.webp",
+    width: 520,
+    height: 600,
+  },
+  {
+    key: "osai",
+    name: "OSAI",
+    src: "/assets/badge-osai.webp",
+    width: 224,
+    height: 352,
+  },
+  {
+    key: "oswe",
+    name: "OSWE",
+    src: "/assets/badge-oswe.svg",
+    width: 68,
+    height: 78,
+  },
 ] as const;
 
 /** The industry partners shown above the divider. */
 const partners = [
-  { key: "vercel", name: "Vercel", src: "/assets/logo-vercel.svg", width: 95, height: 20 },
-  { key: "google", name: "Google", src: "/assets/logo-google.svg", width: 73, height: 24 },
-  { key: "meta", name: "Meta", src: "/assets/logo-meta.svg", width: 99, height: 20 },
-  { key: "perplexity", name: "Perplexity", src: "/assets/logo-perplexity.svg", width: 108, height: 24 },
-  { key: "strava", name: "Strava", src: "/assets/logo-strava.svg", width: 92, height: 20 },
-  { key: "duolingo", name: "Duolingo", src: "/assets/logo-duolingo.svg", width: 78, height: 20 },
-  { key: "harvard", name: "Harvard University", src: "/assets/logo-harvard.svg", width: 92, height: 24 },
+  {
+    key: "vercel",
+    name: "Vercel",
+    src: "/assets/logo-vercel.svg",
+    width: 95,
+    height: 20,
+  },
+  {
+    key: "google",
+    name: "Google",
+    src: "/assets/logo-google.svg",
+    width: 73,
+    height: 24,
+  },
+  {
+    key: "meta",
+    name: "Meta",
+    src: "/assets/logo-meta.svg",
+    width: 99,
+    height: 20,
+  },
+  {
+    key: "perplexity",
+    name: "Perplexity",
+    src: "/assets/logo-perplexity.svg",
+    width: 108,
+    height: 24,
+  },
+  {
+    key: "strava",
+    name: "Strava",
+    src: "/assets/logo-strava.svg",
+    width: 92,
+    height: 20,
+  },
+  {
+    key: "duolingo",
+    name: "Duolingo",
+    src: "/assets/logo-duolingo.svg",
+    width: 78,
+    height: 20,
+  },
+  {
+    key: "harvard",
+    name: "Harvard University",
+    src: "/assets/logo-harvard.svg",
+    width: 92,
+    height: 24,
+  },
 ] as const;
+
+/*
+ * Read once at module load rather than on every render: reading the clock
+ * during render is impure, and a copyright year that changes mid-session is not
+ * a behaviour anyone needs.
+ */
+const year = new Date().getFullYear();
 
 export function SiteFooter() {
   const { t } = useTranslation();
-  const year = new Date().getFullYear();
 
   return (
     <footer
@@ -72,12 +138,12 @@ export function SiteFooter() {
       />
 
       <div className="relative mx-auto w-full max-w-[90rem] px-6 sm:px-10 lg:px-16 2xl:px-0">
-        <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <p className="max-w-[21.25rem] text-base leading-6 text-white">
             {t("trusted.title")}
           </p>
 
-          <ul className="flex flex-wrap items-center gap-x-10 gap-y-6">
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-6 sm:gap-x-10">
             {partners.map((partner) => (
               <li key={partner.key}>
                 <img
@@ -96,13 +162,13 @@ export function SiteFooter() {
 
         <hr className="border-lavender/25 my-12 border-t border-dashed lg:my-14" />
 
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)]">
-          <div className="flex flex-col gap-10">
-            <p className="max-w-[25rem] text-lg leading-[1.4] text-white sm:text-xl">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
+          <div className="flex flex-col gap-8 sm:col-span-2 lg:col-span-1">
+            <p className="max-w-[25rem] text-lg leading-[1.45] text-pretty text-white sm:text-xl">
               {t("footer.about")}
             </p>
 
-            <ul className="flex items-center gap-10">
+            <ul className="flex flex-wrap items-center gap-6 sm:gap-10">
               {badges.map((badge) => (
                 <li key={badge.key}>
                   <img
@@ -111,7 +177,7 @@ export function SiteFooter() {
                     width={badge.width}
                     height={badge.height}
                     loading="lazy"
-                    className="h-[4.875rem] w-auto"
+                    className="h-16 w-auto sm:h-[4.875rem]"
                   />
                 </li>
               ))}
@@ -119,16 +185,16 @@ export function SiteFooter() {
           </div>
 
           <nav aria-label={t("footer.quickLinks")}>
-            <h2 className="eyebrow text-lavender mb-6">
+            <h2 className="eyebrow text-lavender mb-4">
               {t("footer.quickLinks")}
             </h2>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col">
               {quickLinks.map((link) => (
                 <li key={link.key}>
                   <a
                     href={link.href}
                     data-testid={`footer-link-${link.key}`}
-                    className="hover:text-lavender inline-block py-1 text-base leading-6 text-white transition"
+                    className="hover:text-lavender active:text-lavender-soft flex min-h-10 items-center text-base leading-6 text-white transition"
                   >
                     {t(link.label)}
                   </a>
@@ -138,10 +204,10 @@ export function SiteFooter() {
           </nav>
 
           <nav aria-label={t("footer.connect")}>
-            <h2 className="eyebrow text-lavender mb-6">
+            <h2 className="eyebrow text-lavender mb-4">
               {t("footer.connect")}
             </h2>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col">
               {socials.map(({ key, label, href }) => (
                 <li key={key}>
                   <a
@@ -149,7 +215,7 @@ export function SiteFooter() {
                     target="_blank"
                     rel="noreferrer noopener"
                     data-testid={`footer-social-${key}`}
-                    className="hover:text-lavender inline-block py-1 text-base leading-6 text-white transition"
+                    className="hover:text-lavender active:text-lavender-soft flex min-h-10 items-center text-base leading-6 text-white transition"
                   >
                     {label}
                   </a>
@@ -159,12 +225,10 @@ export function SiteFooter() {
           </nav>
 
           {/* The oversized ghost mark that sits in the right-hand column. */}
-          <LogoMark
-            className="text-lavender/10 hidden h-44 w-auto justify-self-end lg:block"
-          />
+          <LogoMark className="text-lavender/10 hidden h-32 w-auto self-center justify-self-end lg:block xl:h-44" />
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 pb-10 lg:mt-20 text-sm leading-6 text-white sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-4 pb-10 text-sm leading-6 text-white sm:flex-row sm:items-center sm:justify-between lg:mt-16">
           <p data-testid="footer-copyright">
             {t("footer.copyright", { year })}
           </p>
@@ -173,7 +237,7 @@ export function SiteFooter() {
               href={`${site.scannerBaseUrl}/terms`}
               target="_blank"
               rel="noreferrer noopener"
-              className="hover:text-lavender transition"
+              className="hover:text-lavender inline-flex min-h-10 items-center transition"
               data-testid="footer-terms"
             >
               {t("footer.terms")}
@@ -183,7 +247,7 @@ export function SiteFooter() {
               href={`${site.scannerBaseUrl}/privacy`}
               target="_blank"
               rel="noreferrer noopener"
-              className="hover:text-lavender transition"
+              className="hover:text-lavender inline-flex min-h-10 items-center transition"
               data-testid="footer-privacy"
             >
               {t("footer.privacy")}
