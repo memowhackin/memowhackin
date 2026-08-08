@@ -223,6 +223,48 @@ export function SiteFooter() {
             `calc()` will not divide a length by a length, so there is no way to
             turn "how wide is the viewport" into a bare number for `opacity`
             without script. Four steps and a half-second crossfade get there.
+
+            Two more things it has to survive, both measured rather than guessed.
+
+            The move at `lg`. The word is centred on the row while the columns
+            stack and left-anchored once the outlined mark takes the fourth
+            track, and crossing that breakpoint slid it 82px sideways in a single
+            frame. The anchor still changes — that is the layout — but `width`,
+            `left` and `translate` now ride the same half-second as the fade, so
+            it travels instead of jumping.
+
+            The row's height. This is sized off the row's width, and the row's
+            height is set by its content: 850px with the columns stacked on a
+            phone, 252px across four tracks on a desktop. Held to width alone the
+            word came out at 6% of the row's height in the first case and 65% in
+            the second — a sliver lost in a tall stack at one end, a slab filling
+            the row at the other. The height cap holds the top end: within
+            `object-contain` the artwork keeps its own proportions inside a box
+            that can no longer grow past three fifths of the row.
+
+            The bottom end is not a sizing problem, it is a placement one. The
+            artwork is 6.5:1, so on a narrow column no width will give it height
+            — stretching it further only pushes it off the sides. Measured
+            against the stack, a word centred on an 850px row lands at y=425,
+            which is the gap between the certification badges and the link
+            columns: dead space, grounding nothing. So below `lg` it is hung at
+            15% instead, which puts it across the logo and the description — the
+            identity block, the one thing in a footer a brand word belongs
+            behind. A percentage rather than a fixed offset because that block
+            grows with the translation.
+
+            It also bleeds back through the container's gutters there. Contained,
+            it was a strip floating inside margins on the one layout with no room
+            to spare; full width it reads as ground the column sits on. The
+            offsets undo the gutters exactly (`px-6`, then `px-10`) rather than
+            using `100vw`, which would count the scrollbar and put the page into
+            horizontal scroll.
+
+            `object-left` from `lg` is what keeps the two rules from fighting.
+            Once the height cap bites, the artwork is narrower than the box it
+            sits in, and `object-contain` centres it there by default — which
+            floated the word 43px clear of the left edge it is anchored to, so
+            it no longer started where the description column starts.
           */}
           <img
             src="/assets/wordmark-assistsec.svg"
@@ -231,7 +273,7 @@ export function SiteFooter() {
             height={248}
             loading="lazy"
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-1/2 -z-10 hidden w-[80%] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 brightness-125 transition-[opacity,filter] duration-500 ease-out min-[30rem]:block min-[34rem]:opacity-45 sm:opacity-70 md:opacity-100 lg:left-0 lg:w-[74%] lg:translate-x-0 lg:brightness-100"
+            className="pointer-events-none absolute top-[15%] left-1/2 -z-10 hidden max-h-[60%] w-[calc(100%+3rem)] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain opacity-25 brightness-125 transition-[opacity,filter,width,top,left,translate] duration-500 ease-out min-[30rem]:block min-[34rem]:opacity-45 sm:w-[calc(100%+5rem)] sm:opacity-70 md:opacity-100 lg:top-1/2 lg:left-0 lg:w-[74%] lg:translate-x-0 lg:object-left lg:brightness-100"
           />
 
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-16 xl:gap-x-20">

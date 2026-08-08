@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
+import { chipClass, chipMarkerClass } from "@/components/common/chipClass";
 import { LogoMark } from "@/components/common/Logo";
 import { SectionBadge } from "@/components/common/SectionBadge";
 import { useReveal } from "@/components/common/useReveal";
@@ -56,6 +57,18 @@ const partners = [
  * screen only the middle slice of the box is on screen at all — at 2560 that is
  * the middle 47% of it, and a tag drawn at the frame's radius was cut in half by
  * the section's own edge.
+ *
+ * Measured off the frame, the three sit at 72.3/23.8, 85.1/60.3 and 44.7/67.8 of
+ * that box: one upper right, one out on the right flank, one low and left. That
+ * triangle is the arrangement — the graph reads as having nodes on three sides
+ * rather than a list down one edge — so it is what the offsets below keep.
+ *
+ * The two on the right are pulled in from the frame's radius, as above. The only
+ * other change is the gap between them. The frame has them 7.5% apart, which is
+ * 81px on its 1086 box and clears a 32px chip easily; this box is 272px on a
+ * small phone, where the same 7.5% is 20px and two 30px chips overlap by 11.
+ * Opening that pair to 15% is the least that clears at every width, and it keeps
+ * both on the flank they were drawn on.
  */
 const tags = [
   {
@@ -66,12 +79,12 @@ const tags = [
   {
     key: "credentials",
     label: "platform.tags.credentials",
-    position: "left-[71%] top-[60%]",
+    position: "left-[71%] top-[57%]",
   },
   {
     key: "pentesting",
     label: "platform.tags.pentesting",
-    position: "left-[44%] top-[67%]",
+    position: "left-[44%] top-[72%]",
   },
 ] as const;
 
@@ -151,22 +164,21 @@ export function PlatformShowcase() {
             <span
               key={tag.key}
               data-testid={`platform-tag-${tag.key}`}
-              className={clsx(
-                // A wrapped capability tag reads as a broken label, so they
-                // stay on one line and sit far enough inside the graphic that
-                // the section's clipped edges never cut one in half.
-                //
-                // Same chip as the agent alerts over the skyline — the frame
-                // draws both from its "Workflows" component, and they had
-                // drifted into two different chips here.
-                "bg-lavender text-indigo-deep absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-[0.3125rem] rounded-md border border-[#6b728033] py-2.5 pr-3 pl-2 text-sm leading-5 font-medium whitespace-nowrap shadow-[0_0.0625rem_0.0625rem_rgba(74,86,99,0.1),0_0.375rem_0.4375rem_rgba(74,86,99,0.08)]",
-                tag.position,
+              /*
+                A wrapped capability tag reads as a broken label, so they stay
+                on one line and sit far enough inside the graphic that the
+                section's clipped edges never cut one in half. Same chip as the
+                agent alerts over the skyline — the frame draws both from its
+                "Workflows" component.
+              */
+              className={chipClass(
+                clsx(
+                  "absolute inline-flex -translate-x-1/2 -translate-y-1/2 whitespace-nowrap",
+                  tag.position,
+                ),
               )}
             >
-              <span
-                className="bg-indigo-deep size-2 shrink-0"
-                aria-hidden="true"
-              />
+              <span className={chipMarkerClass} aria-hidden="true" />
               {t(tag.label)}
             </span>
           ))}

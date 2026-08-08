@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
+import { chipClass, chipMarkerClass } from "@/components/common/chipClass";
 import { sectionIds, site } from "@/config/site";
 
 /**
@@ -48,15 +49,7 @@ const alerts = [
  * `hidden`, and Tailwind emits that rule ahead of the display utilities, so an
  * `inline-flex` baked in here would beat it and paint both sets at once.
  */
-const alertClassName =
-  "bg-lavender text-indigo-deep items-center gap-[0.3125rem] rounded-md border border-[#6b728033] py-2.5 pr-3 pl-2 text-sm leading-5 font-medium shadow-[0_0.0625rem_0.0625rem_rgba(74,86,99,0.1),0_0.375rem_0.4375rem_rgba(74,86,99,0.08)] sm:text-base";
-
-/*
- * The marker inside each alert. The frame draws it as a plain 8px square in
- * `accent` — not a dot, and not in the page colour: `ink-deep` on lavender read
- * as a hole punched in the chip.
- */
-const alertMarkerClassName = "bg-indigo-deep size-2 shrink-0";
+const alertClassName = chipClass();
 
 /**
  * The manifesto section: oversized mono headline over the skyline photograph,
@@ -170,7 +163,7 @@ export function AutonomousAgents() {
               data-testid={`agents-alert-compact-${alert.key}`}
               className={clsx(alertClassName, "inline-flex")}
             >
-              <span className={alertMarkerClassName} aria-hidden="true" />
+              <span className={chipMarkerClass} aria-hidden="true" />
               {t(alert.label)}
             </li>
           ))}
@@ -189,7 +182,7 @@ export function AutonomousAgents() {
             className={clsx("flex flex-col items-start", alert.stagger)}
           >
             <span className={clsx(alertClassName, "inline-flex")}>
-              <span className={alertMarkerClassName} aria-hidden="true" />
+              <span className={chipMarkerClass} aria-hidden="true" />
               {t(alert.label)}
             </span>
 

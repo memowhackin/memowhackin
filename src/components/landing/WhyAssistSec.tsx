@@ -106,7 +106,13 @@ export function WhyAssistSec() {
     <SectionShell
       data-testid="why-assistsec"
       className="from-lavender via-indigo to-ink bg-gradient-to-b from-0% via-35% to-90%"
-      innerClassName="flex flex-col items-center gap-12 py-16 sm:py-20 lg:gap-16 lg:py-24"
+      /*
+        The page's section rhythm is 16/24/28, which services, the report block
+        and the blog all run. This section was on 16/20/24 — 96px of air at a
+        desktop width where its neighbours have 112 — so the run through the
+        middle of the page tightened for one section and then opened again.
+      */
+      innerClassName="flex flex-col items-center gap-12 py-16 sm:py-24 lg:gap-16 lg:py-28"
       /*
        * The heading sits at the top of the section, which is where the gradient
        * is at its lightest, and light type on it measured 2.4:1 on a phone —
@@ -152,9 +158,14 @@ export function WhyAssistSec() {
           aria-hidden="true"
         />
 
+        {/*
+          The same size as every other in-page call to action. At `sm` this one
+          came out 126×41 in 14px type against the 148×48 in 16px that the
+          skyline, the report and the closing block all use — the one primary
+          action on the page that looked like a secondary one.
+        */}
         <BrandButton
           href={site.bookDemoUrl}
-          size="sm"
           data-testid="why-book-demo"
           className="relative"
         >

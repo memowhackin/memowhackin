@@ -337,11 +337,22 @@ export function Hero() {
         />
 
         <div className="relative mx-auto w-full max-w-[91rem] px-6 sm:px-10 lg:px-16 2xl:px-0">
+          {/*
+            This is the page's largest contentful paint on every viewport, and
+            the only image above the fold that is not decoration. It is left
+            eager on purpose — the hints are the other half of that: the fetch
+            goes out at high priority rather than at the default "low" the
+            preload scanner assigns an image it has not laid out yet, and the
+            decode is handed off the main thread so a 3076px-wide asset cannot
+            block the first frame of the headline beside it.
+          */}
           <img
             src="/assets/hero-dashboard.webp"
             alt={t("hero.dashboardAlt")}
             width={3076}
             height={1230}
+            fetchPriority="high"
+            decoding="async"
             className="border-indigo-deep/70 mx-auto block w-full rounded-t-2xl border border-b-0 shadow-2xl"
           />
         </div>
