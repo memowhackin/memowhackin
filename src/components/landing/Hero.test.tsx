@@ -19,8 +19,10 @@ describe("Hero", () => {
   it("renders the headline and the demo call to action", () => {
     renderHero();
 
+    // The hyphen in "AI‑assisted" is U+2011, so the headline cannot break the
+    // compound across two lines and leave a hyphen hanging at the end of one.
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Cybersecurity with AI-assisted pentesting.",
+      "Cybersecurity with AI‑assisted pentesting.",
     );
 
     const cta = screen.getByTestId("hero-book-demo");
@@ -33,7 +35,7 @@ describe("Hero", () => {
     renderHero();
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Cyberveiligheid met AI-assisted pentesting.",
+      "Cyberveiligheid met AI‑assisted pentesting.",
     );
 
     await i18n.changeLanguage("en");

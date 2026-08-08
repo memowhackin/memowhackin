@@ -88,7 +88,14 @@ export function brandButtonClass({
   const sweep = variant === "sweep";
 
   return clsx(
-    "focus-visible:outline-lavender inline-flex max-w-full items-center justify-center gap-2 text-center font-medium text-balance transition focus-visible:outline-2 focus-visible:outline-offset-4",
+    /*
+     * Named properties rather than a bare `transition`, which in Tailwind means
+     * around twenty of them — `display`, `overlay`, `pointer-events` and
+     * `content-visibility` included. These four are what the variants actually
+     * change: fill and edge on `solid`, `dark` and `ghost`, brightness on
+     * `sweep`, and the ring on both sweep sizes.
+     */
+    "focus-visible:outline-lavender inline-flex max-w-full items-center justify-center gap-2 text-center font-medium text-balance transition-[color,background-color,border-color,box-shadow,filter] focus-visible:outline-2 focus-visible:outline-offset-4",
     variants[variant],
     sweep ? sweepSizes[size] : sizes[size],
     sweep && sweepRings[size],

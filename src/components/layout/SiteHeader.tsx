@@ -186,7 +186,7 @@ export function SiteHeader() {
           target="_blank"
           rel="noreferrer noopener"
           data-testid="announcement-bar"
-          className="brand-sweep flex w-full items-center justify-center gap-2 px-4 py-2 text-center transition hover:brightness-110 pointer-coarse:min-h-11"
+          className="brand-sweep flex w-full items-center justify-center gap-2 px-4 py-2 text-center transition-[filter] hover:brightness-110 pointer-coarse:min-h-11"
         >
           {/*
             The badge is the first thing to go on a narrow viewport: the sentence
@@ -229,7 +229,7 @@ export function SiteHeader() {
                   aria-current={current ? "true" : undefined}
                   data-testid={`nav-${item.key}`}
                   className={clsx(
-                    "decoration-lavender pointer-coarse:min-h-11 relative inline-flex items-center py-2 text-base underline-offset-8 transition hover:underline",
+                    "decoration-lavender pointer-coarse:min-h-11 relative inline-flex items-center py-2 text-base underline-offset-8 transition-colors hover:underline",
                     current
                       ? "text-lavender"
                       : "hover:text-lavender text-white",
@@ -256,7 +256,7 @@ export function SiteHeader() {
               target="_blank"
               rel="noreferrer noopener"
               data-testid="header-login"
-              className="hover:text-lavender hidden items-center text-base whitespace-nowrap text-white transition lg:inline-flex pointer-coarse:min-h-11"
+              className="hover:text-lavender hidden items-center text-base whitespace-nowrap text-white transition-colors lg:inline-flex pointer-coarse:min-h-11"
             >
               {t("nav.login")}
             </a>
@@ -288,7 +288,7 @@ export function SiteHeader() {
               aria-controls="mobile-menu"
               aria-label={menuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
               data-testid="mobile-menu-toggle"
-              className="border-indigo-deep rounded-selector text-mist hover:border-lavender/60 hover:text-lavender active:bg-indigo-deep/60 inline-flex size-11 shrink-0 items-center justify-center border transition lg:hidden"
+              className="border-indigo-deep rounded-selector text-mist hover:border-lavender/60 hover:text-lavender active:bg-indigo-deep/60 inline-flex size-11 shrink-0 items-center justify-center border transition-colors lg:hidden"
             >
               {menuOpen ? (
                 <X className="size-5" aria-hidden="true" />
@@ -340,7 +340,7 @@ export function SiteHeader() {
                 }}
                 data-testid={`mobile-nav-${item.key}`}
                 className={clsx(
-                  "hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition",
+                  "hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-colors",
                   current ? "bg-indigo-deep/30 text-lavender" : "text-mist",
                 )}
               >
@@ -354,7 +354,7 @@ export function SiteHeader() {
             target="_blank"
             rel="noreferrer noopener"
             data-testid="mobile-login"
-            className="text-mist hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition"
+            className="text-mist hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-colors"
           >
             {t("nav.login")}
           </a>

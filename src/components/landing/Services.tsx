@@ -95,11 +95,11 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
         <a
           href={`#${sectionIds.demonstrate}`}
           data-testid={`service-${service.key}-explore`}
-          className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition pointer-coarse:min-h-11"
+          className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition-colors pointer-coarse:min-h-11"
         >
           {t("services.exploreMore")}
           <ArrowUpRight
-            className="size-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="size-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden="true"
           />
         </a>
@@ -120,11 +120,18 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
           height={586}
           loading="lazy"
           /*
-           * These are product screenshots: anchoring the crop to the top
-           * left keeps the panel heading and the chart in frame at every
-           * width, where a centred crop showed an unreadable slice.
+           * The screenshot keeps its own 720×586 and is never cropped. It was
+           * being forced into three ratios on the way up — 4/3, then 16/10,
+           * then 16/9 — and `object-cover` paid for each of them out of the
+           * bottom of the picture: at `lg` that is the last 31% of it, which is
+           * where these panels keep their axis labels. The first card was
+           * cutting "Persistence" in half.
+           *
+           * Nothing needs the rows to be a fixed height — the grid centres the
+           * copy against whatever the picture comes to — so there is nothing to
+           * buy with the crop.
            */
-          className="aspect-[4/3] w-full object-cover object-left-top sm:aspect-[16/10] lg:aspect-[16/9]"
+          className="block h-auto w-full"
         />
       </div>
     </li>

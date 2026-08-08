@@ -130,6 +130,25 @@
   --text-service--line-height: 1.2;
   --text-service--letter-spacing: -0.02em;
 
+  /*
+   * Motion. Two decisions, applied everywhere rather than per component.
+   *
+   * Easing: everything decelerates. Tailwind's stock curve is `ease-in-out`,
+   * which is the right shape for something travelling between two places and
+   * the wrong one for feedback — a 150ms hover that eases *in* spends its first
+   * frames barely moving, which is what made the hovers here feel soft rather
+   * than crisp. The page was already split between the two curves: the cards,
+   * the menu and the reveal had been given `ease-out` by hand, and the other
+   * forty-odd elements kept the default. This makes `ease-out` the default so
+   * they agree.
+   *
+   * Duration: three steps, and no others. 150ms (the Tailwind default, left
+   * alone) for hover and focus feedback; 300ms for a state that changes shape —
+   * the header taking its background, the mobile panel opening, a card lifting;
+   * 500ms for the footer watermark, which is a mood rather than a response.
+   */
+  --default-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+
   /* The brand sweep used on buttons, rules and section washes. */
   --brand-sweep: linear-gradient(
     109.47deg,

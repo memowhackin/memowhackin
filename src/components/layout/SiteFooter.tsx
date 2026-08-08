@@ -334,7 +334,7 @@ export function SiteFooter() {
                        * alone it also applied to a 1024px tablet, where these
                        * links are thumbed and 36px is too small to hit.
                        */
-                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:pointer-fine:min-h-9"
+                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition-colors lg:pointer-fine:min-h-9"
                     >
                       {t(link.label)}
                     </a>
@@ -360,7 +360,7 @@ export function SiteFooter() {
                        * alone it also applied to a 1024px tablet, where these
                        * links are thumbed and 36px is too small to hit.
                        */
-                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:pointer-fine:min-h-9"
+                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition-colors lg:pointer-fine:min-h-9"
                     >
                       {label}
                     </a>
@@ -390,7 +390,7 @@ export function SiteFooter() {
               href={`${site.scannerBaseUrl}/terms`}
               target="_blank"
               rel="noreferrer noopener"
-              className="hover:text-lavender inline-flex min-h-9 items-center transition pointer-coarse:min-h-11"
+              className="hover:text-lavender inline-flex min-h-9 items-center transition-colors pointer-coarse:min-h-11"
               data-testid="footer-terms"
             >
               {t("footer.terms")}
@@ -400,7 +400,7 @@ export function SiteFooter() {
               href={`${site.scannerBaseUrl}/privacy`}
               target="_blank"
               rel="noreferrer noopener"
-              className="hover:text-lavender inline-flex min-h-9 items-center transition pointer-coarse:min-h-11"
+              className="hover:text-lavender inline-flex min-h-9 items-center transition-colors pointer-coarse:min-h-11"
               data-testid="footer-privacy"
             >
               {t("footer.privacy")}

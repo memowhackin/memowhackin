@@ -27,7 +27,7 @@ function BlogCard({ post, index }: { post: string; index: number }) {
       style={revealStyle}
       data-testid={`blog-post-${post}`}
       className={clsx(
-        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
+        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
         revealClassName,
       )}
     >
@@ -59,11 +59,11 @@ function BlogCard({ post, index }: { post: string; index: number }) {
           target="_blank"
           rel="noreferrer noopener"
           data-testid={`blog-post-${post}-link`}
-          className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition before:absolute before:inset-0 before:content-['']"
+          className="text-mist hover:text-lavender group inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition-colors before:absolute before:inset-0 before:content-['']"
         >
           {t("blog.viewDetails")}
           <ArrowUpRight
-            className="size-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="size-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden="true"
           />
         </a>
@@ -93,11 +93,11 @@ export function BlogHighlights() {
           target="_blank"
           rel="noreferrer noopener"
           data-testid="blog-view-all"
-          className="text-mist hover:text-lavender group inline-flex items-center gap-2 py-1 text-base font-medium transition pointer-coarse:min-h-11"
+          className="text-mist hover:text-lavender group inline-flex items-center gap-2 py-1 text-base font-medium transition-colors pointer-coarse:min-h-11"
         >
           {t("blog.viewAll")}
           <ArrowUpRight
-            className="size-5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="size-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden="true"
           />
         </a>
@@ -118,7 +118,7 @@ export function BlogHighlights() {
             target="_blank"
             rel="noreferrer noopener"
             data-testid="blog-linkedin"
-            className="font-display text-lavender hover:text-lavender-soft transition"
+            className="font-display text-lavender hover:text-lavender-soft transition-colors"
           >
             {t("blog.linkedIn")}
           </a>

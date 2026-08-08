@@ -44,7 +44,7 @@ export function LanguageSwitcher({
             title={t(`nav.languageNames.${lng}`)}
             data-testid={`${testId}-${lng}`}
             className={clsx(
-              "rounded-selector pointer-coarse:min-h-11 inline-flex min-h-9 min-w-11 items-center justify-center px-3 text-xs font-medium uppercase transition",
+              "rounded-selector pointer-coarse:min-h-11 inline-flex min-h-9 min-w-11 items-center justify-center px-3 text-xs font-medium uppercase transition-colors",
               active
                 ? "bg-lavender text-ink-deep"
                 : "text-mist/70 hover:text-mist hover:bg-indigo-deep/60",

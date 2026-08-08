@@ -22,19 +22,29 @@ interface SectionStripesProps {
  */
 const bands: Record<
   "dark" | "bright",
-  { src: string; width: number; height: number; surround: string }
+  {
+    src: string;
+    width: number;
+    height: number;
+    surround: string;
+    heightClass: string;
+  }
 > = {
   dark: {
     src: "/assets/section-stripes.webp",
     width: 3840,
     height: 376,
     surround: "bg-ink-deep",
+    /* 376/3840 of the width, which is the export's own ratio. */
+    heightClass: "h-[clamp(2.5rem,9.79vw,11.75rem)]",
   },
   bright: {
     src: "/assets/section-stripes-bright.webp",
     width: 1920,
     height: 129,
     surround: "bg-ink",
+    /* 129/1920. Thinner than the dark band because the artwork is. */
+    heightClass: "h-[clamp(1.7rem,6.72vw,8.06rem)]",
   },
 };
 
@@ -65,17 +75,24 @@ export function SectionStripes({
         height={band.height}
         loading="lazy"
         /*
-         * Cover, not fill: stretching two differently proportioned exports into
-         * one strip height skewed their bars to different angles. At this
-         * height the dark export's 3840×376 matches its box exactly, so nothing
-         * is cropped either.
+         * Each band is held at its own ratio. One height was being used for
+         * both, and it was the dark export's — 376/3840 is 9.79% of the width,
+         * which is where the 9.8vw came from. The bright export is 129/1920,
+         * a third shallower, so that height magnified it about 1.5× and
+         * `object-cover` then took a third of its width off the sides. Its bars
+         * came out heavy and blunt, and the band read as banding rather than as
+         * the run-in it is. At its own ratio nothing is scaled or cropped.
+         *
+         * Cover rather than fill is still what handles the cap at the top of
+         * each clamp: stretching an export to a height its artwork was not
+         * drawn for skews the bars to a different angle.
          *
          * No mask. The band is a ramp of bars that start sparse and close up
          * towards the section below, so the artwork already is the fade —
          * feathering the edges cut off the dense end just where it should meet
          * the next section, which is what left a smudge rather than a run-in.
          */
-        className="h-[clamp(2.5rem,9.8vw,11.75rem)] w-full object-cover"
+        className={clsx("w-full object-cover", band.heightClass)}
       />
     </div>
   );
