@@ -150,11 +150,16 @@ export function Services() {
       className="bg-ink"
       innerClassName="flex flex-col items-center gap-10 py-16 sm:py-24 lg:gap-14 lg:py-28"
     >
-      <span className="border-indigo-deep bg-ink-deep text-mist rounded-selector inline-flex items-center gap-2 border px-4 py-2 text-sm font-medium">
+      {/*
+        The badge is the section's heading, not decoration: without it the three
+        service titles were `h3`s hanging under the skyline's `h2`, so anyone
+        moving by headings met a level with nothing above it.
+      */}
+      <h2 className="border-indigo-deep bg-ink-deep text-mist rounded-selector inline-flex items-center gap-2 border px-4 py-2 text-sm font-medium">
         <LogoMark className="text-lavender size-4" />
         {t("services.badge")}
         <ChevronRight className="size-4" aria-hidden="true" />
-      </span>
+      </h2>
 
       <ul className="relative flex w-full flex-col">
         {services.map((service) => (

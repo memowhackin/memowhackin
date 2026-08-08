@@ -6,11 +6,15 @@
  * serves) carrying the design until then. Geist Mono is the real thing.
  */
 /*
+ * The Google Fonts stylesheet is linked from index.html rather than imported
+ * here. An `@import` of a remote sheet cannot be discovered until this file has
+ * been downloaded and parsed, which serialises two round trips before any text
+ * can paint; the <link>, with its preconnects, starts both at once.
+ *
  * Weights are exactly the ones the site paints: Geist Mono 400 (display
  * headings) and 500 (eyebrow labels); Inter 400/500/600 for body, medium and
  * the announcement badge, plus 700 for the error and not-found headings.
  */
-@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 /*

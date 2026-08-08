@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { BrandButton } from "@/components/common/BrandButton";
+import { useMediaQuery } from "@/components/common/useMediaQuery";
 import { site } from "@/config/site";
 
 /**
@@ -9,6 +10,9 @@ import { site } from "@/config/site";
  */
 export function Hero() {
   const { t } = useTranslation();
+  const showBanner = useMediaQuery(
+    "(min-width: 48rem) and (prefers-reduced-motion: no-preference)",
+  );
 
   return (
     <section
@@ -16,17 +20,25 @@ export function Hero() {
       data-testid="hero"
       className="bg-ink-deep relative isolate w-full overflow-hidden"
     >
-      {/* Banner video, exported from the Figma file, with the grid overlay on top. */}
-      <video
-        className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-[70%] w-full object-cover opacity-40"
-        src="/assets/hero-banner.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-hidden="true"
-        tabIndex={-1}
-      />
+      {/*
+        Banner video, exported from the Figma file, with the grid overlay on
+        top. At 1.7MB it is three quarters of the page's asset weight for a
+        decorative layer sitting at 40% opacity, so it is never fetched on a
+        phone or for a reader who has asked for reduced motion — CSS alone
+        would hide it after paying for the download.
+      */}
+      {showBanner && (
+        <video
+          className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-[70%] w-full object-cover opacity-40"
+          src="/assets/hero-banner.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+      )}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[70%] opacity-40"
         aria-hidden="true"

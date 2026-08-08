@@ -4,35 +4,34 @@ import { BrandButton } from "@/components/common/BrandButton";
 import { sectionIds, site } from "@/config/site";
 
 /**
- * Agent alerts pinned over the skyline. Positions are percentages of the band
- * between the copy and the foot of the city, so they hold as the section grows
- * and shrinks. `drop` is the connector tick that pins each alert to the roof
- * below it (Line 589-592 in the frame).
+ * Agent alerts strung over the city, below the copy.
+ *
+ * They are laid out as a distributed row rather than pinned at percentage
+ * coordinates. Absolute placement had to dodge both the headline and the
+ * centred call to action, and the gaps it had to thread moved with every
+ * breakpoint — at some widths a pin landed on the copy, at others on the unlit
+ * base of the photograph. `stagger` keeps the scattered feel of the frame;
+ * `drop` is the tick pinning each alert to the roof beneath it.
  */
 const alerts = [
   {
-    key: "attack",
-    label: "agents.alerts.attack",
-    position: "left-[4%] top-[26%]",
+    key: "apiTesting",
+    label: "agents.alerts.apiTesting",
+    stagger: "mt-0",
     drop: "h-10",
   },
   {
-    key: "apiTesting",
-    label: "agents.alerts.apiTesting",
-    position: "left-[27%] top-[4%]",
-    drop: "h-16",
+    key: "attack",
+    label: "agents.alerts.attack",
+    stagger: "mt-10",
+    drop: "h-14",
   },
-  {
-    key: "files",
-    label: "agents.alerts.files",
-    position: "left-[52%] top-[12%]",
-    drop: "h-12",
-  },
+  { key: "files", label: "agents.alerts.files", stagger: "mt-3", drop: "h-12" },
   {
     key: "credentials",
     label: "agents.alerts.credentials",
-    position: "left-[70%] top-[20%]",
-    drop: "h-14",
+    stagger: "mt-12",
+    drop: "h-10",
   },
 ] as const;
 
@@ -153,21 +152,16 @@ export function AutonomousAgents() {
         </ul>
       </div>
 
-      {/* The band of sky the alerts are pinned into. */}
-      {/*
-        The band only has to hold the pinned alerts, which start at `lg`. Below
-        that it is just sky, so it keeps a slim margin under the copy instead of
-        a screen of empty city.
-      */}
-      <div className="relative min-h-16 flex-1 sm:min-h-28 lg:min-h-60">
+      {/* The alerts strung across the rooftops, under the copy. */}
+      <div
+        className="mx-auto hidden w-full max-w-[100rem] items-start justify-between px-10 pt-4 lg:flex xl:px-16"
+        aria-hidden="true"
+      >
         {alerts.map((alert) => (
           <span
             key={alert.key}
             data-testid={`agents-alert-${alert.key}`}
-            className={clsx(
-              "absolute hidden flex-col items-start lg:flex",
-              alert.position,
-            )}
+            className={clsx("flex flex-col items-start", alert.stagger)}
           >
             <span className={clsx(alertClassName, "inline-flex")}>
               <span
@@ -178,21 +172,22 @@ export function AutonomousAgents() {
             </span>
 
             {/*
-              A short tick, not a full drop to the floor: it reads as the alert
-              being pinned to the roof just below it. Run to the bottom of the
-              band instead and it becomes a long line trailing off into the dark
-              base of the photograph.
+              A short tick, not a drop to the floor: it reads as the alert being
+              pinned to the roof just below it. Run it to the bottom of the
+              section and it becomes a long line trailing off into the dark.
             */}
             <span
               className={clsx(
                 "border-lavender/50 ml-2 w-0 border-l border-dotted",
                 alert.drop,
               )}
-              aria-hidden="true"
             />
           </span>
         ))}
       </div>
+
+      {/* Keeps a margin of city under the alerts. */}
+      <div className="min-h-12 flex-1 sm:min-h-20 lg:min-h-24" />
     </section>
   );
 }
