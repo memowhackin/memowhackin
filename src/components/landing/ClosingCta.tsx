@@ -7,39 +7,25 @@ import { site } from "@/config/site";
 /**
  * Final conversion block, with the two robotic hands reaching in from the sides.
  *
- * Each hand hangs off its own fingertip rather than off the top of its box, so
- * both tips come to rest on the same line — one headline line under the top of
- * "Interested in a pentest?" — and point into the headline from either side:
- * the left hand up and to the right, the right hand up and to the left. Before
- * this the right hand pointed at the button instead, a whole block lower than
- * the words it is meant to be indicating.
+ * Both are placed where the frame places them, measured off its 1920 canvas.
+ * The headline starts at y=8875 there, which is where the section's top padding
+ * puts it here, the headline being the first thing in the column — so both
+ * offsets are written against that padding, as the same fractions of the
+ * viewport that the hands' own widths are.
  *
- * The tip sits at a fixed spot inside each export (11.5% down the left hand,
- * 45.1% down the right one) and the exports are sized in vw, so the lift that
- * puts the tip on that line is written in vw as well. What is left over —
- * `<section top padding> + 3rem`, 3rem being one line of the headline — is
- * where the tips land, at every width, since the headline is the first thing in
- * the column and therefore starts at the section's top padding.
+ * - the left hand's box starts 4px under the headline (0.21vw), flush left, and
+ *   its fingertip comes to rest just outside the copy pointing up into it;
+ * - the right hand hangs 320px *above* the headline. Its artwork begins 37.2%
+ *   down its own box, so the export is cropped to that band and the offset
+ *   drops to 4.98vw — which lands the fingertip 48px above the top of
+ *   "Interested in a pentest?", pointing down onto the words. It is not level
+ *   with the left hand and is not meant to be: the frame has the two reaching
+ *   past each other, one from under the line and one from over it.
  */
 const HAND_TIP_LINE = {
-  left: "lg:top-[calc(11rem-3.25vw)] xl:top-[calc(13rem-3.25vw)]",
-  right: "lg:top-[calc(11rem-14.19vw)] xl:top-[calc(13rem-14.19vw)]",
+  left: "lg:top-[calc(8rem+0.21vw)] xl:top-[calc(10rem+0.21vw)]",
+  right: "lg:top-[calc(8rem-4.98vw)] xl:top-[calc(10rem-4.98vw)]",
 } as const;
-
-/*
- * Hanging the hands off their tips leaves the rest of each hand below the
- * headline, and the left one — wrist and forearm included — is the taller of
- * the two: it runs 26.82vw past its own top, so the last of it is 23.57vw below
- * the tip line. On a wide viewport that is more hand than the copy alone gives
- * the section height for, and the overflow that keeps the images off the footer
- * was cutting the forearm off flat.
- *
- * The section is floored at the depth the hand actually needs instead. It only
- * bites past ~1600px, where the vw-scaled hands outgrow the fixed-size copy;
- * narrower than that the copy is the taller of the two and the floor is slack.
- */
-const HAND_CLEARANCE =
-  "lg:min-h-[calc(11rem+23.57vw)] xl:min-h-[calc(13rem+23.57vw)]";
 
 /*
  * The hands are pinned to the section's edges rather than to a percentage
@@ -58,16 +44,21 @@ export function ClosingCta() {
   return (
     <section
       data-testid="closing-cta"
-      className={clsx(
-        "bg-ink relative isolate w-full overflow-hidden",
-        HAND_CLEARANCE,
-      )}
+      className="bg-ink relative isolate w-full"
     >
       {/*
         Both exports are opaque, with the `ink` page colour baked into their
         background — which is why they read as floating on this section and
         nowhere else. Below `lg` there is no room for them beside the copy, and
         a decorative hand is the right thing to drop.
+
+        Nothing clips this section. In the frame the hands run past the block on
+        both sides — the left forearm crosses into the footer, the right wrist
+        leaves through the top — and clipping them to the block was what cut the
+        forearm off flat. What keeps the overflow harmless is paint order: the
+        footer draws after this section and its own content lands on top of the
+        hands, so the arm passes behind the partner row rather than over it, and
+        the section above is the same `ink` these exports are cut from.
       */}
       <img
         src="/assets/robot-hand-left.webp"
@@ -76,11 +67,7 @@ export function ClosingCta() {
         height={1086}
         loading="lazy"
         aria-hidden="true"
-        /*
-         * 580 of the frame's 1920, flush to the left edge. Its index finger
-         * ends 11.5% down the export, so 3.25vw (11.5% of the 28.28vw the
-         * export stands at this width) is taken off the tip line to place it.
-         */
+        /* 580 of the frame's 1920, flush to the left edge. */
         className={clsx(
           "pointer-events-none absolute left-0 -z-10 hidden w-[30.21%] lg:block",
           HAND_TIP_LINE.left,
@@ -90,7 +77,7 @@ export function ClosingCta() {
         src="/assets/robot-hand-right.webp"
         alt=""
         width={1306}
-        height={1209}
+        height={457}
         loading="lazy"
         aria-hidden="true"
         /*
@@ -98,10 +85,10 @@ export function ClosingCta() {
          * wide running off the canvas; the export is the part of it that is on
          * the page, which is why the two hands are not the same width here.
          *
-         * This one reaches with a level finger halfway down its own export —
-         * 45.1% — so it lifts by 14.19vw, far more than the left hand, and its
-         * box starts above the section on a wide viewport. Only background is
-         * up there; the hand itself begins 37.2% down.
+         * The export is also cut down to the band the artwork occupies — it
+         * used to carry 37% empty ground above the hand and 25% below. That
+         * ground is opaque, and with nothing clipping this section any more it
+         * would have covered the end of the blog copy overhead.
          */
         className={clsx(
           "pointer-events-none absolute right-0 -z-10 hidden w-[34.01%] lg:block",

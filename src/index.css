@@ -135,41 +135,6 @@
   );
 
   /*
-   * Hero backdrop. The frame draws it ("Moodboard - 2 → Banner Bg → Group 9")
-   * as a bank of vertical light columns — 99px wide on a 75px pitch, so they
-   * overlap — sitting behind a 90px blur over a near-black ground, with the
-   * brand gradient tinting them and a second, mirrored copy laid over the top.
-   *
-   * Two layers carry it here: one drifts, one sways against it, so the light
-   * never repeats on a fixed beat. Both are pure paint, which is what lets this
-   * replace the 1.7MB banner video the other frame's backdrop needed.
-   */
-  --animate-beam-drift: beam-drift 32s ease-in-out infinite alternate;
-  --animate-beam-sway: beam-sway 21s ease-in-out infinite alternate-reverse;
-
-  @keyframes beam-drift {
-    from {
-      opacity: 0.5;
-      transform: translate3d(-6%, 0, 0);
-    }
-    to {
-      opacity: 0.95;
-      transform: translate3d(6%, 0, 0);
-    }
-  }
-
-  @keyframes beam-sway {
-    from {
-      opacity: 0.9;
-      transform: translate3d(5%, 0, 0) scaleY(1.15);
-    }
-    to {
-      opacity: 0.35;
-      transform: translate3d(-7%, 0, 0) scaleY(0.9);
-    }
-  }
-
-  /*
    * Scroll reveal. This is an animation rather than a transition so that the
    * elements it decorates keep their own `transition` for hover and focus: a
    * card that is both revealed and liftable would otherwise have to run its
@@ -267,39 +232,6 @@ body {
 /* Vertical variant, used by the header and nav call-to-action buttons. */
 @utility brand-sweep-y {
   background-image: var(--brand-sweep-vertical);
-}
-
-/*
- * The columns of light behind the hero. One period is the frame's 150px pair of
- * bars: an indigo edge rising to the bright core and falling away through
- * lavender, with the gap between them left to the ground colour. Blurred hard by
- * the elements that use it, this is what reads as a shaft rather than a stripe.
- */
-@utility hero-beams {
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0,
-    transparent 2.5rem,
-    color-mix(in oklab, var(--color-indigo) 55%, transparent) 4rem,
-    color-mix(in oklab, var(--color-indigo-bright) 78%, transparent) 6rem,
-    color-mix(in oklab, var(--color-lavender) 32%, transparent) 7.5rem,
-    transparent 9.375rem
-  );
-}
-
-/*
- * The seams between the frame's overlapping bars — 99px wide on a 75px pitch,
- * so a 24px sliver of every bar sits over its neighbour. Unblurred, laid on top
- * of the beams, it is the fine vertical banding the backdrop is read by.
- */
-@utility hero-banding {
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgb(255 255 255 / 0.045) 0,
-    rgb(255 255 255 / 0.045) 1.5rem,
-    transparent 1.5rem,
-    transparent 4.6875rem
-  );
 }
 
 /* Gradient hairline used between sections and under the footer links. */

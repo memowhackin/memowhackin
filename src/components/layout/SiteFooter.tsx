@@ -137,8 +137,15 @@ export function SiteFooter() {
   const { t } = useTranslation();
 
   return (
+    /*
+     * No background of its own. The page already stands on `ink`, and the
+     * closing block's robot hands run down into the top of this footer the way
+     * the frame draws them — a background here would paint over the forearm.
+     * Without one the hands stay visible and the footer's own content, drawn
+     * after them, still lands on top.
+     */
     <footer
-      className="bg-ink relative isolate overflow-hidden pt-16 lg:pt-20"
+      className="relative isolate overflow-hidden pt-16 lg:pt-20"
       data-testid="site-footer"
     >
       {/* Soft lavender glow rising from the bottom edge, as in the design. */}

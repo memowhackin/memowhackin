@@ -1,6 +1,80 @@
+import type { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
+import { useMediaQuery } from "@/components/common/useMediaQuery";
 import { site } from "@/config/site";
+
+/*
+ * The backdrop footage only earns its bytes where it will actually be seen
+ * moving: a phone gets the poster frame, and so does anyone who has asked for
+ * reduced motion — a looping video being exactly what that preference is about.
+ * Deciding here rather than in CSS means the file is never fetched in those
+ * cases instead of being fetched and then hidden.
+ */
+const BACKDROP_PLAYS =
+  "(min-width: 48rem) and (prefers-reduced-motion: no-preference)";
+
+/*
+ * The frame's backdrop ("Moodboard - 2 → Banner Bg") masks every one of its
+ * layers with the same two shapes, both of them plain gradients once the
+ * exported vectors are read back:
+ *
+ * - the fade holds full strength down to y=690 of 1080 and is gone by the foot,
+ *   which is what carries the backdrop into the page colour behind the panel;
+ * - the vignette is the inverse of the usual one. It is empty in the middle and
+ *   reaches 0.8 at the edge, an ellipse 1881 by 726 about (960, 354). It is why
+ *   the bars and the shafts show along the sides and leave the centre — where
+ *   the headline goes — to the footage alone.
+ *
+ * The footage takes the fade only. Everything laid over it takes both.
+ */
+const BANNER_FADE =
+  "linear-gradient(to bottom, #000 0, #000 63.89%, transparent 100%)";
+
+const BANNER_VIGNETTE =
+  "radial-gradient(97.99% 67.22% at 50% 32.78%, transparent 0%, rgb(0 0 0 / 0.8) 100%)";
+
+const BANNER_INSET_MASK: CSSProperties = {
+  maskImage: `${BANNER_FADE}, ${BANNER_VIGNETTE}`,
+  maskComposite: "intersect",
+  WebkitMaskImage: `${BANNER_FADE}, ${BANNER_VIGNETTE}`,
+  WebkitMaskComposite: "source-in",
+};
+
+/*
+ * The recolour. Every layer of the frame's backdrop is orange artwork under a
+ * gradient set to `hue`, which keeps the artwork's light and its density and
+ * takes only its colour from the brand ramp — the frame's stops are this ramp.
+ * Tinting rather than grading is why nothing here has to match a hex.
+ */
+const TINT: CSSProperties = { background: "var(--brand-sweep-vertical)" };
+
+/** 2083x1172 at (-81, 0) on the frame's 1920x1080 banner. */
+const BANNER_FOOTAGE_BOX =
+  "absolute top-0 left-[-4.219%] h-[108.52%] w-[108.49%]";
+
+const BANNER_SHAFTS = [
+  { key: "a", src: "/assets/hero-shaft-a.webp", className: "" },
+  {
+    key: "b",
+    src: "/assets/hero-shaft-b.webp",
+    className: "mix-blend-soft-light",
+  },
+  {
+    key: "b-flipped",
+    src: "/assets/hero-shaft-b.webp",
+    className: "mix-blend-plus-lighter -scale-y-100 opacity-20",
+  },
+] as const;
+
+/*
+ * One bar: nothing for its first fifth, then white climbing to 0.28 by its
+ * right edge, which is the frame's bar fill read off the export. Written
+ * against a 150 tile — two bars — so the stops are 21/150 and 99/150.
+ */
+const BAR_RAMP =
+  "linear-gradient(90deg, rgb(255 255 255 / 0) 0, rgb(255 255 255 / 0) 14%, rgb(255 255 255 / 0.28) 66%, rgb(255 255 255 / 0) 66%)";
 
 /**
  * Opening statement: the blue shafted backdrop from the Figma frame, the
@@ -9,6 +83,7 @@ import { site } from "@/config/site";
  */
 export function Hero() {
   const { t } = useTranslation();
+  const backdropPlays = useMediaQuery(BACKDROP_PLAYS);
 
   return (
     <section
@@ -17,54 +92,128 @@ export function Hero() {
       className="bg-ink-deep relative isolate w-full overflow-hidden"
     >
       {/*
-        The backdrop the frame draws behind the hero: columns of blue light on a
-        near-black ground, blurred to 90px, with the fine banding of the
-        overlapping bars over the top and the whole thing falling away to
-        nothing at the edges.
+        The backdrop the frame draws behind the hero ("Moodboard - 2 → Banner
+        Bg"): slow smoke, the fine banding of the overlapping bars over the top,
+        and the whole thing falling away to nothing at the edges.
 
-        It is drawn rather than filmed. The other homepage frame's backdrop
-        arrived as a 1.7MB looping export — three quarters of the page's asset
-        weight for a decorative layer — which had to be withheld from phones and
-        from anyone asking for reduced motion to be affordable at all. This
-        costs nothing to fetch, so every viewport gets the design, and the
-        stylesheet's reduced-motion rule settles it on a still frame.
+        The footage is the frame's own — the layer sits there as
+        `12310771_1920_1080_24fps`, and it is orange. What turns it the blue of
+        this page is the gradient laid over it in `hue`, which keeps the
+        footage's light and its density and takes only its colour from the brand
+        ramp. Tinting rather than grading is the frame's own trick, and it is
+        why nothing here has to match a hex.
       */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-20 h-[70%] overflow-hidden"
+        className="pointer-events-none absolute inset-x-0 top-0 isolate -z-20 aspect-[1920/1080] min-h-[28rem] w-full overflow-hidden"
         aria-hidden="true"
-        style={{
-          maskImage:
-            "radial-gradient(85% 70% at 50% 38%, #000 0%, #000 45%, transparent 100%)",
-        }}
       >
         {/*
-          The two beam layers run against each other — one drifting right, one
-          swaying back and stretching — so the light never settles into a
-          repeat. They are inset past both edges by a quarter so neither drift
-          can pull a hard edge into view.
+          The footage, faded out over its bottom third by the frame's own
+          "Banner" mask. The poster under it is the footage's first frame, and
+          the loop returns to that frame, so the still and the moving version
+          are the same picture — which is what lets the still stand in wherever
+          the video is withheld.
         */}
-        <div className="hero-beams animate-beam-drift absolute -inset-x-1/4 inset-y-0 blur-[5.625rem]" />
-        <div className="hero-beams animate-beam-sway absolute -inset-x-1/4 inset-y-0 blur-[3.75rem]" />
-
-        {/* The bloom the frame puts behind the headline. */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 isolate"
+          style={{ maskImage: BANNER_FADE, WebkitMaskImage: BANNER_FADE }}
+        >
+          {/*
+            The frame does not lay the footage flush. It sits at 2083x1172 over
+            a 1920x1080 box — the same 8.5% over on both axes — pulled 81 left
+            and hung off the top edge, which is what puts the bright of the
+            plume where the frame puts it rather than a hand's width to the
+            left. Both the still and the video take the same box.
+          */}
+          <div
+            className={clsx(BANNER_FOOTAGE_BOX, "bg-cover bg-center")}
+            style={{
+              backgroundImage: "url('/assets/hero-motion-poster.webp')",
+            }}
+          />
+
+          {backdropPlays && (
+            <video
+              className={clsx(BANNER_FOOTAGE_BOX, "object-cover")}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster="/assets/hero-motion-poster.webp"
+              data-testid="hero-backdrop-video"
+            >
+              <source src="/assets/hero-motion.webm" type="video/webm" />
+              <source src="/assets/hero-motion.mp4" type="video/mp4" />
+            </video>
+          )}
+
+          <div className="absolute inset-0 mix-blend-hue" style={TINT} />
+        </div>
+
+        {/*
+          The two light shafts the frame lays over the footage, the second of
+          them twice: once in `soft-light`, then flipped and dropped to a fifth
+          in `plus-lighter`. Each is tinted on its own, as the frame tints it,
+          rather than the three being recoloured together at the end — the
+          blends read off the tinted layer, so tinting after them lands
+          somewhere else entirely.
+        */}
+        {BANNER_SHAFTS.map((shaft) => (
+          <div
+            key={shaft.key}
+            className={clsx("absolute inset-0 isolate", shaft.className)}
+            style={BANNER_INSET_MASK}
+          >
+            <img
+              src={shaft.src}
+              alt=""
+              width={1920}
+              height={1080}
+              loading="lazy"
+              className="absolute inset-0 size-full object-cover"
+            />
+            <div className="absolute inset-0 mix-blend-hue" style={TINT} />
+          </div>
+        ))}
+
+        {/*
+          The bar bank. In the frame this is 28 bars, 99 wide on a 75 pitch so
+          each one laps 24 over its neighbour, and the frame blurs what is
+          behind them by 90 — which is where the backdrop's soft columns come
+          from, not from anything painted. Two offset ramps stand in for the 28
+          copies: one tile per 150, the second shifted by a bar, and the pair
+          lands the same overlap the frame draws.
+
+          Everything here is in vw because the frame's own geometry is: the
+          backdrop is locked to the frame's 1920x1080, so the bars, their pitch
+          and the blur all hold their proportions at any width.
+        */}
+        <div
+          className="absolute inset-0 backdrop-blur-[4.69vw]"
           style={{
-            backgroundImage:
-              "radial-gradient(60% 55% at 50% 30%, color-mix(in oklab, var(--color-indigo-bright) 45%, transparent) 0%, color-mix(in oklab, var(--color-indigo-deep) 30%, transparent) 48%, transparent 100%)",
+            ...BANNER_INSET_MASK,
+            backgroundImage: `${BAR_RAMP}, ${BAR_RAMP}`,
+            backgroundSize: "7.8125vw 100%",
+            backgroundPosition: "0 0, 3.90625vw 0",
+            backgroundRepeat: "repeat-x",
           }}
         />
-
-        <div className="hero-banding absolute inset-0" />
       </div>
 
-      {/* Keeps the copy legible over the brightest part of the backdrop. */}
+      {/*
+        Keeps the copy legible over the brightest part of the backdrop. The
+        frame has no scrim — it does not have to hold live text over a plume
+        that moves. This is the least that does: nothing across the band the
+        headline sits in, and weight only at the foot, where the backdrop has to
+        arrive at the page colour under the panel.
+      */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[70%]"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 aspect-[1920/1080] min-h-[28rem] w-full"
         aria-hidden="true"
         style={{
           background:
-            "linear-gradient(to bottom, #0d0b21b3 0%, #0d0b2166 28%, #0d0b21b3 62%, #0d0b21 100%)",
+            "linear-gradient(to bottom, #0d0b2100 0%, #0d0b2100 46%, #0d0b2173 72%, #0d0b21 100%)",
         }}
       />
 
