@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { LogoLockup, LogoWordmark } from "@/components/common/Logo";
+import { LogoLockup } from "@/components/common/Logo";
 import { sectionIds, site } from "@/config/site";
 
 const quickLinks = [
@@ -158,29 +158,6 @@ export function SiteFooter() {
         aria-hidden="true"
       />
 
-      {/*
-        Oversized wordmark, running under the footer and bleeding off the bottom
-        edge.
-
-        It used to be the last element in normal flow, which gave it a strip of
-        its own below the content — so it read as a separate band bolted to the
-        foot of the page rather than as a watermark the footer sits on. Taking it
-        out of flow costs the layout nothing (the legal row's own bottom padding
-        is the footer's floor) and lets it run up behind the last rows.
-
-        The mask is what keeps it from reading as a picture of a logo: the type
-        surfaces out of the bottom edge and is gone before it reaches the link
-        columns, rather than sitting there as a complete word with a crop across
-        it.
-      */}
-      <LogoWordmark
-        className="text-lavender/12 pointer-events-none absolute inset-x-0 -bottom-8 -z-10 h-32 w-full sm:-bottom-12 sm:h-48 lg:-bottom-16 lg:h-64"
-        style={{
-          maskImage:
-            "linear-gradient(to top, #000 0%, #000 42%, transparent 92%)",
-        }}
-      />
-
       <div className="relative mx-auto w-full max-w-[90rem] px-6 sm:px-10 lg:px-16 2xl:px-0">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <p className="max-w-[21.25rem] text-base leading-6 text-white">
@@ -207,90 +184,146 @@ export function SiteFooter() {
         <hr className="border-lavender/25 my-12 border-t border-dashed lg:my-14" />
 
         {/*
-          Three tracks, not four. The fourth used to hold nothing but a ghost
-          mark, so the row of real content stopped two thirds of the way across
-          and left a hole under the partner logos; the mark is now the watermark
-          across the whole footer instead.
+          Three tracks of content, with the frame's outlined mark filling the
+          fourth. That corner is empty otherwise — the links run out two thirds
+          of the way across and leave a hole under the partner logos, which is
+          exactly the space the frame gives this.
+
+          The mark takes a track of its own, which is how the frame lays this
+          row out: the two link columns and the mark sit on one pitch — 756,
+          1077 and 1388 of the frame's 1920 — so the run reads as four even
+          columns after the wide first one. Laid over the row instead it landed
+          on top of the social links, because the third column stretches to the
+          container's edge.
         */}
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-16 xl:gap-x-20">
-          <div className="flex flex-col gap-6 sm:col-span-2 lg:col-span-1">
-            <LogoLockup className="text-mist h-6 w-auto self-start" />
+        <div className="relative">
+          {/*
+            The watermark: the frame's wordmark, exported whole out of "Group
+            2147229684" — twelve outlined letterforms, both bowls of every `s`,
+            the dot of the `i` and the crossbar of the `t`, each carrying its
+            own ramp. A lavender stroke over a fill running `rgba(173,157,238,0)`
+            at 23.54% of a letter's height to `rgba(173,157,238,0.1)` at 148.15%,
+            all of it inside the file: one asset, and it scales.
 
-            <p className="text-mist/70 max-w-[34rem] text-base leading-relaxed text-pretty">
-              {t("footer.about")}
-            </p>
+            It runs behind this row — the description and both link columns —
+            rather than in a band of its own under the page, which is what makes
+            it ground rather than a strip bolted to the foot.
 
-            <div className="mt-2 flex flex-col gap-4">
-              <h2 className="eyebrow text-lavender">
-                {t("footer.certifications")}
+            It stops short of the outlined mark instead of running under it: two
+            marks of the same brand crossing each other read as a mistake, so
+            the word takes the three content tracks and the mark keeps the
+            fourth. Below `lg` the mark is gone and the columns stack, so the
+            word centres on the row instead.
+
+            Everything paints over it (`-z-10`), and at this stroke weight
+            nothing it crosses loses contrast. What it cannot keep as it shrinks
+            is its weight: the frame's strokes are hairlines at 1920, and on a
+            phone the same word is a fifth of that, so they fall under a pixel.
+            They are lifted back as the viewport narrows.
+          */}
+          <img
+            src="/assets/wordmark-assistsec.svg"
+            alt=""
+            width={1608}
+            height={234}
+            loading="lazy"
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/2 left-1/2 -z-10 w-[86%] max-w-none -translate-x-1/2 -translate-y-1/2 brightness-[1.6] sm:w-[80%] sm:brightness-125 lg:left-0 lg:w-[74%] lg:translate-x-0 lg:brightness-100"
+          />
+
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-16 xl:gap-x-20">
+            <div className="flex flex-col gap-6 sm:col-span-2 lg:col-span-1">
+              <LogoLockup className="text-mist h-6 w-auto self-start" />
+
+              <p className="text-mist/70 max-w-[34rem] text-base leading-relaxed text-pretty">
+                {t("footer.about")}
+              </p>
+
+              <div className="mt-2 flex flex-col gap-4">
+                <h2 className="eyebrow text-lavender">
+                  {t("footer.certifications")}
+                </h2>
+
+                <ul className="flex flex-wrap items-center gap-5 sm:gap-6">
+                  {badges.map((badge) => (
+                    <li
+                      key={badge.key}
+                      data-testid={`footer-badge-${badge.key}`}
+                    >
+                      <img
+                        src={badge.src}
+                        alt={t("footer.badgeAlt", { name: badge.name })}
+                        width={badge.width}
+                        height={badge.height}
+                        loading="lazy"
+                        /*
+                         * `w-auto` is load-bearing: without it the width falls
+                         * back to the `width` attribute above and the badge
+                         * renders as a flat bar, because an explicit width
+                         * outranks the ratio.
+                         */
+                        className="h-14 w-auto object-cover sm:h-16"
+                        style={{
+                          aspectRatio: "0.866",
+                          clipPath: BADGE_HEXAGON,
+                        }}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <nav aria-label={t("footer.quickLinks")}>
+              <h2 className="eyebrow text-lavender mb-4">
+                {t("footer.quickLinks")}
               </h2>
-
-              <ul className="flex flex-wrap items-center gap-5 sm:gap-6">
-                {badges.map((badge) => (
-                  <li key={badge.key} data-testid={`footer-badge-${badge.key}`}>
-                    <img
-                      src={badge.src}
-                      alt={t("footer.badgeAlt", { name: badge.name })}
-                      width={badge.width}
-                      height={badge.height}
-                      loading="lazy"
-                      /*
-                       * `w-auto` is load-bearing: without it the width falls
-                       * back to the `width` attribute above and the badge
-                       * renders as a flat bar, because an explicit width
-                       * outranks the ratio.
-                       */
-                      className="h-14 w-auto object-cover sm:h-16"
-                      style={{
-                        aspectRatio: "0.866",
-                        clipPath: BADGE_HEXAGON,
-                      }}
-                    />
+              <ul className="flex flex-col">
+                {quickLinks.map((link) => (
+                  <li key={link.key}>
+                    <a
+                      href={link.href}
+                      data-testid={`footer-link-${link.key}`}
+                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:min-h-9"
+                    >
+                      {t(link.label)}
+                    </a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
+
+            <nav aria-label={t("footer.connect")}>
+              <h2 className="eyebrow text-lavender mb-4">
+                {t("footer.connect")}
+              </h2>
+              <ul className="flex flex-col">
+                {socials.map(({ key, label, href }) => (
+                  <li key={key}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      data-testid={`footer-social-${key}`}
+                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:min-h-9"
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <img
+              src="/assets/footer-mark-outline.svg"
+              alt=""
+              width={277}
+              height={239}
+              loading="lazy"
+              aria-hidden="true"
+              className="pointer-events-none hidden w-full max-w-[17.25rem] self-start justify-self-end lg:block"
+            />
           </div>
-
-          <nav aria-label={t("footer.quickLinks")}>
-            <h2 className="eyebrow text-lavender mb-4">
-              {t("footer.quickLinks")}
-            </h2>
-            <ul className="flex flex-col">
-              {quickLinks.map((link) => (
-                <li key={link.key}>
-                  <a
-                    href={link.href}
-                    data-testid={`footer-link-${link.key}`}
-                    className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:min-h-9"
-                  >
-                    {t(link.label)}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <nav aria-label={t("footer.connect")}>
-            <h2 className="eyebrow text-lavender mb-4">
-              {t("footer.connect")}
-            </h2>
-            <ul className="flex flex-col">
-              {socials.map(({ key, label, href }) => (
-                <li key={key}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    data-testid={`footer-social-${key}`}
-                    className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition lg:min-h-9"
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
         </div>
 
         <div className="border-lavender/15 text-mist/55 mt-12 flex flex-col gap-2 border-t border-dashed pt-6 pb-12 text-sm leading-6 sm:flex-row sm:items-center sm:justify-between lg:mt-16 lg:pb-16">
