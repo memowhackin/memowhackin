@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { ArrowUpRight, ChevronRight } from "lucide-react";
-import { LogoMark } from "@/components/common/Logo";
+import { ArrowUpRight } from "lucide-react";
+import { SectionBadge } from "@/components/common/SectionBadge";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
 import { sectionIds } from "@/config/site";
@@ -155,11 +155,9 @@ export function Services() {
         service titles were `h3`s hanging under the skyline's `h2`, so anyone
         moving by headings met a level with nothing above it.
       */}
-      <h2 className="border-indigo-deep bg-ink-deep text-mist rounded-selector inline-flex items-center gap-2 border px-4 py-2 text-sm font-medium">
-        <LogoMark className="text-lavender size-4" />
+      <SectionBadge data-testid="services-badge">
         {t("services.badge")}
-        <ChevronRight className="size-4" aria-hidden="true" />
-      </h2>
+      </SectionBadge>
 
       <ul className="relative flex w-full flex-col">
         {services.map((service) => (

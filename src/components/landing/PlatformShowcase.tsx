@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { LogoMark } from "@/components/common/Logo";
+import { SectionBadge } from "@/components/common/SectionBadge";
 import { useReveal } from "@/components/common/useReveal";
 import { sectionIds } from "@/config/site";
 
@@ -126,12 +127,24 @@ export function PlatformShowcase() {
             }}
           />
 
-          {/* The brand mark sitting at the centre of the graph. */}
+          {/*
+            The brand mark at the centre of the graph — node 83:41738, which the
+            frame calls a "Btn": a 150 disc in `ink-deep` behind a 6px edge in
+            `indigo-bright` at 74%, carrying a 25px blur at 18px of spread in
+            the same colour at 70%. That glow is what seats the mark in the
+            constellation; without it the disc reads as a sticker laid on top.
+
+            It had a 1px lavender ring and a much wider, fainter wash in
+            `indigo` — 80px of blur at 24px spread — which is a different thing
+            altogether: too diffuse to bloom and too dim to see. The glyph is
+            40.2% of the disc, as drawn, and the edge steps down on narrow
+            viewports where 6px on a 40px disc would be a third of it.
+          */}
           <span
-            className="bg-ink-deep ring-lavender/30 absolute top-[47.9%] left-[52.7%] flex aspect-square w-[14%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-[0_0_5rem_1.5rem_rgba(65,57,148,0.65)] ring-1"
+            className="bg-ink-deep absolute top-[47.9%] left-[52.7%] flex aspect-square w-[14%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[0.1875rem] border-[#6046cabd] shadow-[0_0_1.5625rem_1.125rem_#6046cab3] sm:border-[0.25rem] lg:border-[0.375rem]"
             aria-hidden="true"
           >
-            <LogoMark className="text-lavender w-[45%]" />
+            <LogoMark className="text-lavender w-[40.2%]" />
           </span>
 
           {tags.map((tag) => (
@@ -142,12 +155,16 @@ export function PlatformShowcase() {
                 // A wrapped capability tag reads as a broken label, so they
                 // stay on one line and sit far enough inside the graphic that
                 // the section's clipped edges never cut one in half.
-                "bg-lavender text-ink-deep absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md px-2.5 py-1.5 text-xs leading-none font-medium whitespace-nowrap shadow-lg sm:text-sm",
+                //
+                // Same chip as the agent alerts over the skyline — the frame
+                // draws both from its "Workflows" component, and they had
+                // drifted into two different chips here.
+                "bg-lavender text-indigo-deep absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-[0.3125rem] rounded-md border border-[#6b728033] py-2.5 pr-3 pl-2 text-sm leading-5 font-medium whitespace-nowrap shadow-[0_0.0625rem_0.0625rem_rgba(74,86,99,0.1),0_0.375rem_0.4375rem_rgba(74,86,99,0.08)]",
                 tag.position,
               )}
             >
               <span
-                className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
+                className="bg-indigo-deep size-2 shrink-0"
                 aria-hidden="true"
               />
               {t(tag.label)}
@@ -184,9 +201,15 @@ export function PlatformShowcase() {
           start the band was missing.
         */}
         <div className="flex flex-col gap-6 sm:gap-8">
-          <h2 className="font-display eyebrow text-lavender">
+          {/*
+            The same badge the services section is headed with. As a bare mono
+            eyebrow this was the one section opening in a different voice from
+            the rest of the page, and at 14px it sat well under the weight of
+            the statement it introduces.
+          */}
+          <SectionBadge data-testid="platform-badge">
             {t("platform.eyebrow")}
-          </h2>
+          </SectionBadge>
 
           <p className="text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
             <span className="text-mist">{t("platform.leadStrong")}</span>{" "}

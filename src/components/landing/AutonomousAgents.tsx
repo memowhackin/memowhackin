@@ -18,28 +18,28 @@ import { sectionIds, site } from "@/config/site";
  */
 const alerts = [
   {
+    key: "attack",
+    label: "agents.alerts.attack",
+    stagger: "mt-[8.13vw]",
+    drop: "h-[9.84vw]",
+  },
+  {
     key: "apiTesting",
     label: "agents.alerts.apiTesting",
     stagger: "mt-0",
-    drop: "h-[6vw]",
-  },
-  {
-    key: "attack",
-    label: "agents.alerts.attack",
-    stagger: "mt-12",
-    drop: "h-[8vw]",
+    drop: "h-[9.84vw]",
   },
   {
     key: "files",
     label: "agents.alerts.files",
-    stagger: "mt-4",
-    drop: "h-[7vw]",
+    stagger: "mt-[3.28vw]",
+    drop: "h-[5.94vw]",
   },
   {
     key: "credentials",
     label: "agents.alerts.credentials",
-    stagger: "mt-14",
-    drop: "h-[6vw]",
+    stagger: "mt-[4.17vw]",
+    drop: "h-[9.84vw]",
   },
 ] as const;
 
@@ -49,7 +49,14 @@ const alerts = [
  * `inline-flex` baked in here would beat it and paint both sets at once.
  */
 const alertClassName =
-  "bg-lavender text-ink-deep items-center gap-2 rounded-md px-2.5 py-1.5 text-xs leading-none font-medium shadow-lg sm:text-sm";
+  "bg-lavender text-indigo-deep items-center gap-[0.3125rem] rounded-md border border-[#6b728033] py-2.5 pr-3 pl-2 text-sm leading-5 font-medium shadow-[0_0.0625rem_0.0625rem_rgba(74,86,99,0.1),0_0.375rem_0.4375rem_rgba(74,86,99,0.08)] sm:text-base";
+
+/*
+ * The marker inside each alert. The frame draws it as a plain 8px square in
+ * `accent` — not a dot, and not in the page colour: `ink-deep` on lavender read
+ * as a hole punched in the chip.
+ */
+const alertMarkerClassName = "bg-indigo-deep size-2 shrink-0";
 
 /**
  * The manifesto section: oversized mono headline over the skyline photograph,
@@ -163,10 +170,7 @@ export function AutonomousAgents() {
               data-testid={`agents-alert-compact-${alert.key}`}
               className={clsx(alertClassName, "inline-flex")}
             >
-              <span
-                className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
-                aria-hidden="true"
-              />
+              <span className={alertMarkerClassName} aria-hidden="true" />
               {t(alert.label)}
             </li>
           ))}
@@ -185,20 +189,17 @@ export function AutonomousAgents() {
             className={clsx("flex flex-col items-start", alert.stagger)}
           >
             <span className={clsx(alertClassName, "inline-flex")}>
-              <span
-                className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
-                aria-hidden="true"
-              />
+              <span className={alertMarkerClassName} aria-hidden="true" />
               {t(alert.label)}
             </span>
 
-            {/* Connector running from the alert down into the skyline. */}
-            <span
-              className={clsx(
-                "border-lavender/50 ml-2 w-0 border-l border-dotted",
-                alert.drop,
-              )}
-            />
+            {/*
+              Connector running from the alert down into the skyline. It starts
+              8px in from the chip's left edge and drops the frame's 189px —
+              114px on the third — both held as fractions of the 1920 canvas so
+              the run scales with the section.
+            */}
+            <span className={clsx("alert-drop ml-2", alert.drop)} />
           </span>
         ))}
       </div>

@@ -246,6 +246,23 @@ body {
   background-image: var(--brand-sweep-vertical);
 }
 
+/*
+ * The connector dropping from each agent alert into the rooftops. The frame
+ * draws it (nodes 96:41809, 96:41839–40, 246:16238) as a 2px line in `accent`
+ * on a `1.5 5` dash — a fine bead rather than a rule, which is what a dotted
+ * CSS border cannot spell: `border-dotted` gives round dots on the border's own
+ * width and spacing, and at 1px in lavender the whole thing disappeared into
+ * the sky it is drawn over. The gradient reproduces the dash exactly.
+ */
+@utility alert-drop {
+  width: 2px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-indigo-deep) 0 1.5px,
+    transparent 1.5px 6.5px
+  );
+}
+
 /* Gradient hairline used between sections and under the footer links. */
 @utility brand-rule {
   height: 1px;
