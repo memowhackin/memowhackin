@@ -97,6 +97,20 @@ export function Hero() {
         />
 
         <div className="relative mx-auto w-full max-w-[91rem] px-6 sm:px-10 lg:px-16 2xl:px-0">
+          {/*
+            The panel is taller than the room the section gives it, so the
+            section's clip cut it off on a hard line part-way down a table. This
+            dissolves the last of it into the background instead.
+          */}
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 sm:h-40"
+            aria-hidden="true"
+            style={{
+              background:
+                "linear-gradient(to bottom, transparent 0%, #0d0b21cc 65%, #0d0b21 100%)",
+            }}
+          />
+
           <img
             src="/assets/hero-dashboard.webp"
             alt={t("hero.dashboardAlt")}

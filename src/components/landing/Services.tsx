@@ -135,10 +135,10 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
  * Service rows drawn on the hairline grid from the design: mono title, copy and
  * link on one side, the portal screenshot on the other.
  *
- * The frame stretches the copy over a tall cell with the title pinned to the
- * top and the link to the bottom; at real text lengths that leaves a hole in
- * the middle of every row, so the block is kept together and centred against
- * the screenshot instead.
+ * The frame pins the title to the top of a 33.5rem cell and the copy and link
+ * to its foot. Reproduced literally that leaves a hole down the middle of every
+ * row at real text lengths, so the block is kept together and set against the
+ * screenshot instead — a deliberate departure.
  */
 export function Services() {
   const { t } = useTranslation();

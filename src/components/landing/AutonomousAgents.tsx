@@ -6,39 +6,40 @@ import { sectionIds, site } from "@/config/site";
 /**
  * Agent alerts scattered over the skyline.
  *
- * The columns are the Figma placements as fractions of the 1920 canvas, and
- * `drop` is the frame's own connector length (Lines 589-592: 189px, or 114px
- * for the short one over the centre) held as a fraction too, so the whole
- * arrangement scales with the section instead of being re-guessed per
- * breakpoint.
+ * Laid out as a distributed row rather than pinned at the frame's coordinates.
+ * Those rows only clear the copy at about 1920 and up: the type does not shrink
+ * in step with the width, so the copy block takes a growing share of the
+ * section as the screen narrows and the middle alerts land on the call to
+ * action. Pinning them anyway meant hiding the whole arrangement below 1536,
+ * which lost the scatter at the most common desktop width.
  *
- * Rows included: the section holds the frame's own 1920×1406, so these are the
- * drawn positions unchanged.
+ * `stagger` keeps the scattered feel; `drop` is the connector tick beneath each
+ * one, in `vw` so it scales with the section.
  */
 const alerts = [
   {
     key: "apiTesting",
     label: "agents.alerts.apiTesting",
-    position: "left-[26.93%] top-[42.6%]",
-    drop: "h-[9.84vw]",
-  },
-  {
-    key: "files",
-    label: "agents.alerts.files",
-    position: "left-[54.74%] top-[47.08%]",
-    drop: "h-[5.94vw]",
-  },
-  {
-    key: "credentials",
-    label: "agents.alerts.credentials",
-    position: "left-[68.44%] top-[48.29%]",
-    drop: "h-[9.84vw]",
+    stagger: "mt-0",
+    drop: "h-[6vw]",
   },
   {
     key: "attack",
     label: "agents.alerts.attack",
-    position: "left-[5.05%] top-[53.7%]",
-    drop: "h-[9.84vw]",
+    stagger: "mt-12",
+    drop: "h-[8vw]",
+  },
+  {
+    key: "files",
+    label: "agents.alerts.files",
+    stagger: "mt-4",
+    drop: "h-[7vw]",
+  },
+  {
+    key: "credentials",
+    label: "agents.alerts.credentials",
+    stagger: "mt-14",
+    drop: "h-[6vw]",
   },
 ] as const;
 
@@ -155,7 +156,7 @@ export function AutonomousAgents() {
           lands on the call to action. So the same four run as a wrapped row
           under it instead of being dropped from the layout altogether.
         */}
-        <ul className="mt-2 flex flex-wrap justify-center gap-2 2xl:hidden">
+        <ul className="mt-2 flex flex-wrap justify-center gap-2 lg:hidden">
           {alerts.map((alert) => (
             <li
               key={alert.key}
@@ -172,33 +173,35 @@ export function AutonomousAgents() {
         </ul>
       </div>
 
-      {alerts.map((alert) => (
-        <span
-          key={alert.key}
-          data-testid={`agents-alert-${alert.key}`}
-          className={clsx(
-            "absolute hidden flex-col items-start 2xl:flex",
-            alert.position,
-          )}
-        >
-          <span className={clsx(alertClassName, "inline-flex")}>
-            <span
-              className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
-              aria-hidden="true"
-            />
-            {t(alert.label)}
-          </span>
-
-          {/* Connector running from the alert down into the skyline. */}
+      {/* The alerts strung across the rooftops, below the copy. */}
+      <div
+        className="mx-auto hidden w-full max-w-[100rem] items-start justify-between px-10 pt-2 lg:flex xl:px-16"
+        aria-hidden="true"
+      >
+        {alerts.map((alert) => (
           <span
-            className={clsx(
-              "border-lavender/50 ml-2 w-0 border-l border-dotted",
-              alert.drop,
-            )}
-            aria-hidden="true"
-          />
-        </span>
-      ))}
+            key={alert.key}
+            data-testid={`agents-alert-${alert.key}`}
+            className={clsx("flex flex-col items-start", alert.stagger)}
+          >
+            <span className={clsx(alertClassName, "inline-flex")}>
+              <span
+                className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
+                aria-hidden="true"
+              />
+              {t(alert.label)}
+            </span>
+
+            {/* Connector running from the alert down into the skyline. */}
+            <span
+              className={clsx(
+                "border-lavender/50 ml-2 w-0 border-l border-dotted",
+                alert.drop,
+              )}
+            />
+          </span>
+        ))}
+      </div>
     </section>
   );
 }

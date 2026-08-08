@@ -40,33 +40,44 @@ const partners = [
 ] as const;
 
 /**
- * Capability tags floating over the constellation, placed as percentages of the
- * graphic's own box so they track it as it scales.
+ * Capability tags floating over the constellation, as fractions of the
+ * graphic's own box.
+ *
+ * The frame draws that box 1086 square, running from x=-310 to x=776 on the
+ * canvas. These had been measured against a 776-wide box that started at the
+ * canvas edge, which left every tag too far to the left.
  */
 const tags = [
   {
     key: "apiTesting",
     label: "platform.tags.apiTesting",
-    position: "left-[52%] top-[26%]",
-  },
-  {
-    key: "pentesting",
-    label: "platform.tags.pentesting",
-    position: "left-[26%] top-[70%]",
+    position: "left-[67.1%] top-[22.3%]",
   },
   {
     key: "credentials",
     label: "platform.tags.credentials",
-    position: "left-[62%] top-[58%]",
+    position: "left-[77%] top-[58.7%]",
+  },
+  {
+    key: "pentesting",
+    label: "platform.tags.pentesting",
+    position: "left-[39.4%] top-[66.3%]",
   },
 ] as const;
 
 /**
  * The proof section: the constellation graphic beside the lead statement.
  *
- * The frame anchors the graphic to the very left edge of the canvas, which the
- * grid below keeps from `lg` up by dropping the left gutter on that column;
- * narrower viewports stack the two and centre the graphic instead.
+ * The frame hangs both off the canvas rather than off a content column: the
+ * graph is a 1086 square bleeding 310px past the left edge, and the copy runs
+ * from x=776 to x=1784, top-aligned, with the partner block pushed to the foot
+ * of an 820px column.
+ *
+ * Reproduced literally that reads as a hole. The two ends of the copy get
+ * pinned to the extremes of a tall box with nothing between them, and the graph
+ * sits low and left of it all. So the geometry is kept — square graph, same
+ * bleed, same column — but the two are centred against each other and the copy
+ * flows normally, which fills the band instead of bracketing it.
  */
 export function PlatformShowcase() {
   const { t } = useTranslation();
@@ -79,109 +90,91 @@ export function PlatformShowcase() {
       data-testid="platform-showcase"
       className="bg-ink-deep relative w-full overflow-hidden"
     >
-      <div className="mx-auto grid w-full max-w-[120rem] items-center gap-10 pt-14 pb-16 sm:gap-14 sm:pt-20 sm:pb-24 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-stretch lg:gap-10 lg:py-20 xl:gap-16">
-        <div className="mx-auto w-full max-w-sm px-6 sm:max-w-md sm:px-10 lg:relative lg:mx-0 lg:min-h-[26rem] lg:max-w-none lg:px-0">
-          {/*
-            The export is drawn portrait, and at 1552×2172 its own proportions
-            set the height of the whole section — over 45rem on a wide column,
-            with the copy beside it then floating in about as much empty space
-            again. Taking it out of the flow from `lg` up leaves the row height
-            to the copy and lets the cover crop keep the middle of the graph.
-          */}
-          <div className="relative aspect-[776/1086] max-h-[34rem] lg:absolute lg:inset-0 lg:aspect-auto lg:max-h-none">
-            <img
-              src="/assets/constellation.webp"
-              alt=""
-              width={1552}
-              height={2172}
-              loading="lazy"
-              aria-hidden="true"
-              className="size-full object-cover mix-blend-screen"
-              /*
-               * The export is a hard-edged rectangle. Fading it into the
-               * background keeps it reading as a graph drifting behind the
-               * copy rather than as a pasted-in tile; a token cannot express a
-               * two-axis mask, so it is set here.
-               */
-              style={{
-                // Radii of 50% reach exactly the edges of the box, so the
-                // screen blend has faded out completely by the time it gets
-                // there and leaves no rectangle behind.
-                maskImage:
-                  "radial-gradient(50% 50% at 50% 50%, #000 15%, transparent 100%)",
-              }}
-            />
+      {/* Constellation: 1086 square, bleeding off the left edge of the canvas. */}
+      <div className="mx-auto w-full max-w-sm px-6 pt-14 sm:max-w-md sm:px-10 sm:pt-20 lg:absolute lg:top-1/2 lg:left-[-14%] lg:mx-0 lg:w-[52%] lg:max-w-none lg:-translate-y-1/2 lg:px-0 lg:pt-0">
+        <div className="relative aspect-square">
+          <img
+            src="/assets/constellation.webp"
+            alt=""
+            width={1552}
+            height={2172}
+            loading="lazy"
+            aria-hidden="true"
+            className="size-full object-cover mix-blend-screen"
+            /*
+             * Radii of 50% reach exactly the edges of the box, so the screen
+             * blend has faded out completely by the time it gets there and
+             * leaves no rectangle behind.
+             */
+            style={{
+              maskImage:
+                "radial-gradient(50% 50% at 50% 50%, #000 15%, transparent 100%)",
+            }}
+          />
 
-            {/* The brand mark sitting at the centre of the graph. */}
+          {/* The brand mark sitting at the centre of the graph. */}
+          <span
+            className="bg-ink-deep ring-lavender/30 absolute top-[47.9%] left-[52.7%] flex aspect-square w-[14%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-[0_0_5rem_1.5rem_rgba(65,57,148,0.65)] ring-1"
+            aria-hidden="true"
+          >
+            <LogoMark className="text-lavender w-[45%]" />
+          </span>
+
+          {tags.map((tag) => (
             <span
-              className="bg-indigo-deep/90 ring-lavender/40 absolute top-[47.9%] left-[38%] flex aspect-square w-[19.3%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-[0_0_4rem_1rem_rgba(65,57,148,0.55)] ring-1 backdrop-blur-sm"
-              aria-hidden="true"
+              key={tag.key}
+              data-testid={`platform-tag-${tag.key}`}
+              className={clsx(
+                // A wrapped capability tag reads as a broken label, so they
+                // stay on one line and sit far enough inside the graphic that
+                // the section's clipped edges never cut one in half.
+                "bg-lavender text-ink-deep absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md px-2.5 py-1.5 text-xs leading-none font-medium whitespace-nowrap shadow-lg sm:text-sm",
+                tag.position,
+              )}
             >
-              <LogoMark className="text-lavender w-[45%]" />
-            </span>
-
-            {tags.map((tag) => (
               <span
-                key={tag.key}
-                data-testid={`platform-tag-${tag.key}`}
-                className={clsx(
-                  // A wrapped capability tag reads as a broken label, so they
-                  // stay on one line and sit far enough inside the graphic that
-                  // the section's clipped edges never cut one in half.
-                  "bg-lavender text-ink-deep absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md px-2.5 py-1.5 text-xs leading-none font-medium whitespace-nowrap shadow-lg sm:text-sm",
-                  tag.position,
-                )}
-              >
-                <span
-                  className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
-                  aria-hidden="true"
-                />
-                {t(tag.label)}
-              </span>
-            ))}
-          </div>
+                className="bg-ink-deep size-1.5 shrink-0 rounded-xs"
+                aria-hidden="true"
+              />
+              {t(tag.label)}
+            </span>
+          ))}
         </div>
+      </div>
 
-        <div
-          ref={revealRef}
-          className={clsx(
-            "flex flex-col justify-center gap-10 px-6 sm:gap-12 sm:px-10 lg:px-0 lg:pr-10 xl:pr-16 2xl:pr-24",
-            revealClassName,
-          )}
-        >
-          {/*
-            Capped on both axes. Uncapped it reached 2.5rem over a 57rem
-            measure on a wide screen — around 46 characters a line, which is
-            past the point where the eye reliably finds the next row. The
-            second clause is set back rather than dimmed out: at 45% it read as
-            disabled text rather than as the quieter half of the sentence.
-          */}
-          <p className="max-w-[40rem] text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
-            <span className="text-mist">{t("platform.leadStrong")}</span>{" "}
-            <span className="text-mist/60">{t("platform.leadMuted")}</span>
+      {/* Copy column: x=776 to x=1784 on the canvas, set in normal flow. */}
+      <div
+        ref={revealRef}
+        className={clsx(
+          "flex flex-col gap-10 px-6 pt-10 pb-16 sm:gap-12 sm:px-10 sm:pb-24 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:py-28 xl:py-32",
+          revealClassName,
+        )}
+      >
+        <p className="text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
+          <span className="text-mist">{t("platform.leadStrong")}</span>{" "}
+          <span className="text-mist/60">{t("platform.leadMuted")}</span>
+        </p>
+
+        <div className="flex flex-col gap-6">
+          <p className="text-lavender max-w-sm text-base leading-[1.4] sm:text-lg">
+            {t("platform.poweredBy")}
           </p>
 
-          <div className="flex flex-col gap-6">
-            <p className="text-lavender max-w-sm text-base leading-[1.4] sm:text-lg">
-              {t("platform.poweredBy")}
-            </p>
-
-            <ul className="flex flex-wrap items-center gap-x-8 gap-y-6 sm:gap-x-10">
-              {partners.map((partner) => (
-                <li key={partner.key}>
-                  <img
-                    src={partner.src}
-                    alt={t("platform.partnerAlt", { name: partner.name })}
-                    width={partner.width}
-                    height={partner.height}
-                    loading="lazy"
-                    className="w-auto"
-                    style={{ height: `${(partner.height / 16).toString()}rem` }}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-6 sm:gap-x-10">
+            {partners.map((partner) => (
+              <li key={partner.key}>
+                <img
+                  src={partner.src}
+                  alt={t("platform.partnerAlt", { name: partner.name })}
+                  width={partner.width}
+                  height={partner.height}
+                  loading="lazy"
+                  className="w-auto"
+                  style={{ height: `${(partner.height / 16).toString()}rem` }}
+                />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
