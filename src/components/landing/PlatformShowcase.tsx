@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { chipClass, chipMarkerClass } from "@/components/common/chipClass";
 import { LogoMark } from "@/components/common/Logo";
+import { ScrollFillText } from "@/components/common/ScrollFillText";
 import { SectionBadge } from "@/components/common/SectionBadge";
 import { useReveal } from "@/components/common/useReveal";
 import { sectionIds } from "@/config/site";
@@ -77,13 +78,13 @@ const tags = [
     position: "left-[66%] top-[33%]",
   },
   {
-    key: "credentials",
-    label: "platform.tags.credentials",
+    key: "xss",
+    label: "platform.tags.xss",
     position: "left-[71%] top-[57%]",
   },
   {
-    key: "pentesting",
-    label: "platform.tags.pentesting",
+    key: "sqlInjection",
+    label: "platform.tags.sqlInjection",
     position: "left-[44%] top-[72%]",
   },
 ] as const;
@@ -227,9 +228,14 @@ export function PlatformShowcase() {
           still dissolving through the last of that gap, so the run-in is longer
           again here than the frame's own number: the statement should arrive
           well after the screenshot has finished going, not as it goes.
+
+          The run-in also sets the top of the section box the constellation is
+          centred in, so the last 2.5rem of it is there for the graphic rather
+          than the copy — it pushes the graph a further 1.25rem clear of the
+          hero, which is what stops its upper arc crowding the panel above.
         */
         className={clsx(
-          "flex flex-col gap-10 px-6 pt-20 pb-16 sm:gap-12 sm:px-10 sm:pt-28 sm:pb-24 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:pt-[11.125rem] lg:pb-[12rem] xl:pt-[15.125rem] xl:pb-[13rem]",
+          "flex flex-col gap-10 px-6 pt-20 pb-16 sm:gap-12 sm:px-10 sm:pt-28 sm:pb-24 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:pt-[13.625rem] lg:pb-[12rem] xl:pt-[17.625rem] xl:pb-[13rem]",
           revealClassName,
         )}
       >
@@ -254,9 +260,14 @@ export function PlatformShowcase() {
             {t("platform.eyebrow")}
           </SectionBadge>
 
-          <p className="text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
-            <span className="text-mist">{t("platform.leadStrong")}</span>{" "}
-            <span className="text-mist/60">{t("platform.leadMuted")}</span>
+          {/*
+            The statement fills as it is scrolled through rather than arriving
+            at two fixed weights. The second sentence used to be muted for good,
+            which read as an aside; running the same weight along the whole
+            paragraph makes it one statement being read out instead.
+          */}
+          <p className="text-mist text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
+            <ScrollFillText>{t("platform.lead")}</ScrollFillText>
           </p>
         </div>
 

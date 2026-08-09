@@ -2,52 +2,80 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
 import { chipClass, chipMarkerClass } from "@/components/common/chipClass";
+import type { Perch } from "@/components/landing/useSkylineAlerts";
+import { useSkylineAlerts } from "@/components/landing/useSkylineAlerts";
 import { sectionIds, site } from "@/config/site";
 
-/**
- * Agent alerts scattered over the skyline.
- *
- * Laid out as a distributed row rather than pinned at the frame's coordinates.
- * Those rows only clear the copy at about 1920 and up: the type does not shrink
- * in step with the width, so the copy block takes a growing share of the
- * section as the screen narrows and the middle alerts land on the call to
- * action. Pinning them anyway meant hiding the whole arrangement below 1536,
- * which lost the scatter at the most common desktop width.
- *
- * `stagger` keeps the scattered feel; `drop` is the connector tick beneath each
- * one, in `vw` so it scales with the section.
- */
+/** The findings the agents surface, drawn from at random. */
 const alerts = [
-  {
-    key: "attack",
-    label: "agents.alerts.attack",
-    stagger: "mt-[8.13vw]",
-    drop: "h-[9.84vw]",
-  },
-  {
-    key: "apiTesting",
-    label: "agents.alerts.apiTesting",
-    stagger: "mt-0",
-    drop: "h-[9.84vw]",
-  },
-  {
-    key: "files",
-    label: "agents.alerts.files",
-    stagger: "mt-[3.28vw]",
-    drop: "h-[5.94vw]",
-  },
-  {
-    key: "credentials",
-    label: "agents.alerts.credentials",
-    stagger: "mt-[4.17vw]",
-    drop: "h-[9.84vw]",
-  },
+  { key: "attack", label: "agents.alerts.attack" },
+  { key: "apiTesting", label: "agents.alerts.apiTesting" },
+  { key: "files", label: "agents.alerts.files" },
+  { key: "credentials", label: "agents.alerts.credentials" },
 ] as const;
 
+/**
+ * The buildings an alert can land on, measured off the photograph.
+ *
+ * `left` and `top` are percentages of the section, which from `lg` up is locked
+ * to the picture's own 1920×1406 — so each pair stays on the building it was
+ * read off at every width. `drop` is the connector below the chip, in `vw` as
+ * the drawn ones were, and is set per building so the line ends on that
+ * building's face rather than in the sky above it or in the water below.
+ *
+ * Two bands, for one reason. The copy block runs down the middle of the section
+ * to about 47% of its height and about 22–78% of its width, so the towers out on
+ * the flanks can be called out from high up — the two tallest are — while
+ * everything under the headline has to be tagged below it. That is why the
+ * middle perches sit at around 51–55% with short connectors and the outer ones
+ * at 31–44% with long ones.
+ *
+ * They are packed closer than any two lit at once are allowed to be; the
+ * scheduler keeps them apart (see `MIN_SEPARATION`). The point of the surplus is
+ * that the same building rarely lights up twice in a row.
+ */
+const perches: readonly Perch[] = [
+  { key: "westBlock", left: 2, top: 44.5, drop: 7.5 },
+  { key: "westCrown", left: 7.5, top: 31, drop: 9.8 },
+  { key: "westLow", left: 14.5, top: 42.5, drop: 6.6 },
+  { key: "midWest", left: 27, top: 50.5, drop: 3.6 },
+  { key: "twinSpire", left: 34.5, top: 51.5, drop: 4.2 },
+  { key: "paleTower", left: 42, top: 53, drop: 5 },
+  { key: "flatTop", left: 50.5, top: 51.5, drop: 5.9 },
+  { key: "litCrown", left: 61.5, top: 52, drop: 5.5 },
+  { key: "midEast", left: 69.5, top: 54, drop: 4.6 },
+  { key: "pinkRoof", left: 76, top: 55, drop: 4 },
+  { key: "eastFins", left: 80, top: 36, drop: 9.5 },
+  { key: "eastLow", left: 85.5, top: 54, drop: 5 },
+];
+
+/**
+ * Where the alerts stand when they are not cycling: the two flanking towers and
+ * the block in the middle, which is the widest spread the perches allow.
+ */
+const restingPerches = ["westCrown", "flatTop", "eastFins"] as const;
+
+/**
+ * One phase of an alert's animation: entering, leaving, or standing still.
+ * Written as a function because the alternative is a nested ternary at each of
+ * the three parts an alert is made of.
+ */
+function phaseClass(
+  still: boolean,
+  leaving: boolean,
+  entering: string,
+  exiting: string,
+): string | undefined {
+  if (still) return undefined;
+  if (leaving) return exiting;
+  return entering;
+}
+
 /*
- * Look only — no display utility. The pinned copies below are switched off with
- * `hidden`, and Tailwind emits that rule ahead of the display utilities, so an
- * `inline-flex` baked in here would beat it and paint both sets at once.
+ * Look only — no display utility. Each of the two sets below is switched off at
+ * the other's breakpoint with `hidden`, and Tailwind emits that rule ahead of
+ * the display utilities, so an `inline-flex` baked in here would beat it and
+ * paint both sets at once.
  */
 const alertClassName = chipClass();
 
@@ -66,6 +94,15 @@ const alertClassName = chipClass();
  */
 export function AutonomousAgents() {
   const { t } = useTranslation();
+  const {
+    ref: skylineRef,
+    sightings,
+    still,
+  } = useSkylineAlerts<HTMLDivElement>({
+    perches,
+    alertCount: alerts.length,
+    resting: restingPerches,
+  });
 
   return (
     <section
@@ -150,11 +187,16 @@ export function AutonomousAgents() {
         </BrandButton>
 
         {/*
-          The scatter is drawn for a 1920 canvas and only has room from `2xl`.
-          Below that the copy block takes a larger share of the section — the
-          type does not shrink in step with the width — and the middle alert
-          lands on the call to action. So the same four run as a wrapped row
-          under it instead of being dropped from the layout altogether.
+          Below `lg` the section is no longer the photograph's own proportion —
+          the copy needs more room than the ratio allows, so it grows to fit and
+          the picture is cropped to fill it. Every perch on the skyline moves
+          when that happens, and the type does not shrink in step with the width
+          either, so the alerts would land on the call to action.
+
+          So the same four run as a wrapped row under it rather than being
+          dropped from the page altogether. They do not cycle here: on a phone
+          the whole set is on screen at once, and swapping labels in a four-item
+          list under a button reads as a bug.
         */}
         <ul className="mt-2 flex flex-wrap justify-center gap-2 lg:hidden">
           {alerts.map((alert) => (
@@ -170,31 +212,103 @@ export function AutonomousAgents() {
         </ul>
       </div>
 
-      {/* The alerts strung across the rooftops, below the copy. */}
+      {/*
+        The alerts landing on the rooftops.
+
+        A layer of its own, pinned over the whole section rather than a row in
+        the flow, because each alert has to sit on a particular building. It
+        never takes the pointer: the call to action is underneath it.
+
+        The positions are data, so they are inline styles — Tailwind can only
+        emit classes it can see in the source, and `left-[61.5%]` assembled at
+        runtime would come out as no rule at all.
+      */}
       <div
-        className="mx-auto hidden w-full max-w-[100rem] items-start justify-between px-10 pt-2 lg:flex xl:px-16"
+        ref={skylineRef}
+        className="pointer-events-none absolute inset-0 hidden lg:block"
         aria-hidden="true"
       >
-        {alerts.map((alert) => (
-          <span
-            key={alert.key}
-            data-testid={`agents-alert-${alert.key}`}
-            className={clsx("flex flex-col items-start", alert.stagger)}
-          >
-            <span className={clsx(alertClassName, "inline-flex")}>
-              <span className={chipMarkerClass} aria-hidden="true" />
-              {t(alert.label)}
-            </span>
+        {sightings.map((sighting) => {
+          const perch = perches[sighting.perchIndex];
+          const alert = alerts[sighting.alertIndex];
+          if (!perch || !alert) return null;
 
-            {/*
-              Connector running from the alert down into the skyline. It starts
-              8px in from the chip's left edge and drops the frame's 189px —
-              114px on the third — both held as fractions of the 1920 canvas so
-              the run scales with the section.
-            */}
-            <span className={clsx("alert-drop ml-2", alert.drop)} />
-          </span>
-        ))}
+          return (
+            <span
+              key={sighting.id}
+              data-testid={`agents-alert-${alert.key}`}
+              className="absolute flex flex-col items-start"
+              style={{
+                left: `${perch.left.toString()}%`,
+                top: `${perch.top.toString()}%`,
+              }}
+            >
+              <span
+                className={clsx(
+                  alertClassName,
+                  "inline-flex whitespace-nowrap",
+                  phaseClass(
+                    still,
+                    sighting.leaving,
+                    "motion-safe:animate-alert-in",
+                    "motion-safe:animate-alert-out",
+                  ),
+                )}
+              >
+                <span className={chipMarkerClass} aria-hidden="true" />
+                {t(alert.label)}
+              </span>
+
+              {/*
+                Connector running from the alert down onto the building. It
+                starts 8px in from the chip's left edge, as drawn, and its
+                length is the perch's — held in `vw` so the run scales with the
+                section rather than sliding off the roof as the picture grows.
+              */}
+              <span
+                className="relative ml-2 block w-0.5"
+                style={{ height: `${perch.drop.toString()}vw` }}
+              >
+                <span
+                  className={clsx(
+                    "alert-drop absolute inset-0 origin-top",
+                    phaseClass(
+                      still,
+                      sighting.leaving,
+                      "motion-safe:animate-drop-in",
+                      "motion-safe:animate-drop-out",
+                    ),
+                  )}
+                />
+
+                <span
+                  className={clsx(
+                    "alert-drop-tip",
+                    phaseClass(
+                      still,
+                      sighting.leaving,
+                      "motion-safe:animate-tip-in",
+                      "motion-safe:animate-tip-out",
+                    ),
+                  )}
+                >
+                  {/*
+                    The halo only pulses while the alerts are cycling. On the
+                    still arrangement it would be the one thing on the page
+                    still moving, which is exactly what that arrangement is for
+                    avoiding.
+                  */}
+                  <span
+                    className={clsx(
+                      "alert-drop-pulse",
+                      !still && "motion-safe:animate-alert-ping",
+                    )}
+                  />
+                </span>
+              </span>
+            </span>
+          );
+        })}
       </div>
     </section>
   );

@@ -45,14 +45,17 @@ test("points login and demo at the scanner app", async ({ page }) => {
 test("switches language to Dutch", async ({ page }) => {
   await page.goto("/");
 
+  await page.getByTestId("language-switcher-trigger").click();
   await page.getByTestId("language-switcher-nl").click();
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Cyberveiligheid",
   );
   await expect(page.getByTestId("header-login")).toHaveText("Inloggen");
+
+  await page.getByTestId("language-switcher-trigger").click();
   await expect(page.getByTestId("language-switcher-nl")).toHaveAttribute(
-    "aria-pressed",
+    "aria-selected",
     "true",
   );
 });

@@ -35,23 +35,22 @@
     "poweredBy": "Powered by innovation and next-generation artificial intelligence",
     "tags": {
       "apiTesting": "API testing",
-      "credentials": "Credential secured",
-      "pentesting": "Pentesting"
+      "xss": "Cross-Site Scripting",
+      "sqlInjection": "SQL injection"
     },
-    "leadStrong": "We combine the expertise of Europe's most experienced pentesters to make organizations digitally resilient. Through advanced penetration testing and offensive red teaming,",
-    "leadMuted": "we proactively expose vulnerabilities before malicious actors can exploit them.",
+    "lead": "We combine the expertise of Europe's most experienced pentesters to make organizations digitally resilient. Through advanced agentic pentesting we proactively expose vulnerabilities before malicious actors can exploit them.",
     "partnerAlt": "{{name}} logo"
   },
   "agents": {
     "title": "Autonomous agents\nfor the test work.",
     "subtitle": "Senior security experts oversee every finding.",
-    "cta": "Book a demo",
+    "cta": "Start today",
     "skylineAlt": "City skyline at dusk",
     "alerts": {
       "apiTesting": "API testing",
-      "files": "Secure files alerts",
-      "credentials": "Credential hacking alert",
-      "attack": "Cyberattack detected"
+      "files": "JWT misconfiguration",
+      "credentials": "Code execution",
+      "attack": "Agentic pentest started"
     }
   },
   "services": {
@@ -80,7 +79,7 @@
     "cta": "Book a demo",
     "scope": {
       "title": "Custom scope",
-      "body": "Web, API, cloud, or red team. Tailored to your risks."
+      "body": "Web application or API"
     },
     "experts": {
       "title": "AI + experts",
@@ -88,11 +87,11 @@
     },
     "insight": {
       "title": "Immediate insight",
-      "body": "Findings live in your portal. No waiting for the report."
+      "body": "Critical findings live in your portal. No waiting for the report."
     }
   },
   "benefits": {
-    "title": "What are the benefits of an AI-assisted pentest?",
+    "title": "An assistsec report.",
     "reportIntro": "The findings are included in a final report, including a clear management summary.",
     "reportBody": "Vulnerabilities are evaluated and provided with recommendations, prioritized based on risk.",
     "cta": "Request sample report",

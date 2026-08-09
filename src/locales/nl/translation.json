@@ -35,23 +35,22 @@
     "poweredBy": "Aangedreven door innovatie en next-generation kunstmatige intelligentie",
     "tags": {
       "apiTesting": "API-testen",
-      "credentials": "Inloggegevens beveiligd",
-      "pentesting": "Pentesting"
+      "xss": "Cross-Site Scripting",
+      "sqlInjection": "SQL-injectie"
     },
-    "leadStrong": "Wij combineren de expertise van de meest ervaren pentesters van Europa om organisaties digitaal weerbaar te maken. Met geavanceerde penetratietesten en offensieve red teaming,",
-    "leadMuted": "leggen we kwetsbaarheden proactief bloot voordat kwaadwillenden ze kunnen misbruiken.",
+    "lead": "Wij combineren de expertise van de meest ervaren pentesters van Europa om organisaties digitaal weerbaar te maken. Met geavanceerde agentic pentesting leggen we kwetsbaarheden proactief bloot voordat kwaadwillenden ze kunnen misbruiken.",
     "partnerAlt": "{{name}}-logo"
   },
   "agents": {
     "title": "Autonome agents\nvoor het testwerk.",
     "subtitle": "Senior securityexperts beoordelen elke bevinding.",
-    "cta": "Demo boeken",
+    "cta": "Start vandaag",
     "skylineAlt": "Skyline van de stad in de schemering",
     "alerts": {
       "apiTesting": "API-testen",
-      "files": "Melding beveiligde bestanden",
-      "credentials": "Melding gestolen inloggegevens",
-      "attack": "Cyberaanval gedetecteerd"
+      "files": "JWT misconfiguratie",
+      "credentials": "Code execution",
+      "attack": "Agentic pentest started"
     }
   },
   "services": {
@@ -80,7 +79,7 @@
     "cta": "Demo boeken",
     "scope": {
       "title": "Eigen scope",
-      "body": "Web, API, cloud of red team. Afgestemd op uw risico's."
+      "body": "Webapplicatie of API"
     },
     "experts": {
       "title": "AI + experts",
@@ -88,11 +87,11 @@
     },
     "insight": {
       "title": "Direct inzicht",
-      "body": "Bevindingen staan live in uw portaal. Geen wachten op het rapport."
+      "body": "Kritische bevindingen staan live in uw portaal. Geen wachten op het rapport."
     }
   },
   "benefits": {
-    "title": "Wat zijn de voordelen van een AI-assisted pentest?",
+    "title": "Een assistsec rapport.",
     "reportIntro": "De bevindingen worden opgenomen in een eindrapport, inclusief een heldere managementsamenvatting.",
     "reportBody": "Kwetsbaarheden worden beoordeeld en voorzien van aanbevelingen, geprioriteerd op basis van risico.",
     "cta": "Voorbeeldrapport aanvragen",

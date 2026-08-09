@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
 import { useMediaQuery } from "@/components/common/useMediaQuery";
+import { BannerFootage } from "@/components/landing/BannerFootage";
 import { site } from "@/config/site";
 
 /*
@@ -56,19 +57,6 @@ const BANNER_INSET_MASK: CSSProperties = {
  * Tinting rather than grading is why nothing here has to match a hex.
  */
 const TINT: CSSProperties = { background: "var(--brand-sweep-vertical)" };
-
-/*
- * 2083x1172 at (-81, 0) on the frame's 1920x1080 banner.
- *
- * `max-w-none` is not decoration. The base layer caps every `video` at
- * `max-width: 100%`, so this box was coming out 1920 wide while the height took
- * — a 1.64 box for 16:9 footage, which `object-cover` then filled by cropping
- * the sides. That moved the plume a whole column left of where the frame has it
- * and cost it a third of its light: measured against the frame, 55.7 against
- * 75.5 at x=640, and 26.1 against 41.2 at x=800.
- */
-const BANNER_FOOTAGE_BOX =
-  "absolute top-0 left-[-4.219%] h-[108.52%] w-[108.49%] max-w-none";
 
 /*
  * The two light shafts, blurred to 7.29vw — 140px on the frame's canvas.
@@ -177,40 +165,7 @@ export function Hero() {
           className="absolute inset-0 isolate"
           style={{ maskImage: BANNER_FADE, WebkitMaskImage: BANNER_FADE }}
         >
-          {/*
-            The frame does not lay the footage flush. It sits at 2083x1172 over
-            a 1920x1080 box — the same 8.5% over on both axes — pulled 81 left
-            and hung off the top edge, which is what puts the bright of the
-            plume where the frame puts it rather than a hand's width to the
-            left. Both the still and the video take the same box.
-          */}
-          {/*
-            The still under the footage. It is the frame the loop returns to, so
-            it stands in seamlessly while the video is still arriving, and for
-            anyone who has asked for reduced motion.
-          */}
-          <div
-            className={clsx(BANNER_FOOTAGE_BOX, "bg-cover bg-center")}
-            style={{
-              backgroundImage: "url('/assets/hero-motion-poster.webp')",
-            }}
-          />
-
-          {backdropPlays && (
-            <video
-              className={clsx(BANNER_FOOTAGE_BOX, "object-cover")}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster="/assets/hero-motion-poster.webp"
-              data-testid="hero-backdrop-video"
-            >
-              <source src="/assets/hero-motion.webm" type="video/webm" />
-              <source src="/assets/hero-motion.mp4" type="video/mp4" />
-            </video>
-          )}
+          <BannerFootage playing={backdropPlays} />
 
           <div className="absolute inset-0 mix-blend-hue" style={TINT} />
         </div>

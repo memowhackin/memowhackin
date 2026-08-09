@@ -159,12 +159,25 @@ export function SiteHeader() {
    * itself is opaque and a transparent row above it would look detached.
    */
   useEffect(() => {
+    let frame = 0;
+
+    // The scroll event can fire many times a frame; the flag only ever crosses
+    // once, so the read is coalesced onto a single frame rather than run per
+    // event. `setScrolled` then bails on an unchanged value, so a scroll that
+    // stays past the threshold costs one `scrollY` read and no re-render.
     function onScroll() {
-      setScrolled(window.scrollY > 8);
+      if (frame !== 0) return;
+
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        setScrolled(window.scrollY > 8);
+      });
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
@@ -173,9 +186,15 @@ export function SiteHeader() {
     <header
       ref={headerRef}
       className={clsx(
-        "sticky top-0 z-50 w-full transition-colors duration-300",
+        "sticky top-0 z-50 w-full transition-colors duration-200",
+        /*
+          The bar is 80% opaque, so most of the blur behind it is already hidden
+          — a wide `blur-md` mostly bought re-composite cost on every scrolled
+          frame for a few pixels no one sees past the fill. `blur-sm` keeps the
+          frosted read at a fraction of that cost.
+        */
         scrolled || menuOpen
-          ? "bg-ink-deep/80 backdrop-blur-md"
+          ? "bg-ink-deep/80 backdrop-blur-sm"
           : "bg-transparent",
       )}
     >
