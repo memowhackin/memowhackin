@@ -178,11 +178,25 @@ export function WhyAssistSec() {
         The frame sets this in a pale lavender on the lavender sky, which no one
         can read. It stays light — it is meant to be a quiet line of light
         sitting in the gradient, not a dark heading stamped on it — and clears
-        the contrast threshold through the wash above instead. The smallest step
-        is 24px so the whole range is large text at every width rather than only
-        on the desktop.
+        the contrast threshold through the wash above instead.
+
+        The treatment is a watermark rather than a heading: a thin, widely
+        tracked line whose fill fades from near-white at the cap line down into
+        the lavender of the sky, so the words read as light etched into the
+        gradient instead of type laid over it. The soft glow is the same idea —
+        it lets the letters sit in the sky rather than on it. The top of the
+        gradient is kept strong so the wash above still carries the contrast.
+        The smallest step is 24px so the whole range is large text at every
+        width rather than only on the desktop.
       */}
-      <h2 className="font-display text-lavender-soft text-center text-2xl tracking-[0.25em] uppercase sm:text-[1.75rem] sm:tracking-[0.4em] lg:text-[1.875rem] lg:tracking-[0.5em]">
+      <h2
+        className="font-display bg-clip-text text-center text-2xl font-light tracking-[0.25em] text-balance text-transparent uppercase sm:text-[1.75rem] sm:tracking-[0.4em] lg:text-[2.25rem] lg:tracking-[0.5em]"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, rgb(237 233 255 / 0.95) 0%, rgb(237 233 255 / 0.7) 45%, rgb(173 157 238 / 0.45) 100%)",
+          filter: "drop-shadow(0 0.0625rem 0.75rem rgb(173 157 238 / 0.3))",
+        }}
+      >
         {t("why.title")}
       </h2>
 

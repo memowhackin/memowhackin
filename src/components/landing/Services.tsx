@@ -154,8 +154,27 @@ export function Services() {
     <SectionShell
       id={sectionIds.services}
       data-testid="services"
-      className="bg-ink"
-      innerClassName="flex flex-col items-center gap-10 py-16 sm:py-24 lg:gap-14 lg:py-28"
+      /*
+        Pulled up over the skyline's foot. The photograph's last rows are the
+        dark water, which is the same tone this section opens on, so lifting the
+        ink section into them closes the blank gap without a seam — the water is
+        simply covered by the background it was blending into anyway.
+      */
+      className="bg-ink -mt-12 sm:-mt-16 lg:-mt-24"
+      /*
+        The top padding is deliberately shorter than the foot. Every other
+        section on the page opens on its own background, so its lead-in is the
+        whole gap above it — but this one opens under the skyline, whose last
+        rows are the dark water and read as blank space themselves. Matching the
+        two ends left a hole between the sections.
+
+        So the lead-in here is nearly nothing — 2rem against the foot's 7rem —
+        and the air above the badge is the photograph's, not the section's. The
+        badge is what has to land close to the skyline; the first hairline rule
+        below it is still a full `gap-14` further down, so the rows themselves
+        keep their room.
+      */
+      innerClassName="flex flex-col items-center gap-10 pt-4 pb-16 sm:pt-6 sm:pb-24 lg:gap-14 lg:pt-8 lg:pb-28"
     >
       {/*
         The badge is the section's heading, not decoration: without it the three

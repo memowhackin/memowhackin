@@ -187,6 +187,118 @@
       transform: translateY(0);
     }
   }
+
+  /*
+   * The agent alerts landing on the skyline (see `useSkylineAlerts`). An alert
+   * is three parts and they are deliberately not simultaneous — played together
+   * the whole assembly pops into being like a tooltip, which is the one thing
+   * it should not read as. In order: the chip arrives, the connector runs down
+   * it to the building, and the tip settles on the roof. Leaving is the same
+   * sequence backwards, so the alert retracts into the chip rather than
+   * blinking out.
+   *
+   * Durations sit outside the three steps the rest of the page uses. Those are
+   * for feedback — a response to something the reader just did — and these are
+   * unprompted, so they are slower on purpose: anything at 300ms here read as a
+   * flicker at the edge of vision.
+   *
+   * The hook's own timings have to agree with the exit total (450 + 180 of
+   * delay); `EXIT_MS` there is the number to keep in step with these.
+   */
+  --animate-alert-in: alert-in 0.6s cubic-bezier(0, 0, 0.2, 1) both;
+  --animate-alert-out: alert-out 0.45s cubic-bezier(0.4, 0, 1, 1) 0.18s both;
+  --animate-drop-in: drop-in 0.55s cubic-bezier(0, 0, 0.2, 1) 0.14s both;
+  --animate-drop-out: drop-out 0.35s cubic-bezier(0.4, 0, 1, 1) both;
+  --animate-tip-in: tip-in 0.45s cubic-bezier(0, 0, 0.2, 1) 0.5s both;
+  --animate-tip-out: tip-out 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+
+  /*
+   * The halo that keeps pulsing off the tip for as long as the alert is up. It
+   * starts once the connector has finished drawing, so the alert reads as
+   * having arrived somewhere rather than as already sitting there.
+   */
+  --animate-alert-ping: alert-ping 2.6s cubic-bezier(0, 0, 0.2, 1) 0.7s
+    infinite backwards;
+
+  @keyframes alert-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes alert-out {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-0.25rem) scale(0.97);
+    }
+  }
+
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes drop-out {
+    from {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+    to {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+  }
+
+  @keyframes tip-in {
+    from {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes tip-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+  }
+
+  @keyframes alert-ping {
+    0% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    25% {
+      opacity: 0.65;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(2.6);
+    }
+  }
 }
 
 html,
@@ -322,6 +434,63 @@ body {
     transparent 1.5px 6.5px
   );
   filter: drop-shadow(0 0 0.1875rem rgb(13 11 33 / 0.95));
+}
+
+/*
+ * The point where a connector meets the building it is calling out. Without it
+ * the line stopped in mid-air on the face of the block — it read as having been
+ * cut off rather than as pointing at something.
+ *
+ * It sits on the end of the line rather than inside it because the line plays
+ * its entrance as a `scaleY`, and anything parented to that gets squashed flat
+ * for the half-second the connector is drawing.
+ */
+@utility alert-drop-tip {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  translate: -50% 50%;
+  border-radius: calc(infinity * 1px);
+  background-color: var(--color-lavender);
+  box-shadow: 0 0 0.375rem rgb(13 11 33 / 0.9);
+}
+
+/* The ring that pulses off the tip. See `--animate-alert-ping`. */
+@utility alert-drop-pulse {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-lavender);
+  border-radius: calc(infinity * 1px);
+}
+
+/*
+ * One word of a scroll-filled statement (see `ScrollFillText`). The wrapper
+ * publishes how far the reader has come as `--fill`, 0 to 1, and each word works
+ * out its own weight from that and its place in the sentence — so the whole
+ * effect costs one custom-property write per frame and no re-render.
+ *
+ * The ramp is what makes it read as a fill rather than as a row of switches:
+ * dividing by three spreads the change over roughly three words, so there is
+ * always a soft edge travelling along the line instead of a hard one.
+ *
+ * The unfilled words sit well down — 0.25, not the copy's usual muted weight —
+ * so the sweep from grey to full is plainly a thing that happens rather than a
+ * shade anyone has to look for.
+ *
+ * `--fill` defaults to 1. Where the script has not run, or has been told not to
+ * by `prefers-reduced-motion`, the statement is simply delivered at full
+ * strength rather than sitting greyed out for good.
+ */
+@utility scroll-fill-word {
+  opacity: clamp(
+    0.25,
+    calc(
+      0.25 + 0.75 * (var(--fill, 1) * var(--word-count) - var(--word-index)) / 3
+    ),
+    1
+  );
 }
 
 /* Gradient hairline used between sections and under the footer links. */

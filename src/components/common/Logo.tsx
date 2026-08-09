@@ -1,3 +1,5 @@
+import { LOGO_MARK_VIEWBOX } from "@/components/common/logoMark";
+
 interface LogoProps {
   /** Extra classes for the root `<svg>` (sizing, colour). */
   className?: string;
@@ -90,15 +92,14 @@ export function LogoLockup({ className }: LogoProps) {
   );
 }
 
-/** Just the square mark, for tight spots (buttons, favicons, badges). */
-export function LogoMark({ className }: LogoProps) {
+/**
+ * The three paths of the square mark, on their own so they can be dropped into
+ * an `<svg>`/`<defs>` other than this component's own — the mark inherits
+ * `currentColor` from whatever wraps it.
+ */
+export function LogoMarkPaths() {
   return (
-    <svg
-      viewBox="0 0 60.27 52"
-      fill="currentColor"
-      className={className}
-      aria-hidden="true"
-    >
+    <>
       <path
         transform="translate(-0 0.08) scale(0.308541 0.308548)"
         d="M41.12 0C50.49 0.03 59.35 1.36 67.49 6.38C77.22 12.39 84.03 22.63 86.47 33.74C88.74 44.07 88.91 118.83 87.29 130.46C86.45 136.92 84.19 143.11 80.68 148.59C73.18 160.11 62.96 165.11 50 167.8C-17.09 169.38 4.14 103.62 0.38 60.99C-0.18 54.62 0.24 41.82 1.31 35.68C2.49 28.66 5.35 22.04 9.65 16.37C17.77 5.8 28.4 1.63 41.12 0Z"
@@ -111,6 +112,20 @@ export function LogoMark({ className }: LogoProps) {
         transform="translate(33.88 29.09) scale(0.308541 0.308548)"
         d="M45.86 0.9C63.22 0.22 74.79 -3.73 84.53 12.79C85.43 24.53 84.99 36.98 85.31 48.75C86.06 76.32 62.44 74.11 42.99 73.82C28.61 74.09 2.71 77.77 0.39 57.08C-3.02 26.68 16.35 5.8 45.86 0.9Z"
       />
+    </>
+  );
+}
+
+/** Just the square mark, for tight spots (buttons, favicons, badges). */
+export function LogoMark({ className }: LogoProps) {
+  return (
+    <svg
+      viewBox={`0 0 ${LOGO_MARK_VIEWBOX.width.toString()} ${LOGO_MARK_VIEWBOX.height.toString()}`}
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <LogoMarkPaths />
     </svg>
   );
 }
