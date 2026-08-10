@@ -27,7 +27,7 @@
   "hero": {
     "title": "Cybersecurity with AI‑assisted pentesting.",
     "body": "We use Europe's top pentesters to make organizations digitally resilient. Through advanced testing and red teaming, we expose vulnerabilities before attackers exploit them.",
-    "cta": "Book a live demo",
+    "cta": "Start today!",
     "dashboardAlt": "AssistSec portal showing API security findings"
   },
   "platform": {
@@ -58,15 +58,15 @@
     "exploreMore": "Explore more",
     "pentesting": {
       "title": "Pentesting",
-      "body": "Applications, APIs, and infrastructure. Autonomous AI agents undergo thorough validation by experts to ensure reliability and performance."
+      "body": "Web application and API pentesting, our autonomous AI agents perform blackbox and greybox pentests."
     },
     "cloud": {
-      "title": "Cloud security testing",
-      "body": "AWS, Azure, and GCP are key cloud platforms. Keep exploring their configurations and common misconfigurations to deepen your understanding and improve your skills."
+      "title": "Monthly continuous pentesting",
+      "body": "After an initial pentest, you can opt for monthly continuous pentesting. This lets us track each month whether things are improving or not, and we retest all findings on request."
     },
     "redTeaming": {
-      "title": "Red teaming",
-      "body": "Realistic simulations that cover end-to-end scenarios, designed in collaboration with offensive specialists to ensure comprehensive training."
+      "title": "Continuous compliance",
+      "body": "Alongside the initial pentest and monthly continuous pentesting, we map every finding to the relevant ISO 27001 controls. This gives your organization one clear, unified view of its current compliance posture."
     },
     "alt": {
       "pentesting": "Threat coverage view in the AssistSec portal",
@@ -76,7 +76,7 @@
   },
   "why": {
     "title": "Get hacked by AssistSec.",
-    "cta": "Book a demo",
+    "cta": "Get hacked!",
     "scope": {
       "title": "Custom scope",
       "body": "Web application or API"
@@ -101,6 +101,20 @@
       "risk": "Ranked risk assessment",
       "scope": "Test scope and methodology",
       "steps": "Steps for troubleshooting"
+    },
+    "modal": {
+      "title": "Request a sample report",
+      "description": "See exactly what an AssistSec pentest report looks like. Leave your details and we'll send a sample straight to your inbox.",
+      "email": "E-mail",
+      "company": "Company",
+      "phone": "Phone number",
+      "emailPlaceholder": "you@company.com",
+      "companyPlaceholder": "Your company",
+      "phonePlaceholder": "+31 6 12345678",
+      "submit": "Send me the sample",
+      "close": "Close",
+      "successTitle": "Thank you!",
+      "successBody": "Your request has been received. We'll send the sample report to your inbox shortly."
     }
   },
   "blog": {
@@ -131,7 +145,7 @@
   "cta": {
     "title": "Interested in a pentest?",
     "body": "Discover how AI-backed pentesting gives your organization faster and more thorough insight into vulnerabilities.",
-    "action": "Book a demo",
+    "action": "Contact us",
     "imageAlt": "Robotic hand reaching out"
   },
   "trusted": {

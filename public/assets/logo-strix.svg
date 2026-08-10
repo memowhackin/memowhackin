@@ -1,0 +1,10 @@
+<svg width="120" height="34" viewBox="0 0 120 34" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Strix">
+  <g fill="#AD9DEE">
+    <rect x="11" y="0" width="10" height="10" rx="3" />
+    <rect x="22" y="0" width="10" height="10" rx="3" />
+    <rect x="11" y="12" width="10" height="10" rx="3" />
+    <rect x="0" y="24" width="10" height="10" rx="3" />
+    <rect x="11" y="24" width="10" height="10" rx="3" />
+  </g>
+  <text x="45" y="25" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="0.2" fill="#AD9DEE">Strix</text>
+</svg>

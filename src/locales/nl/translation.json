@@ -27,7 +27,7 @@
   "hero": {
     "title": "Cyberveiligheid met AI‑assisted pentesting.",
     "body": "Wij zetten de beste pentesters van Europa in om organisaties digitaal weerbaar te maken. Met geavanceerde tests en red teaming leggen we kwetsbaarheden bloot voordat aanvallers ze misbruiken.",
-    "cta": "Boek een live demo",
+    "cta": "Start vandaag!",
     "dashboardAlt": "AssistSec-portaal met API-beveiligingsbevindingen"
   },
   "platform": {
@@ -58,15 +58,15 @@
     "exploreMore": "Lees meer",
     "pentesting": {
       "title": "Pentesting",
-      "body": "Applicaties, API's en infrastructuur. Autonome AI-agents worden grondig gevalideerd door experts om betrouwbaarheid en prestaties te garanderen."
+      "body": "Pentesten van webapplicaties en API's, onze autonome AI-agents voeren blackbox- en greybox-pentests uit."
     },
     "cloud": {
-      "title": "Cloud security testing",
-      "body": "AWS, Azure en GCP zijn cruciale cloudplatformen. Wij onderzoeken de configuraties en veelvoorkomende misconfiguraties om uw risico's scherp in beeld te brengen."
+      "title": "Maandelijks continuous pentests",
+      "body": "U kunt kiezen voor maandelijks continuous pentesting na een initiële pentest. Hiermee kunnen we elke maand bijhouden of er verbetering is of juist niet, we hertesten alle bevindingen op aanvraag."
     },
     "redTeaming": {
-      "title": "Red teaming",
-      "body": "Realistische simulaties van end-to-end scenario's, ontworpen samen met offensieve specialisten voor een volledige beproeving van uw weerbaarheid."
+      "title": "Continuous compliance",
+      "body": "Naast de initiële pentest en maandelijkse continuous pentesting koppelen we alle bevindingen aan de relevante ISO 27001-controls. Zo krijgt uw organisatie één helder en uniek overzicht van de huidige compliance postuur."
     },
     "alt": {
       "pentesting": "Overzicht van dreigingsdekking in het AssistSec-portaal",
@@ -76,7 +76,7 @@
   },
   "why": {
     "title": "Laat u hacken door AssistSec.",
-    "cta": "Demo boeken",
+    "cta": "Laat u hacken!",
     "scope": {
       "title": "Eigen scope",
       "body": "Webapplicatie of API"
@@ -101,6 +101,20 @@
       "risk": "Gerangschikte risicobeoordeling",
       "scope": "Testscope en methodologie",
       "steps": "Stappen voor het oplossen"
+    },
+    "modal": {
+      "title": "Voorbeeldrapport aanvragen",
+      "description": "Bekijk precies hoe een pentestrapport van AssistSec eruitziet. Laat uw gegevens achter en we sturen een voorbeeld direct naar uw inbox.",
+      "email": "E-mail",
+      "company": "Bedrijf",
+      "phone": "Telefoonnummer",
+      "emailPlaceholder": "u@bedrijf.nl",
+      "companyPlaceholder": "Uw bedrijf",
+      "phonePlaceholder": "+31 6 12345678",
+      "submit": "Stuur mij het voorbeeld",
+      "close": "Sluiten",
+      "successTitle": "Bedankt!",
+      "successBody": "Uw aanvraag is ontvangen. We sturen het voorbeeldrapport binnenkort naar uw inbox."
     }
   },
   "blog": {
@@ -131,7 +145,7 @@
   "cta": {
     "title": "Interesse in een pentest?",
     "body": "Ontdek hoe AI-ondersteunde pentesting uw organisatie sneller en grondiger inzicht geeft in kwetsbaarheden.",
-    "action": "Demo boeken",
+    "action": "Contact opnemen",
     "imageAlt": "Uitgestoken robothand"
   },
   "trusted": {

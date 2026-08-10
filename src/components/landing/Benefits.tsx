@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { BrandButton } from "@/components/common/BrandButton";
+import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
 import { LogoMark } from "@/components/common/Logo";
-import { site } from "@/config/site";
+import { SampleReportModal } from "@/components/landing/SampleReportModal";
 
 /**
  * What the report contains. The frame scatters these across the page at hand-set
@@ -144,6 +145,7 @@ function ReportPreview() {
 /** Report preview on the left, benefit copy and sample-report CTA on the right. */
 export function Benefits() {
   const { t } = useTranslation();
+  const [modalOpen, setModalOpen] = useState(false);
   const { ref: reportRef, className: reportClassName } =
     useReveal<HTMLDivElement>();
   const {
@@ -210,14 +212,24 @@ export function Benefits() {
           <p>{t("benefits.reportBody")}</p>
         </div>
 
-        <BrandButton
-          href={`${site.scannerBaseUrl}/sample-report`}
+        <button
+          type="button"
+          onClick={() => {
+            setModalOpen(true);
+          }}
           data-testid="benefits-sample-report"
-          className="w-fit"
+          className={brandButtonClass({ className: "w-fit" })}
         >
           {t("benefits.cta")}
-        </BrandButton>
+        </button>
       </div>
+
+      <SampleReportModal
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+      />
     </SectionShell>
   );
 }
