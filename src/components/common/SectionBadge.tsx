@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
-import { ArrowRight } from "lucide-react";
 import { LogoMark } from "@/components/common/Logo";
 
 interface SectionBadgeProps {
@@ -11,12 +10,12 @@ interface SectionBadgeProps {
 
 /**
  * The pill the frame heads a section with (node 49:24666, "Offering services"):
- * the brand mark, the label, and a small arrow, in a nearly transparent capsule
- * over a 12.5px backdrop blur.
+ * the brand mark and the label, in a nearly transparent capsule over a 12.5px
+ * backdrop blur. The frame's trailing arrow is dropped.
  *
  * Measured off that node: 18px of side padding on 10px of top and bottom, a
- * 90px radius, 8px between the three parts, a 16px medium label at 0.02em, a
- * 20×17 mark and a 12px arrow. The fill the frame gives it is the brand ramp at
+ * 90px radius, 8px between the parts, a 16px medium label at 0.02em and a
+ * 20×17 mark. The fill the frame gives it is the brand ramp at
  * 1% alpha — that is not a colour, it is the blur showing through, so the blur
  * is what is reproduced here.
  *
@@ -45,8 +44,6 @@ export function SectionBadge({
       <span className="text-base font-medium tracking-[0.02em] text-white">
         {children}
       </span>
-
-      <ArrowRight className="size-3 shrink-0 text-white" aria-hidden="true" />
     </h2>
   );
 }

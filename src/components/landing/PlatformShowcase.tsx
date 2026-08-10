@@ -13,18 +13,18 @@ import { sectionIds } from "@/config/site";
  */
 const partners = [
   {
-    key: "trendMicro",
-    name: "Trend Micro",
-    src: "/assets/logo-trendmicro.svg",
-    width: 81,
-    height: 17,
+    key: "strix",
+    name: "Strix",
+    src: "/assets/logo-strix.svg",
+    width: 71,
+    height: 20,
   },
   {
-    key: "checkPoint",
-    name: "Check Point",
-    src: "/assets/logo-checkpoint.svg",
-    width: 143,
-    height: 21,
+    key: "splunk",
+    name: "Splunk",
+    src: "/assets/logo-splunk.svg",
+    width: 68,
+    height: 20,
   },
   {
     key: "algotech",
