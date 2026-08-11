@@ -1,65 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { LogoLockup } from "@/components/common/Logo";
 import { BrandButton } from "@/components/common/BrandButton";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import { HeaderDropdown } from "@/components/layout/HeaderDropdown";
+import { NAV_ITEMS } from "@/config/nav";
 import { env } from "@/config/env";
-import { sectionIds, site } from "@/config/site";
+import { site } from "@/config/site";
 
-const navItems = [
-  { key: "services", target: sectionIds.services, label: "nav.services" },
-  { key: "aboutUs", target: sectionIds.about, label: "nav.aboutUs" },
-  {
-    key: "demonstrate",
-    target: sectionIds.demonstrate,
-    label: "nav.demonstrate",
-  },
-  { key: "blog", target: sectionIds.blog, label: "nav.blog" },
-] as const;
-
-/**
- * Which landing section is currently under the header, so the matching nav item
- * can be marked. The page is one long document with four anchors, so without
- * this the nav gives no feedback at all about where the reader is.
- */
-function useActiveSection(): string | undefined {
-  const [active, setActive] = useState<string>();
-
-  useEffect(() => {
-    const targets = navItems
-      .map((item) => document.getElementById(item.target))
-      .filter((el): el is HTMLElement => el !== null);
-
-    if (targets.length === 0) return;
-
-    const visible = new Set<string>();
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) visible.add(entry.target.id);
-          else visible.delete(entry.target.id);
-        }
-
-        // Sections overlap in the viewport while scrolling; the first one in
-        // document order that is still on screen is the one being read.
-        const current = navItems.find((item) => visible.has(item.target));
-        setActive(current?.target);
-      },
-      // Ignore the band hidden behind the sticky bar, and only count a section
-      // once a meaningful slice of it is on screen.
-      { rootMargin: "-20% 0px -55% 0px" },
-    );
-
-    for (const target of targets) observer.observe(target);
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  return active;
+/** Only "/" is matched exactly; every other route stays active on its children. */
+function activeOptionsFor(to: string) {
+  return to === "/" ? { exact: true } : undefined;
 }
 
 export function SiteHeader() {
@@ -73,7 +27,10 @@ export function SiteHeader() {
   const barRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const activeSection = useActiveSection();
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   /*
    * The header is sticky, so anchor targets have to clear it. Its height is not
@@ -161,10 +118,6 @@ export function SiteHeader() {
   useEffect(() => {
     let frame = 0;
 
-    // The scroll event can fire many times a frame; the flag only ever crosses
-    // once, so the read is coalesced onto a single frame rather than run per
-    // event. `setScrolled` then bails on an unchanged value, so a scroll that
-    // stays past the threshold costs one `scrollY` read and no re-render.
     function onScroll() {
       if (frame !== 0) return;
 
@@ -187,12 +140,6 @@ export function SiteHeader() {
       ref={headerRef}
       className={clsx(
         "sticky top-0 z-50 w-full transition-colors duration-200",
-        /*
-          The bar is 80% opaque, so most of the blur behind it is already hidden
-          — a wide `blur-md` mostly bought re-composite cost on every scrolled
-          frame for a few pixels no one sees past the fill. `blur-sm` keeps the
-          frosted read at a fraction of that cost.
-        */
         scrolled || menuOpen
           ? "bg-ink-deep/80 backdrop-blur-sm"
           : "bg-transparent",
@@ -207,11 +154,6 @@ export function SiteHeader() {
           data-testid="announcement-bar"
           className="brand-sweep flex w-full items-center justify-center gap-2 px-4 py-2 text-center transition-[filter] hover:brightness-110 pointer-coarse:min-h-11"
         >
-          {/*
-            The badge is the first thing to go on a narrow viewport: the sentence
-            carries the message, and keeping both forced the copy into a
-            mid-word ellipsis.
-          */}
           <span className="bg-lavender text-ink-deep rounded-selector hidden shrink-0 px-3 py-0.5 text-xs font-semibold sm:inline">
             {t("announcement.badge")}
           </span>
@@ -225,46 +167,43 @@ export function SiteHeader() {
         </a>
 
         <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between gap-3 px-4 py-3 sm:gap-6 sm:px-10 sm:py-4 lg:px-16 2xl:px-0">
-          <a
-            href="#top"
+          <Link
+            to="/"
             data-testid="header-logo"
             aria-label={t("app.title")}
             className="inline-flex shrink-0 items-center py-2 pointer-coarse:min-h-11"
+            onClick={closeMenu}
           >
             <LogoLockup className="text-mist h-5 w-auto sm:h-6" />
-          </a>
+          </Link>
 
           <nav
             aria-label={t("nav.primary")}
-            className="hidden min-w-0 items-center gap-6 lg:flex xl:gap-10"
+            className="hidden min-w-0 items-center gap-5 lg:flex xl:gap-8"
           >
-            {navItems.map((item) => {
-              const current = activeSection === item.target;
-
-              return (
-                <a
+            {NAV_ITEMS.map((item) =>
+              item.kind === "dropdown" ? (
+                <HeaderDropdown key={item.key} dropdown={item} />
+              ) : (
+                <Link
                   key={item.key}
-                  href={`#${item.target}`}
-                  aria-current={current ? "true" : undefined}
+                  to={item.to}
+                  activeOptions={activeOptionsFor(item.to)}
                   data-testid={`nav-${item.key}`}
-                  className={clsx(
-                    "decoration-lavender pointer-coarse:min-h-11 relative inline-flex items-center py-2 text-base underline-offset-8 transition-colors hover:underline",
-                    current
-                      ? "text-lavender"
-                      : "hover:text-lavender text-white",
-                  )}
+                  className="decoration-lavender relative inline-flex items-center py-2 text-base underline-offset-8 transition-colors hover:underline pointer-coarse:min-h-11"
+                  activeProps={{ className: "text-lavender" }}
+                  inactiveProps={{
+                    className: "hover:text-lavender text-white",
+                  }}
                 >
-                  {t(item.label)}
-                </a>
-              );
-            })}
+                  {t(item.labelKey)}
+                </Link>
+              ),
+            )}
           </nav>
 
           <div className="flex min-w-0 items-center gap-2 sm:gap-4 lg:gap-6">
             {!env.noTranslations && (
-              // Wrapped rather than hidden through the switcher's own class
-              // list: Tailwind emits `hidden` before the display utilities the
-              // component sets on itself, so it would lose the cascade.
               <div className="hidden lg:block">
                 <LanguageSwitcher data-testid="language-switcher" />
               </div>
@@ -280,12 +219,6 @@ export function SiteHeader() {
               {t("nav.login")}
             </a>
 
-            {/*
-              The primary action stays reachable from tablet up rather than
-              hiding behind the menu button — at that width the bar is mostly
-              empty anyway. Below it the bar has only room for the logo and the
-              menu button, so the action moves into the panel.
-            */}
             <div className="hidden sm:block">
               <BrandButton
                 href={site.bookDemoUrl}
@@ -322,14 +255,9 @@ export function SiteHeader() {
       {/*
         The panel expands rather than appearing: a single grid row animated
         between zero and one `fr`, which needs no measured height and so cannot
-        disagree with the content it is holding.
-
-        Both tracks are wrapped in `minmax(0, …)`. A bare `0fr` track still takes
-        an automatic minimum of min-content, so the collapsed panel kept the full
-        height of the menu inside it and never actually closed.
-
-        `inert` is what takes the collapsed panel out of the page: a clipped
-        zero-height row still hands every link inside it to the Tab order.
+        disagree with the content it is holding. `inert` takes the collapsed
+        panel out of the page — a clipped zero-height row still hands every link
+        inside it to the Tab order otherwise.
       */}
       <div
         id="mobile-menu"
@@ -346,34 +274,60 @@ export function SiteHeader() {
           aria-label={t("nav.primary")}
           className="flex max-h-[calc(100dvh-var(--header-height))] min-h-0 flex-col gap-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-10"
         >
-          {navItems.map((item) => {
-            const current = activeSection === item.target;
-
-            return (
-              <a
+          {NAV_ITEMS.map((item) =>
+            item.kind === "route" ? (
+              <Link
                 key={item.key}
-                href={`#${item.target}`}
-                aria-current={current ? "true" : undefined}
-                onClick={() => {
-                  setMenuOpen(false);
-                }}
+                to={item.to}
+                activeOptions={activeOptionsFor(item.to)}
+                onClick={closeMenu}
                 data-testid={`mobile-nav-${item.key}`}
-                className={clsx(
-                  "hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-colors",
-                  current ? "bg-indigo-deep/30 text-lavender" : "text-mist",
-                )}
+                className="hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-colors"
+                activeProps={{ className: "bg-indigo-deep/30 text-lavender" }}
+                inactiveProps={{ className: "text-mist" }}
               >
-                {t(item.label)}
-              </a>
-            );
-          })}
+                {t(item.labelKey)}
+              </Link>
+            ) : (
+              <div key={item.key} className="mt-1 flex flex-col">
+                <p className="eyebrow text-mist/45 px-3 pt-3 pb-1">
+                  {t(item.labelKey)}
+                </p>
+                {item.groups
+                  .flatMap((group) => group.items)
+                  .map((leaf) => {
+                    const Icon = leaf.icon;
+
+                    return (
+                      <Link
+                        key={leaf.key}
+                        to={leaf.to}
+                        onClick={closeMenu}
+                        data-testid={`mobile-nav-${item.key}-${leaf.key}`}
+                        className="hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 transition-colors"
+                        activeProps={{
+                          className: "bg-indigo-deep/30 text-lavender",
+                        }}
+                        inactiveProps={{ className: "text-mist" }}
+                      >
+                        <Icon
+                          className="text-lavender size-4 shrink-0"
+                          aria-hidden="true"
+                        />
+                        {t(leaf.labelKey)}
+                      </Link>
+                    );
+                  })}
+              </div>
+            ),
+          )}
 
           <a
             href={site.loginUrl}
             target="_blank"
             rel="noreferrer noopener"
             data-testid="mobile-login"
-            className="text-mist hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-colors"
+            className="text-mist hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 mt-1 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-colors"
           >
             {t("nav.login")}
           </a>

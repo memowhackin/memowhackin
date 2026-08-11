@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000",
+    "routes": "tsr generate",
+    "prebuild": "npm run routes",
     "build": "tsc -b && vite build --mode=production --sourcemap=false --emptyOutDir",
+    "prelint": "npm run routes",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
@@ -29,6 +32,7 @@
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.62.1",
     "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/router-cli": "1.167.27",
     "@tanstack/router-plugin": "^1.168.27",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",

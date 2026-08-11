@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { useSeo } from "@/localization/useSeo";
 import { SectionStripes } from "@/components/common/SectionStripes";
 import { Hero } from "@/components/landing/Hero";
 import { PlatformShowcase } from "@/components/landing/PlatformShowcase";
@@ -15,6 +17,14 @@ export const Route = createFileRoute("/")({
 
 /** The AssistSec landing page, section by section, top to bottom. */
 function LandingPage() {
+  const { t } = useTranslation();
+
+  useSeo({
+    title: t("pages.home.title"),
+    description: t("pages.home.description"),
+    path: "/",
+  });
+
   return (
     <div data-testid="landing-page">
       <Hero />

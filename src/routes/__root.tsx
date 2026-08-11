@@ -11,15 +11,11 @@ export const Route = createRootRoute({
 function RootLayout() {
   const { t, i18n } = useTranslation();
 
-  // Keep <html lang>, the title and the meta description in sync so screen
-  // readers and search engines pick the right language.
+  // The document language stays a root concern; the title, description and the
+  // rest of the SEO surface are per route now, set by `useSeo` in each page.
   useEffect(() => {
     document.documentElement.lang = i18n.language;
-    document.title = `${t("app.title")} — ${t("hero.title")}`;
-    document
-      .querySelector('meta[name="description"]')
-      ?.setAttribute("content", t("app.description"));
-  }, [i18n.language, t]);
+  }, [i18n.language]);
 
   return (
     <div className="bg-ink text-mist flex min-h-screen flex-col">

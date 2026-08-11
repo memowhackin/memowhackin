@@ -5,6 +5,8 @@
  * host, so every "app" link here is an absolute external URL.
  */
 export const site = {
+  /** The marketing site's own origin, for canonical URLs and share cards. */
+  baseUrl: "https://assistsec.nl",
   scannerBaseUrl: "https://scanner.assistsec.nl",
   loginUrl: "https://scanner.assistsec.nl/login",
   bookDemoUrl: "https://scanner.assistsec.nl/demo",

@@ -1,22 +1,16 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "@tanstack/react-router";
 import { LogoLockup } from "@/components/common/Logo";
-import { sectionIds, site } from "@/config/site";
+import { site } from "@/config/site";
 
+/** The footer's quick links, now real routes rather than in-page anchors. */
 const quickLinks = [
-  { key: "home", href: "#top", label: "footer.home" },
-  { key: "services", href: `#${sectionIds.services}`, label: "nav.services" },
-  {
-    key: "bookDemo",
-    href: `#${sectionIds.demonstrate}`,
-    label: "nav.bookDemo",
-  },
-  { key: "aboutUs", href: `#${sectionIds.about}`, label: "nav.aboutUs" },
-  {
-    key: "demonstrate",
-    href: `#${sectionIds.demonstrate}`,
-    label: "nav.demonstrate",
-  },
-  { key: "blog", href: `#${sectionIds.blog}`, label: "nav.blog" },
+  { key: "home", to: "/", label: "nav.home" },
+  { key: "argus", to: "/argus/insights", label: "nav.argus.label" },
+  { key: "knowledgeBase", to: "/knowledge-base", label: "nav.knowledgeBase" },
+  { key: "about", to: "/about", label: "nav.about" },
+  { key: "contact", to: "/contact", label: "nav.contact" },
+  { key: "blog", to: "/blog", label: "nav.blog" },
 ] as const;
 
 /**
@@ -180,8 +174,8 @@ export function SiteFooter() {
               <ul className="flex flex-col">
                 {quickLinks.map((link) => (
                   <li key={link.key}>
-                    <a
-                      href={link.href}
+                    <Link
+                      to={link.to}
                       data-testid={`footer-link-${link.key}`}
                       /*
                        * The tighter desktop row is for mice only. Keyed to `lg`
@@ -191,7 +185,7 @@ export function SiteFooter() {
                       className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition-colors lg:pointer-fine:min-h-9"
                     >
                       {t(link.label)}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
