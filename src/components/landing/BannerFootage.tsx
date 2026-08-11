@@ -40,7 +40,6 @@ export function BannerFootage({ playing }: { playing: boolean }) {
           loop
           playsInline
           preload="metadata"
-          poster="/assets/hero-motion-poster.webp"
           data-testid="hero-backdrop-video"
         >
           <source src="/assets/hero-banner.mp4" type="video/mp4" />

@@ -18,7 +18,12 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run dev",
+    // Locally the dev server keeps the edit-and-rerun loop fast. CI serves the
+    // real production bundle instead, so minification, asset hashing and the
+    // production-only build flags are covered by the same suite.
+    command: process.env.CI
+      ? "npm run build && npm run preview -- --port 3000 --strictPort"
+      : "npm run dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
