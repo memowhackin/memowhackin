@@ -10,8 +10,10 @@ test("renders every landing section", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.getByTestId("landing-page")).toBeVisible();
+  // The hyphen in "AI‑assisted" is U+2011 (see Hero.test.tsx), so match either
+  // hyphen rather than pinning the assertion to one codepoint.
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "AI-assisted pentesting",
+    /AI[-‑]assisted pentesting/,
   );
 
   for (const section of [

@@ -217,8 +217,8 @@
    * starts once the connector has finished drawing, so the alert reads as
    * having arrived somewhere rather than as already sitting there.
    */
-  --animate-alert-ping: alert-ping 2.6s cubic-bezier(0, 0, 0.2, 1) 0.7s
-    infinite backwards;
+  --animate-alert-ping: alert-ping 2.6s cubic-bezier(0, 0, 0.2, 1) 0.7s infinite
+    backwards;
 
   @keyframes alert-in {
     from {
