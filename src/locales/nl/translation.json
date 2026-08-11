@@ -4,9 +4,40 @@
     "description": "AI-ondersteunde penetratietesten. De meest ervaren pentesters van Europa, versterkt door autonome agents."
   },
   "nav": {
-    "services": "Diensten",
-    "aboutUs": "Over ons",
-    "demonstrate": "Demonstratie",
+    "home": "Home",
+    "services": {
+      "label": "Diensten",
+      "webApp": "Web applicatie pentesting",
+      "api": "API pentesting",
+      "awareness": "Security awareness",
+      "desc": {
+        "webApp": "Blackbox- en greybox-testen van uw webapps.",
+        "api": "REST, GraphQL en business-logica testen.",
+        "awareness": "Phishing- en social-engineering-training."
+      }
+    },
+    "argus": {
+      "label": "ARGUS",
+      "features": "Functies",
+      "tagline": "Continue security testing, monitoring en compliance in één platform.",
+      "scanning": "Maandelijkse scans",
+      "compliance": "ISO27001 mapping",
+      "insights": "Live inzicht",
+      "retesting": "Hertest module",
+      "expertChat": "Live chat",
+      "integrations": "Integraties",
+      "desc": {
+        "scanning": "Terugkerende scans tussen pentests.",
+        "compliance": "Bevindingen gekoppeld aan ISO 27001-controls.",
+        "insights": "Elke bevinding live, gerangschikt op risico.",
+        "retesting": "Verifieer uw fixes opnieuw op aanvraag.",
+        "expertChat": "Praat in realtime met de pentesters.",
+        "integrations": "Splunk, SIEM en ticketing."
+      }
+    },
+    "knowledgeBase": "Kennisbank",
+    "about": "Over ons",
+    "contact": "Contact",
     "blog": "Blog",
     "login": "Inloggen",
     "bookDemo": "Demo boeken",
@@ -18,6 +49,92 @@
     "languageNames": {
       "en": "Engels",
       "nl": "Nederlands"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "AssistSec | AI-ondersteunde penetratietesten in Europa",
+      "description": "AI-ondersteunde penetratietesten door de meest ervaren pentesters van Europa, versterkt door autonome agents. Web, API en continue security testing.",
+      "heading": "AI-ondersteunde penetratietesten",
+      "body": "De meest ervaren pentesters van Europa, versterkt door autonome agents."
+    },
+    "servicesWebApp": {
+      "title": "Web applicatie pentesting | AssistSec",
+      "description": "Diepgaande penetratietesten van webapplicaties. Onze autonome AI-agents voeren blackbox- en greybox-pentests uit, gevalideerd door senior security-experts.",
+      "heading": "Web applicatie pentesting",
+      "body": "Diepgaande penetratietesten van webapplicaties, met autonome AI-agents en senior menselijke expertise."
+    },
+    "servicesApi": {
+      "title": "API pentesting | AssistSec",
+      "description": "Grondige penetratietesten van uw API's (REST, GraphQL en meer). Leg fouten in authenticatie, autorisatie en business-logica bloot voordat aanvallers dat doen.",
+      "heading": "API pentesting",
+      "body": "Grondige penetratietesten van uw API's, van authenticatie tot business-logica."
+    },
+    "servicesAwareness": {
+      "title": "Security awareness training | AssistSec",
+      "description": "Security awareness training die uw team tot eerste verdedigingslinie maakt tegen phishing, social engineering en alledaagse dreigingen.",
+      "heading": "Security awareness",
+      "body": "Praktische security awareness training die uw team tot eerste verdedigingslinie maakt."
+    },
+    "argusScanning": {
+      "title": "Continu scannen — ARGUS | AssistSec",
+      "description": "ARGUS scant uw applicaties en infrastructuur continu, zodat nieuwe kwetsbaarheden direct zichtbaar worden in plaats van maanden later.",
+      "heading": "Continu scannen",
+      "body": "ARGUS blijft scannen tussen pentests door en toont nieuwe kwetsbaarheden zodra ze ontstaan."
+    },
+    "argusCompliance": {
+      "title": "Continue compliance — ARGUS | AssistSec",
+      "description": "ARGUS koppelt elke bevinding aan de relevante ISO 27001-controls en geeft uw organisatie een actueel beeld van de compliance-postuur.",
+      "heading": "Compliancebewaking",
+      "body": "Elke bevinding gekoppeld aan de relevante ISO 27001-controls, voor een actueel beeld van uw compliance."
+    },
+    "argusInsights": {
+      "title": "Live inzicht in bevindingen — ARGUS | AssistSec",
+      "description": "Bekijk elke bevinding live in uw ARGUS-portaal, gerangschikt op risico, zonder te wachten op het eindrapport.",
+      "heading": "Live inzicht",
+      "body": "Elke bevinding live in uw portaal, gerangschikt op risico — geen wachten op het rapport."
+    },
+    "argusRetesting": {
+      "title": "Direct hertesten — ARGUS | AssistSec",
+      "description": "Vraag 24/7 een hertest van elke bevinding aan en bevestig dat uw fixes standhouden, direct vanuit het ARGUS-portaal.",
+      "heading": "Direct hertesten",
+      "body": "Hertest elke bevinding op aanvraag en bevestig dat uw fixes standhouden, direct vanuit het portaal."
+    },
+    "argusExpertChat": {
+      "title": "Chat met pentesters — ARGUS | AssistSec",
+      "description": "Praat direct met de pentesters achter uw bevindingen. Stel vragen en krijg remediation-advies in realtime via ARGUS.",
+      "heading": "Expertchat",
+      "body": "Praat direct met de pentesters achter uw bevindingen, in realtime."
+    },
+    "argusIntegrations": {
+      "title": "Integraties — ARGUS | AssistSec",
+      "description": "Stream ARGUS-bevindingen naar de tools die u al gebruikt, van Splunk tot uw SIEM en ticketing, voor één bron van waarheid.",
+      "heading": "Integraties",
+      "body": "Stream bevindingen naar de tools die u al gebruikt, van Splunk tot uw SIEM en ticketing."
+    },
+    "knowledgeBase": {
+      "title": "Kennisbank | AssistSec",
+      "description": "Handleidingen, documentatie en antwoorden over penetratietesten, ARGUS en veilige ontwikkeling van het AssistSec-team.",
+      "heading": "Kennisbank",
+      "body": "Handleidingen, documentatie en antwoorden over pentesten, ARGUS en veilige ontwikkeling."
+    },
+    "about": {
+      "title": "Over ons | AssistSec",
+      "description": "AssistSec verenigt de meest ervaren pentesters van Europa met autonome AI-agents om organisaties digitaal weerbaar te maken.",
+      "heading": "Over ons",
+      "body": "Wij verenigen de meest ervaren pentesters van Europa met autonome AI-agents om organisaties digitaal weerbaar te maken."
+    },
+    "contact": {
+      "title": "Contact | AssistSec",
+      "description": "Neem contact op met AssistSec voor penetratietesten, ARGUS of een voorbeeldrapport. We helpen u graag verder.",
+      "heading": "Contact",
+      "body": "Neem contact op voor penetratietesten, ARGUS of een voorbeeldrapport."
+    },
+    "blog": {
+      "title": "Blog | AssistSec",
+      "description": "Het laatste nieuws over pentesten, hacking, security research en compliance van het AssistSec-team.",
+      "heading": "Blog",
+      "body": "Het laatste nieuws over pentesten, hacking, security research en compliance."
     }
   },
   "announcement": {

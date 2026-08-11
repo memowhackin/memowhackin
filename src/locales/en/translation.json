@@ -4,11 +4,42 @@
     "description": "AI-assisted penetration testing. Europe's most experienced pentesters, backed by autonomous agents."
   },
   "nav": {
-    "services": "Services",
-    "aboutUs": "About us",
-    "demonstrate": "Demonstrate",
+    "home": "Home",
+    "services": {
+      "label": "Services",
+      "webApp": "Web application pentesting",
+      "api": "API pentesting",
+      "awareness": "Security awareness",
+      "desc": {
+        "webApp": "Blackbox and greybox testing of your web apps.",
+        "api": "REST, GraphQL and business-logic testing.",
+        "awareness": "Phishing and social-engineering training."
+      }
+    },
+    "argus": {
+      "label": "ARGUS",
+      "features": "Features",
+      "tagline": "Continuous security testing, monitoring and compliance in one platform.",
+      "scanning": "Monthly scans",
+      "compliance": "ISO27001 mapping",
+      "insights": "Live insights",
+      "retesting": "Retest module",
+      "expertChat": "Live chat",
+      "integrations": "Integrations",
+      "desc": {
+        "scanning": "Recurring scans between pentests.",
+        "compliance": "Findings mapped to ISO 27001 controls.",
+        "insights": "Every finding live, ranked by risk.",
+        "retesting": "Re-verify your fixes on demand.",
+        "expertChat": "Talk to the pentesters in real time.",
+        "integrations": "Splunk, SIEM and ticketing."
+      }
+    },
+    "knowledgeBase": "Knowledge base",
+    "about": "About us",
+    "contact": "Contact",
     "blog": "Blog",
-    "login": "Login",
+    "login": "Log in",
     "bookDemo": "Book demo",
     "language": "Language",
     "openMenu": "Open menu",
@@ -18,6 +49,92 @@
     "languageNames": {
       "en": "English",
       "nl": "Dutch"
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "AssistSec | AI-assisted penetration testing in Europe",
+      "description": "AI-assisted penetration testing by Europe's most experienced pentesters, backed by autonomous agents. Web, API and continuous security testing.",
+      "heading": "AI-assisted penetration testing",
+      "body": "Europe's most experienced pentesters, backed by autonomous agents."
+    },
+    "servicesWebApp": {
+      "title": "Web application pentesting | AssistSec",
+      "description": "In-depth web application penetration testing. Our autonomous AI agents run blackbox and greybox pentests, validated by senior security experts.",
+      "heading": "Web application pentesting",
+      "body": "In-depth web application penetration testing, combining autonomous AI agents with senior human expertise."
+    },
+    "servicesApi": {
+      "title": "API pentesting | AssistSec",
+      "description": "Thorough API penetration testing for REST, GraphQL and more. Expose authentication, authorization and business-logic flaws before attackers do.",
+      "heading": "API pentesting",
+      "body": "Thorough penetration testing for your APIs, from authentication to business logic."
+    },
+    "servicesAwareness": {
+      "title": "Security awareness training | AssistSec",
+      "description": "Security awareness training that turns your team into a first line of defense against phishing, social engineering and everyday threats.",
+      "heading": "Security awareness",
+      "body": "Practical security awareness training that turns your team into a first line of defense."
+    },
+    "argusScanning": {
+      "title": "Continuous scanning — ARGUS | AssistSec",
+      "description": "ARGUS continuously scans your applications and infrastructure, so new vulnerabilities surface the moment they appear, not months later.",
+      "heading": "Continuous scanning",
+      "body": "ARGUS keeps scanning between pentests, surfacing new vulnerabilities the moment they appear."
+    },
+    "argusCompliance": {
+      "title": "Continuous compliance — ARGUS | AssistSec",
+      "description": "ARGUS maps every finding to the relevant ISO 27001 controls, giving your organization a live view of its compliance posture.",
+      "heading": "Compliance tracking",
+      "body": "Every finding mapped to the relevant ISO 27001 controls, for a live view of your compliance posture."
+    },
+    "argusInsights": {
+      "title": "Live findings insights — ARGUS | AssistSec",
+      "description": "See every finding live in your ARGUS portal, ranked by risk, with no waiting for the final report.",
+      "heading": "Live insights",
+      "body": "Every finding live in your portal, ranked by risk — no waiting for the report."
+    },
+    "argusRetesting": {
+      "title": "On-demand retesting — ARGUS | AssistSec",
+      "description": "Request a retest of any finding on demand and confirm your fixes hold, 24/7, straight from the ARGUS portal.",
+      "heading": "Instant retests",
+      "body": "Retest any finding on demand and confirm your fixes hold, straight from the portal."
+    },
+    "argusExpertChat": {
+      "title": "Chat with pentesters — ARGUS | AssistSec",
+      "description": "Talk directly to the pentesters behind your findings. Ask questions and get remediation guidance in real time through ARGUS.",
+      "heading": "Expert chat",
+      "body": "Talk directly to the pentesters behind your findings, in real time."
+    },
+    "argusIntegrations": {
+      "title": "Integrations — ARGUS | AssistSec",
+      "description": "Stream ARGUS findings into the tools you already use, from Splunk to your SIEM and ticketing, for a single source of truth.",
+      "heading": "Integrations",
+      "body": "Stream findings into the tools you already use, from Splunk to your SIEM and ticketing."
+    },
+    "knowledgeBase": {
+      "title": "Knowledge base | AssistSec",
+      "description": "Guides, documentation and answers on penetration testing, ARGUS and secure development from the AssistSec team.",
+      "heading": "Knowledge base",
+      "body": "Guides, documentation and answers on pentesting, ARGUS and secure development."
+    },
+    "about": {
+      "title": "About us | AssistSec",
+      "description": "AssistSec unites Europe's most experienced pentesters with autonomous AI agents to make organizations digitally resilient.",
+      "heading": "About us",
+      "body": "We unite Europe's most experienced pentesters with autonomous AI agents to make organizations digitally resilient."
+    },
+    "contact": {
+      "title": "Contact | AssistSec",
+      "description": "Get in touch with AssistSec for penetration testing, ARGUS or a sample report. We are happy to help.",
+      "heading": "Contact",
+      "body": "Get in touch for penetration testing, ARGUS, or a sample report."
+    },
+    "blog": {
+      "title": "Blog | AssistSec",
+      "description": "The latest on pentesting, hacking, security research and compliance from the AssistSec team.",
+      "heading": "Blog",
+      "body": "The latest on pentesting, hacking, security research and compliance."
     }
   },
   "announcement": {

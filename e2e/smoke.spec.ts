@@ -67,7 +67,7 @@ test("opens the mobile menu on a narrow viewport", async ({ page }) => {
   await expect(page.getByTestId("mobile-menu")).toBeHidden();
   await page.getByTestId("mobile-menu-toggle").click();
   await expect(page.getByTestId("mobile-menu")).toBeVisible();
-  await expect(page.getByTestId("mobile-nav-services")).toBeVisible();
+  await expect(page.getByTestId("mobile-nav-blog")).toBeVisible();
 
   await page.keyboard.press("Escape");
   await expect(page.getByTestId("mobile-menu")).toBeHidden();
@@ -115,7 +115,7 @@ test("reveals content that was skipped past rather than scrolled to", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.getByTestId("nav-blog").click();
+  await page.getByTestId("blog-highlights").scrollIntoViewIfNeeded();
   await page.getByTestId("hero").scrollIntoViewIfNeeded();
 
   await expect
