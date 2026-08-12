@@ -530,3 +530,68 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
+/*
+ * The article body, shared by the editor and the rendered post so what is
+ * written is what ships. Plain prose rhythm — headings, lists, quotes and
+ * centred, rounded images — in the page's own type and colour, no prose
+ * framework pulled in for it.
+ */
+@utility blog-content {
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.25;
+    margin: 2rem 0 0.75rem;
+    color: var(--color-mist);
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.3;
+    margin: 1.75rem 0 0.5rem;
+    color: var(--color-mist);
+  }
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  a {
+    color: var(--color-lavender);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 0 0 1rem;
+  }
+
+  li {
+    margin: 0.25rem 0;
+  }
+
+  blockquote {
+    border-left: 2px solid var(--color-lavender);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    color: var(--color-mist);
+    font-size: 1.125rem;
+  }
+
+  img,
+  .blog-image {
+    display: block;
+    height: auto;
+    margin: 1.5rem auto;
+    border-radius: 0.75rem;
+  }
+}
+
+/* In the editor, images announce that they can be dragged to reposition. */
+.blog-editor img {
+  cursor: move;
+}
