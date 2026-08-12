@@ -3,11 +3,11 @@ import { useMemo, useState, type CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
+import { LatticeDivider } from "@/components/common/LatticeDivider";
 import { LogoMark } from "@/components/common/Logo";
 import { ScrollFillText } from "@/components/common/ScrollFillText";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
-import { LatticeBand } from "@/components/landing/LatticeBand";
 import { useSeo } from "@/localization/useSeo";
 import { site } from "@/config/site";
 
@@ -24,40 +24,6 @@ export const Route = createFileRoute("/about")({
 const ETCHED_FILL: CSSProperties = {
   backgroundImage:
     "linear-gradient(180deg, rgb(237 233 255 / 0.95) 0%, rgb(237 233 255 / 0.75) 45%, rgb(173 157 238 / 0.55) 100%)",
-};
-
-/**
- * The lattice divider fades in from nothing on every side, so the weave has
- * no edge to find anywhere and reads as light passing through the page rather
- * than a strip pinned across it.
- *
- * The two ramps live on two nested wrappers rather than as one two-layer
- * mask: multi-layer `mask-composite` intersection did not hold up across
- * engines — the horizontal ramp silently dropped out — and nesting composes
- * the same intersection without asking the mask shorthand to do it.
- */
-const LATTICE_FADE_X: CSSProperties = {
-  maskImage:
-    "linear-gradient(to right, transparent 0%, #000 22%, #000 78%, transparent 100%)",
-  WebkitMaskImage:
-    "linear-gradient(to right, transparent 0%, #000 22%, #000 78%, transparent 100%)",
-};
-
-const LATTICE_FADE_Y: CSSProperties = {
-  maskImage:
-    "linear-gradient(to bottom, transparent 0%, #000 32%, #000 68%, transparent 100%)",
-  WebkitMaskImage:
-    "linear-gradient(to bottom, transparent 0%, #000 32%, #000 68%, transparent 100%)",
-};
-
-/**
- * The ground the lattice sits on: the hero's `ink-deep` at the top running to
- * the story's `ink` at the foot, so the three sections read as one surface —
- * the band owns the colour change instead of sitting between two seams.
- */
-const LATTICE_GROUND: CSSProperties = {
-  background:
-    "linear-gradient(to bottom, var(--color-ink-deep) 0%, var(--color-ink) 100%)",
 };
 
 /**
@@ -166,7 +132,13 @@ function AboutPage() {
           ref={heroRef}
           className={clsx("flex flex-col items-center gap-6", heroReveal)}
         >
-          <h1 className="font-display text-mist max-w-4xl text-3xl leading-tight font-normal text-balance sm:text-4xl lg:text-5xl lg:leading-[1.15]">
+          {/*
+            `text-pretty`, not `text-balance`: balance squeezed the shorter
+            English headline into a narrow four-line tower while the Dutch one
+            ran three lines wide. Pretty keeps the lines filling the measure in
+            both languages and still guards the last line against an orphan.
+          */}
+          <h1 className="font-display text-mist max-w-4xl text-3xl leading-tight font-normal text-pretty sm:text-4xl lg:text-5xl lg:leading-[1.15]">
             {t("aboutPage.heroTitle")}
           </h1>
 
@@ -183,18 +155,7 @@ function AboutPage() {
         as the page is open. It stands where a row of claims used to — the
         identity carrying the transition from the mission into the story.
       */}
-      <div
-        data-testid="about-lattice"
-        aria-hidden="true"
-        className="overflow-hidden py-10 sm:py-14"
-        style={LATTICE_GROUND}
-      >
-        <div style={LATTICE_FADE_Y}>
-          <div style={LATTICE_FADE_X}>
-            <LatticeBand className="h-24 w-full sm:h-32 lg:h-40" />
-          </div>
-        </div>
-      </div>
+      <LatticeDivider data-testid="about-lattice" />
 
       {/* The story, heading beside copy, twice over. */}
       <SectionShell
@@ -239,15 +200,12 @@ function AboutPage() {
           <LogoMark className="text-lavender/[0.05] absolute top-1/2 right-[3%] -z-10 hidden w-[24rem] -translate-y-1/2 lg:block" />
         }
       >
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
-          <div className="flex flex-col gap-4">
-            <span className="brand-rule w-16" aria-hidden="true" />
-            <h2 className="eyebrow text-lavender">
-              {t("aboutPage.manifesto.title")}
-            </h2>
-          </div>
+        <div className="flex flex-col gap-6">
+          <h2 className="eyebrow text-lavender">
+            {t("aboutPage.manifesto.title")}
+          </h2>
 
-          <p className="text-mist max-w-2xl text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
+          <p className="text-mist max-w-[52.5rem] text-2xl leading-[1.35] tracking-[-0.02em] text-pretty sm:text-3xl lg:text-[clamp(1.625rem,1.9vw,2rem)]">
             <ScrollFillText>{t("aboutPage.manifesto.body")}</ScrollFillText>
           </p>
         </div>

@@ -112,10 +112,21 @@ export function PlatformShowcase() {
     <section
       id={sectionIds.about}
       data-testid="platform-showcase"
-      className="bg-ink-deep relative w-full overflow-hidden"
+      /*
+       * A flex column so `order-last` on the constellation holds below `lg`:
+       * the copy reads first on a stacked viewport, the graphic closes the
+       * section. Layout is otherwise identical to the block it was.
+       */
+      className="bg-ink-deep relative flex w-full flex-col overflow-hidden"
     >
       {/*
         Constellation: 1086 square, bleeding off the left edge of the canvas.
+
+        It sits after the copy in the markup on purpose. On a phone the two
+        stack in document order, and opening the section on a decorative graph
+        pushed the actual statement below the fold — so the words come first
+        and the constellation closes the section. From `lg` the graphic is
+        absolutely positioned, where source order has no say.
 
         It stays centred, and the room it needs is bought from the section
         rather than taken out of the graphic.
@@ -141,8 +152,12 @@ export function PlatformShowcase() {
         The bleed is a translate rather than a negative `left` so that it stays
         proportional to the graphic: `-27%` of its own width is the distance the
         frame's `-14%` of a 1920 canvas was, and it holds when the cap bites.
+
+        `lg:p-0`, not just `lg:pt-0`: the element is centred through its own
+        box, so any padding left on it at `lg` would shift the artwork off the
+        section's midline.
       */}
-      <div className="mx-auto w-full max-w-sm px-6 pt-24 sm:max-w-md sm:px-10 sm:pt-32 lg:absolute lg:top-1/2 lg:left-0 lg:mx-0 lg:w-[52%] lg:max-w-[56rem] lg:-translate-x-[27%] lg:-translate-y-1/2 lg:px-0 lg:pt-0">
+      <div className="order-last mx-auto w-full max-w-sm px-6 pt-6 pb-20 sm:max-w-md sm:px-10 sm:pt-8 sm:pb-28 lg:absolute lg:top-1/2 lg:left-0 lg:mx-0 lg:w-[52%] lg:max-w-[56rem] lg:-translate-x-[27%] lg:-translate-y-1/2 lg:p-0">
         <div className="relative aspect-square">
           <img
             src="/assets/constellation.webp"
@@ -235,7 +250,7 @@ export function PlatformShowcase() {
           hero, which is what stops its upper arc crowding the panel above.
         */
         className={clsx(
-          "flex flex-col gap-10 px-6 pt-20 pb-16 sm:gap-12 sm:px-10 sm:pt-28 sm:pb-24 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:pt-[13.625rem] lg:pb-[12rem] xl:pt-[17.625rem] xl:pb-[13rem]",
+          "flex flex-col gap-10 px-6 pt-20 pb-4 sm:gap-12 sm:px-10 sm:pt-28 sm:pb-6 lg:ml-[40.4%] lg:w-[52.5%] lg:gap-14 lg:px-0 lg:pt-[13.625rem] lg:pb-[12rem] xl:pt-[17.625rem] xl:pb-[13rem]",
           revealClassName,
         )}
       >
