@@ -141,8 +141,38 @@
     "badge": "Explore",
     "text": "Use our free scanner to check your security!"
   },
+  "contactPage": {
+    "heroTitle": "Tell us what you run. We will tell you how we would attack it.",
+    "heroBody": "Whether you need a pentest next month or just want to talk through your setup, send us a message and a pentester replies within one business day.",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "E-mail",
+      "emailPlaceholder": "you@company.com",
+      "company": "Company",
+      "companyPlaceholder": "Your company",
+      "service": "What do you need?",
+      "servicePlaceholder": "Choose a service",
+      "note": "Your note",
+      "notePlaceholder": "Tell us about your application, your timeline, or anything else we should know.",
+      "submit": "Send message",
+      "mailHint": "Sending opens your e-mail app with the message ready to go.",
+      "services": {
+        "webApp": "Web application pentesting",
+        "api": "API pentesting",
+        "awareness": "Security awareness",
+        "other": "Something else"
+      }
+    },
+    "aside": {
+      "directTitle": "Prefer to write directly?",
+      "directBody": "Skip the form and reach the team straight away.",
+      "responseTitle": "What happens next",
+      "responseBody": "A pentester reads your message, not a sales queue. You hear from us within one business day."
+    }
+  },
   "aboutPage": {
-    "heroTitle": "Our mission is to make organizations digitally resilient, from the hacker's perspective.",
+    "heroTitle": "Our mission is making companies digitally resilient, seen from the hacker's perspective.",
     "heroBody": "We believe a pentest should not be a yearly ritual. Our pentesters and their AI agents keep testing every day, and you watch the results live instead of waiting for a report.",
     "story": {
       "title": "Our story",

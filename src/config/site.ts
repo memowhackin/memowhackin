@@ -8,6 +8,7 @@ export const site = {
   /** The marketing site's own origin, for canonical URLs and share cards. */
   baseUrl: "https://assistsec.nl",
   scannerBaseUrl: "https://scanner.assistsec.nl",
+  contactEmail: "contact@assistsec.nl",
   loginUrl: "https://scanner.assistsec.nl/login",
   bookDemoUrl: "https://scanner.assistsec.nl/demo",
   linkedInUrl: "https://www.linkedin.com/company/assistsec",

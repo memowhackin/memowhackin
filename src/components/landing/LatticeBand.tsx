@@ -105,14 +105,29 @@ function buildMarks(): readonly LatticeMark[] {
 
 const MARKS = buildMarks();
 
+/**
+ * The window the `close` variant crops to, in canvas units. A phone showing
+ * the full 1920 canvas renders each mark at a dozen pixels — dust rather than
+ * a weave — so the small view looks at the middle stretch of the same lattice
+ * instead, which roughly doubles every mark without redrawing anything.
+ */
+const CLOSE_WIDTH = 768;
+
 interface LatticeBandProps {
   className?: string;
+  /** `close` crops to the canvas's middle so marks render larger on phones. */
+  variant?: "full" | "close";
 }
 
-export function LatticeBand({ className }: LatticeBandProps) {
+export function LatticeBand({ className, variant = "full" }: LatticeBandProps) {
+  const viewBox =
+    variant === "close"
+      ? `${((TILE_WIDTH - CLOSE_WIDTH) / 2).toString()} 0 ${CLOSE_WIDTH.toString()} ${TILE_HEIGHT.toString()}`
+      : `0 0 ${TILE_WIDTH.toString()} ${TILE_HEIGHT.toString()}`;
+
   return (
     <svg
-      viewBox={`0 0 ${TILE_WIDTH.toString()} ${TILE_HEIGHT.toString()}`}
+      viewBox={viewBox}
       /*
        * `slice` scales the canvas to cover the band and crops the overflow,
        * which is how the old tiled background behaved: the full height of the
