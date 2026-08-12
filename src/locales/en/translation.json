@@ -119,8 +119,8 @@
       "body": "Guides, documentation and answers on pentesting, ARGUS and secure development."
     },
     "about": {
-      "title": "About us | AssistSec",
-      "description": "AssistSec unites Europe's most experienced pentesters with autonomous AI agents to make organizations digitally resilient.",
+      "title": "About AssistSec",
+      "description": "AssistSec unites Europe's most experienced pentesters with autonomous AI agents to make organizations digitally resilient. Meet the team behind ARGUS.",
       "heading": "About us",
       "body": "We unite Europe's most experienced pentesters with autonomous AI agents to make organizations digitally resilient."
     },
@@ -140,6 +140,34 @@
   "announcement": {
     "badge": "Explore",
     "text": "Use our free scanner to check your security!"
+  },
+  "aboutPage": {
+    "heroTitle": "Our mission is to make organizations digitally resilient, from the hacker's perspective.",
+    "heroBody": "We believe a pentest should not be a yearly ritual. Our pentesters and their AI agents keep testing every day, and you watch the results live instead of waiting for a report.",
+    "story": {
+      "title": "Our story",
+      "p1": "AssistSec was started by pentesters who grew annoyed with their own trade. A week of testing, a thick report, a signature and see you next year. Meanwhile the code changes every day, and attackers do not wait for the next audit round.",
+      "p2": "So we built it differently. Our agents keep testing the way we would ourselves, only they never sleep. Everything they find passes a senior pentester before it reaches you. Machines bring the speed, people make the call."
+    },
+    "argusWhy": {
+      "title": "Why we built ARGUS",
+      "body": "A report starts ageing the day it is delivered. ARGUS does not. The portal scans again every month, orders findings by risk, retests the moment you ship a fix and keeps track of where you stand for ISO 27001. No more loose PDFs, just one place where everything lives."
+    },
+    "manifesto": {
+      "title": "What drives us",
+      "body": "We do not believe in yearly snapshots. Security is a living practice: test continuously, validate every finding with human judgment and stay until it is fixed. That is what drives us."
+    },
+    "ceo": {
+      "quote": "Every company says security is a priority. We built AssistSec so it can be a practice: continuous, transparent and human at the moments that matter.",
+      "role": "Founder & CEO",
+      "company": "AssistSec",
+      "imageAlt": "Portrait of the AssistSec founder"
+    },
+    "cta": {
+      "title": "Get hacked by us before someone else does.",
+      "body": "Create an ARGUS account and schedule your first pentest in minutes. Findings appear live and the pentesters are one chat away.",
+      "primary": "Create your ARGUS account"
+    }
   },
   "hero": {
     "title": "Cybersecurity with AI‑assisted pentesting.",

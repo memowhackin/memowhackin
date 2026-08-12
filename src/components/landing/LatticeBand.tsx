@@ -32,8 +32,12 @@ const COLUMNS = TILE_WIDTH / CELL + 2;
 
 const TILE_HEIGHT = CELL * ROWS;
 
-/** The mark, inset in its cell so the lattice reads as a weave, not a grid. */
-const MARK_SCALE = 0.72;
+/**
+ * The mark, inset in its cell so the lattice reads as a weave, not a grid.
+ * 0.8 closes the gap between neighbours to a sliver of the cell — the weave
+ * reads compact without the marks ever touching.
+ */
+const MARK_SCALE = 0.8;
 
 const MARK_ID = "hero-lattice-mark";
 
@@ -72,12 +76,12 @@ function buildMarks(): readonly LatticeMark[] {
       const angle = ((row + column) % 4) * 90;
 
       /*
-       * Between four and eleven seconds, and each mark opens part-way through
-       * its own cycle. No two neighbours share a length, so the lit marks never
-       * settle into a pattern — the light hands over from one to the next for
-       * as long as the page is open.
+       * Between two and a half and six seconds, and each mark opens part-way
+       * through its own cycle. No two neighbours share a length, so the lit
+       * marks never settle into a pattern — the light hands over from one to
+       * the next for as long as the page is open.
        */
-      const duration = 4 + noise(seed) * 7;
+      const duration = 2.5 + noise(seed) * 3.5;
       const delay = -noise(seed + 977) * duration;
 
       marks.push({
