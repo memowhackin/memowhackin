@@ -1,4 +1,8 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  Outlet,
+  useRouterState,
+} from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -8,8 +12,23 @@ export const Route = createRootRoute({
   component: RootLayout,
 });
 
+/*
+ * The CMS runs on its own chrome. The marketing header and footer would only
+ * read as clutter around a login screen or an editing desk, so the blog admin
+ * and its login opt out of them and bring their own shell.
+ */
+function isCmsRoute(pathname: string): boolean {
+  return (
+    pathname.startsWith("/blog/admin") || pathname.startsWith("/blog/login")
+  );
+}
+
 function RootLayout() {
   const { t, i18n } = useTranslation();
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
+  const cms = isCmsRoute(pathname);
 
   // The document language stays a root concern; the title, description and the
   // rest of the SEO surface are per route now, set by `useSeo` in each page.
@@ -27,11 +46,11 @@ function RootLayout() {
         {t("nav.skipToContent")}
       </a>
 
-      <SiteHeader />
+      {!cms && <SiteHeader />}
       <main id="main" className="flex-1">
         <Outlet />
       </main>
-      <SiteFooter />
+      {!cms && <SiteFooter />}
     </div>
   );
 }

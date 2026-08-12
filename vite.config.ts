@@ -2,6 +2,7 @@ import { defineConfig, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
+import { blogAuthoring } from "./vite/blog-authoring.ts";
 
 export default defineConfig((): UserConfig => {
   return {
@@ -12,6 +13,7 @@ export default defineConfig((): UserConfig => {
       }),
       react(),
       tailwindcss(),
+      blogAuthoring(),
     ],
     resolve: {
       alias: {
