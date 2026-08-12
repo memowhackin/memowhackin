@@ -189,6 +189,25 @@
   }
 
   /*
+   * One mark of the drawn lattice band (see `LatticeBand`): each mark rests as
+   * a faint outline of the ground and breathes up towards the brand lavender
+   * partway through its own cycle. Every mark carries its own duration and a
+   * negative delay from the component, so the light wanders across the weave
+   * rather than the whole band pulsing in step.
+   */
+  --animate-lattice-spark: lattice-spark 8s ease-in-out infinite;
+
+  @keyframes lattice-spark {
+    0%,
+    100% {
+      opacity: 0.07;
+    }
+    50% {
+      opacity: 0.55;
+    }
+  }
+
+  /*
    * The agent alerts landing on the skyline (see `useSkylineAlerts`). An alert
    * is three parts and they are deliberately not simultaneous — played together
    * the whole assembly pops into being like a tooltip, which is the one thing

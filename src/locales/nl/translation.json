@@ -119,8 +119,8 @@
       "body": "Handleidingen, documentatie en antwoorden over pentesten, ARGUS en veilige ontwikkeling."
     },
     "about": {
-      "title": "Over ons | AssistSec",
-      "description": "AssistSec verenigt de meest ervaren pentesters van Europa met autonome AI-agents om organisaties digitaal weerbaar te maken.",
+      "title": "Over AssistSec",
+      "description": "AssistSec verenigt de meest ervaren pentesters van Europa met autonome AI-agents om organisaties digitaal weerbaar te maken. Maak kennis met het team achter ARGUS.",
       "heading": "Over ons",
       "body": "Wij verenigen de meest ervaren pentesters van Europa met autonome AI-agents om organisaties digitaal weerbaar te maken."
     },
@@ -140,6 +140,34 @@
   "announcement": {
     "badge": "Ontdek",
     "text": "Gebruik onze gratis scanner om uw beveiliging te controleren!"
+  },
+  "aboutPage": {
+    "heroTitle": "Onze missie is organisaties digitaal weerbaar maken, vanuit het perspectief van de hacker.",
+    "heroBody": "Wij vinden dat een pentest geen jaarlijks ritueel hoort te zijn. Onze pentesters en hun AI-agents testen elke dag door, en u kijkt live mee in plaats van te wachten op een rapport.",
+    "story": {
+      "title": "Ons verhaal",
+      "p1": "AssistSec is gestart door pentesters die zich begonnen te ergeren aan hun eigen vak. Een week testen, een dik rapport, een handtekening en tot volgend jaar. Ondertussen verandert de code elke dag, en een aanvaller wacht niet op de volgende auditronde.",
+      "p2": "Dus hebben we het anders gebouwd. Onze agents testen door zoals we het zelf zouden doen, alleen slapen ze nooit. Alles wat ze vinden gaat eerst langs een senior pentester en komt pas daarna bij u. Machines zorgen voor de snelheid, mensen vellen het oordeel."
+    },
+    "argusWhy": {
+      "title": "Waarom we ARGUS bouwden",
+      "body": "Een rapport begint te verouderen op de dag dat het wordt opgeleverd. ARGUS niet. Het portaal scant elke maand opnieuw, zet bevindingen op volgorde van risico, hertest zodra u een fix live zet en houdt bij waar u staat voor ISO 27001. Geen losse PDF's meer, gewoon één plek waar alles staat."
+    },
+    "manifesto": {
+      "title": "Wat ons drijft",
+      "body": "Wij geloven niet in jaarlijkse momentopnames. Security is een levende praktijk: continu testen, elke bevinding met menselijk oordeel valideren en blijven tot het is opgelost. Dat is wat ons drijft."
+    },
+    "ceo": {
+      "quote": "Elk bedrijf zegt dat security een prioriteit is. Wij bouwden AssistSec zodat het een praktijk kan zijn: continu, transparant en menselijk op de momenten die ertoe doen.",
+      "role": "Oprichter & CEO",
+      "company": "AssistSec",
+      "imageAlt": "Portret van de oprichter van AssistSec"
+    },
+    "cta": {
+      "title": "Laat u door ons hacken voordat iemand anders het doet.",
+      "body": "Maak een ARGUS-account aan en plan uw eerste pentest binnen enkele minuten. Bevindingen verschijnen live en de pentesters zijn één chat verwijderd.",
+      "primary": "Maak uw ARGUS-account"
+    }
   },
   "hero": {
     "title": "Cyberveiligheid met AI‑assisted pentesting.",
