@@ -293,10 +293,26 @@
     "searchPlaceholder": "Zoek artikelen",
     "filterAll": "Alles",
     "empty": "Nog geen artikelen die aan uw zoekopdracht voldoen.",
-    "minRead": "{{count}} min lezen",
     "notFoundTitle": "Dit artikel is niet gevonden.",
     "backToBlog": "Terug naar de blog",
     "relatedTitle": "Gerelateerde artikelen",
+    "breadcrumbHome": "Blog",
+    "byline": "AssistSec team",
+    "published": "Gepubliceerd",
+    "share": "Delen",
+    "shareLinkedin": "Deel op LinkedIn",
+    "copyLink": "Link kopiëren",
+    "copied": "Link gekopieerd",
+    "tocTitle": "In dit artikel",
+    "newsletter": {
+      "title": "Nieuwsbrief",
+      "placeholder": "u@bedrijf.nl",
+      "submit": "Aanmelden",
+      "success": "Bedankt, je staat op de lijst.",
+      "ctaTitle": "Ontvang de volgende in je inbox.",
+      "ctaBody": "Praktijknotities over pentesten, agentic testing en compliance, geschreven door het team dat de tests uitvoert."
+    },
+    "moreTitle": "Verder lezen",
     "categories": {
       "rnd": "R&D",
       "vulnerabilityAlerts": "Kwetsbaarheidsmeldingen",
@@ -324,7 +340,9 @@
         "excerpt": "ISO 27001 en NIS2 vragen om aantoonbare beheersing. Zo blijft u audit-ready zonder vaart te verliezen."
       }
     },
-    "linkedIn": "LinkedIn"
+    "linkedIn": "LinkedIn",
+    "archiveTitle": "Alle artikelen",
+    "featuredLabel": "Uitgelicht"
   },
   "admin": {
     "loginTitle": "Inloggen | AssistSec Blog",

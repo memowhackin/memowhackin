@@ -330,6 +330,33 @@
    */
   --animate-report-sway: report-sway 9s ease-in-out infinite;
 
+  /*
+   * One lap of the light that runs the newsletter panel's edge.
+   *
+   * It travels the outline as a dash offset rather than as the angle of a
+   * conic gradient. A conic sweep turns at a constant number of degrees per
+   * second, which is only a constant speed on a square: on a panel this wide,
+   * equal angles cover wildly unequal stretches of edge, so the light shot
+   * across the short ends and crawled along the long ones. Offsetting a dash
+   * moves it a constant distance along the outline itself, so the pace is the
+   * same the whole way round.
+   *
+   * The rectangle carries `pathLength="100"`, so the offset is in hundredths
+   * of the perimeter and the timing holds at any panel size.
+   *
+   * Thirteen seconds. Sixteen was slow enough that the light went unnoticed on
+   * a panel this wide; seven read as a point racing the edge. At the length the
+   * dash now runs, what travels is the unlit gap rather than the light, so the
+   * pace reads as a sweep across an already glowing edge.
+   */
+  --animate-panel-beam: panel-beam 13s linear infinite;
+
+  @keyframes panel-beam {
+    to {
+      stroke-dashoffset: -100;
+    }
+  }
+
   @keyframes report-sway {
     0%,
     100% {
@@ -406,6 +433,116 @@ body {
   outline: 2px solid var(--color-lavender);
   outline-offset: 3px;
   border-radius: 0.25rem;
+}
+
+/*
+ * A light running a panel's edge, drawn as a dashed outline rather than a
+ * masked conic gradient (see `--animate-panel-beam` for why).
+ *
+ * Four strokes on the same outline:
+ *
+ *   track  a continuous ring at the edge of visible, so the light has
+ *          something to run along rather than appearing out of the dark. It is
+ *          meant to be felt rather than seen; past about a tenth of the accent
+ *          it stops being a track and becomes a second border competing with
+ *          the panel's own.
+ *   bloom  wide and heavily blurred, the light thrown onto its surroundings
+ *   halo   the soft body of the light
+ *   core   a thin near-white centre
+ *
+ * The three lit strokes share one dash and one phase, so they sit exactly on
+ * top of each other and read as a single glowing object. An earlier version
+ * gave the bright part its own shorter dash running ahead of a longer dim one:
+ * that separates into a head towing something behind it, which at this size
+ * read as a tail rather than as light.
+ *
+ * Glow is built from stacked blurred copies rather than from `drop-shadow` on
+ * one stroke. A drop shadow is one offset copy of the alpha, so it grows hard
+ * edged as it widens; stacking widths that each blur further gives the falloff
+ * a real light has.
+ *
+ * The outline is inset by half its own width so it sits on the panel's edge
+ * instead of straddling it, and the radius matches the panel's `rounded-3xl`.
+ * Geometry lives here rather than on the element, so the same markup fits any
+ * panel it is dropped into.
+ */
+.panel-beam {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.panel-beam rect {
+  x: 1px;
+  y: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  rx: 1.5rem;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.panel-beam .beam-track {
+  stroke: color-mix(in oklab, var(--color-lavender) 9%, transparent);
+  stroke-width: 1;
+}
+
+/*
+ * One dash worn by all three lit strokes: four fifths of the lap lit, a fifth
+ * dark. Past roughly half, the figure and ground swap. The eye stops following
+ * a lit segment travelling a dark outline and starts reading a lit outline
+ * with a gap moving through it, which is a far calmer thing to sit beside
+ * while still lighting the whole panel.
+ */
+.panel-beam .beam-bloom,
+.panel-beam .beam-halo,
+.panel-beam .beam-core {
+  stroke-dasharray: 80 20;
+}
+
+.panel-beam .beam-bloom {
+  stroke: var(--color-lavender);
+  stroke-width: 7;
+  opacity: 0.4;
+  filter: blur(0.5rem);
+}
+
+.panel-beam .beam-halo {
+  stroke: var(--color-lavender);
+  stroke-width: 3;
+  opacity: 0.85;
+  filter: blur(0.1875rem);
+}
+
+.panel-beam .beam-core {
+  stroke: var(--color-lavender-soft);
+  stroke-width: 1.25;
+  filter: blur(0.03125rem);
+}
+
+/*
+ * The polish on a newsletter field: a lit top edge with a short fall-off below
+ * it, and a shadow along the bottom. Together they read as light landing on a
+ * slightly raised surface, which is what makes a dark input look like an object
+ * rather than a hole cut in the panel.
+ *
+ * The highlight is lavender rather than white. A white sheen on this ground
+ * comes out grey and reads as dirt on the field; carrying a little of the
+ * accent keeps it as light.
+ *
+ * It layers as `background-image`, so whatever `bg-*` the field already carries
+ * still supplies the colour underneath.
+ */
+@utility field-sheen {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--color-lavender) 8%, transparent),
+    transparent 45%
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--color-lavender) 16%, transparent),
+    inset 0 -1px 0 rgb(0 0 0 / 0.3);
 }
 
 @utility brand-sweep {
@@ -559,6 +696,15 @@ body {
  * framework pulled in for it.
  */
 @utility blog-content {
+  /*
+   * Article headings are jump targets for the contents rail, so they clear the
+   * sticky bar the same way the section anchors do.
+   */
+  h2,
+  h3 {
+    scroll-margin-top: calc(var(--header-height) + 2rem);
+  }
+
   h2 {
     font-family: var(--font-display);
     font-size: 1.5rem;
