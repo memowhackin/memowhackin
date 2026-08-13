@@ -304,6 +304,7 @@
     "minRead": "{{count}} min lezen",
     "notFoundTitle": "Dit artikel is niet gevonden.",
     "backToBlog": "Terug naar de blog",
+    "relatedTitle": "Gerelateerde artikelen",
     "categories": {
       "rnd": "R&D",
       "vulnerabilityAlerts": "Kwetsbaarheidsmeldingen",
