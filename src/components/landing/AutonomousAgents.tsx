@@ -1,18 +1,112 @@
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
 import { chipClass, chipMarkerClass } from "@/components/common/chipClass";
+import { CityLights } from "@/components/landing/CityLights";
 import type { Perch } from "@/components/landing/useSkylineAlerts";
 import { useSkylineAlerts } from "@/components/landing/useSkylineAlerts";
 import { sectionIds, site } from "@/config/site";
 
-/** The findings the agents surface, drawn from at random. */
+/**
+ * The findings the agents surface, drawn from at random. Each carries the two
+ * texts of its life: what the agent is doing while it scans, and what it found
+ * once the find confirms.
+ */
 const alerts = [
-  { key: "attack", label: "agents.alerts.attack" },
-  { key: "apiTesting", label: "agents.alerts.apiTesting" },
-  { key: "files", label: "agents.alerts.files" },
-  { key: "credentials", label: "agents.alerts.credentials" },
+  {
+    key: "attack",
+    label: "agents.alerts.attack",
+    scanning: "agents.scanning.attack",
+  },
+  {
+    key: "apiTesting",
+    label: "agents.alerts.apiTesting",
+    scanning: "agents.scanning.apiTesting",
+  },
+  {
+    key: "files",
+    label: "agents.alerts.files",
+    scanning: "agents.scanning.files",
+  },
+  {
+    key: "credentials",
+    label: "agents.alerts.credentials",
+    scanning: "agents.scanning.credentials",
+  },
 ] as const;
+
+/** The character pool a label resolves out of while it flips. */
+const SCRAMBLE_CHARS = "01<>#$&/|";
+
+/** How long the flip from scanning text to finding takes. */
+const SCRAMBLE_MS = 650;
+
+/**
+ * The chip's label, resolving from one text to the next through scrambled
+ * characters when the find confirms.
+ *
+ * The frames are written to `textContent` through a ref rather than state —
+ * one label re-rendering thirty times over a scramble would be thirty renders
+ * of the whole section. React owns the final text (it is what the ref renders
+ * with), the animation only owns the frames in between. On the still
+ * arrangement, and anywhere else the text arrives without changing, nothing
+ * animates.
+ */
+function AlertLabel({ text, still }: { text: string; still: boolean }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  /*
+   * Starts empty, not at `text`: null marks the first effect run, which sets
+   * the label directly — the entrance is the chip's drop-in, not a scramble.
+   */
+  const shown = useRef<string | null>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const from = shown.current;
+    shown.current = text;
+
+    if (still || from === null || from === text) {
+      element.textContent = text;
+      return;
+    }
+
+    let frame = 0;
+    const started = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - started) / SCRAMBLE_MS, 1);
+      // Resolves left to right: the settled head grows, the tail churns.
+      const settled = Math.floor(text.length * progress);
+      let out = text.slice(0, settled);
+      for (let i = settled; i < text.length; i += 1) {
+        out +=
+          text[i] === " "
+            ? " "
+            : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+      }
+      element.textContent = out;
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(frame);
+      // Interrupted mid-flip — an exit can arrive early — land on the text.
+      element.textContent = text;
+    };
+  }, [text, still]);
+
+  /*
+   * Deliberately childless: the effect is the only writer. Rendering `{text}`
+   * here as well put two owners on one text node — the confirm re-renders the
+   * section mid-scramble, React patches the node the scramble had already
+   * replaced, and the chip ends up showing both strings frozen side by side.
+   */
+  return <span ref={ref} />;
+}
 
 /**
  * The buildings an alert can land on, measured off the photograph.
@@ -146,6 +240,9 @@ export function AutonomousAgents() {
         }}
       />
 
+      {/* The windows coming on as the reader scrolls the city in. */}
+      <CityLights />
+
       {/*
         Spacing runs in `vw` from `lg` up for the same reason as the alerts: the
         frame's 168px lead-in and 64px gaps are fractions of a 1920 canvas, and
@@ -255,8 +352,28 @@ export function AutonomousAgents() {
                   ),
                 )}
               >
-                <span className={chipMarkerClass} aria-hidden="true" />
-                {t(alert.label)}
+                {/*
+                  The marker is the severity light: indigo while the agent
+                  scans, ember once the find confirms. Written as a swap rather
+                  than an override on `chipMarkerClass` — two background
+                  utilities on one element are settled by sheet order, not by
+                  the order they are listed here. The still arrangement keeps
+                  the indigo marker: it depicts a monitored city at rest, not
+                  a wall of live criticals.
+                */}
+                <span
+                  className={clsx(
+                    "size-1.5 shrink-0 transition-colors duration-300 sm:size-2",
+                    !still && sighting.confirmed
+                      ? "bg-ember"
+                      : "bg-indigo-deep",
+                  )}
+                  aria-hidden="true"
+                />
+                <AlertLabel
+                  text={t(sighting.confirmed ? alert.label : alert.scanning)}
+                  still={still}
+                />
               </span>
 
               {/*

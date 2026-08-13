@@ -33,6 +33,13 @@ export interface Sighting {
   id: number;
   perchIndex: number;
   alertIndex: number;
+  /**
+   * The find is verified: the label has turned from what the agent is doing
+   * into what it found, and the marker carries the severity colour. The still
+   * arrangement is drawn confirmed throughout — it depicts findings, not work
+   * in progress.
+   */
+  confirmed: boolean;
   /** Playing its exit; still mounted until that animation has run. */
   leaving: boolean;
 }
@@ -71,7 +78,15 @@ const MAX_VISIBLE = 3;
  */
 const MIN_SEPARATION = 12;
 
-/** How long an alert holds before it starts to leave, in milliseconds. */
+/**
+ * How long an alert scans before its find confirms. Short enough that a reader
+ * glancing up mid-section still sees the flip happen, long enough that the
+ * scanning text is legible as a phase and not as a flicker.
+ */
+const SCAN_MIN = 1600;
+const SCAN_MAX = 2600;
+
+/** How long a confirmed alert holds before it starts to leave. */
 const DWELL_MIN = 4200;
 const DWELL_MAX = 6800;
 
@@ -116,6 +131,7 @@ function restingSightings({
       id: -1 - index,
       perchIndex,
       alertIndex: index,
+      confirmed: true,
       leaving: false,
     }));
 }
@@ -248,9 +264,22 @@ export function useSkylineAlerts<T extends HTMLElement>(
 
         if (perchIndex !== undefined && alertIndex !== undefined) {
           const id = nextIdRef.current++;
-          commit([...lit, { id, perchIndex, alertIndex, leaving: false }]);
-          after(between(DWELL_MIN, DWELL_MAX), () => {
-            retire(id);
+          commit([
+            ...lit,
+            { id, perchIndex, alertIndex, confirmed: false, leaving: false },
+          ]);
+          // Scan first, confirm, then dwell as a confirmed find before leaving.
+          after(between(SCAN_MIN, SCAN_MAX), () => {
+            commit(
+              sightingsRef.current.map((sighting) =>
+                sighting.id === id
+                  ? { ...sighting, confirmed: true }
+                  : sighting,
+              ),
+            );
+            after(between(DWELL_MIN, DWELL_MAX), () => {
+              retire(id);
+            });
           });
         }
       }

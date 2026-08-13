@@ -224,6 +224,12 @@
       "files": "JWT misconfiguration",
       "credentials": "Code execution",
       "attack": "Agentic pentest started"
+    },
+    "scanning": {
+      "apiTesting": "Probing API endpoints",
+      "files": "Inspecting token flow",
+      "credentials": "Tracing input handling",
+      "attack": "Mapping attack surface"
     }
   },
   "services": {
@@ -293,26 +299,10 @@
     "searchPlaceholder": "Search articles",
     "filterAll": "All",
     "empty": "No articles match your search yet.",
+    "minRead": "{{count}} min read",
     "notFoundTitle": "This article could not be found.",
     "backToBlog": "Back to the blog",
     "relatedTitle": "Related posts",
-    "breadcrumbHome": "Blog",
-    "byline": "AssistSec team",
-    "published": "Published",
-    "share": "Share",
-    "shareLinkedin": "Share on LinkedIn",
-    "copyLink": "Copy link",
-    "copied": "Link copied",
-    "tocTitle": "In this article",
-    "newsletter": {
-      "title": "Newsletter",
-      "placeholder": "you@company.com",
-      "submit": "Subscribe",
-      "success": "Thanks, you are on the list.",
-      "ctaTitle": "Get the next one in your inbox.",
-      "ctaBody": "Field notes on pentesting, agentic testing and compliance, written by the team running the tests."
-    },
-    "moreTitle": "Keep reading",
     "categories": {
       "rnd": "R&D",
       "vulnerabilityAlerts": "Vulnerability alerts",
@@ -340,9 +330,7 @@
         "excerpt": "ISO 27001 and NIS2 require demonstrable control. This way, you remain audit-ready without losing momentum."
       }
     },
-    "linkedIn": "LinkedIn",
-    "archiveTitle": "All articles",
-    "featuredLabel": "Featured"
+    "linkedIn": "LinkedIn"
   },
   "admin": {
     "loginTitle": "Sign in | AssistSec Blog",
