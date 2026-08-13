@@ -142,7 +142,7 @@
     "text": "Use our free scanner to check your security!"
   },
   "contactPage": {
-    "heroTitle": "Tell us what you run. We will tell you how we would attack it.",
+    "heroTitle": "Get in touch.",
     "heroBody": "Whether you need a pentest next month or just want to talk through your setup, send us a message and a pentester replies within one business day.",
     "form": {
       "name": "Name",
@@ -153,10 +153,10 @@
       "companyPlaceholder": "Your company",
       "service": "What do you need?",
       "servicePlaceholder": "Choose a service",
+      "serviceError": "Please choose a service.",
       "note": "Your note",
       "notePlaceholder": "Tell us about your application, your timeline, or anything else we should know.",
       "submit": "Send message",
-      "mailHint": "Sending opens your e-mail app with the message ready to go.",
       "services": {
         "webApp": "Web application pentesting",
         "api": "API pentesting",
@@ -165,9 +165,7 @@
       }
     },
     "aside": {
-      "directTitle": "Prefer to write directly?",
       "directBody": "Skip the form and reach the team straight away.",
-      "responseTitle": "What happens next",
       "responseBody": "A pentester reads your message, not a sales queue. You hear from us within one business day."
     }
   },
