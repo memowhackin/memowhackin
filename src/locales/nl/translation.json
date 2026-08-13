@@ -142,7 +142,7 @@
     "text": "Gebruik onze gratis scanner om uw beveiliging te controleren!"
   },
   "contactPage": {
-    "heroTitle": "Vertel ons wat u draait. Wij vertellen u hoe wij het zouden aanvallen.",
+    "heroTitle": "Neem contact op.",
     "heroBody": "Of u nu volgende maand een pentest nodig heeft of gewoon uw omgeving wilt doorspreken: stuur ons een bericht en een pentester reageert binnen één werkdag.",
     "form": {
       "name": "Naam",
@@ -153,10 +153,10 @@
       "companyPlaceholder": "Uw bedrijf",
       "service": "Waar kunnen we mee helpen?",
       "servicePlaceholder": "Kies een dienst",
+      "serviceError": "Kies een dienst.",
       "note": "Uw toelichting",
       "notePlaceholder": "Vertel ons over uw applicatie, uw planning of wat we verder moeten weten.",
       "submit": "Verstuur bericht",
-      "mailHint": "Versturen opent uw e-mailprogramma met het bericht klaar om te verzenden.",
       "services": {
         "webApp": "Web applicatie pentesting",
         "api": "API pentesting",
@@ -165,9 +165,7 @@
       }
     },
     "aside": {
-      "directTitle": "Liever direct mailen?",
       "directBody": "Sla het formulier over en bereik het team meteen.",
-      "responseTitle": "Wat er daarna gebeurt",
       "responseBody": "Uw bericht wordt gelezen door een pentester, niet door een salesafdeling. U hoort binnen één werkdag van ons."
     }
   },

@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { ChevronDown } from "lucide-react";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { LatticeDivider } from "@/components/common/LatticeDivider";
 import { SectionShell } from "@/components/common/SectionShell";
+import { SelectField } from "@/components/common/SelectField";
 import { useReveal } from "@/components/common/useReveal";
 import { useSeo } from "@/localization/useSeo";
 import { site } from "@/config/site";
@@ -37,6 +37,8 @@ const inputClass =
 function ContactPage() {
   const { t } = useTranslation();
   const { ref: heroRef, className: heroReveal } = useReveal<HTMLDivElement>();
+  const [service, setService] = useState("");
+  const [serviceError, setServiceError] = useState(false);
 
   useSeo({
     title: t("pages.contact.title"),
@@ -44,18 +46,34 @@ function ContactPage() {
     path: "/contact",
   });
 
+  const serviceOptions = useMemo(
+    () =>
+      SERVICES.map((key) => ({
+        value: key,
+        label: t(`contactPage.form.services.${key}`),
+      })),
+    [t],
+  );
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    // The custom select is not a native required control, so it is checked here
+    // once the browser has cleared the native required fields around it.
+    if (service.length === 0) {
+      setServiceError(true);
+      document.getElementById("contact-service")?.focus();
+      return;
+    }
 
     const data = new FormData(event.currentTarget);
     const name = fieldValue(data, "name");
     const email = fieldValue(data, "email");
     const company = fieldValue(data, "company");
-    const serviceKey = fieldValue(data, "service");
     const note = fieldValue(data, "note");
 
-    const service = t(`contactPage.form.services.${serviceKey}`);
-    const subject = `${service} - ${company.length > 0 ? company : name}`;
+    const serviceLabel = t(`contactPage.form.services.${service}`);
+    const subject = `${serviceLabel} - ${company.length > 0 ? company : name}`;
     const body = [
       `${t("contactPage.form.name")}: ${name}`,
       `${t("contactPage.form.email")}: ${email}`,
@@ -113,29 +131,24 @@ function ContactPage() {
         className="bg-ink"
         innerClassName="grid gap-14 pt-4 pb-14 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-20 lg:pt-8 lg:pb-24"
       >
-        {/* The direct route, and what a message here actually starts. */}
-        <div className="flex flex-col gap-10">
-          <div className="flex flex-col gap-3">
-            <h2 className="eyebrow text-lavender">
-              {t("contactPage.aside.directTitle")}
-            </h2>
+        {/* The direct route, and what a message here actually starts — two
+            quiet cards, stacked, matching the form's own field dress. */}
+        <div className="flex flex-col gap-4">
+          <div className="border-indigo-deep bg-ink-deep/50 flex flex-col gap-3 rounded-2xl border p-6 sm:p-7">
             <p className="text-mist/70 text-base leading-relaxed">
               {t("contactPage.aside.directBody")}
             </p>
             <a
               href={`mailto:${site.contactEmail}`}
               data-testid="contact-direct-email"
-              className="font-display text-lavender hover:text-lavender-soft w-fit text-xl break-all transition-colors sm:text-2xl"
+              className="font-display text-lavender hover:text-lavender-soft mt-1 w-fit text-xl break-all transition-colors sm:text-2xl"
             >
               {site.contactEmail}
             </a>
           </div>
 
-          <div className="flex flex-col gap-3">
-            <h2 className="eyebrow text-lavender">
-              {t("contactPage.aside.responseTitle")}
-            </h2>
-            <p className="text-mist/70 max-w-sm text-base leading-relaxed text-pretty">
+          <div className="border-indigo-deep bg-ink-deep/50 flex flex-col gap-3 rounded-2xl border p-6 sm:p-7">
+            <p className="text-mist/70 text-base leading-relaxed text-pretty">
               {t("contactPage.aside.responseBody")}
             </p>
           </div>
@@ -213,34 +226,29 @@ function ContactPage() {
                 {t("contactPage.form.service")}
               </label>
               {/*
-                A native select under the site's field dress. `appearance-none`
-                drops the platform arrow so the one drawn here matches the
-                lavender line the rest of the form speaks; the wrapper exists
-                only to position that arrow.
+                A themed listbox rather than a native select — its dropdown wears
+                the site's own dark panel instead of the browser's white sheet.
               */}
-              <div className="relative">
-                <select
-                  id="contact-service"
-                  name="service"
-                  required
-                  defaultValue=""
-                  className={clsx(inputClass, "appearance-none pr-11")}
-                  data-testid="contact-service"
+              <SelectField
+                id="contact-service"
+                value={service}
+                onChange={(next) => {
+                  setService(next);
+                  setServiceError(false);
+                }}
+                options={serviceOptions}
+                placeholder={t("contactPage.form.servicePlaceholder")}
+                invalid={serviceError}
+                data-testid="contact-service"
+              />
+              {serviceError && (
+                <p
+                  className="text-ember text-sm"
+                  data-testid="contact-service-error"
                 >
-                  <option value="" disabled>
-                    {t("contactPage.form.servicePlaceholder")}
-                  </option>
-                  {SERVICES.map((service) => (
-                    <option key={service} value={service}>
-                      {t(`contactPage.form.services.${service}`)}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown
-                  className="text-lavender/70 pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2"
-                  aria-hidden="true"
-                />
-              </div>
+                  {t("contactPage.form.serviceError")}
+                </p>
+              )}
             </div>
           </div>
 
@@ -262,19 +270,13 @@ function ContactPage() {
             />
           </div>
 
-          <div className="mt-1 flex flex-col gap-3">
-            <button
-              type="submit"
-              data-testid="contact-submit"
-              className={brandButtonClass({ className: "w-full sm:w-fit" })}
-            >
-              {t("contactPage.form.submit")}
-            </button>
-
-            <p className="text-mist/45 text-sm leading-relaxed">
-              {t("contactPage.form.mailHint")}
-            </p>
-          </div>
+          <button
+            type="submit"
+            data-testid="contact-submit"
+            className={brandButtonClass({ className: "mt-1 w-full sm:w-fit" })}
+          >
+            {t("contactPage.form.submit")}
+          </button>
         </form>
       </SectionShell>
     </div>
