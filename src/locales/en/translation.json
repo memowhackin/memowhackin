@@ -270,13 +270,7 @@
     "reportIntro": "The findings are included in a final report, including a clear management summary.",
     "reportBody": "Vulnerabilities are evaluated and provided with recommendations, prioritized based on risk.",
     "cta": "Request sample report",
-    "labels": {
-      "summary": "Management summary",
-      "vectors": "Possible attack vectors",
-      "risk": "Ranked risk assessment",
-      "scope": "Test scope and methodology",
-      "steps": "Steps for troubleshooting"
-    },
+    "reportAlt": "A sample AssistSec pentest report, open at the executive summary, with the technical appendix half-visible behind it",
     "modal": {
       "title": "Request a sample report",
       "description": "See exactly what an AssistSec pentest report looks like. Leave your details and we'll send a sample straight to your inbox.",
