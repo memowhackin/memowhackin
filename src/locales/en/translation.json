@@ -304,6 +304,7 @@
     "minRead": "{{count}} min read",
     "notFoundTitle": "This article could not be found.",
     "backToBlog": "Back to the blog",
+    "relatedTitle": "Related posts",
     "categories": {
       "rnd": "R&D",
       "vulnerabilityAlerts": "Vulnerability alerts",
