@@ -270,13 +270,7 @@
     "reportIntro": "De bevindingen worden opgenomen in een eindrapport, inclusief een heldere managementsamenvatting.",
     "reportBody": "Kwetsbaarheden worden beoordeeld en voorzien van aanbevelingen, geprioriteerd op basis van risico.",
     "cta": "Voorbeeldrapport aanvragen",
-    "labels": {
-      "summary": "Managementsamenvatting",
-      "vectors": "Mogelijke aanvalsvectoren",
-      "risk": "Gerangschikte risicobeoordeling",
-      "scope": "Testscope en methodologie",
-      "steps": "Stappen voor het oplossen"
-    },
+    "reportAlt": "Een voorbeeld van een AssistSec pentestrapport, geopend bij de managementsamenvatting, met de technische bijlage half zichtbaar erachter",
     "modal": {
       "title": "Voorbeeldrapport aanvragen",
       "description": "Bekijk precies hoe een pentestrapport van AssistSec eruitziet. Laat uw gegevens achter en we sturen een voorbeeld direct naar uw inbox.",

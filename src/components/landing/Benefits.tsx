@@ -4,150 +4,75 @@ import clsx from "clsx";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
-import { LogoMark } from "@/components/common/Logo";
 import { SampleReportModal } from "@/components/landing/SampleReportModal";
 
 /**
- * What the report contains. The frame scatters these across the page at hand-set
- * angles, which worked while the page underneath was blank; over an actual
- * document they land on top of the content and collide as the column narrows,
- * so they run as a legible row beneath it instead.
+ * The artwork's intrinsic size. Set on both layers so the grid reserves the
+ * row before the first spread decodes — without it the copy column snaps
+ * upward as the section scrolls in.
  */
-const reportLabels = ["summary", "vectors", "risk", "scope", "steps"] as const;
-
-/** Severity mix drawn across the summary bar and the finding rows. */
-const severities = [
-  { key: "critical", color: "bg-ember", share: "22%" },
-  { key: "high", color: "bg-warning", share: "28%" },
-  { key: "medium", color: "bg-lavender", share: "32%" },
-  { key: "low", color: "bg-indigo", share: "18%" },
-] as const;
-
-/** Finding rows: severity marker plus the line of text it stands for. */
-const findingRows = [
-  { key: "one", color: "bg-ember", width: "86%" },
-  { key: "two", color: "bg-warning", width: "72%" },
-  { key: "three", color: "bg-warning", width: "78%" },
-  { key: "four", color: "bg-lavender", width: "64%" },
-  { key: "five", color: "bg-indigo", width: "70%" },
-] as const;
-
-/** Findings-over-time column chart on the report's second block. */
-const trendBars = [
-  { key: "a", height: "35%" },
-  { key: "b", height: "55%" },
-  { key: "c", height: "42%" },
-  { key: "d", height: "78%" },
-  { key: "e", height: "62%" },
-  { key: "f", height: "94%" },
-  { key: "g", height: "70%" },
-  { key: "h", height: "48%" },
-] as const;
+const spreadWidth = 1500;
+const spreadHeight = 1300;
 
 /**
- * Abstract render of the deliverable — a report page with a risk summary, a
- * ranked finding list and the closing figures.
- *
- * It carries no copy of its own on purpose: the section text and the chips
- * beneath it say what the report contains, so this is decorative and hidden
- * from assistive technology rather than a wall of untranslated placeholder.
+ * The deliverable as a still life: the sample report open at the executive
+ * summary, and behind it — dimmed, tilted, half-hidden — the technical
+ * appendix. The back spread's "Appendix A" strip peeks above the front page
+ * with its finding title cropped mid-line, which is the point: the section
+ * shows that more exists without ever showing it. There is deliberately no
+ * way to page through here; the only path to the rest is the CTA.
  */
-function ReportPreview() {
+function ReportStack() {
+  const { t } = useTranslation();
+
   return (
-    <div
-      className="border-lavender/25 bg-ink-deep/90 flex w-full flex-col gap-4 rounded-2xl border p-5 shadow-2xl backdrop-blur-sm sm:gap-5 sm:p-7"
-      aria-hidden="true"
-    >
-      <div className="flex items-center gap-3">
-        <LogoMark className="text-lavender h-[1.25em] w-auto shrink-0 text-base" />
-        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-          <span className="bg-mist/70 block h-2 w-2/5 rounded-full" />
-          <span className="bg-mist/25 block h-1.5 w-1/4 rounded-full" />
-        </div>
-        <span className="border-lavender/40 rounded-selector flex shrink-0 items-center gap-1 border px-2 py-1.5">
-          <span className="bg-lavender/70 block h-1 w-1 rounded-full" />
-          <span className="bg-lavender/70 block h-1 w-4 rounded-full" />
-        </span>
-      </div>
+    <div className="pointer-events-none relative aspect-[1500/1300] w-full select-none">
+      {/* Reading-light glow anchoring the paper on the ink background. */}
+      <div
+        aria-hidden="true"
+        className="absolute top-[2%] left-[8%] size-[86%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-indigo-bright)_52%,transparent),color-mix(in_oklab,var(--color-indigo)_24%,transparent)_55%,transparent_80%)] opacity-60"
+      />
 
-      <span className="bg-lavender/20 block h-px w-full" />
+      {/*
+        The appendix, in shadow. The clip removes the render's own standing
+        cover (every spread ships with one; two covers would read as a bug),
+        and the up-right offset floats the surviving page's top strip above
+        the front spread.
+      */}
+      <img
+        src="/assets/report/hero-4.webp"
+        srcSet="/assets/report/hero-4.webp 1x, /assets/report/hero-4@2x.webp 2x"
+        width={spreadWidth}
+        height={spreadHeight}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="motion-safe:animate-report-sway absolute inset-0 size-full translate-x-[5%] -translate-y-[13%] scale-[0.985] rotate-[1.5deg] object-contain brightness-[0.82] [clip-path:inset(0_0_20%_16%)]"
+      />
 
-      {/* Risk summary bar. */}
-      <div className="flex flex-col gap-2">
-        <span className="bg-mist/30 block h-1.5 w-1/3 rounded-full" />
-        <div className="flex h-2.5 w-full overflow-hidden rounded-full">
-          {severities.map((severity) => (
-            <span
-              key={severity.key}
-              className={severity.color}
-              style={{ width: severity.share }}
-            />
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-x-4 gap-y-1">
-          {severities.map((severity) => (
-            <span key={severity.key} className="flex items-center gap-1.5">
-              <span className={clsx("size-1.5 rounded-full", severity.color)} />
-              <span className="bg-mist/25 block h-1.5 w-8 rounded-full" />
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Findings over time. */}
-      <div className="border-lavender/10 bg-indigo-deep/25 flex h-24 shrink-0 items-end gap-1 rounded-lg border p-3 sm:h-28">
-        {trendBars.map((bar) => (
-          <span
-            key={bar.key}
-            className="from-indigo to-lavender flex-1 rounded-t-xs bg-gradient-to-t"
-            style={{ height: bar.height }}
-          />
-        ))}
-      </div>
-
-      {/* Ranked findings. */}
-      <ul className="flex flex-col gap-2.5">
-        {findingRows.map((row) => (
-          <li
-            key={row.key}
-            className="border-lavender/10 bg-indigo-deep/25 flex items-center gap-3 rounded-lg border p-3"
-          >
-            <span className={clsx("size-2 shrink-0 rounded-full", row.color)} />
-            <span className="flex min-w-0 flex-1 flex-col gap-1.5">
-              <span
-                className="bg-mist/45 block h-1.5 rounded-full"
-                style={{ width: row.width }}
-              />
-              <span className="bg-mist/20 block h-1.5 w-1/3 rounded-full" />
-            </span>
-          </li>
-        ))}
-      </ul>
-
-      {/* Closing figures. */}
-      <div className="grid grid-cols-3 gap-2">
-        {severities.slice(0, 3).map((severity) => (
-          <div
-            key={severity.key}
-            className="border-lavender/10 bg-indigo-deep/25 flex flex-col gap-1.5 rounded-lg border p-3"
-          >
-            <span
-              className={clsx("block h-1.5 w-6 rounded-full", severity.color)}
-            />
-            <span className="bg-mist/35 block h-2.5 w-3/5 rounded-full" />
-          </div>
-        ))}
-      </div>
+      <img
+        src="/assets/report/hero-1.webp"
+        srcSet="/assets/report/hero-1.webp 1x, /assets/report/hero-1@2x.webp 2x"
+        width={spreadWidth}
+        height={spreadHeight}
+        alt={t("benefits.reportAlt")}
+        loading="lazy"
+        className="absolute inset-0 size-full object-contain"
+      />
     </div>
   );
 }
 
-/** Report preview on the left, benefit copy and sample-report CTA on the right. */
+/** Report still life on the left, benefit copy and sample-report CTA on the right. */
 export function Benefits() {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
-  const { ref: reportRef, className: reportClassName } =
-    useReveal<HTMLDivElement>();
+
+  const {
+    ref: stackRef,
+    className: stackClassName,
+    style: stackStyle,
+  } = useReveal<HTMLDivElement>();
   const {
     ref: copyRef,
     className: copyClassName,
@@ -157,51 +82,32 @@ export function Benefits() {
   return (
     <SectionShell
       data-testid="benefits"
-      className="bg-ink"
-      innerClassName="grid items-center gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-12 lg:py-28 xl:gap-20"
+      className="bg-ink overflow-x-clip"
+      innerClassName="grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16 lg:py-28 xl:gap-24"
     >
+      {/*
+        Stacked, the heading introduces the artwork rather than follows it.
+        The gentle scale-up spends the render's transparent canvas margins so
+        the book fills its column instead of floating in it.
+      */}
       <div
-        ref={reportRef}
-        className={clsx("flex flex-col gap-6", reportClassName)}
+        ref={stackRef}
+        style={stackStyle}
+        className={clsx(
+          "order-2 mx-auto w-full max-w-[34rem] scale-[1.04] lg:order-none lg:mx-0 lg:max-w-none",
+          stackClassName,
+        )}
       >
-        {/*
-          The stack sizes to the report rather than to a drawn aspect ratio: at
-          narrow widths a fixed ratio was shorter than the page's own content,
-          which then spilled over everything below it.
-        */}
-        <div className="relative mx-auto w-full max-w-[34rem] lg:mx-0 lg:max-w-none">
-          {/* The two report pages stacked behind the front one. */}
-          <div
-            className="border-lavender/15 absolute inset-y-[3%] -left-[3%] w-[92%] rotate-[-7deg] rounded-2xl border bg-gradient-to-br from-[#1d1948] to-[#131029] shadow-2xl"
-            aria-hidden="true"
-          />
-          <div
-            className="border-lavender/20 absolute inset-y-[1.5%] left-[2%] w-[95%] rotate-[-3.5deg] rounded-2xl border bg-gradient-to-br from-[#161238] to-[#0f0d24] shadow-2xl"
-            aria-hidden="true"
-          />
-
-          <div className="relative">
-            <ReportPreview />
-          </div>
-        </div>
-
-        <ul className="flex flex-wrap justify-center gap-2 lg:justify-start">
-          {reportLabels.map((label) => (
-            <li
-              key={label}
-              data-testid={`benefit-label-${label}`}
-              className="border-lavender/40 bg-indigo-deep/60 text-mist rounded-md border px-3 py-2 text-xs shadow-[0_0_1.5rem_rgba(173,157,238,0.25)] sm:text-sm"
-            >
-              {t(`benefits.labels.${label}`)}
-            </li>
-          ))}
-        </ul>
+        <ReportStack />
       </div>
 
       <div
         ref={copyRef}
         style={copyStyle}
-        className={clsx("flex flex-col gap-8", copyClassName)}
+        className={clsx(
+          "order-1 flex flex-col gap-8 lg:order-none",
+          copyClassName,
+        )}
       >
         <h2 className="font-display text-section text-mist font-normal text-balance">
           {t("benefits.title")}

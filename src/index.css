@@ -318,6 +318,27 @@
       transform: scale(2.6);
     }
   }
+
+  /*
+   * The one animation the report still life keeps: the shadowed appendix
+   * sways a few pixels behind the front page on a slow cycle. It lives on the
+   * back layer on purpose — that layer carries no readable text, so the
+   * sub-pixel travel that once blurred the front page costs nothing here and
+   * the front spread stays pixel-still. The keyframe animates `transform`,
+   * which composes with the layer's static `translate`/`rotate` offsets (see
+   * the note on `--animate-reveal`).
+   */
+  --animate-report-sway: report-sway 9s ease-in-out infinite;
+
+  @keyframes report-sway {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-0.45rem);
+    }
+  }
 }
 
 html,
