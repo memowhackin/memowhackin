@@ -43,8 +43,6 @@ curl -o /dev/null -w '%{http_code}\n' localhost:8001/api/posts  # 401
 ### Filling in `.env`
 
 Database settings are separate fields rather than one `DATABASE_URL`, because a
-password containing `#`, `?`, `@` or `/` silently breaks a connection string
-unless every character is percent-encoded.
 
 **Quote any value containing `#`.** dotenv reads an unquoted `#` as the start of
 a comment, so an unquoted password is silently truncated at the first `#` and

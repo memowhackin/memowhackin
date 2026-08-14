@@ -358,6 +358,341 @@ test.describe("authoring", () => {
   });
 });
 
+test.describe("image editing", () => {
+  /** A post whose body already carries an image, so the drag tests have one. */
+  const ILLUSTRATED = {
+    ...POST,
+    body:
+      "<p>first paragraph</p>" +
+      '<img src="/api/public/media/test.webp" alt="" class="blog-image" ' +
+      'data-display-width="50" data-align="center" width="200" height="100">' +
+      "<p>second paragraph</p><p>third paragraph</p>",
+  };
+
+  /*
+   * Playwright cannot start Chromium's NATIVE drag pipeline, so the drag tests
+   * drive the editor's handlers with synthetic DragEvents and simulate the
+   * engine defaults the reconciliation exists for — a copy inserted at the
+   * drop point, a source deleted at dragend. What is asserted is the invariant
+   * the author cares about: a drag repositions exactly one image, whatever
+   * the browser did around it. Reconciliation is deferred past the engine's
+   * own cleanup, so assertions wait two frames.
+   */
+  async function openEditor(page: Page) {
+    await mockApi(page, { authed: true, posts: [ILLUSTRATED] });
+    await page.goto("/studio-b78262a861");
+    await page.getByTestId(`admin-edit-${ILLUSTRATED.slug}`).click();
+    await page.waitForSelector('[data-testid="editor-body"] img');
+  }
+
+  test("repositions a dragged image exactly once, even when the engine inserts its own copy", async ({
+    page,
+  }) => {
+    await openEditor(page);
+
+    const result = await page.evaluate(async () => {
+      const editor = document.querySelector('[data-testid="editor-body"]');
+      if (!editor) throw new Error("no editor");
+      const img = editor.querySelector("img");
+      const target = [...editor.querySelectorAll("p")].at(-1);
+      if (!img || !target) throw new Error("no image or target");
+
+      const rect = target.getBoundingClientRect();
+      const opts: DragEventInit = {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+        clientX: rect.left + 10,
+        clientY: rect.bottom - 2,
+      };
+      img.dispatchEvent(new DragEvent("dragstart", opts));
+      editor.dispatchEvent(new DragEvent("dragover", opts));
+      target.dispatchEvent(new DragEvent("drop", opts));
+      // What the engine's unsuppressed drop default would leave behind.
+      editor.append(img.cloneNode(true));
+      img.dispatchEvent(new DragEvent("dragend", opts));
+
+      await new Promise((resolve) =>
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => setTimeout(resolve, 0)),
+        ),
+      );
+      return {
+        images: editor.querySelectorAll("img").length,
+        order: [...editor.children].map((el) => el.tagName).join(","),
+      };
+    });
+
+    expect(result.images).toBe(1);
+    // Moved below the third paragraph, with the trailing line the editor keeps
+    // after a final image.
+    expect(result.order).toBe("P,P,P,IMG,P");
+  });
+
+  test("restores the image when the engine deletes the source after the drop", async ({
+    page,
+  }) => {
+    await openEditor(page);
+
+    const images = await page.evaluate(async () => {
+      const editor = document.querySelector('[data-testid="editor-body"]');
+      if (!editor) throw new Error("no editor");
+      const img = editor.querySelector("img");
+      const target = [...editor.querySelectorAll("p")].at(-1);
+      if (!img || !target) throw new Error("no image or target");
+
+      const rect = target.getBoundingClientRect();
+      const opts: DragEventInit = {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+        clientX: rect.left + 10,
+        clientY: rect.bottom - 2,
+      };
+      img.dispatchEvent(new DragEvent("dragstart", opts));
+      editor.dispatchEvent(new DragEvent("dragover", opts));
+      target.dispatchEvent(new DragEvent("drop", opts));
+      img.remove(); // Chromium's deleteByDrag.
+      editor.dispatchEvent(new DragEvent("dragend", opts));
+
+      await new Promise((resolve) =>
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => setTimeout(resolve, 0)),
+        ),
+      );
+      return editor.querySelectorAll("img").length;
+    });
+
+    expect(images).toBe(1);
+  });
+
+  test("moves an image dragged after being clicked, where dragstart misses the img", async ({
+    page,
+  }) => {
+    await openEditor(page);
+
+    const result = await page.evaluate(async () => {
+      const editor = document.querySelector('[data-testid="editor-body"]');
+      if (!editor) throw new Error("no editor");
+      const img = editor.querySelector("img");
+      const target = editor.querySelector("p");
+      if (!img || !target) throw new Error("no image or target");
+
+      // Clicking before dragging — how anyone repositions an image. The
+      // pointerdown records the drag source; the engine may then aim
+      // dragstart at the container instead of the image.
+      img.dispatchEvent(
+        new PointerEvent("pointerdown", { bubbles: true, cancelable: true }),
+      );
+
+      const rect = target.getBoundingClientRect();
+      const opts: DragEventInit = {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+        clientX: rect.left + 10,
+        clientY: rect.top + 2,
+      };
+      editor.dispatchEvent(new DragEvent("dragstart", opts));
+      editor.dispatchEvent(new DragEvent("dragover", opts));
+      target.dispatchEvent(new DragEvent("drop", opts));
+      editor.dispatchEvent(new DragEvent("dragend", opts));
+
+      await new Promise((resolve) =>
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => setTimeout(resolve, 0)),
+        ),
+      );
+      return {
+        images: editor.querySelectorAll("img").length,
+        first: editor.firstElementChild?.tagName,
+      };
+    });
+
+    expect(result.images).toBe(1);
+    // Dropped above the first paragraph's midline, so it leads the article.
+    expect(result.first).toBe("IMG");
+  });
+
+  test("cancels the engine's own drop edits at the beforeinput layer", async ({
+    page,
+  }) => {
+    await openEditor(page);
+
+    const prevented = await page.evaluate(() => {
+      const editor = document.querySelector('[data-testid="editor-body"]');
+      if (!editor) throw new Error("no editor");
+      const img = editor.querySelector("img");
+      if (!img) throw new Error("no image");
+
+      img.dispatchEvent(
+        new DragEvent("dragstart", {
+          bubbles: true,
+          cancelable: true,
+          dataTransfer: new DataTransfer(),
+        }),
+      );
+
+      // Chromium expresses its half of the drag as these two, mid-flight.
+      const results = ["deleteByDrag", "insertFromDrop"].map((inputType) => {
+        const event = new InputEvent("beforeinput", {
+          bubbles: true,
+          cancelable: true,
+          inputType,
+        });
+        editor.dispatchEvent(event);
+        return event.defaultPrevented;
+      });
+
+      editor.dispatchEvent(
+        new DragEvent("dragend", { bubbles: true, cancelable: true }),
+      );
+      return results;
+    });
+
+    expect(prevented).toEqual([true, true]);
+  });
+
+  test("previews where the image will land while dragging", async ({
+    page,
+  }) => {
+    await openEditor(page);
+
+    const during = await page.evaluate(async () => {
+      const editor = document.querySelector('[data-testid="editor-body"]');
+      if (!editor) throw new Error("no editor");
+      const img = editor.querySelector("img");
+      const target = [...editor.querySelectorAll("p")].at(-1);
+      if (!img || !target) throw new Error("no image or target");
+
+      const rect = target.getBoundingClientRect();
+      const opts: DragEventInit = {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+        clientX: rect.left + 10,
+        clientY: rect.bottom - 2,
+      };
+      img.dispatchEvent(new DragEvent("dragstart", opts));
+      editor.dispatchEvent(new DragEvent("dragover", opts));
+      // The indicator renders a frame later; give it two.
+      await new Promise((resolve) =>
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => setTimeout(resolve, 0)),
+        ),
+      );
+      return (
+        document.querySelector('[data-testid="editor-drop-indicator"]') !== null
+      );
+    });
+    expect(during).toBe(true);
+
+    const after = await page.evaluate(async () => {
+      const editor = document.querySelector('[data-testid="editor-body"]');
+      if (!editor) throw new Error("no editor");
+      editor.dispatchEvent(
+        new DragEvent("dragend", { bubbles: true, cancelable: true }),
+      );
+      await new Promise((resolve) =>
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => setTimeout(resolve, 0)),
+        ),
+      );
+      return (
+        document.querySelector('[data-testid="editor-drop-indicator"]') !== null
+      );
+    });
+    expect(after).toBe(false);
+  });
+
+  test("resizes smoothly with the handle and snaps to a step on release", async ({
+    page,
+  }) => {
+    await openEditor(page);
+
+    // Select the image so the handle appears.
+    const image = page.locator('[data-testid="editor-body"] img');
+    await image.click();
+    const handle = page.getByTestId("editor-resize-handle");
+    await expect(handle).toBeVisible();
+
+    const editorBox = await page.getByTestId("editor-body").boundingBox();
+    const handleBox = await handle.boundingBox();
+    if (!editorBox || !handleBox) throw new Error("no boxes");
+
+    // Drag the corner right by a quarter of the column: 50% grows towards 75%.
+    const startX = handleBox.x + handleBox.width / 2;
+    const startY = handleBox.y + handleBox.height / 2;
+    await page.mouse.move(startX, startY);
+    await page.mouse.down();
+    await page.mouse.move(startX + editorBox.width * 0.25, startY, {
+      steps: 8,
+    });
+
+    // Mid-drag: live preview via inline style, and the chip names the step.
+    await expect(page.getByTestId("editor-resize-percent")).toHaveText("75%");
+    const midStyle = await image.getAttribute("style");
+    expect(midStyle).toContain("width");
+
+    await page.mouse.up();
+
+    // Released: snapped to the step, and the preview style is gone entirely.
+    await expect(image).toHaveAttribute("data-display-width", "75");
+    await expect(image).not.toHaveAttribute("style", /width/);
+  });
+
+  test("uploads a pasted image instead of inlining it as base64", async ({
+    page,
+  }) => {
+    await openEditor(page);
+
+    // The upload endpoint, which mockApi does not cover.
+    await page.route("**/api/media", (route) =>
+      json(route, 201, {
+        path: "/api/public/media/pasted.webp",
+        width: 10,
+        height: 10,
+      }),
+    );
+
+    const result = await page.evaluate(async () => {
+      const editor = document.querySelector('[data-testid="editor-body"]');
+      if (!editor) throw new Error("no editor");
+
+      // A 1x1 PNG, as the clipboard would carry a screenshot.
+      const bytes = Uint8Array.from(
+        atob(
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+        ),
+        (c) => c.codePointAt(0) ?? 0,
+      );
+      const data = new DataTransfer();
+      data.items.add(new File([bytes], "shot.png", { type: "image/png" }));
+
+      editor.dispatchEvent(
+        new ClipboardEvent("paste", {
+          bubbles: true,
+          cancelable: true,
+          clipboardData: data,
+        }),
+      );
+
+      // The upload round-trips before the image lands.
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      return {
+        uploaded: [...editor.querySelectorAll("img")].some((el) =>
+          el.getAttribute("src")?.includes("/api/public/media/pasted.webp"),
+        ),
+        inlined: editor.innerHTML.includes("data:image"),
+      };
+    });
+
+    expect(result.uploaded).toBe(true);
+    // The whole point: no megabytes of base64 for the sanitizer to strip.
+    expect(result.inlined).toBe(false);
+  });
+});
+
 test.describe("the admin screens are not indexable", () => {
   test("marks login and dashboard noindex", async ({ page }) => {
     await mockApi(page, { authed: false });

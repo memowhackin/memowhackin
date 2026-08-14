@@ -299,12 +299,18 @@ async function settle(page) {
   });
 }
 
-function sitemap(paths) {
-  const urls = paths
-    .map(
-      (urlPath) =>
-        `  <url><loc>${SITE_URL}${urlPath === "/" ? "" : urlPath}</loc></url>`,
-    )
+/*
+ * Entries carry lastmod only when something real is known — the article's
+ * publish date. A fabricated lastmod on every marketing page teaches crawlers
+ * to ignore the field.
+ */
+function sitemap(entries) {
+  const urls = entries
+    .map(({ path: urlPath, lastmod }) => {
+      const loc = `${SITE_URL}${urlPath === "/" ? "" : urlPath}`;
+      const tail = lastmod === undefined ? "" : `<lastmod>${lastmod}</lastmod>`;
+      return `  <url><loc>${loc}</loc>${tail}</url>`;
+    })
     .join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -321,7 +327,7 @@ function escapeXml(value) {
     .replaceAll('"', "&quot;");
 }
 
-function rss(posts, prefix = "") {
+function rss(posts, locale, prefix = "") {
   const items = posts
     .map(
       (post) => `    <item>
@@ -335,10 +341,12 @@ function rss(posts, prefix = "") {
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AssistSec blog</title>
     <link>${SITE_URL}${prefix}/blog</link>
+    <atom:link href="${SITE_URL}${prefix}/blog/rss.xml" rel="self" type="application/rss+xml"/>
+    <language>${locale}</language>
     <description>Research, advisories and news from AssistSec.</description>
 ${items}
   </channel>
@@ -404,6 +412,11 @@ async function main() {
     const routes = [...statics, ...blog.routes];
     feedPosts = blog.posts.length;
 
+    // Publish dates, so the sitemap can say when an article last changed.
+    const lastmodByRoute = new Map(
+      blog.posts.map((post) => [`/blog/${post.slug}`, String(post.date)]),
+    );
+
     for (const route of routes) {
       const url = route === "/" ? prefix || "/" : `${prefix}${route}`;
 
@@ -453,14 +466,14 @@ async function main() {
       await mkdir(path.dirname(target), { recursive: true });
       await writeFile(target, html);
       written += 1;
-      sitemapUrls.push(url);
+      sitemapUrls.push({ path: url, lastmod: lastmodByRoute.get(route) });
     }
 
     // One feed per language, alongside that language's blog index.
     await mkdir(path.join(outDir, "blog"), { recursive: true });
     await writeFile(
       path.join(outDir, "blog", "rss.xml"),
-      rss(blog.posts, prefix),
+      rss(blog.posts, locale, prefix),
     );
   }
 

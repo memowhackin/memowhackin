@@ -1,7 +1,7 @@
 # Build the static site with Node, then serve it from nginx. The runtime image
 # carries no Node, no toolchain and no source — only the compiled bundle.
 
-FROM node:24-slim AS build
+FROM node:26-slim AS build
 
 WORKDIR /app
 

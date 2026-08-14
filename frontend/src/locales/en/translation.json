@@ -396,7 +396,9 @@
       "align_right": "Align right",
       "linkPrompt": "Enter a URL",
       "uploadFailed": "That image could not be uploaded. Use a JPEG, PNG, WebP or GIF under 8 MB.",
-      "removeImage": "Remove image"
+      "removeImage": "Remove image",
+      "alt": "Describe the image",
+      "altPrompt": "Describe this image for readers who cannot see it (and for search engines). Leave empty for a decorative image."
     },
     "email": "Email",
     "loginPending": "Signing in…",

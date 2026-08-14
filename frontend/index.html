@@ -11,6 +11,34 @@
     <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg" />
 
     <!--
+      The company as an entity, for search and answer engines. Static rather
+      than route-managed: it is language-neutral, identical on every page, and
+      belongs in the head before any script runs. Route-specific JSON-LD is
+      written separately by useSeo into #route-jsonld.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://assistsec.nl/#organization",
+        "name": "AssistSec",
+        "url": "https://assistsec.nl/",
+        "logo": "https://assistsec.nl/assets/logo-mark.svg",
+        "image": "https://assistsec.nl/assets/og-card.jpg",
+        "description": "AI-assisted penetration testing: autonomous agents surface findings continuously and senior pentesters validate every one.",
+        "sameAs": ["https://www.linkedin.com/company/assistsec"],
+        "knowsAbout": [
+          "penetration testing",
+          "web application security",
+          "API security",
+          "continuous threat exposure management",
+          "vulnerability research"
+        ],
+        "areaServed": ["Netherlands", "Europe"]
+      }
+    </script>
+
+    <!--
       Fonts are linked here, not @import-ed from index.css: the browser can
       only discover an @import after the importing sheet has arrived, which
       puts two round trips in series ahead of the first painted glyph.

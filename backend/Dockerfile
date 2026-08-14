@@ -1,7 +1,7 @@
 # Build in one stage, ship the compiled output plus production dependencies in
 # another, so the runtime image carries no TypeScript toolchain and no source.
 
-FROM node:24-slim AS build
+FROM node:26-slim AS build
 
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -10,7 +10,7 @@ COPY . .
 RUN npm run build
 
 
-FROM node:24-slim AS runtime
+FROM node:26-slim AS runtime
 
 WORKDIR /app
 ENV NODE_ENV=production

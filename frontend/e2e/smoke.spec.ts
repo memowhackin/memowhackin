@@ -157,6 +157,62 @@ for (const target of pages) {
 }
 
 /*
+ * The header at every width class it renders in. The full nav once "fit" from
+ * lg by letting items shrink under their own text and paint over the language
+ * switcher; it now waits for xl, where everything holds one line with room.
+ */
+test("keeps the header on one clean line at every width", async ({ page }) => {
+  for (const width of [1024, 1180, 1280, 1536, 1920]) {
+    await page.setViewportSize({ width, height: 700 });
+    await page.goto("/");
+    // The probe reads the DOM directly, so wait for React to have rendered.
+    await page.getByTestId("mobile-menu-toggle").waitFor({ state: "attached" });
+
+    const state = await page.evaluate(() => {
+      const nav = document.querySelector("header nav[aria-label]");
+      if (!(nav instanceof HTMLElement)) return null;
+      const full = getComputedStyle(nav).display !== "none";
+      if (!full) return { full };
+
+      // Top-level items only: the dropdown panels inside are positioned
+      // layers and legitimately overlap everything.
+      const rects = [...nav.children].map((el) => el.getBoundingClientRect());
+      let overlap = false;
+      for (let i = 1; i < rects.length; i += 1) {
+        const current = rects[i];
+        const previous = rects[i - 1];
+        if (current && previous && current.left < previous.right - 1) {
+          overlap = true;
+        }
+      }
+      const controls = nav.nextElementSibling?.getBoundingClientRect();
+      const last = rects.at(-1);
+      if (controls && last && last.right > controls.left + 1) overlap = true;
+
+      // A wrapped label doubles the row height of its item.
+      const wrapped = rects.some((rect) => rect.height > 50);
+      return { full, overlap, wrapped };
+    });
+
+    if (state === null) throw new Error(`no header nav at ${String(width)}px`);
+
+    if (width < 1280) {
+      // Below xl the burger is the honest layout — the full nav cannot fit.
+      expect(state.full, `${String(width)}px should use the burger`).toBe(
+        false,
+      );
+      await expect(page.getByTestId("mobile-menu-toggle")).toBeVisible();
+    } else {
+      expect(state.full, `${String(width)}px should show the full nav`).toBe(
+        true,
+      );
+      expect(state.overlap, `${String(width)}px: items overlap`).toBe(false);
+      expect(state.wrapped, `${String(width)}px: a label wrapped`).toBe(false);
+    }
+  }
+});
+
+/*
  * Sections fade in as they scroll into view, which means every one of them
  * starts invisible. Skipping past a section must never leave it that way: the
  * reader can jump straight to an anchor and then scroll back up over content

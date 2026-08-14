@@ -48,7 +48,7 @@ updates:
       actions:
         patterns: ["*"]
 
-  # Both Dockerfiles pin base images; without these, node:24-slim and
+  # Both Dockerfiles pin base images; without these, node:26-slim and
   # nginx:1.29-alpine would never be offered a security update.
   - package-ecosystem: docker
     directory: /frontend

@@ -131,7 +131,7 @@ export function HeaderDropdown({ dropdown, onNavigate }: HeaderDropdownProps) {
         }}
         data-testid={`nav-${dropdown.key}`}
         className={clsx(
-          "pointer-coarse:min-h-11 inline-flex items-center gap-1 py-2 text-base transition-colors",
+          "pointer-coarse:min-h-11 inline-flex items-center gap-1 py-2 text-base whitespace-nowrap transition-colors",
           open ? "text-lavender" : "hover:text-lavender text-white",
         )}
       >

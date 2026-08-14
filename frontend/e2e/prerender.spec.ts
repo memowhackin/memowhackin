@@ -110,9 +110,43 @@ test("carries the SEO tags into the markup", async ({ page, request }) => {
     "content",
     /\S/,
   );
+  // An unfurl without an image renders as a bare grey link in every chat and
+  // feed; the card must be an absolute URL or scrapers ignore it.
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    /^https:\/\/assistsec\.nl\/.+/,
+  );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+    "content",
+    "article",
+  );
   // Written at runtime by useSeo, so its presence proves the snapshot captured
   // the page after the app had rendered rather than the empty shell.
   await expect(page.locator("script#route-jsonld")).toHaveCount(1);
+  // The article's machine description: engines cite BlogPosting, not WebPage.
+  const jsonld = await page.locator("script#route-jsonld").textContent();
+  expect(jsonld).toContain('"BlogPosting"');
+  expect(jsonld).toContain('"datePublished"');
+  expect(jsonld).toContain('"BreadcrumbList"');
+});
+
+test("names the organization once, on every page", async ({ page }) => {
+  for (const route of ["/", "/nl/about"]) {
+    await page.goto(route);
+    const scripts = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    const organizations = scripts.filter((text) =>
+      text.includes('"Organization"'),
+    );
+    // The static entity from index.html, plus whatever the route wrote — but
+    // exactly one @id-bearing Organization block.
+    expect(
+      scripts.filter((text) => text.includes("#organization")).length,
+      `${route} should carry the organization entity once`,
+    ).toBe(1);
+    expect(organizations.length).toBeGreaterThan(0);
+  }
 });
 
 test("lists every published article in the sitemap and the feed", async ({
@@ -208,6 +242,14 @@ test("publishes a sitemap and a feed", async ({ request }) => {
   const feed = await request.get("/blog/rss.xml");
   expect(feed.status()).toBe(200);
   expect(feed.headers()["content-type"]).toContain("xml");
+  const feedBody = await feed.text();
+  expect(feedBody).toContain("<language>en</language>");
+  expect(feedBody).toContain('rel="self"');
+
+  // The GEO surface: a plain-text map of the site for answer engines.
+  const llms = await request.get("/llms.txt");
+  expect(llms.status()).toBe(200);
+  expect(await llms.text()).toContain("# AssistSec");
 
   const robots = await request.get("/robots.txt");
   expect(robots.status()).toBe(200);

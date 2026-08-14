@@ -1,0 +1,42 @@
+# AssistSec
+
+> AI-assisted penetration testing from the Netherlands, serving Europe:
+> autonomous agents surface security findings continuously, and senior
+> pentesters (OSCP/OSWE certified) validate every finding before it reaches
+> the customer. The platform behind it is called ARGUS.
+
+AssistSec combines autonomous security-testing agents with human expert
+validation. Customers get continuous coverage of web applications and APIs
+instead of a yearly audit, with findings mapped to compliance frameworks such
+as ISO 27001. The site is available in English (https://assistsec.nl) and
+Dutch (https://assistsec.nl/nl).
+
+## Services
+
+- [Web application pentesting](https://assistsec.nl/services/web-app-pentesting):
+  manual and agent-assisted testing of web applications.
+- [API pentesting](https://assistsec.nl/services/api-pentesting): testing of
+  REST and other API surfaces.
+- [Security awareness](https://assistsec.nl/services/security-awareness):
+  training for teams.
+
+## ARGUS platform
+
+- [Continuous scanning](https://assistsec.nl/argus/continuous-scanning)
+- [Retesting](https://assistsec.nl/argus/retesting)
+- [Compliance](https://assistsec.nl/argus/compliance)
+- [Integrations](https://assistsec.nl/argus/integrations)
+- [Expert chat](https://assistsec.nl/argus/expert-chat)
+
+## Content
+
+- [Blog](https://assistsec.nl/blog): research, advisories and news.
+- [RSS feed](https://assistsec.nl/blog/rss.xml)
+- [Knowledge base](https://assistsec.nl/knowledge-base)
+- [About](https://assistsec.nl/about)
+- [Contact](https://assistsec.nl/contact)
+
+## Optional
+
+- [Sitemap](https://assistsec.nl/sitemap.xml)
+- [Dutch site](https://assistsec.nl/nl)

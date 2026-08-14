@@ -417,10 +417,22 @@ function BlogPostPage() {
   const { html, headings } = useArticleOutline(post?.body ?? "");
   const activeId = useActiveHeading(headings);
 
+  // Stable identity, so useSeo's effect re-runs on content change, not render.
+  const seoArticle = useMemo(() => {
+    if (!post) return undefined;
+    const cover = /<img[^>]+src="([^"]+)"/.exec(post.body)?.[1];
+    return {
+      headline: post.title,
+      publishedAt: post.date,
+      ...(cover === undefined ? {} : { image: cover }),
+    };
+  }, [post]);
+
   useSeo({
     title: post ? `${post.title} | AssistSec` : t("pages.blog.title"),
     description: post?.excerpt ?? t("pages.blog.description"),
     path: `/blog/${slug}`,
+    article: seoArticle,
   });
 
   const related = useMemo(() => {

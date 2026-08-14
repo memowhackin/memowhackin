@@ -396,7 +396,9 @@
       "align_right": "Rechts uitlijnen",
       "linkPrompt": "Voer een URL in",
       "uploadFailed": "Die afbeelding kon niet worden geüpload. Gebruik JPEG, PNG, WebP of GIF onder 8 MB.",
-      "removeImage": "Afbeelding verwijderen"
+      "removeImage": "Afbeelding verwijderen",
+      "alt": "Beschrijf de afbeelding",
+      "altPrompt": "Beschrijf deze afbeelding voor lezers die haar niet kunnen zien (en voor zoekmachines). Laat leeg voor een decoratieve afbeelding."
     },
     "email": "E-mail",
     "loginPending": "Bezig met inloggen…",

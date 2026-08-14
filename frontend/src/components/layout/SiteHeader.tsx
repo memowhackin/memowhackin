@@ -90,10 +90,17 @@ export function SiteHeader() {
     };
   }, [menuOpen]);
 
-  // A viewport that grows past the mobile breakpoint reveals the full nav; the
-  // panel left open underneath it would then duplicate every link.
+  /*
+   * A viewport that grows past the full-nav breakpoint reveals the whole nav;
+   * the panel left open underneath it would then duplicate every link.
+   *
+   * The full nav needs xl (80rem), not lg: seven items plus the language
+   * switcher, login and the demo button measure ~75rem, so at lg widths the
+   * row could only "fit" by letting items shrink under their own text and
+   * paint over each other. Below xl the burger is the honest layout.
+   */
   useEffect(() => {
-    const query = window.matchMedia("(min-width: 64rem)");
+    const query = window.matchMedia("(min-width: 80rem)");
 
     function onChange(event: MediaQueryListEvent) {
       if (event.matches) setMenuOpen(false);
@@ -177,7 +184,7 @@ export function SiteHeader() {
           />
         </a>
 
-        <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between gap-3 px-4 py-3 sm:gap-6 sm:px-10 sm:py-4 lg:px-16 2xl:px-0">
+        <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between gap-3 px-4 py-3 sm:gap-6 sm:px-10 sm:py-4 xl:px-10 2xl:px-6">
           <Link
             to="/"
             data-testid="header-logo"
@@ -190,7 +197,7 @@ export function SiteHeader() {
 
           <nav
             aria-label={t("nav.primary")}
-            className="hidden min-w-0 items-center gap-5 lg:flex xl:gap-8"
+            className="hidden items-center gap-5 xl:flex 2xl:gap-7"
           >
             {NAV_ITEMS.map((item) =>
               item.kind === "dropdown" ? (
@@ -201,7 +208,7 @@ export function SiteHeader() {
                   to={item.to}
                   activeOptions={activeOptionsFor(item.to)}
                   data-testid={`nav-${item.key}`}
-                  className="decoration-lavender relative inline-flex items-center py-2 text-base underline-offset-8 transition-colors hover:underline pointer-coarse:min-h-11"
+                  className="decoration-lavender relative inline-flex items-center py-2 text-base whitespace-nowrap underline-offset-8 transition-colors hover:underline pointer-coarse:min-h-11"
                   activeProps={{ className: "text-lavender" }}
                   inactiveProps={{
                     className: "hover:text-lavender text-white",
@@ -213,9 +220,9 @@ export function SiteHeader() {
             )}
           </nav>
 
-          <div className="flex min-w-0 items-center gap-2 sm:gap-4 lg:gap-6">
+          <div className="flex items-center gap-2 sm:gap-4 xl:gap-5">
             {!env.noTranslations && (
-              <div className="hidden lg:block">
+              <div className="hidden xl:block">
                 <LanguageSwitcher data-testid="language-switcher" />
               </div>
             )}
@@ -225,7 +232,7 @@ export function SiteHeader() {
               target="_blank"
               rel="noreferrer noopener"
               data-testid="header-login"
-              className="hover:text-lavender hidden items-center text-base whitespace-nowrap text-white transition-colors lg:inline-flex pointer-coarse:min-h-11"
+              className="hover:text-lavender hidden items-center text-base whitespace-nowrap text-white transition-colors xl:inline-flex pointer-coarse:min-h-11"
             >
               {t("nav.login")}
             </a>
@@ -251,7 +258,7 @@ export function SiteHeader() {
               aria-controls="mobile-menu"
               aria-label={menuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
               data-testid="mobile-menu-toggle"
-              className="border-indigo-deep rounded-selector text-mist hover:border-lavender/60 hover:text-lavender active:bg-indigo-deep/60 inline-flex size-11 shrink-0 items-center justify-center border transition-colors lg:hidden"
+              className="border-indigo-deep rounded-selector text-mist hover:border-lavender/60 hover:text-lavender active:bg-indigo-deep/60 inline-flex size-11 shrink-0 items-center justify-center border transition-colors xl:hidden"
             >
               {menuOpen ? (
                 <X className="size-5" aria-hidden="true" />
@@ -275,7 +282,7 @@ export function SiteHeader() {
         data-testid="mobile-menu"
         inert={!menuOpen}
         className={clsx(
-          "bg-ink-deep grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out lg:hidden",
+          "bg-ink-deep grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out xl:hidden",
           menuOpen
             ? "border-indigo-deep/60 grid-rows-[minmax(0,1fr)] border-t"
             : "grid-rows-[minmax(0,0fr)]",
