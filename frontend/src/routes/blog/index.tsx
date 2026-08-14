@@ -297,7 +297,10 @@ function BlogIndex() {
     [posts],
   );
 
-  const featured = published.find((post) => post.featured) ?? published[0];
+  // Only a post explicitly marked featured earns the hero. With none marked,
+  // the page opens straight on the archive rather than promoting the newest
+  // post under a "featured" label it was never given.
+  const featured = published.find((post) => post.featured);
 
   const filters: readonly Filter[] = ["all", ...BLOG_CATEGORIES];
 

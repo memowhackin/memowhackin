@@ -75,10 +75,23 @@ function isBlogPost(value: unknown): value is BlogPost {
  */
 let inflight: Promise<readonly BlogPost[]> | undefined;
 
+/*
+ * Flipped by `invalidateBlogPosts` and sticky on purpose: it only ever flips
+ * in a tab where an admin has just written, and from then on every read in
+ * that tab should reflect the latest write. `reload` makes fetch skip the
+ * browser's HTTP cache — the list is served with `max-age=60`, so without it
+ * a refetch straight after publishing can be answered from cache and hand
+ * back the very list the write just outdated.
+ */
+let bypassHttpCache = false;
+
 async function requestLocale(locale: string): Promise<readonly BlogPost[]> {
   const response = await fetch(
     `${API_BASE}/api/public/posts?locale=${locale}`,
-    { headers: { accept: "application/json" } },
+    {
+      headers: { accept: "application/json" },
+      cache: bypassHttpCache ? "reload" : "default",
+    },
   );
   if (!response.ok) throw new Error(`CMS returned ${String(response.status)}`);
 
@@ -105,6 +118,20 @@ export function loadBlogPosts(): Promise<readonly BlogPost[]> {
     throw error;
   });
   return inflight;
+}
+
+/**
+ * Forget the cached list, so the next read asks the CMS again.
+ *
+ * The studio and the public site are one single-page app: publishing a post
+ * and then following "View blog" is a client-side navigation, and without
+ * this the loader would keep serving whatever this tab fetched first — the
+ * new article missing from /blog and its /blog/{slug} page reading as not
+ * found until a full reload. The CMS client calls this after every write.
+ */
+export function invalidateBlogPosts(): void {
+  inflight = undefined;
+  bypassHttpCache = true;
 }
 
 export async function loadPostBySlug(

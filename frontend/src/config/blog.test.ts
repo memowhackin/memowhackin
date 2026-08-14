@@ -128,6 +128,45 @@ describe("loadBlogPosts", () => {
   });
 });
 
+describe("invalidateBlogPosts", () => {
+  it("refetches after a CMS write instead of reusing this tab's list", async () => {
+    // Publishing in the studio and following "View blog" is one client-side
+    // navigation; the article just saved must be in the next list.
+    fetchMock
+      .mockResolvedValueOnce(jsonResponse([post("old")]))
+      .mockResolvedValueOnce(jsonResponse([post("old"), post("new")]));
+    const { loadBlogPosts, invalidateBlogPosts } = await loadModule();
+
+    await loadBlogPosts();
+    invalidateBlogPosts();
+
+    const posts = await loadBlogPosts();
+    expect(posts.map((entry) => entry.slug)).toEqual(["old", "new"]);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("skips the browser's HTTP cache when refetching", async () => {
+    // The list is served with max-age=60. A refetch answered from the HTTP
+    // cache would hand back the very list the write just outdated.
+    // A Response body reads once, so each call needs its own.
+    fetchMock.mockImplementation(() => jsonResponse([post("a")]));
+    const { loadBlogPosts, invalidateBlogPosts } = await loadModule();
+
+    await loadBlogPosts();
+    expect(fetchMock).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ cache: "default" }),
+    );
+
+    invalidateBlogPosts();
+    await loadBlogPosts();
+    expect(fetchMock).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ cache: "reload" }),
+    );
+  });
+});
+
 describe("loadPostBySlug", () => {
   it("finds the post and reuses the list", async () => {
     fetchMock.mockResolvedValue(jsonResponse([post("a"), post("b")]));

@@ -22,9 +22,12 @@ export const publicRouter: Router = Router();
 publicRouter.use(publicLimiter);
 
 function etagFor(items: PublicPost[]): string {
+  // The whole payload, not a summary. An earlier version hashed only slug and
+  // date, so any same-day edit — a body fix, a featured toggle — produced the
+  // same tag, and a browser revalidating its copy was told 304 and kept the
+  // stale list for another cache lifetime, indefinitely.
   const hash = createHash("sha256");
-  for (const item of items) hash.update(`${item.slug}:${item.date}`);
-  hash.update(String(items.length));
+  hash.update(JSON.stringify(items));
   return `W/"${hash.digest("hex").slice(0, 32)}"`;
 }
 

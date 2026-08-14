@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useSyncExternalStore } from "react";
-import type { BlogCategory } from "@/config/blog";
+import { invalidateBlogPosts, type BlogCategory } from "@/config/blog";
 
 /*
  * The only file in this app that talks to a server.
@@ -205,24 +205,54 @@ export function listPosts(): Promise<AdminPost[]> {
   return request<AdminPost[]>("/api/posts");
 }
 
-export function createPost(input: PostInput): Promise<AdminPost> {
-  return request<AdminPost>("/api/posts", { method: "POST" }, input);
+/*
+ * Every write drops the public site's cached post list. The studio and the
+ * site share one single-page app, so without this an admin who publishes and
+ * clicks through to /blog is shown the list this tab fetched before the write.
+ */
+
+export async function createPost(input: PostInput): Promise<AdminPost> {
+  const post = await request<AdminPost>(
+    "/api/posts",
+    { method: "POST" },
+    input,
+  );
+  invalidateBlogPosts();
+  return post;
 }
 
-export function updatePost(id: string, input: PostInput): Promise<AdminPost> {
-  return request<AdminPost>(`/api/posts/${id}`, { method: "PATCH" }, input);
+export async function updatePost(
+  id: string,
+  input: PostInput,
+): Promise<AdminPost> {
+  const post = await request<AdminPost>(
+    `/api/posts/${id}`,
+    { method: "PATCH" },
+    input,
+  );
+  invalidateBlogPosts();
+  return post;
 }
 
-export function publishPost(id: string): Promise<AdminPost> {
-  return request<AdminPost>(`/api/posts/${id}/publish`, { method: "POST" });
+export async function publishPost(id: string): Promise<AdminPost> {
+  const post = await request<AdminPost>(`/api/posts/${id}/publish`, {
+    method: "POST",
+  });
+  invalidateBlogPosts();
+  return post;
 }
 
-export function unpublishPost(id: string): Promise<AdminPost> {
-  return request<AdminPost>(`/api/posts/${id}/unpublish`, { method: "POST" });
+export async function unpublishPost(id: string): Promise<AdminPost> {
+  const post = await request<AdminPost>(`/api/posts/${id}/unpublish`, {
+    method: "POST",
+  });
+  invalidateBlogPosts();
+  return post;
 }
 
-export function deletePost(id: string): Promise<void> {
-  return request<void>(`/api/posts/${id}`, { method: "DELETE" });
+export async function deletePost(id: string): Promise<void> {
+  await request<void>(`/api/posts/${id}`, { method: "DELETE" });
+  invalidateBlogPosts();
 }
 
 export interface UploadedImage {
