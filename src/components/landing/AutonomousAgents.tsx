@@ -2,8 +2,7 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
-import { chipClass, chipMarkerClass } from "@/components/common/chipClass";
-import { CityLights } from "@/components/landing/CityLights";
+import { chipClass } from "@/components/common/chipClass";
 import type { Perch } from "@/components/landing/useSkylineAlerts";
 import { useSkylineAlerts } from "@/components/landing/useSkylineAlerts";
 import { sectionIds, site } from "@/config/site";
@@ -166,10 +165,9 @@ function phaseClass(
 }
 
 /*
- * Look only — no display utility. Each of the two sets below is switched off at
- * the other's breakpoint with `hidden`, and Tailwind emits that rule ahead of
- * the display utilities, so an `inline-flex` baked in here would beat it and
- * paint both sets at once.
+ * Look only — no display utility. The alert layer is hidden below `lg`, and
+ * Tailwind emits `hidden` ahead of the display utilities, so an `inline-flex`
+ * baked in here would beat it and paint the chips on a phone too.
  */
 const alertClassName = chipClass();
 
@@ -184,7 +182,7 @@ const alertClassName = chipClass();
  * used to sit over the picture, not the height.
  *
  * Below `lg` the copy needs more room than the ratio allows, so the section
- * grows to fit and the alerts stack under the call to action instead.
+ * grows to fit and the alerts sit the section out entirely.
  */
 export function AutonomousAgents() {
   const { t } = useTranslation();
@@ -240,15 +238,12 @@ export function AutonomousAgents() {
         }}
       />
 
-      {/* The windows coming on as the reader scrolls the city in. */}
-      <CityLights />
-
       {/*
         Spacing runs in `vw` from `lg` up for the same reason as the alerts: the
         frame's 168px lead-in and 64px gaps are fractions of a 1920 canvas, and
         holding them as fractions keeps the copy sitting where it was drawn.
       */}
-      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 pt-14 pb-12 text-center sm:px-10 sm:pt-20 lg:max-w-none lg:gap-[3.33vw] lg:px-16 lg:pt-[8.75vw] lg:pb-0">
+      <div className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-6 px-6 pt-14 pb-24 text-center sm:px-10 sm:pt-20 lg:max-w-none lg:gap-[3.33vw] lg:px-16 lg:pt-[8.75vw] lg:pb-0">
         {/*
           Straight from the frame (node 83:41778): each word is its own element
           on two rows, `gap-[32px]` between words and `gap-[24px]` between the
@@ -275,38 +270,37 @@ export function AutonomousAgents() {
           {t("agents.subtitle")}
         </p>
 
-        <BrandButton
-          href={site.bookDemoUrl}
-          variant="dark"
-          data-testid="agents-book-demo"
-        >
-          {t("agents.cta")}
-        </BrandButton>
-
         {/*
-          Below `lg` the section is no longer the photograph's own proportion —
-          the copy needs more room than the ratio allows, so it grows to fit and
-          the picture is cropped to fill it. Every perch on the skyline moves
-          when that happens, and the type does not shrink in step with the width
-          either, so the alerts would land on the call to action.
+          Two renderings of one call to action. Over the skyline's dusk the
+          `dark` block is the drawn button, but below `lg` the section is
+          cropped and the button lands on the city itself, where near-black on
+          the buildings all but disappears — so a phone gets the brand
+          lavender instead, the same colour as the mark in the logo. Wrapped
+          rather than class-overridden: the button's own background utilities
+          would fight a responsive override in the cascade.
 
-          So the same four run as a wrapped row under it rather than being
-          dropped from the page altogether. They do not cycle here: on a phone
-          the whole set is on screen at once, and swapping labels in a four-item
-          list under a button reads as a bug.
+          The alerts do not run on a phone at all. The perches only hold from
+          `lg`, and the wrapped row of static chips that used to stand in for
+          them read as clutter under the button rather than as a live city.
         */}
-        <ul className="mt-2 flex flex-wrap justify-center gap-2 lg:hidden">
-          {alerts.map((alert) => (
-            <li
-              key={alert.key}
-              data-testid={`agents-alert-compact-${alert.key}`}
-              className={clsx(alertClassName, "inline-flex")}
-            >
-              <span className={chipMarkerClass} aria-hidden="true" />
-              {t(alert.label)}
-            </li>
-          ))}
-        </ul>
+        <div className="lg:hidden">
+          <BrandButton
+            href={site.bookDemoUrl}
+            variant="solid"
+            data-testid="agents-book-demo-mobile"
+          >
+            {t("agents.cta")}
+          </BrandButton>
+        </div>
+        <div className="hidden lg:block">
+          <BrandButton
+            href={site.bookDemoUrl}
+            variant="dark"
+            data-testid="agents-book-demo"
+          >
+            {t("agents.cta")}
+          </BrandButton>
+        </div>
       </div>
 
       {/*

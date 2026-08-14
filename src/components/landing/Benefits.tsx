@@ -83,18 +83,21 @@ export function Benefits() {
     <SectionShell
       data-testid="benefits"
       className="bg-ink overflow-x-clip"
-      innerClassName="grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16 lg:py-28 xl:gap-24"
+      innerClassName="grid items-center gap-6 py-16 sm:gap-8 sm:py-24 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-32 lg:py-28 xl:gap-44"
     >
       {/*
         Stacked, the heading introduces the artwork rather than follows it.
         The gentle scale-up spends the render's transparent canvas margins so
-        the book fills its column instead of floating in it.
+        the book fills its column instead of floating in it. On a phone that
+        scale runs harder and the negative margins take back the canvas's own
+        empty border — stacked under the copy, the transparent frame otherwise
+        reads as a band of dead scroll between the CTA and the next section.
       */}
       <div
         ref={stackRef}
         style={stackStyle}
         className={clsx(
-          "order-2 mx-auto w-full max-w-[34rem] scale-[1.04] lg:order-none lg:mx-0 lg:max-w-none",
+          "order-2 mx-auto -my-[6%] w-full max-w-[34rem] scale-[1.16] sm:scale-[1.08] lg:order-none lg:mx-0 lg:my-0 lg:max-w-none lg:scale-[1.04]",
           stackClassName,
         )}
       >

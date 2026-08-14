@@ -145,7 +145,7 @@ function ArticleContents({
       data-testid={testId}
       className={className}
     >
-      <span className="text-mist/40 block text-xs tracking-[0.08em] uppercase">
+      <span className="text-lavender/90 block text-[0.8125rem] font-semibold tracking-[0.14em] uppercase">
         {t("blog.tocTitle")}
       </span>
 
@@ -186,11 +186,11 @@ function ArticleContents({
                   window.history.replaceState(null, "", `#${heading.id}`);
                 }}
                 className={clsx(
-                  "-ml-px block border-l py-2 text-sm leading-snug text-pretty transition-colors",
+                  "-ml-px block border-l py-2.5 text-[0.9375rem] leading-snug text-pretty transition-colors",
                   heading.level === 3 ? "pr-3 pl-7" : "pr-3 pl-4",
                   active
-                    ? "border-lavender text-lavender"
-                    : "text-mist/55 hover:text-mist border-transparent",
+                    ? "border-lavender text-lavender font-medium"
+                    : "text-mist/65 hover:text-mist border-transparent hover:border-lavender/40",
                 )}
               >
                 {heading.text}
@@ -553,7 +553,7 @@ function BlogPostPage() {
                 headings={headings}
                 activeId={activeId}
                 testId="blog-toc-inline"
-                className="border-indigo-deep bg-ink-deep/40 mt-2 rounded-2xl border p-5 lg:hidden"
+                className="mt-2 lg:hidden"
               />
             )}
 

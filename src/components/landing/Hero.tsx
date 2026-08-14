@@ -250,7 +250,14 @@ export function Hero() {
             {t("hero.title")}
           </h1>
 
-          <p className="max-w-[45rem] text-base leading-[1.6] text-pretty text-white/80 sm:text-lg">
+          {/*
+            The paragraph sits over the moving plume with no panel behind it,
+            so the type carries its own contrast: full white rather than the
+            muted 80%, and a soft ink shadow that seats it against whatever
+            frame of the footage happens to be underneath. The shadow is wide
+            and dim on purpose — a halo of the page colour, not an outline.
+          */}
+          <p className="max-w-[45rem] text-base leading-[1.6] text-pretty text-white [text-shadow:0_0.0625rem_0.375rem_rgba(13,11,33,0.85),0_0_1.5rem_rgba(13,11,33,0.6)] sm:text-lg">
             {t("hero.body")}
           </p>
         </div>

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { ArrowUpRight } from "lucide-react";
+import { SectionBadge } from "@/components/common/SectionBadge";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
 import { sectionIds, site } from "@/config/site";
@@ -84,9 +85,9 @@ export function BlogHighlights() {
       innerClassName="flex flex-col gap-10 py-16 sm:py-24 lg:py-28"
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h2 className="font-display text-mist text-base tracking-[0.235em] uppercase sm:text-xl">
+        <SectionBadge data-testid="blog-highlights-badge">
           {t("blog.title")}
-        </h2>
+        </SectionBadge>
 
         <a
           href={`${site.scannerBaseUrl}/blog`}

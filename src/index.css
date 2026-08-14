@@ -481,9 +481,22 @@ body {
   background-image: var(--brand-sweep);
 }
 
-/* Vertical variant, used by the header and nav call-to-action buttons. */
+/*
+ * Vertical variant, used by the header and hero call-to-action buttons.
+ *
+ * Not `--brand-sweep-vertical`: that ramp opens on `ink-deep`, which on a
+ * button reads as a black band across its top rather than as a gradient. The
+ * buttons run the same ramp from `indigo` up instead — all colour, no dark —
+ * and overshoot to 130% so the face never arrives at flat lavender under the
+ * white label.
+ */
 @utility brand-sweep-y {
-  background-image: var(--brand-sweep-vertical);
+  background-image: linear-gradient(
+    180deg,
+    var(--color-indigo) 0%,
+    var(--color-indigo-bright) 55%,
+    var(--color-lavender) 130%
+  );
 }
 
 /*
@@ -535,42 +548,6 @@ body {
  * a dark halo, which is what lets one colour hold over both the rooftops and
  * the sky behind them.
  */
-/*
- * One window on the skyline (see `CityLights`). Sized in `vw` because the
- * section is locked to the photograph's proportions from `lg` up, so a window
- * drawn as a fraction of the viewport keeps its place and scale on the
- * building at every width.
- *
- * The colour is the photograph's, not the palette's: the picture's own lit
- * windows are this warm amber, and a lavender light in a dusk skyline read as
- * a screen glitch rather than a room with someone in it. Same reasoning as the
- * section leaving the sunset untouched — the warmth is the design.
- *
- * Opacity: the layer's `--city-light` runs 0→1 with the scroll; each window
- * holds a rank in the lighting order and fades in over its own slice of that
- * run, scaled by its `--city-strength` so the city has bright rooms and dim
- * ones. The fallbacks light everything: no JavaScript and reduced motion both
- * get the finished city.
- */
-@utility city-window {
-  position: absolute;
-  width: 0.29vw;
-  height: 0.47vw;
-  border-radius: 0.09vw;
-  background: #ffd9ae;
-  box-shadow: 0 0 0.5vw rgb(255 217 174 / 0.5);
-  opacity: calc(
-    clamp(
-        0,
-        (var(--city-light, 1) * (var(--city-count, 1) + 4) -
-            var(--city-index, 0)) /
-          4,
-        1
-      ) *
-      var(--city-strength, 1)
-  );
-}
-
 @utility alert-drop {
   width: 2px;
   background-image: repeating-linear-gradient(

@@ -80,7 +80,12 @@ const tags = [
   {
     key: "xss",
     label: "platform.tags.xss",
-    position: "left-[71%] top-[57%]",
+    /*
+     * On a phone the drawn 71% puts this chip — the widest of the three —
+     * half over the brand mark and out against the section's right edge, so
+     * below `lg` it moves to the left flank, under the mark and clear of it.
+     */
+    position: "left-[32%] top-[60%] lg:left-[71%] lg:top-[57%]",
   },
   {
     key: "sqlInjection",

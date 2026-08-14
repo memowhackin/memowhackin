@@ -157,11 +157,22 @@ export function SiteHeader() {
           <span className="bg-lavender text-ink-deep rounded-selector hidden shrink-0 px-3 py-0.5 text-xs font-semibold sm:inline">
             {t("announcement.badge")}
           </span>
-          <span className="min-w-0 text-xs tracking-[0.02em] text-balance text-white sm:truncate sm:text-sm">
+          {/*
+            On a phone the Dutch line wraps to two rows, and a separate arrow
+            beside a two-row block floats detached at the strip's edge. Inlining
+            it after the last word keeps the pair together at any wrap; from
+            `sm` the text is one truncated line and the standalone arrow reads
+            better against it.
+          */}
+          <span className="min-w-0 text-xs leading-snug tracking-[0.02em] text-balance text-white sm:truncate sm:text-sm sm:leading-normal">
             {t("announcement.text")}
+            <ArrowRight
+              className="ml-1.5 inline size-3.5 shrink-0 align-[-0.1875rem] sm:hidden"
+              aria-hidden="true"
+            />
           </span>
           <ArrowRight
-            className="size-4 shrink-0 text-white"
+            className="hidden size-4 shrink-0 text-white sm:block"
             aria-hidden="true"
           />
         </a>
