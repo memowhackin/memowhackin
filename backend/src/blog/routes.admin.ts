@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { and, desc, eq, ne } from "drizzle-orm";
 import { Router } from "express";
 import { z } from "zod";
@@ -5,7 +6,7 @@ import { audit } from "../audit.js";
 import { currentAdmin, requireAdmin } from "../auth/middleware.js";
 import { writeLimiter, uploadLimiter } from "../auth/rateLimit.js";
 import { db } from "../db/client.js";
-import { images, posts } from "../db/schema.js";
+import { images, postSlugs, posts } from "../db/schema.js";
 import { triggerDeploy } from "../deploy.js";
 import { uuidParam } from "../http/params.js";
 import { requireCsrfToken } from "../security/csrf.js";
@@ -13,7 +14,7 @@ import { processAndStore, upload, UnsupportedImage } from "./media.js";
 import { readMinutes } from "./readTime.js";
 import { sanitizeBody, sanitizeExcerpt } from "./sanitize.js";
 import { adminPost } from "./serialize.js";
-import { slugify } from "./slug.js";
+import { buildSlug } from "./slug.js";
 
 export const adminRouter: Router = Router();
 
@@ -63,7 +64,6 @@ type PostInput = z.infer<typeof postInput>;
 /** Every write funnels through here, so nothing reaches the database unclean. */
 function clean(input: PostInput) {
   const body = sanitizeBody(input.body);
-  const requested = input.slug ?? "";
 
   return {
     // Sanitized like the excerpt: a title is rendered into <title>, Open
@@ -73,11 +73,77 @@ function clean(input: PostInput) {
     excerpt: sanitizeExcerpt(input.excerpt),
     body,
     readMinutes: readMinutes(body),
-    slug: slugify(requested.length > 0 ? requested : input.title),
     locale: input.locale,
     isFeatured: input.isFeatured,
     seoTitle: input.seoTitle ?? null,
     seoDescription: input.seoDescription ?? null,
+  };
+}
+
+/*
+ * A unique-violation on (slug, locale).
+ *
+ * Two authors saving the same title at the same moment both see the readable
+ * slug as free, both build it, and one of the inserts loses to the index. The
+ * loser retries with the id suffix, which cannot clash because no two rows
+ * share an id — so the race costs a round trip rather than a failed save.
+ */
+function isSlugConflict(error: unknown): boolean {
+  /*
+   * Walks the cause chain: the driver's SQLSTATE arrives wrapped in whatever
+   * the query layer threw, and the depth of that wrapping is not ours to rely
+   * on. `in` narrows each link enough to read the property without asserting a
+   * shape, and the walk is bounded so a self-referencing cause cannot spin.
+   */
+  let cause: unknown = error;
+
+  for (let depth = 0; depth < 8; depth += 1) {
+    if (typeof cause !== "object" || cause === null) return false;
+    if ("code" in cause && cause.code === "23505") return true;
+    cause = "cause" in cause ? cause.cause : undefined;
+  }
+  return false;
+}
+
+/*
+ * Whether a candidate slug is already spoken for in this locale, ignoring the
+ * row being written. The unique index on (slug, locale) is the real guarantee;
+ * this is what lets a clash be resolved into a working URL instead of surfacing
+ * as an error the author cannot act on.
+ */
+function slugTaken(locale: string, exceptId?: string) {
+  return async (candidate: string): Promise<boolean> => {
+    const live = await db
+      .select({ id: posts.id })
+      .from(posts)
+      .where(
+        and(
+          eq(posts.slug, candidate),
+          eq(posts.locale, locale),
+          exceptId === undefined ? undefined : ne(posts.id, exceptId),
+        ),
+      )
+      .limit(1);
+    if (live.length > 0) return true;
+
+    /*
+     * A retired address is still spoken for: it redirects to the post that used
+     * to live there, and handing it to a different article would silently
+     * hijack every old link. A post may reclaim its own former slug, which is
+     * what makes renaming a title back again work.
+     */
+    const retired = await db
+      .select({ id: postSlugs.id })
+      .from(postSlugs)
+      .where(
+        and(
+          eq(postSlugs.slug, candidate),
+          eq(postSlugs.locale, locale),
+          exceptId === undefined ? undefined : ne(postSlugs.postId, exceptId),
+        ),
+      )
+      .limit(1);
+    return retired.length > 0;
   };
 }
 
@@ -120,27 +186,47 @@ adminRouter.post("/posts", async (req, res) => {
 
   const admin = currentAdmin(req);
   const values = clean(parsed.data);
+  const input = parsed.data;
 
-  if (values.slug.length === 0) {
-    res.status(400).json({ error: "invalid_slug" });
-    return;
+  /*
+   * The id is minted here rather than by the column default, because the slug
+   * is derived from it: two posts sharing a title get the same readable slug,
+   * and the disambiguating suffix has to come from something permanent and
+   * unique to the row. Its own primary key is exactly that.
+   */
+  const id = randomUUID();
+  const requested = input.slug ?? "";
+  const slug = await buildSlug(
+    id,
+    requested.length > 0 ? requested : input.title,
+    slugTaken(values.locale),
+  );
+
+  const insert = (candidate: string) =>
+    db
+      .insert(posts)
+      .values({
+        ...values,
+        id,
+        slug: candidate,
+        authorId: admin.id,
+        lastEditedById: admin.id,
+      })
+      .returning();
+
+  let inserted;
+  try {
+    inserted = await insert(slug);
+  } catch (error) {
+    if (!isSlugConflict(error)) throw error;
+    inserted = await insert(
+      await buildSlug(id, requested.length > 0 ? requested : input.title, () =>
+        Promise.resolve(true),
+      ),
+    );
   }
 
-  const clash = await db
-    .select({ id: posts.id })
-    .from(posts)
-    .where(and(eq(posts.slug, values.slug), eq(posts.locale, values.locale)))
-    .limit(1);
-
-  if (clash.length > 0) {
-    res.status(409).json({ error: "slug_taken" });
-    return;
-  }
-
-  const [row] = await db
-    .insert(posts)
-    .values({ ...values, authorId: admin.id, lastEditedById: admin.id })
-    .returning();
+  const [row] = inserted;
 
   if (row === undefined) {
     res.status(500).json({ error: "insert_failed" });
@@ -165,34 +251,84 @@ adminRouter.patch("/posts/:id", async (req, res) => {
 
   const admin = currentAdmin(req);
   const values = clean(parsed.data);
+  const input = parsed.data;
 
-  if (values.slug.length === 0) {
-    res.status(400).json({ error: "invalid_slug" });
-    return;
-  }
-
-  const clash = await db
-    .select({ id: posts.id })
+  const existing = await db
+    .select({ slug: posts.slug, publishedAt: posts.publishedAt })
     .from(posts)
-    .where(
-      and(
-        eq(posts.slug, values.slug),
-        eq(posts.locale, values.locale),
-        ne(posts.id, id),
-      ),
-    )
+    .where(eq(posts.id, id))
     .limit(1);
 
-  if (clash.length > 0) {
-    res.status(409).json({ error: "slug_taken" });
+  const current = existing[0];
+  if (current === undefined) {
+    res.status(404).json({ error: "not_found" });
     return;
   }
 
-  const [row] = await db
-    .update(posts)
-    .set({ ...values, lastEditedById: admin.id, updatedAt: new Date() })
-    .where(eq(posts.id, id))
-    .returning();
+  /*
+   * The slug follows the title, and the address it leaves behind keeps working.
+   *
+   * Freezing the slug at publish kept links alive but let the URL drift from
+   * the headline — rename "Working in kitchen" to "Working in garage" and the
+   * article still lived at /blog/working-in-kitchen, which reads as a bug. So
+   * the slug moves with the title now, and the outgoing one is filed in
+   * post_slugs, where the public lookup finds it and redirects. Nothing that
+   * was ever shared stops resolving.
+   */
+  const requested = input.slug ?? "";
+  const source = requested.length > 0 ? requested : input.title;
+  const slug = await buildSlug(id, source, slugTaken(values.locale, id));
+
+  const write = (candidate: string) =>
+    db
+      .update(posts)
+      .set({
+        ...values,
+        slug: candidate,
+        lastEditedById: admin.id,
+        updatedAt: new Date(),
+      })
+      .where(eq(posts.id, id))
+      .returning();
+
+  let updated;
+  try {
+    updated = await write(slug);
+  } catch (error) {
+    if (!isSlugConflict(error)) throw error;
+    updated = await write(
+      await buildSlug(id, source, () => Promise.resolve(true)),
+    );
+  }
+
+  const [row] = updated;
+
+  if (row !== undefined && row.slug !== current.slug) {
+    /*
+     * Only a published post leaves an address behind: a draft has never had a
+     * URL anyone could hold. The insert ignores a conflict because the post may
+     * be reclaiming a slug it retired earlier, in which case that row is about
+     * to be deleted below anyway.
+     */
+    if (current.publishedAt !== null) {
+      await db
+        .insert(postSlugs)
+        .values({
+          postId: id,
+          slug: current.slug,
+          locale: row.locale,
+        })
+        .onConflictDoNothing();
+    }
+
+    // The current address must never also be listed as a former one, or the
+    // lookup would redirect the post to itself.
+    await db
+      .delete(postSlugs)
+      .where(
+        and(eq(postSlugs.slug, row.slug), eq(postSlugs.locale, row.locale)),
+      );
+  }
 
   if (row === undefined) {
     res.status(404).json({ error: "not_found" });

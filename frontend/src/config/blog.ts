@@ -33,19 +33,33 @@ export const BLOG_CATEGORIES = [
 
 export type BlogCategory = (typeof BLOG_CATEGORIES)[number];
 
-export interface BlogPost {
+/*
+ * Everything needed to list an article. The body is deliberately absent: the
+ * index describes every post, and shipping each one's full HTML to do that
+ * meant downloading the entire blog to render a page of summaries.
+ */
+export interface BlogSummary {
   /** The URL-safe id the article is published under. */
   slug: string;
   title: string;
   category: BlogCategory;
   excerpt: string;
-  /** HTML, sanitized server-side on write. Never sanitized here. */
-  body: string;
   /** ISO date (YYYY-MM-DD). */
   date: string;
   readMinutes: number;
   published: boolean;
   featured: boolean;
+  /**
+   * Addresses this post used to live at, before a rename moved it. A visit to
+   * one of them redirects here, so a link shared earlier still arrives.
+   */
+  aliases?: readonly string[];
+}
+
+/** One article, fetched when it is the one being read. */
+export interface BlogPost extends BlogSummary {
+  /** HTML, sanitized server-side on write. Never sanitized here. */
+  body: string;
 }
 
 /*
@@ -62,10 +76,13 @@ export function slugify(title: string): string {
     .replaceAll(/^-+|-+$/g, "");
 }
 
-function isBlogPost(value: unknown): value is BlogPost {
+function isBlogSummary(value: unknown): value is BlogSummary {
   if (typeof value !== "object" || value === null) return false;
-  const post = value as Record<string, unknown>;
-  return typeof post.slug === "string" && typeof post.title === "string";
+  // `in` narrows the response object enough to read these without asserting a
+  // shape onto it — the whole point of the guard is that the shape is not known
+  // yet, so an assertion here would be the thing it exists to avoid.
+  if (!("slug" in value) || !("title" in value)) return false;
+  return typeof value.slug === "string" && typeof value.title === "string";
 }
 
 /*
@@ -73,7 +90,7 @@ function isBlogPost(value: unknown): value is BlogPost {
  * index and an article opened from it should not ask the CMS twice, and during
  * prerendering the same promise serves every route in the pass.
  */
-let inflight: Promise<readonly BlogPost[]> | undefined;
+let inflight: Promise<readonly BlogSummary[]> | undefined;
 
 /*
  * Flipped by `invalidateBlogPosts` and sticky on purpose: it only ever flips
@@ -85,7 +102,7 @@ let inflight: Promise<readonly BlogPost[]> | undefined;
  */
 let bypassHttpCache = false;
 
-async function requestLocale(locale: string): Promise<readonly BlogPost[]> {
+async function requestLocale(locale: string): Promise<readonly BlogSummary[]> {
   const response = await fetch(
     `${API_BASE}/api/public/posts?locale=${locale}`,
     {
@@ -98,10 +115,10 @@ async function requestLocale(locale: string): Promise<readonly BlogPost[]> {
   const payload: unknown = await response.json();
   if (!Array.isArray(payload)) throw new Error("CMS did not return a list");
 
-  return payload.filter(isBlogPost);
+  return payload.filter(isBlogSummary);
 }
 
-async function requestPosts(): Promise<readonly BlogPost[]> {
+async function requestPosts(): Promise<readonly BlogSummary[]> {
   const posts = await requestLocale(SITE_LOCALE);
   if (posts.length > 0 || SITE_LOCALE === DEFAULT_LOCALE) return posts;
 
@@ -110,7 +127,7 @@ async function requestPosts(): Promise<readonly BlogPost[]> {
   return requestLocale(DEFAULT_LOCALE);
 }
 
-export function loadBlogPosts(): Promise<readonly BlogPost[]> {
+export function loadBlogPosts(): Promise<readonly BlogSummary[]> {
   inflight ??= requestPosts().catch((error: unknown) => {
     // Let the next attempt try again rather than caching the failure for the
     // life of the page.
@@ -134,9 +151,41 @@ export function invalidateBlogPosts(): void {
   bypassHttpCache = true;
 }
 
-export async function loadPostBySlug(
+/**
+ * One article, with its body.
+ *
+ * A request of its own rather than a lookup in the list, because the list no
+ * longer carries bodies. Returns undefined for a slug that is not published, so
+ * the article page can render its not-found state rather than throwing.
+ */
+export async function loadPost(slug: string): Promise<BlogPost | undefined> {
+  const response = await fetch(
+    `${API_BASE}/api/public/posts/${encodeURIComponent(slug)}?locale=${SITE_LOCALE}`,
+    {
+      headers: { accept: "application/json" },
+      cache: bypassHttpCache ? "reload" : "default",
+    },
+  );
+
+  if (response.status === 404) return undefined;
+  if (!response.ok) throw new Error(`CMS returned ${String(response.status)}`);
+
+  const payload: unknown = await response.json();
+  if (!isBlogSummary(payload)) return undefined;
+  return payload as BlogPost;
+}
+
+/**
+ * The post that used to live at this address, if any.
+ *
+ * Separate from `loadPostBySlug` so a caller has to decide what to do about a
+ * match: an article found this way is at the wrong URL, and the route redirects
+ * rather than rendering it, or the old and new address would both serve the
+ * same page and compete with each other in an index.
+ */
+export function findByAlias(
+  posts: readonly BlogSummary[],
   slug: string,
-): Promise<BlogPost | undefined> {
-  const posts = await loadBlogPosts();
-  return posts.find((post) => post.slug === slug);
+): BlogSummary | undefined {
+  return posts.find((post) => post.aliases?.includes(slug) === true);
 }

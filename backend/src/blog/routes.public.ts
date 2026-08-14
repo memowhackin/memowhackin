@@ -1,12 +1,16 @@
 import { createHash } from "node:crypto";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import { Router } from "express";
 import { db } from "../db/client.js";
-import { posts } from "../db/schema.js";
+import { postSlugs, posts } from "../db/schema.js";
 import { publicLimiter } from "../auth/rateLimit.js";
 import { localeQuery } from "../http/params.js";
 import { mediaPath } from "./media.js";
-import { toPublicPost, type PublicPost } from "./serialize.js";
+import {
+  toPublicPost,
+  toPublicSummary,
+  type PublicPostSummary,
+} from "./serialize.js";
 import { safeSlug } from "./slug.js";
 
 /*
@@ -21,11 +25,7 @@ export const publicRouter: Router = Router();
 
 publicRouter.use(publicLimiter);
 
-function etagFor(items: PublicPost[]): string {
-  // The whole payload, not a summary. An earlier version hashed only slug and
-  // date, so any same-day edit — a body fix, a featured toggle — produced the
-  // same tag, and a browser revalidating its copy was told 304 and kept the
-  // stale list for another cache lifetime, indefinitely.
+function etagFor(items: PublicPostSummary[]): string {
   const hash = createHash("sha256");
   hash.update(JSON.stringify(items));
   return `W/"${hash.digest("hex").slice(0, 32)}"`;
@@ -41,10 +41,46 @@ publicRouter.get("/posts", async (req, res) => {
     .orderBy(desc(posts.publishedAt))
     .limit(500);
 
-  const body = rows.map(toPublicPost);
+  /*
+   * Former addresses, in one query rather than one per post. The site uses them
+   * to redirect a link shared before a rename, and the build turns them into
+   * real 301 rules.
+   */
+  const retired =
+    rows.length === 0
+      ? []
+      : await db
+          .select({ postId: postSlugs.postId, slug: postSlugs.slug })
+          .from(postSlugs)
+          .where(
+            inArray(
+              postSlugs.postId,
+              rows.map((row) => row.id),
+            ),
+          );
+
+  const byPost = new Map<string, string[]>();
+  for (const entry of retired) {
+    const list = byPost.get(entry.postId) ?? [];
+    list.push(entry.slug);
+    byPost.set(entry.postId, list);
+  }
+
+  const body = rows.map((row) =>
+    toPublicSummary(row, byPost.get(row.id) ?? []),
+  );
   const etag = etagFor(body);
 
-  res.setHeader("Cache-Control", "public, max-age=60");
+  /*
+   * Revalidate every time rather than caching for a fixed minute.
+   *
+   * `max-age=60` meant the browser answered from its own cache without asking,
+   * so for a minute after an edit every open tab — the author's included —
+   * kept showing the old article and a refresh changed nothing. Express already
+   * sends an ETag, so `no-cache` costs one conditional request that almost
+   * always comes back 304 with no body, and the blog is never stale.
+   */
+  res.setHeader("Cache-Control", "no-cache");
   res.setHeader("ETag", etag);
 
   if (req.headers["if-none-match"] === etag) {
@@ -77,12 +113,48 @@ publicRouter.get("/posts/:slug", async (req, res) => {
     .limit(1);
 
   const row = rows[0];
+
+  /*
+   * Not a live address — but it may be one this post used to have. A rename
+   * moves the slug and files the old one, so answering 404 here would break
+   * every link shared before the rename. Redirect to where the article lives
+   * now, permanently, which is also what tells a search engine to move its
+   * record rather than drop it.
+   */
+  if (row === undefined) {
+    const alias = await db
+      .select({ postId: postSlugs.postId })
+      .from(postSlugs)
+      .where(and(eq(postSlugs.slug, slug), eq(postSlugs.locale, locale)))
+      .limit(1);
+
+    const postId = alias[0]?.postId;
+    if (postId !== undefined) {
+      const moved = await db
+        .select()
+        .from(posts)
+        .where(and(eq(posts.id, postId), eq(posts.status, "published")))
+        .limit(1);
+
+      const target = moved[0];
+      if (target !== undefined) {
+        res.setHeader("Cache-Control", "no-cache");
+        res.redirect(
+          301,
+          `/api/public/posts/${target.slug}?locale=${target.locale}`,
+        );
+        return;
+      }
+    }
+  }
+
   if (row === undefined) {
     res.status(404).json({ error: "not_found" });
     return;
   }
 
-  res.setHeader("Cache-Control", "public, max-age=60");
+  // Revalidated, not cached for a fixed window — see the list route above.
+  res.setHeader("Cache-Control", "no-cache");
   res.json(toPublicPost(row));
 });
 

@@ -28,6 +28,8 @@ export const Route = createFileRoute("/studio-b78262a861/")({
 interface Draft {
   /** Set when editing an existing post; absent when creating one. */
   id?: string;
+  /** The address the post is published under. Server-assigned, read-only. */
+  slug?: string;
   title: string;
   category: BlogCategory;
   excerpt: string;
@@ -57,6 +59,7 @@ function isCategory(value: string): value is BlogCategory {
 function toDraft(post: AdminPost): Draft {
   return {
     id: post.id,
+    slug: post.slug,
     title: post.title,
     category: isCategory(post.category) ? post.category : "news",
     excerpt: post.excerpt,
@@ -128,10 +131,14 @@ function BlogAdmin() {
 
   if (status !== "authed") return null;
 
-  function describe(cause: unknown): string {
-    if (cause instanceof ApiError && cause.code === "slug_taken") {
-      return t("admin.errorSlugTaken");
-    }
+  /*
+   * There is no longer a slug conflict to report: the server resolves a
+   * duplicate title into its own URL rather than refusing the save. This used
+   * to tell the author to change the title, which was the only escape when the
+   * editor has no slug field — and is now advice for a state that cannot
+   * happen.
+   */
+  function describe(): string {
     return t("admin.errorSaveFailed");
   }
 
@@ -169,8 +176,8 @@ function BlogAdmin() {
         setNotice(t("admin.saved"));
         reload();
       })
-      .catch((cause: unknown) => {
-        setError(describe(cause));
+      .catch(() => {
+        setError(describe());
       })
       .finally(() => {
         setBusy(false);
@@ -285,6 +292,21 @@ function BlogAdmin() {
                   className={inputClass}
                   data-testid="admin-title"
                 />
+                {/*
+                  The address this post answers on, shown rather than editable:
+                  it is derived from the title and assigned by the server, and a
+                  duplicate title earns a suffix the author would otherwise
+                  never see. Renaming moves it — the old address keeps
+                  redirecting — so it is worth being able to read.
+                */}
+                <p
+                  data-testid="admin-post-url"
+                  className="text-mist/45 truncate font-mono text-xs"
+                >
+                  {draft.slug === undefined
+                    ? t("admin.postUrlNew")
+                    : `/blog/${draft.slug}`}
+                </p>
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -443,6 +465,18 @@ function BlogAdmin() {
                     </div>
                     <p className="text-mist truncate text-base font-medium">
                       {post.title}
+                    </p>
+                    {/*
+                      The address, because a title does not always identify the
+                      post: two articles can share one, and the second gets a
+                      suffix it would otherwise only discover by opening it.
+                      This is the line that tells them apart.
+                    */}
+                    <p
+                      data-testid={`admin-slug-${post.slug}`}
+                      className="text-mist/40 truncate font-mono text-xs"
+                    >
+                      /blog/{post.slug}
                     </p>
                     <p className="text-mist/45 text-xs">
                       {new Date(

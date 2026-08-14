@@ -1,6 +1,8 @@
+import { sql } from "drizzle-orm";
 import {
   bigint,
   boolean,
+  check,
   index,
   integer,
   jsonb,
@@ -106,6 +108,56 @@ export const posts = pgTable(
   (table) => [
     uniqueIndex("uq_posts_slug_locale").on(table.slug, table.locale),
     index("ix_posts_status_published").on(table.status, table.publishedAt),
+    /*
+     * The shape of a URL, enforced where it cannot be bypassed.
+     *
+     * Application code already builds slugs this way, but this table is also
+     * reachable from the seed importer and from psql, and a slug that is empty,
+     * uppercase, non-ASCII or hyphen-topped is either unreachable through the
+     * public lookup or resolves to a different address than the one stored. The
+     * unique index above keeps two posts apart; this keeps each one
+     * addressable.
+     */
+    check(
+      "ck_posts_slug_shape",
+      sql`${table.slug} ~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?$'`,
+    ),
+  ],
+);
+
+/*
+ * Every address a post has ever had, apart from its current one.
+ *
+ * Renaming a published article moves its slug so the URL keeps matching the
+ * headline — but the old address is already in inbound links, in someone's
+ * bookmarks and in search results, and it has to keep working. Each rename
+ * files the outgoing slug here, and a request for one redirects to wherever
+ * that post lives now.
+ *
+ * Unique on (slug, locale) for the same reason `posts` is: an address belongs
+ * to one article. The uniqueness check for a new slug consults both tables, so
+ * a post can never claim a URL that still points somewhere else.
+ */
+export const postSlugs = pgTable(
+  "post_slugs",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    postId: uuid("post_id")
+      .notNull()
+      .references(() => posts.id, { onDelete: "cascade" }),
+    slug: varchar("slug", { length: 140 }).notNull(),
+    locale: varchar("locale", { length: 5 }).notNull().default("en"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("uq_post_slugs_slug_locale").on(table.slug, table.locale),
+    index("ix_post_slugs_post").on(table.postId),
+    check(
+      "ck_post_slugs_slug_shape",
+      sql`${table.slug} ~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?$'`,
+    ),
   ],
 );
 
@@ -156,5 +208,6 @@ export const auditLog = pgTable(
 
 export type AdminUser = typeof adminUsers.$inferSelect;
 export type Post = typeof posts.$inferSelect;
+export type PostSlug = typeof postSlugs.$inferSelect;
 export type NewPost = typeof posts.$inferInsert;
 export type ImageRow = typeof images.$inferSelect;

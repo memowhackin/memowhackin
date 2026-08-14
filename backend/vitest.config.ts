@@ -1,5 +1,18 @@
-import "dotenv/config";
+import { config as loadEnv } from "dotenv";
 import { defineConfig } from "vitest/config";
+
+/*
+ * `.env.test` wins over `.env`, and dotenv never overwrites a variable that is
+ * already set, so loading it first is what makes it authoritative.
+ *
+ * This matters because the integration suite deletes rows. Pointed at `.env` it
+ * runs against whatever the development backend uses — which on this project is
+ * a shared server holding the real blog. The guard in api.test.ts refuses to
+ * run without a database that is named like a test one; this is how you give it
+ * that database.
+ */
+loadEnv({ path: ".env.test", quiet: true });
+loadEnv({ quiet: true });
 
 /*
  * Without a config of its own, vitest walks up and finds the frontend's, which

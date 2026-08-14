@@ -37,13 +37,19 @@ async function firstArticle(
   const response = await request.get("/api/public/posts?locale=en");
   if (!response.ok()) return undefined;
 
-  const posts = (await response.json()) as {
+  const posts = (await response.json()) as { slug: string }[];
+  const slug = posts[0]?.slug;
+  if (slug === undefined) return undefined;
+
+  // The list carries summaries only — the body lives on the article itself,
+  // which is the whole point of the split.
+  const article = await request.get(`/api/public/posts/${slug}?locale=en`);
+  if (!article.ok()) return undefined;
+  const post = (await article.json()) as {
     slug: string;
     title: string;
     body: string;
-  }[];
-  const post = posts[0];
-  if (post === undefined) return undefined;
+  };
 
   const text = post.body
     .replaceAll(/<[^>]+>/g, " ")

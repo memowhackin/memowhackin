@@ -7,19 +7,35 @@ import type { Post } from "../db/schema.js";
  * cost of naming the fields is one line per field, once.
  */
 
-/** What the marketing site consumes — the exact shape its content files use. */
-export interface PublicPost {
+/*
+ * The blog index needs to describe every article; only the article page needs
+ * one of them in full.
+ *
+ * These were a single shape, so the list endpoint returned every published
+ * post's entire body — the whole blog, rendered HTML and all, downloaded on
+ * every visit to /blog and again on every revalidation. Invisible at four
+ * posts and a hundred kilobytes at a hundred. The summary is what the list
+ * serves; the body is fetched for the one article being read.
+ */
+export interface PublicPostSummary {
   slug: string;
   title: string;
   category: string;
   excerpt: string;
-  body: string;
   date: string;
   readMinutes: number;
   published: boolean;
   featured: boolean;
-  /** Filenames referenced by the body, for the build's image mirror. */
-  images: string[];
+  /**
+   * Addresses this post used to live at. The site redirects each of them to
+   * the current slug, so a link shared before a rename still arrives.
+   */
+  aliases: string[];
+}
+
+/** One article, in full. */
+export interface PublicPost extends PublicPostSummary {
+  body: string;
 }
 
 /** What the admin UI needs. Adds drafts and editing metadata, no user records. */
@@ -50,7 +66,10 @@ export function referencedImages(body: string): string[] {
     .sort();
 }
 
-export function toPublicPost(post: Post): PublicPost {
+export function toPublicSummary(
+  post: Post,
+  aliases: readonly string[] = [],
+): PublicPostSummary {
   const published = post.publishedAt ?? post.createdAt;
 
   return {
@@ -58,13 +77,19 @@ export function toPublicPost(post: Post): PublicPost {
     title: post.title,
     category: post.category,
     excerpt: post.excerpt,
-    body: post.body,
     date: published.toISOString().slice(0, 10),
     readMinutes: post.readMinutes,
     published: post.status === "published",
     featured: post.isFeatured,
-    images: referencedImages(post.body),
+    aliases: [...aliases],
   };
+}
+
+export function toPublicPost(
+  post: Post,
+  aliases: readonly string[] = [],
+): PublicPost {
+  return { ...toPublicSummary(post, aliases), body: post.body };
 }
 
 export function adminPost(post: Post): AdminPost {

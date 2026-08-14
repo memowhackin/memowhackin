@@ -20,7 +20,14 @@ declare global {
 export function sessionCookie(req: Request): string | undefined {
   const cookies: unknown = req.cookies;
   if (typeof cookies !== "object" || cookies === null) return undefined;
-  const raw = (cookies as Record<string, unknown>)[SESSION_COOKIE];
+
+  /*
+   * Read dynamically rather than asserted into a shape. The cookie name is one
+   * of two literals depending on whether cookies are Secure, and a union key
+   * cannot index a narrowed unknown — so `Reflect.get` does the lookup the
+   * honest way and the result is type-tested rather than trusted.
+   */
+  const raw: unknown = Reflect.get(cookies, SESSION_COOKIE);
   return typeof raw === "string" && raw.length > 0 ? raw : undefined;
 }
 

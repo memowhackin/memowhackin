@@ -16,7 +16,7 @@ import {
   BLOG_CATEGORIES,
   loadBlogPosts,
   type BlogCategory,
-  type BlogPost,
+  type BlogSummary,
 } from "@/config/blog";
 
 export const Route = createFileRoute("/blog/")({
@@ -51,7 +51,7 @@ type Filter = BlogCategory | "all";
  * that, cards of unequal copy hang their links at different heights, which is
  * most of what makes a grid look untidy.
  */
-function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
+function ArticleCard({ post, index }: { post: BlogSummary; index: number }) {
   const { t, i18n } = useTranslation();
   const { ref, className, style } = useReveal<HTMLLIElement>({
     delay: Math.min(index, 5) * 70,

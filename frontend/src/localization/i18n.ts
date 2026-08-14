@@ -1,4 +1,4 @@
-import { createInstance, type i18n as I18N } from "i18next";
+import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 import { env } from "@/config/env";
 import { SITE_LOCALE, type SupportedLanguage } from "@/config/locale";
@@ -20,7 +20,7 @@ export { SUPPORTED_LANGUAGES, type SupportedLanguage } from "@/config/locale";
  * with what the visitor then sees.
  */
 
-const instance = createInstance() as I18N;
+const instance = createInstance();
 
 export const i18nInit = instance.use(initReactI18next).init({
   debug: import.meta.env.DEV,

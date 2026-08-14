@@ -167,20 +167,54 @@ describe("invalidateBlogPosts", () => {
   });
 });
 
-describe("loadPostBySlug", () => {
-  it("finds the post and reuses the list", async () => {
-    fetchMock.mockResolvedValue(jsonResponse([post("a"), post("b")]));
-    const { loadBlogPosts, loadPostBySlug } = await loadModule();
+describe("loadPost", () => {
+  it("asks for the one article rather than the whole blog", async () => {
+    fetchMock.mockResolvedValue(
+      jsonResponse({ ...post("b"), body: "<p>text</p>" }),
+    );
+    const { loadPost } = await loadModule();
 
-    await loadBlogPosts();
-    expect((await loadPostBySlug("b"))?.slug).toBe("b");
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const article = await loadPost("b");
+
+    expect(article?.body).toBe("<p>text</p>");
+    expect(String(fetchMock.mock.calls[0]?.[0])).toBe(
+      "/api/public/posts/b?locale=en",
+    );
+  });
+
+  it("escapes the slug it was handed", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ ...post("x"), body: "" }));
+    const { loadPost } = await loadModule();
+
+    await loadPost("../admin");
+
+    expect(String(fetchMock.mock.calls[0]?.[0])).toContain("..%2Fadmin");
   });
 
   it("returns undefined for a slug that is not published", async () => {
-    fetchMock.mockResolvedValue(jsonResponse([post("a")]));
-    const { loadPostBySlug } = await loadModule();
+    fetchMock.mockResolvedValue(jsonResponse({ error: "not_found" }, 404));
+    const { loadPost } = await loadModule();
 
-    expect(await loadPostBySlug("draft")).toBeUndefined();
+    expect(await loadPost("draft")).toBeUndefined();
+  });
+
+  it("rejects rather than rendering an error page as an article", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ error: "boom" }, 500));
+    const { loadPost } = await loadModule();
+
+    await expect(loadPost("a")).rejects.toThrow("500");
+  });
+});
+
+describe("the list", () => {
+  it("carries no article bodies", async () => {
+    // The index describes every post; shipping each one's HTML to do that
+    // meant downloading the whole blog to render a page of summaries.
+    fetchMock.mockResolvedValue(jsonResponse([post("a"), post("b")]));
+    const { loadBlogPosts } = await loadModule();
+
+    for (const entry of await loadBlogPosts()) {
+      expect(entry).not.toHaveProperty("body");
+    }
   });
 });

@@ -1,0 +1,1 @@
+ALTER TABLE "posts" ADD CONSTRAINT "ck_posts_slug_shape" CHECK ("posts"."slug" ~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?$');

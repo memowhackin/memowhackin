@@ -8,10 +8,12 @@ import type { Request } from "express";
  * works well.
  */
 function loginKey(req: Request): string {
+  // `in` narrows the unknown body to something with that key, so the value can
+  // be read and type-tested without asserting a shape the compiler cannot see.
   const body: unknown = req.body;
   const email =
-    typeof body === "object" && body !== null
-      ? (body as Record<string, unknown>).email
+    typeof body === "object" && body !== null && "email" in body
+      ? body.email
       : undefined;
 
   const ip = ipKeyGenerator(req.ip ?? "");

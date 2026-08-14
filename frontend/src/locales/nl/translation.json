@@ -375,6 +375,8 @@
     "save": "Artikel opslaan",
     "cancel": "Annuleren",
     "draftTag": "Concept",
+    "postUrl": "Adres",
+    "postUrlNew": "Wordt ingesteld bij opslaan",
     "featuredTag": "Uitgelicht",
     "view": "Bekijken",
     "edit": "Bewerken",
@@ -406,7 +408,6 @@
     "saving": "Bezig met opslaan…",
     "deleted": "Bericht verwijderd.",
     "loadError": "Kon berichten niet laden. Controleer of de CMS-API bereikbaar is.",
-    "errorSlugTaken": "Er bestaat al een bericht met die titel. Wijzig de titel.",
     "errorSaveFailed": "Kon het bericht niet opslaan. Je wijzigingen staan er nog — probeer opnieuw.",
     "errorDeleteFailed": "Kon het bericht niet verwijderen."
   },

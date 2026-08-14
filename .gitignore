@@ -13,6 +13,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+!.env.test.example
 
 # ============================================================================
 # Python
@@ -128,6 +129,10 @@ uploads/
 
 # Generated blog media — mirrored from the CMS at build time.
 **/public/media/blog/
+
+# Database dumps and image archives written by backend/scripts/backup.sh.
+# These contain post content and password hashes and must never be committed.
+**/backups/
 
 # ============================================================================
 # Generated Files

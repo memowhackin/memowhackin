@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
@@ -12,12 +12,43 @@ import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 import { useSeo } from "@/localization/useSeo";
 import { BlogUnavailable } from "@/components/blog/BlogUnavailable";
-import { loadBlogPosts, slugify, type BlogPost } from "@/config/blog";
+import {
+  findByAlias,
+  loadBlogPosts,
+  loadPost,
+  slugify,
+  type BlogSummary,
+} from "@/config/blog";
 
 export const Route = createFileRoute("/blog/$slug")({
   // Awaited by the router, so the prerender pass captures the article rather
   // than an empty shell.
-  loader: () => loadBlogPosts(),
+  loader: async ({ params }) => {
+    const posts = await loadBlogPosts();
+
+    /*
+     * This address belonged to a post that has since been renamed. Send the
+     * reader to where it lives now instead of rendering it here: serving the
+     * same article at two URLs splits its links and makes a search engine pick
+     * one of them itself.
+     */
+    const moved = findByAlias(posts, params.slug);
+    if (moved) {
+      // Throwing is how a router loader redirects — the thrown value is a
+      // routing instruction the router unwinds to, not an error condition.
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
+      throw redirect({
+        to: "/blog/$slug",
+        params: { slug: moved.slug },
+        replace: true,
+      });
+    }
+
+    // The summaries carry the related row and the alias table; the article
+    // itself is one more request, because the list no longer ships bodies.
+    const post = await loadPost(params.slug);
+    return { posts, post };
+  },
   component: BlogPostPage,
   // A CMS outage is a bad blog page, not a broken site.
   errorComponent: BlogUnavailable,
@@ -356,7 +387,7 @@ function ShareRow() {
 }
 
 /** A related article, in the shape the home page teasers use. */
-function RelatedCard({ post, index }: { post: BlogPost; index: number }) {
+function RelatedCard({ post, index }: { post: BlogSummary; index: number }) {
   const { i18n } = useTranslation();
   const { ref, className, style } = useReveal<HTMLLIElement>({
     delay: index * 80,
@@ -407,8 +438,7 @@ function RelatedCard({ post, index }: { post: BlogPost; index: number }) {
 function BlogPostPage() {
   const { slug } = Route.useParams();
   const { t, i18n } = useTranslation();
-  const posts = Route.useLoaderData();
-  const post = posts.find((item) => item.slug === slug);
+  const { posts, post } = Route.useLoaderData();
 
   const { html, headings } = useArticleOutline(post?.body ?? "");
   const activeId = useActiveHeading(headings);

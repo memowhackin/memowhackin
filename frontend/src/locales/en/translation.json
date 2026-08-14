@@ -375,6 +375,8 @@
     "save": "Save article",
     "cancel": "Cancel",
     "draftTag": "Draft",
+    "postUrl": "Address",
+    "postUrlNew": "Set when you save",
     "featuredTag": "Featured",
     "view": "View",
     "edit": "Edit",
@@ -406,7 +408,6 @@
     "saving": "Saving…",
     "deleted": "Post deleted.",
     "loadError": "Could not load posts. Check that the CMS API is reachable.",
-    "errorSlugTaken": "A post with that title already exists. Change the title.",
     "errorSaveFailed": "Could not save the post. Your changes are still here — try again.",
     "errorDeleteFailed": "Could not delete the post."
   },

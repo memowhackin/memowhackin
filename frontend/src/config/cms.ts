@@ -154,8 +154,19 @@ async function safeJson<T>(response: Response): Promise<T | undefined> {
   }
 }
 
+/*
+ * The per-field validation errors the API returns alongside a 400.
+ *
+ * The values are checked, not assumed. This used to accept any non-array
+ * object, which made the guard a promise the shape had not been asked to keep:
+ * a field whose value came back as a number or a nested object would be typed
+ * `string` from here on and rendered as one.
+ */
 function isFieldMap(value: unknown): value is Record<string, string> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+  return Object.values(value).every((entry) => typeof entry === "string");
 }
 
 interface SessionResponse extends AdminUser {
