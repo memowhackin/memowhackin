@@ -12,6 +12,7 @@ export const site = {
   loginUrl: "https://scanner.assistsec.nl/login",
   bookDemoUrl: "https://scanner.assistsec.nl/demo",
   linkedInUrl: "https://www.linkedin.com/company/assistsec",
+  youTubeUrl: "https://www.youtube.com/@assistsec",
 } as const;
 
 /** Anchor targets for the in-page navigation. */

@@ -24,10 +24,35 @@ function resolve(value: string | undefined): SupportedLanguage {
   return SUPPORTED_LANGUAGES.find((lng) => lng === value) ?? DEFAULT_LOCALE;
 }
 
+/**
+ * The language prefix on the address bar, in development only.
+ *
+ * `npm run dev` is a single vite server, so it has a single
+ * `VITE_SITE_LOCALE` — unset, meaning English. Production does not: the build
+ * runs once per language and each bundle is compiled with its own value. That
+ * gap made the language switcher look broken in dev and nowhere else, because
+ * switching navigates to `/nl/...` and the one dev bundle did not recognise
+ * the prefix as its own, so the router had no route and rendered not-found.
+ *
+ * Reading the prefix here gives the dev server what the build gives
+ * production: the language of the page you are on. Everything downstream —
+ * the router's basepath, i18next's `lng`, the links — already follows
+ * `SITE_LOCALE`, so nothing else needs to know.
+ *
+ * `import.meta.env.DEV` is replaced with `false` at build time, so this whole
+ * function drops out of production bundles and the built language stays fixed
+ * by the env var, exactly as before.
+ */
+function devLocaleFromPath(): SupportedLanguage | undefined {
+  if (!import.meta.env.DEV || typeof window === "undefined") return undefined;
+
+  const [, first] = window.location.pathname.split("/");
+  return SUPPORTED_LANGUAGES.find((lng) => lng === first);
+}
+
 /** The language this bundle was built for. */
-export const SITE_LOCALE: SupportedLanguage = resolve(
-  import.meta.env.VITE_SITE_LOCALE,
-);
+export const SITE_LOCALE: SupportedLanguage =
+  devLocaleFromPath() ?? resolve(import.meta.env.VITE_SITE_LOCALE);
 
 /** URL prefix for a language: "" for the default, "/nl" for the rest. */
 export function localeBasePath(locale: SupportedLanguage): string {
