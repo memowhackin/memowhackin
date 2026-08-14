@@ -436,6 +436,116 @@ body {
 }
 
 /*
+ * A light running a panel's edge, drawn as a dashed outline rather than a
+ * masked conic gradient (see `--animate-panel-beam` for why).
+ *
+ * Four strokes on the same outline:
+ *
+ *   track  a continuous ring at the edge of visible, so the light has
+ *          something to run along rather than appearing out of the dark. It is
+ *          meant to be felt rather than seen; past about a tenth of the accent
+ *          it stops being a track and becomes a second border competing with
+ *          the panel's own.
+ *   bloom  wide and heavily blurred, the light thrown onto its surroundings
+ *   halo   the soft body of the light
+ *   core   a thin near-white centre
+ *
+ * The three lit strokes share one dash and one phase, so they sit exactly on
+ * top of each other and read as a single glowing object. An earlier version
+ * gave the bright part its own shorter dash running ahead of a longer dim one:
+ * that separates into a head towing something behind it, which at this size
+ * read as a tail rather than as light.
+ *
+ * Glow is built from stacked blurred copies rather than from `drop-shadow` on
+ * one stroke. A drop shadow is one offset copy of the alpha, so it grows hard
+ * edged as it widens; stacking widths that each blur further gives the falloff
+ * a real light has.
+ *
+ * The outline is inset by half its own width so it sits on the panel's edge
+ * instead of straddling it, and the radius matches the panel's `rounded-3xl`.
+ * Geometry lives here rather than on the element, so the same markup fits any
+ * panel it is dropped into.
+ */
+.panel-beam {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.panel-beam rect {
+  x: 1px;
+  y: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  rx: 1.5rem;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.panel-beam .beam-track {
+  stroke: color-mix(in oklab, var(--color-lavender) 9%, transparent);
+  stroke-width: 1;
+}
+
+/*
+ * One dash worn by all three lit strokes: four fifths of the lap lit, a fifth
+ * dark. Past roughly half, the figure and ground swap. The eye stops following
+ * a lit segment travelling a dark outline and starts reading a lit outline
+ * with a gap moving through it, which is a far calmer thing to sit beside
+ * while still lighting the whole panel.
+ */
+.panel-beam .beam-bloom,
+.panel-beam .beam-halo,
+.panel-beam .beam-core {
+  stroke-dasharray: 80 20;
+}
+
+.panel-beam .beam-bloom {
+  stroke: var(--color-lavender);
+  stroke-width: 7;
+  opacity: 0.4;
+  filter: blur(0.5rem);
+}
+
+.panel-beam .beam-halo {
+  stroke: var(--color-lavender);
+  stroke-width: 3;
+  opacity: 0.85;
+  filter: blur(0.1875rem);
+}
+
+.panel-beam .beam-core {
+  stroke: var(--color-lavender-soft);
+  stroke-width: 1.25;
+  filter: blur(0.03125rem);
+}
+
+/*
+ * The polish on a newsletter field: a lit top edge with a short fall-off below
+ * it, and a shadow along the bottom. Together they read as light landing on a
+ * slightly raised surface, which is what makes a dark input look like an object
+ * rather than a hole cut in the panel.
+ *
+ * The highlight is lavender rather than white. A white sheen on this ground
+ * comes out grey and reads as dirt on the field; carrying a little of the
+ * accent keeps it as light.
+ *
+ * It layers as `background-image`, so whatever `bg-*` the field already carries
+ * still supplies the colour underneath.
+ */
+@utility field-sheen {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--color-lavender) 8%, transparent),
+    transparent 45%
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--color-lavender) 16%, transparent),
+    inset 0 -1px 0 rgb(0 0 0 / 0.3);
+}
+
+/*
  * The closing hands' approach, driven by `--cta-reach`: 0 while the section
  * is out of the reader's view, 1 once the headline is in front of them.
  * ClosingCta's follower writes the value; these turn it into travel.

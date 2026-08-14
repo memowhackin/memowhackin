@@ -90,21 +90,53 @@ const viewports = [
   { name: "large desktop", width: 2560, height: 1200 },
 ];
 
-for (const viewport of viewports) {
-  test(`lays out without sideways overflow on ${viewport.name}`, async ({
-    page,
-  }) => {
-    await page.setViewportSize(viewport);
-    await page.goto("/");
-    await page.getByTestId("site-footer").scrollIntoViewIfNeeded();
+/*
+ * Every page shape, not just the home page. The blog index and an article are
+ * laid out quite differently — a filter bar, a card grid, the subscribe panel,
+ * and a long prose column with a table of contents — so a width that overflows
+ * on one of them can pass on another. This only checked "/" for a long time,
+ * which left the pages carrying the most layout the least tested.
+ */
+const pages = [
+  { name: "home", path: "/", rendered: "landing-page" },
+  { name: "blog index", path: "/blog", rendered: "blog-index" },
+  {
+    name: "article",
+    path: "/blog/what-is-ctem-the-five-stages",
+    rendered: "blog-post",
+  },
+];
 
-    const overflow = await page.evaluate(() => {
-      const doc = document.documentElement;
-      return doc.scrollWidth - doc.clientWidth;
+for (const target of pages) {
+  for (const viewport of viewports) {
+    test(`lays out ${target.name} without sideways overflow on ${viewport.name}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize(viewport);
+      await page.goto(target.path);
+
+      /*
+       * Confirm the page actually rendered before measuring it. A renamed slug
+       * would land on the not-found screen, which is short and never overflows
+       * — so the test would pass while checking nothing at all.
+       */
+      await expect(page.getByTestId(target.rendered)).toBeAttached();
+
+      // Scroll to the foot so lazily revealed sections are laid out too; an
+      // element that only overflows once revealed would otherwise be missed.
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await page.getByTestId("site-footer").scrollIntoViewIfNeeded();
+
+      const overflow = await page.evaluate(() => {
+        const doc = document.documentElement;
+        return doc.scrollWidth - doc.clientWidth;
+      });
+
+      expect(overflow).toBeLessThanOrEqual(1);
     });
-
-    expect(overflow).toBeLessThanOrEqual(1);
-  });
+  }
 }
 
 /*
