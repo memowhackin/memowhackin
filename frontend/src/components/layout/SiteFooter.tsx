@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
+import { LinkedInIcon, YouTubeIcon } from "@/components/common/BrandIcons";
 import { LogoLockup } from "@/components/common/Logo";
 import { site } from "@/config/site";
 
@@ -11,6 +12,29 @@ const quickLinks = [
   { key: "about", to: "/about", label: "nav.about" },
   { key: "contact", to: "/contact", label: "nav.contact" },
   { key: "blog", to: "/blog", label: "nav.blog" },
+] as const;
+
+/**
+ * Where to find us. These are the company's own profiles, so they leave the
+ * site — hence plain anchors rather than router `Link`s, and the same
+ * `noreferrer noopener` the terms and privacy links carry.
+ *
+ * The icon is a component rather than a name to look up, so a typo cannot
+ * compile; adding a network means adding its mark to `BrandIcons`.
+ */
+const socialLinks = [
+  {
+    key: "linkedin",
+    href: site.linkedInUrl,
+    label: "footer.linkedIn",
+    Icon: LinkedInIcon,
+  },
+  {
+    key: "youtube",
+    href: site.youTubeUrl,
+    label: "footer.youTube",
+    Icon: YouTubeIcon,
+  },
 ] as const;
 
 /**
@@ -192,10 +216,48 @@ export function SiteFooter() {
             </nav>
 
             {/*
-              The outlined mark keeps the fourth track it has always sat in.
-              With the "Connect with" column removed there are only three cells
-              of content, so it is pinned to column 4 explicitly rather than
-              flowing left into the gap the socials left behind.
+              Where to find us, in the track the frame left for it beside the
+              quick links.
+
+              Deliberately built to the column on its left: same eyebrow, same
+              stacked rows, same row height and hover. The only thing added is
+              the mark, in a tile that lights with the label — one `group` per
+              row, so the glyph, its tile and the text all answer a hover
+              together instead of the icon sitting inert beside a colour
+              change. Anything louder here — filled brand colours, a row of
+              bare circular buttons — would outweigh the navigation it sits
+              next to, which is the more useful of the two.
+            */}
+            <nav aria-label={t("footer.connect")} data-testid="footer-socials">
+              <h2 className="eyebrow text-lavender mb-4">
+                {t("footer.connect")}
+              </h2>
+              <ul className="flex flex-col">
+                {socialLinks.map(({ key, href, label, Icon }) => (
+                  <li key={key}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      data-testid={`footer-social-${key}`}
+                      // Row rhythm copied from the quick links, including the
+                      // tighter desktop row for mice only.
+                      className="group text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center gap-3 text-base leading-6 transition-colors lg:pointer-fine:min-h-9"
+                    >
+                      <span className="border-lavender/20 bg-lavender/5 group-hover:border-lavender/45 group-hover:bg-lavender/15 grid size-8 shrink-0 place-items-center rounded-lg border transition-colors">
+                        <Icon className="size-4" />
+                      </span>
+                      {t(label)}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/*
+              The outlined mark keeps the fourth track it has always sat in,
+              pinned to column 4 explicitly so it stays put whatever the
+              columns to its left do.
             */}
             <img
               src="/assets/footer-mark-outline.svg"

@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { ArrowLeft, ArrowRight, Check, Link2 } from "lucide-react";
 import { BrandWatermark } from "@/components/blog/BrandWatermark";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
+import { LinkedInIcon } from "@/components/common/BrandIcons";
 import { SectionShell } from "@/components/common/SectionShell";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { useReveal } from "@/components/common/useReveal";
@@ -332,14 +333,9 @@ function ShareRow() {
         title={t("blog.shareLinkedin")}
         className={actionClass}
       >
-        {/* lucide dropped its brand icons, so this one is drawn here to match
-            the weight of the lucide icon beside it. */}
-        <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
-          <path
-            fill="currentColor"
-            d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM2.4 21.5h5.16V9.75H2.4V21.5Zm7.9-11.75h4.95v1.61h.07c.69-1.24 2.37-2.05 4.06-2.05 4.34 0 5.14 2.66 5.14 6.12v6.07h-5.15v-5.38c0-1.28-.02-2.93-1.87-2.93-1.87 0-2.16 1.4-2.16 2.84v5.47H10.3V9.75Z"
-          />
-        </svg>
+        {/* Drawn rather than imported: lucide dropped its brand icons. Shared
+            with the footer's social links, so there is one LinkedIn mark. */}
+        <LinkedInIcon className="size-4" />
       </a>
 
       <button
