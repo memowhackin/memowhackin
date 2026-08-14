@@ -1,0 +1,49 @@
+{
+  "name": "landing-cms",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -b tsconfig.build.json",
+    "start": "node dist/src/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b --force",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:migrate:prod": "node dist/src/db/migrate.js",
+    "db:studio": "drizzle-kit studio",
+    "create-admin": "tsx scripts/create-admin.ts",
+    "import-seed": "tsx scripts/import-seed.ts"
+  },
+  "dependencies": {
+    "argon2": "^0.45.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.6.2",
+    "helmet": "^8.3.0",
+    "multer": "^2.2.0",
+    "pg": "^8.23.0",
+    "pino": "^10.3.1",
+    "sanitize-html": "^2.17.7",
+    "sharp": "^0.35.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^26.2.0",
+    "@types/pg": "^8.21.0",
+    "@types/sanitize-html": "^2.16.1",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.23.12",
+    "typescript": "7.0.2",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,19 +1,21 @@
-# Lint, format, typecheck, unit tests, build, e2e.
+# Lint, format, typecheck, unit tests, build, e2e and a real Docker deployment —
+# for both halves of the repo.
 #
-# Node is pinned to `latest` rather than a major: this is a static front end with
-# a lockfile, and tracking the newest release surfaces engine breakage here
-# instead of on someone's machine. If a Node release ever breaks a build that
-# should have passed, pin the major here and the failure is explained.
+# Node is pinned to `latest` rather than a major: this is a static front end and
+# a small service, both with lockfiles, and tracking the newest release surfaces
+# engine breakage here instead of on someone's machine. If a Node release ever
+# breaks a build that should have passed, pin the major here and the failure is
+# explained.
 name: CI
+
+# Nothing here writes to the repository, so the token gets read-only scope.
+permissions:
+  contents: read
 
 on:
   push:
     branches: [main]
   pull_request:
-
-# Nothing here writes to the repository, so the token gets read-only scope.
-permissions:
-  contents: read
 
 # A new push to the same branch makes the previous run irrelevant.
 concurrency:
@@ -21,8 +23,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check:
-    name: Lint, test and build
+  # Formatting and linting span both apps and are configured at the root, so
+  # they run once rather than per app.
+  repo:
+    name: Format and lint
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -32,32 +36,32 @@ jobs:
         with:
           node-version: latest
           cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+            backend/package-lock.json
 
+      # Type-aware linting resolves every file against its own tsconfig, so both
+      # apps' dependencies have to be present even though the config is shared.
       - run: npm ci
-
-      - name: Lint
-        run: npm run lint
+      - run: npm ci --prefix frontend
+      - run: npm ci --prefix backend
 
       - name: Format check
         run: npm run fmt:check
 
-      # `npm run build` runs `tsc -b` first, so this covers typechecking too.
-      - name: Build
-        run: npm run build
+      # `prelint` generates the route tree first; without it every import of
+      # ./routeTree.gen resolves to an error type and the lint is nonsense.
+      - name: Lint
+        run: npm run lint
 
-      - name: Unit tests
-        run: npm run test
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: dist-${{ github.sha }}
-          path: dist/
-          retention-days: 7
-
-  e2e:
-    name: End-to-end
+  frontend:
+    name: Frontend
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@v7
 
@@ -65,8 +69,172 @@ jobs:
         with:
           node-version: latest
           cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
       - run: npm ci
+
+      # `npm run build` runs `tsc -b` first, so this covers typechecking too.
+      #
+      # No CMS is needed: `build` only compiles the bundle, which fetches its
+      # posts in the browser. Prerendering — the step that does need the CMS —
+      # is exercised by the e2e job, which runs one.
+      - name: Build
+        run: npm run build
+
+      - name: Unit tests
+        run: npm run test
+
+      - name: Dependency audit
+        run: npm audit --omit=dev --audit-level=high
+
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: landing_cms_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: landing_cms_test
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      ALLOWED_ORIGINS: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: latest
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Proves the migrations bring a completely empty database up to the
+      # current schema — the exact thing a new environment does.
+      - name: Migrate a fresh database
+        run: npm run db:migrate
+
+      # Re-running must be a no-op, not an error: every deploy does it.
+      - name: Migrations are idempotent
+        run: npm run db:migrate
+
+      # Includes the integration suite, which attacks the running app: CSRF,
+      # auth boundaries, injection, traversal and hostile uploads.
+      - name: Tests
+        run: npm run test
+
+      - name: Dependency audit
+        run: npm audit --omit=dev --audit-level=high
+
+  e2e:
+    name: End-to-end
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
+    # A real CMS, because the blog now comes from one. Prerendering asks the API
+    # which articles exist and the pages fetch their content from it, so without
+    # a backend here this job would prove only that the marketing pages work and
+    # would skip the blog entirely — the half most likely to break.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: landing_cms_e2e
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: landing_cms_e2e
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      ALLOWED_ORIGINS: http://localhost:3000
+      SECURE_COOKIES: "false"
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: latest
+          cache: npm
+          cache-dependency-path: |
+            frontend/package-lock.json
+            backend/package-lock.json
+
+      - run: npm ci
+
+      - name: Install the backend
+        working-directory: backend
+        run: npm ci
+
+      - name: Create the schema
+        working-directory: backend
+        run: npm run db:migrate
+
+      # An article to prerender. Written here rather than committed so no copy
+      # of blog content lives in the repo again — the database is the only place
+      # posts exist.
+      - name: Publish an article
+        working-directory: backend
+        run: |
+          mkdir -p /tmp/seed
+          cat > /tmp/seed/ci-article.json <<'EOF'
+          {
+            "slug": "ci-prerender-probe",
+            "title": "Continuous integration publishes this post",
+            "category": "news",
+            "excerpt": "Seeded by CI so the prerender assertions have an article.",
+            "body": "<p>This paragraph exists to prove that article text written to the CMS database reaches a crawler that never runs JavaScript.</p>",
+            "date": "2026-01-01",
+            "published": true,
+            "featured": false
+          }
+          EOF
+          npm run import-seed -- --dir /tmp/seed
+
+      # nohup, because the step's shell exits as soon as this script returns and
+      # would otherwise take the server down with it.
+      - name: Start the CMS
+        working-directory: backend
+        run: |
+          npm run build
+          nohup npm start > /tmp/cms.log 2>&1 &
+          for _ in $(seq 1 30); do
+            if curl --fail --silent --output /dev/null http://localhost:8001/health; then
+              echo "cms is up"; exit 0
+            fi
+            sleep 1
+          done
+          echo "cms did not start"; cat /tmp/cms.log; exit 1
 
       # The browser download is the slowest step in this job and only changes
       # when Playwright itself does, so it is keyed on the installed version.
@@ -81,8 +249,7 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
 
-      # Playwright starts the server itself (see playwright.config.ts), and the
-      # suite only has a chromium project, so the other browsers are dead
+      # The suite only has chromium projects, so the other browsers are dead
       # download weight. The cache holds the browser but not the apt packages it
       # links against, so those are installed either way.
       - name: Install Chromium
@@ -93,12 +260,131 @@ jobs:
         if: steps.browser-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
-      - name: Run e2e
+      # Because CI is set, playwright.config.ts builds and PRERENDERS, then
+      # serves dist/ through the same file-resolution order as production nginx,
+      # proxying /api to the CMS started above exactly as nginx does.
+      #
+      # So this run covers the whole chain at once: a post in Postgres reaches
+      # the public API, the prerenderer turns it into static HTML, React mounts
+      # on top of that markup without breaking the app, the admin screens behave,
+      # and — via the `no-javascript` project — a crawler receives real article
+      # text.
+      - name: Run e2e against the prerendered build
         run: npm run e2e
+
+      # The artifact is the prerendered output, which is what actually gets
+      # deployed — not the plain bundle the frontend job produces.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist-${{ github.sha }}
+          path: frontend/dist/
+          retention-days: 7
 
       - if: failure()
         uses: actions/upload-artifact@v7
         with:
           name: playwright-report-${{ github.sha }}
-          path: playwright-report/
+          path: frontend/playwright-report/
           retention-days: 7
+
+  # Builds the real images and boots the real stack. Everything above tests the
+  # code; this tests the deployment — that both Dockerfiles build, that the
+  # migrate service runs before the backend, that the backend becomes healthy
+  # against a containerised Postgres, and that nginx proxies /api to it.
+  docker:
+    name: Docker deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Configure the stack
+        run: |
+          cat > .env <<'EOF'
+          DB_NAME=as_landing
+          DB_USER=landing
+          DB_PASSWORD=ci-only-not-a-real-secret
+          SITE_PORT=8080
+          ALLOWED_ORIGINS=http://localhost:8080
+          SECURE_COOKIES=false
+          EOF
+
+      - name: Build images
+        run: docker compose build
+
+      # nginx compiles its config at boot and exits on any error — compose then
+      # hides that inside a restart loop until the wait step below times out
+      # with no explanation. Run the config test as its own step so the emerg
+      # line IS the failure message. `run` honours depends_on, which matters:
+      # the config names the `backend` upstream, so the backend has to be up
+      # for the hostname to resolve.
+      - name: nginx accepts its configuration
+        run: docker compose run --rm frontend nginx -t
+
+      # `--wait` is deliberately not used: it waits for every service to become
+      # healthy, and `migrate` is designed to run once and exit, which older
+      # compose versions treat as a failure. Polling the thing we actually care
+      # about is both simpler and a better assertion.
+      - name: Start the stack
+        run: docker compose up -d
+
+      - name: Wait for the site to answer
+        run: |
+          set -euo pipefail
+          for _ in $(seq 1 60); do
+            if curl --fail --silent --output /dev/null http://localhost:8080/; then
+              echo "site is up"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "site did not come up within 5 minutes"
+          docker compose ps
+          exit 1
+
+      - name: The site is served
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error http://localhost:8080/ -o page.html
+          # Prerendered, so the markup contains real content rather than an
+          # empty root that only a browser would fill in.
+          grep -q '<div id="root"><' page.html
+          # robots.txt must not name the admin path: it is the first file a
+          # scanner reads, and a Disallow line there advertises exactly what it
+          # appears to protect.
+          curl --fail --silent http://localhost:8080/robots.txt -o robots.txt
+          grep -q 'Sitemap:' robots.txt
+          ! grep -q 'studio-' robots.txt
+
+      - name: nginx proxies the API and the backend answers
+        run: |
+          set -euo pipefail
+          # Published posts come back through the proxy, same origin as the site
+          # — an empty list here, since this stack starts with an empty database,
+          # but a JSON array proves nginx reached the backend and the backend
+          # reached Postgres. The blog is prerendered empty for the same reason;
+          # a real deploy builds against a CMS that has posts.
+          curl --fail --silent http://localhost:8080/api/public/posts | grep -q '^\['
+          # And the admin surface is still closed.
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/api/posts)" = "401"
+
+      - name: Migrations ran as their own step
+        run: |
+          set -euo pipefail
+          docker compose logs migrate | grep -q "migrations applied"
+          # It must have exited rather than still be running: the backend only
+          # starts once this has completed successfully.
+          test -z "$(docker compose ps --status running --services | grep -x migrate || true)"
+
+      - name: An account can be created without a TTY
+        run: |
+          printf 'ci@example.test\nCI\nci-password-not-real\nci-password-not-real\n' \
+            | docker compose run --rm -T backend node dist/scripts/create-admin.js
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs --no-color --tail 200
+
+      - name: Tear down
+        if: always()
+        run: docker compose down --volumes --remove-orphans

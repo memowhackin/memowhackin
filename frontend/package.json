@@ -1,0 +1,51 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "routes": "tsr generate",
+    "prebuild": "npm run routes",
+    "build": "tsc -b && node scripts/build-locales.mjs",
+    "prerender": "node scripts/prerender.mjs",
+    "build:static": "npm run build && npm run prerender",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "pretypecheck": "npm run routes",
+    "typecheck": "tsc -b --force"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.170.27",
+    "clsx": "^2.1.1",
+    "i18next": "^26.3.6",
+    "lucide-react": "^1.31.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-i18next": "^17.0.11"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/router-cli": "1.167.28",
+    "@tanstack/router-plugin": "^1.168.30",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.4",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "@vitest/coverage-v8": "^4.1.10",
+    "daisyui": "^5.7.16",
+    "i18next-cli": "^1.69.0",
+    "jsdom": "^30.0.1",
+    "playwright": "^1.62.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "6.0.3",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
+  }
+}

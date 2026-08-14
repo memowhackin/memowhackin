@@ -1,8 +1,36 @@
 # Weekly updates, grouped so a routine bump is one review rather than a dozen.
+#
+# Each npm manifest needs its own entry: Dependabot does not walk a repository
+# looking for package.json files. With only "/" listed it watched the root's
+# handful of tooling packages and ignored every dependency the two applications
+# actually ship — Express, React, Drizzle, sharp and the rest.
 version: 2
 updates:
+  # Root: shared tooling only (eslint, oxfmt, husky).
   - package-ecosystem: npm
     directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dev-dependencies:
+        dependency-type: development
+      production-dependencies:
+        dependency-type: production
+
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dev-dependencies:
+        dependency-type: development
+      production-dependencies:
+        dependency-type: production
+
+  - package-ecosystem: npm
+    directory: /backend
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
@@ -19,3 +47,15 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+
+  # Both Dockerfiles pin base images; without these, node:24-slim and
+  # nginx:1.29-alpine would never be offered a security update.
+  - package-ecosystem: docker
+    directory: /frontend
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /backend
+    schedule:
+      interval: weekly

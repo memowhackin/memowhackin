@@ -1,0 +1,857 @@
+/*
+ * Fonts. The Figma file specifies Uncut Sans (UI/body), Neue Haas Grotesk Text
+ * Pro (hero headline) and Geist Mono (display headings). The first two are not
+ * distributable — they are named first in the stacks below so a licensed copy
+ * drops in without code changes, with Inter (the closest neo-grotesque Google
+ * serves) carrying the design until then. Geist Mono is the real thing.
+ */
+/*
+ * The Google Fonts stylesheet is linked from index.html rather than imported
+ * here. An `@import` of a remote sheet cannot be discovered until this file has
+ * been downloaded and parsed, which serialises two round trips before any text
+ * can paint; the <link>, with its preconnects, starts both at once.
+ *
+ * Weights are exactly the ones the site paints: Geist Mono 400 (display
+ * headings) and 500 (eyebrow labels); Inter 400/500/600 for body, medium and
+ * the announcement badge, plus 700 for the error and not-found headings.
+ */
+@import "tailwindcss";
+
+/*
+ * Single brand theme. The AssistSec landing design is dark by definition (one
+ * fixed look, no light variant), so there is one DaisyUI theme and no toggle.
+ */
+@plugin "daisyui" {
+  themes: assistsec --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "assistsec";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #110f2a;
+  --color-base-200: #0d0b21;
+  --color-base-300: #292362;
+  --color-base-content: #edeff7;
+
+  --color-primary: #ad9dee;
+  --color-primary-content: #0d0b21;
+  --color-secondary: #413994;
+  --color-secondary-content: #ede9ff;
+  --color-accent: #ff4e22;
+  --color-accent-content: #ffffff;
+  --color-neutral: #292362;
+  --color-neutral-content: #edeff7;
+
+  --color-info: #ad9dee;
+  --color-info-content: #0d0b21;
+  --color-success: #34d399;
+  --color-success-content: #0d0b21;
+  --color-warning: #fbbf24;
+  --color-warning-content: #0d0b21;
+  --color-error: #ff4e22;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 2.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 1rem;
+  --border: 1px;
+}
+
+/*
+ * Brand tokens straight from the Figma file ("🌟 Design → Homepage - 1").
+ * Use them as Tailwind utilities (`bg-ink`, `text-lavender`, `font-display`)
+ * rather than hard-coding values in components.
+ */
+@theme {
+  --font-sans:
+    "Uncut Sans", "Neue Haas Grotesk Text Pro", "Inter", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-display: "Geist Mono", ui-monospace, monospace;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  --color-ink: #110f2a;
+  --color-ink-deep: #0d0b21;
+  --color-indigo-deep: #292362;
+  --color-indigo: #413994;
+  /*
+   * The brighter blue the frame uses for the light in the hero backdrop and for
+   * the two rings around the call-to-action pills (rgb(96 70 202) in the file).
+   */
+  --color-indigo-bright: #6046ca;
+  --color-lavender: #ad9dee;
+  --color-lavender-soft: #ede9ff;
+  --color-mist: #edeff7;
+  --color-mist-dim: #d3d6e0;
+  --color-ember: #ff4e22;
+  --color-slate-ink: #141517;
+
+  /*
+   * Display sizes. The design is drawn at a 1920px canvas; each clamp holds the
+   * Figma value at that width and scales down instead of overflowing on narrow
+   * viewports.
+   */
+  /*
+   * Measured off the frame render: the hero headline occupies 113px for two
+   * rows at a 1920 canvas, so it is nearer 3.75rem than the 4.5rem this had.
+   */
+  /*
+   * Every ramp below is written as `floor + vw` rather than as bare `vw`.
+   *
+   * A bare ramp only leaves its floor once the viewport is wide enough for the
+   * fraction to beat it — 3.125vw does not pass 2.25rem until 1152px — so every
+   * heading on the page sat pinned at its minimum across the whole tablet range
+   * and then jumped. Measured at 1024 that left the hero headline at 36px while
+   * the closing headline beside it was 40 and the manifesto 64: the largest
+   * statement on the page rendering as the smallest. Each ramp now runs from its
+   * floor at about 480px to the drawn size at 1920, so the mid-range grows
+   * evenly and the design width is unchanged.
+   */
+  --text-hero: clamp(2.25rem, 1.72rem + 1.69vw, 3.75rem); /* 60px */
+  --text-hero--line-height: 1.15;
+  --text-hero--letter-spacing: -0.03em;
+
+  /*
+   * The floor is well under the 6.25vw ramp on purpose. At 2.75rem a phone got
+   * roughly seven characters to a line, which broke the display heading into
+   * four ragged rows; 1.875rem keeps it to two or three.
+   */
+  --text-display: clamp(1.875rem, 6.25vw, 7.5rem); /* 120px */
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.06em;
+
+  --text-section: clamp(2rem, 1.5rem + 1.667vw, 3.5rem); /* 56px */
+  --text-section--line-height: 1.2;
+  --text-section--letter-spacing: -0.02em;
+
+  --text-service: clamp(1.75rem, 1.5rem + 0.833vw, 2.5rem); /* 40px */
+  --text-service--line-height: 1.2;
+  --text-service--letter-spacing: -0.02em;
+
+  /*
+   * Motion. Two decisions, applied everywhere rather than per component.
+   *
+   * Easing: everything decelerates. Tailwind's stock curve is `ease-in-out`,
+   * which is the right shape for something travelling between two places and
+   * the wrong one for feedback — a 150ms hover that eases *in* spends its first
+   * frames barely moving, which is what made the hovers here feel soft rather
+   * than crisp. The page was already split between the two curves: the cards,
+   * the menu and the reveal had been given `ease-out` by hand, and the other
+   * forty-odd elements kept the default. This makes `ease-out` the default so
+   * they agree.
+   *
+   * Duration: three steps, and no others. 150ms (the Tailwind default, left
+   * alone) for hover and focus feedback; 300ms for a state that changes shape —
+   * the header taking its background, the mobile panel opening, a card lifting;
+   * 500ms for the footer watermark, which is a mood rather than a response.
+   */
+  --default-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+
+  /* The brand sweep used on buttons, rules and section washes. */
+  --brand-sweep: linear-gradient(
+    109.47deg,
+    var(--color-ink-deep) 4.85%,
+    var(--color-indigo-deep) 18.14%,
+    var(--color-indigo) 64.11%,
+    var(--color-lavender) 87.1%
+  );
+  --brand-sweep-vertical: linear-gradient(
+    180deg,
+    var(--color-ink-deep) 0%,
+    var(--color-indigo-deep) 34%,
+    var(--color-indigo) 82%,
+    var(--color-lavender) 121%
+  );
+
+  /*
+   * Scroll reveal. This is an animation rather than a transition so that the
+   * elements it decorates keep their own `transition` for hover and focus: a
+   * card that is both revealed and liftable would otherwise have to run its
+   * hover at the reveal's 700ms, which reads as lag rather than as polish.
+   *
+   * It animates `transform`, not `translate`. Tailwind's `-translate-y-*`
+   * utilities write the `translate` property, and a filled animation on the
+   * same property would outrank the hover state for the life of the page.
+   */
+  --animate-reveal: reveal 0.7s cubic-bezier(0, 0, 0.2, 1) both;
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /*
+   * One mark of the drawn lattice band (see `LatticeBand`): each mark rests as
+   * a faint outline of the ground and breathes up towards the brand lavender
+   * partway through its own cycle. Every mark carries its own duration and a
+   * negative delay from the component, so the light wanders across the weave
+   * rather than the whole band pulsing in step.
+   */
+  --animate-lattice-spark: lattice-spark 8s ease-in-out infinite;
+
+  @keyframes lattice-spark {
+    0%,
+    100% {
+      opacity: 0.07;
+    }
+    50% {
+      opacity: 0.55;
+    }
+  }
+
+  /*
+   * The agent alerts landing on the skyline (see `useSkylineAlerts`). An alert
+   * is three parts and they are deliberately not simultaneous — played together
+   * the whole assembly pops into being like a tooltip, which is the one thing
+   * it should not read as. In order: the chip arrives, the connector runs down
+   * it to the building, and the tip settles on the roof. Leaving is the same
+   * sequence backwards, so the alert retracts into the chip rather than
+   * blinking out.
+   *
+   * Durations sit outside the three steps the rest of the page uses. Those are
+   * for feedback — a response to something the reader just did — and these are
+   * unprompted, so they are slower on purpose: anything at 300ms here read as a
+   * flicker at the edge of vision.
+   *
+   * The hook's own timings have to agree with the exit total (450 + 180 of
+   * delay); `EXIT_MS` there is the number to keep in step with these.
+   */
+  --animate-alert-in: alert-in 0.6s cubic-bezier(0, 0, 0.2, 1) both;
+  --animate-alert-out: alert-out 0.45s cubic-bezier(0.4, 0, 1, 1) 0.18s both;
+  --animate-drop-in: drop-in 0.55s cubic-bezier(0, 0, 0.2, 1) 0.14s both;
+  --animate-drop-out: drop-out 0.35s cubic-bezier(0.4, 0, 1, 1) both;
+  --animate-tip-in: tip-in 0.45s cubic-bezier(0, 0, 0.2, 1) 0.5s both;
+  --animate-tip-out: tip-out 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+
+  /*
+   * The halo that keeps pulsing off the tip for as long as the alert is up. It
+   * starts once the connector has finished drawing, so the alert reads as
+   * having arrived somewhere rather than as already sitting there.
+   */
+  --animate-alert-ping: alert-ping 2.6s cubic-bezier(0, 0, 0.2, 1) 0.7s infinite
+    backwards;
+
+  @keyframes alert-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes alert-out {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-0.25rem) scale(0.97);
+    }
+  }
+
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes drop-out {
+    from {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+    to {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+  }
+
+  @keyframes tip-in {
+    from {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes tip-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+  }
+
+  @keyframes alert-ping {
+    0% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    25% {
+      opacity: 0.65;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(2.6);
+    }
+  }
+
+  /*
+   * The one animation the report still life keeps: the shadowed appendix
+   * sways a few pixels behind the front page on a slow cycle. It lives on the
+   * back layer on purpose — that layer carries no readable text, so the
+   * sub-pixel travel that once blurred the front page costs nothing here and
+   * the front spread stays pixel-still. The keyframe animates `transform`,
+   * which composes with the layer's static `translate`/`rotate` offsets (see
+   * the note on `--animate-reveal`).
+   */
+  --animate-report-sway: report-sway 9s ease-in-out infinite;
+
+  /*
+   * One lap of the light that runs the newsletter panel's edge.
+   *
+   * It travels the outline as a dash offset rather than as the angle of a
+   * conic gradient. A conic sweep turns at a constant number of degrees per
+   * second, which is only a constant speed on a square: on a panel this wide,
+   * equal angles cover wildly unequal stretches of edge, so the light shot
+   * across the short ends and crawled along the long ones. Offsetting a dash
+   * moves it a constant distance along the outline itself, so the pace is the
+   * same the whole way round.
+   *
+   * The rectangle carries `pathLength="100"`, so the offset is in hundredths
+   * of the perimeter and the timing holds at any panel size.
+   *
+   * Thirteen seconds. Sixteen was slow enough that the light went unnoticed on
+   * a panel this wide; seven read as a point racing the edge. At the length the
+   * dash now runs, what travels is the unlit gap rather than the light, so the
+   * pace reads as a sweep across an already glowing edge.
+   */
+  --animate-panel-beam: panel-beam 13s linear infinite;
+
+  @keyframes panel-beam {
+    to {
+      stroke-dashoffset: -100;
+    }
+  }
+
+  @keyframes report-sway {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-0.45rem);
+    }
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  /*
+   * Published by SiteHeader from the measured height of the sticky bar. The
+   * fallback is only ever used for the first frame, before the observer runs.
+   */
+  --header-height: 7rem;
+}
+
+/*
+ * The header is sticky, so an anchor that lands flush with the viewport top
+ * lands *under* it. Every in-page target clears the bar plus a little air, so
+ * the section reads as the start of something rather than as a fragment.
+ */
+:where(main[id], section[id]) {
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
+body {
+  background-color: var(--color-ink);
+  font-family: var(--font-sans);
+  /* The design is drawn edge to edge; nothing may scroll sideways. */
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /*
+   * Kill the decorative motion outright rather than merely shortening it: the
+   * hero banner is a looping video, which is exactly what this preference is
+   * asking us not to play.
+   */
+  video {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * One visible focus treatment for every interactive element, so keyboard users
+ * get the same affordance the pointer hover states give.
+ */
+:where(a, button, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+/*
+ * A light running a panel's edge, drawn as a dashed outline rather than a
+ * masked conic gradient (see `--animate-panel-beam` for why).
+ *
+ * Four strokes on the same outline:
+ *
+ *   track  a continuous ring at the edge of visible, so the light has
+ *          something to run along rather than appearing out of the dark. It is
+ *          meant to be felt rather than seen; past about a tenth of the accent
+ *          it stops being a track and becomes a second border competing with
+ *          the panel's own.
+ *   bloom  wide and heavily blurred, the light thrown onto its surroundings
+ *   halo   the soft body of the light
+ *   core   a thin near-white centre
+ *
+ * The three lit strokes share one dash and one phase, so they sit exactly on
+ * top of each other and read as a single glowing object. An earlier version
+ * gave the bright part its own shorter dash running ahead of a longer dim one:
+ * that separates into a head towing something behind it, which at this size
+ * read as a tail rather than as light.
+ *
+ * Glow is built from stacked blurred copies rather than from `drop-shadow` on
+ * one stroke. A drop shadow is one offset copy of the alpha, so it grows hard
+ * edged as it widens; stacking widths that each blur further gives the falloff
+ * a real light has.
+ *
+ * The outline is inset by half its own width so it sits on the panel's edge
+ * instead of straddling it, and the radius matches the panel's `rounded-3xl`.
+ * Geometry lives here rather than on the element, so the same markup fits any
+ * panel it is dropped into.
+ */
+.panel-beam {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.panel-beam rect {
+  x: 1px;
+  y: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  rx: 1.5rem;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.panel-beam .beam-track {
+  stroke: color-mix(in oklab, var(--color-lavender) 9%, transparent);
+  stroke-width: 1;
+}
+
+/*
+ * One dash worn by all three lit strokes: four fifths of the lap lit, a fifth
+ * dark. Past roughly half, the figure and ground swap. The eye stops following
+ * a lit segment travelling a dark outline and starts reading a lit outline
+ * with a gap moving through it, which is a far calmer thing to sit beside
+ * while still lighting the whole panel.
+ */
+.panel-beam .beam-bloom,
+.panel-beam .beam-halo,
+.panel-beam .beam-core {
+  stroke-dasharray: 80 20;
+}
+
+.panel-beam .beam-bloom {
+  stroke: var(--color-lavender);
+  stroke-width: 7;
+  opacity: 0.4;
+  filter: blur(0.5rem);
+}
+
+.panel-beam .beam-halo {
+  stroke: var(--color-lavender);
+  stroke-width: 3;
+  opacity: 0.85;
+  filter: blur(0.1875rem);
+}
+
+.panel-beam .beam-core {
+  stroke: var(--color-lavender-soft);
+  stroke-width: 1.25;
+  filter: blur(0.03125rem);
+}
+
+/*
+ * The polish on a newsletter field: a lit top edge with a short fall-off below
+ * it, and a shadow along the bottom. Together they read as light landing on a
+ * slightly raised surface, which is what makes a dark input look like an object
+ * rather than a hole cut in the panel.
+ *
+ * The highlight is lavender rather than white. A white sheen on this ground
+ * comes out grey and reads as dirt on the field; carrying a little of the
+ * accent keeps it as light.
+ *
+ * It layers as `background-image`, so whatever `bg-*` the field already carries
+ * still supplies the colour underneath.
+ */
+@utility field-sheen {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--color-lavender) 8%, transparent),
+    transparent 45%
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--color-lavender) 16%, transparent),
+    inset 0 -1px 0 rgb(0 0 0 / 0.3);
+}
+
+/*
+ * The closing hands' approach, driven by `--cta-reach`: 0 while the section
+ * is out of the reader's view, 1 once the headline is in front of them.
+ * ClosingCta's follower writes the value; these turn it into travel.
+ *
+ * Each hand starts pulled 10vw out past its edge and comes to rest exactly
+ * flush with it — the forearm bleeds off-screen at rest, never showing a
+ * seam of ground between the artwork and the viewport edge. The approach to
+ * the headline comes from `scale` instead: each hand grows a few percent
+ * around its own outer corner, which pushes the fingertip inward while the
+ * outer edge stays pinned to the side of the screen. Translation alone could
+ * not do both; moving the tip inward necessarily drags the artwork's cut
+ * edge in with it.
+ *
+ * The turn is what makes the travel legible: a big image translating a few
+ * vw is easy to read as the page moving, a hand pivoting up at the wrist is
+ * unmistakably the hand itself. Pivot and scale share the outer-corner
+ * origin, so the tip sweeps an arc toward the headline.
+ *
+ * The factors differ because the exports do: the right hand's box is wider,
+ * so it needs less growth for the same 2.5vw of tip travel.
+ *
+ * The var carries a fallback of 1: without JavaScript, or wherever the
+ * follower never attaches (reduced motion asks for stillness, so ClosingCta
+ * skips it entirely), the hands simply rest at their closest pose.
+ */
+@utility cta-hand-left {
+  translate: calc((1 - var(--cta-reach, 1)) * -10vw)
+    calc((1 - var(--cta-reach, 1)) * 4.5vw);
+  rotate: calc((1 - var(--cta-reach, 1)) * -11deg);
+  scale: calc(1 + var(--cta-reach, 1) * 0.083);
+  transform-origin: left bottom;
+}
+
+@utility cta-hand-right {
+  translate: calc((1 - var(--cta-reach, 1)) * 10vw)
+    calc((1 - var(--cta-reach, 1)) * -4.5vw);
+  rotate: calc((1 - var(--cta-reach, 1)) * 11deg);
+  scale: calc(1 + var(--cta-reach, 1) * 0.073);
+  transform-origin: right top;
+}
+
+@utility brand-sweep {
+  background-image: var(--brand-sweep);
+}
+
+/*
+ * Vertical variant, used by the header and hero call-to-action buttons.
+ *
+ * Not `--brand-sweep-vertical`: that ramp opens on `ink-deep`, which on a
+ * button reads as a black band across its top rather than as a gradient. The
+ * buttons run the same ramp from `indigo` up instead — all colour, no dark —
+ * and overshoot to 130% so the face never arrives at flat lavender under the
+ * white label.
+ */
+@utility brand-sweep-y {
+  background-image: linear-gradient(
+    180deg,
+    var(--color-indigo) 0%,
+    var(--color-indigo-bright) 55%,
+    var(--color-lavender) 130%
+  );
+}
+
+/*
+ * The sky behind "Get hacked by AssistSec." — lavender at the top edge, gone to
+ * `ink` by the foot of the copy.
+ *
+ * Three stops could not carry it. A ramp this long crossing this much of the
+ * hue circle puts each 8-bit step several pixels apart, so it arrived as a stack
+ * of flat horizontal bands — which is what made a plain CSS gradient look like a
+ * badly compressed photograph. The stops below are sampled off the frame's own
+ * render at ten depths and rescaled to this section (the frame's group is nearly
+ * three times as tall as its content, so its 0-35% is this section's 0-91%).
+ * Interpolating in oklab rather than sRGB keeps the middle of the ramp off the
+ * grey it otherwise cuts through.
+ */
+@utility brand-sky {
+  background-color: var(--color-ink);
+  background-image: linear-gradient(
+    to bottom in oklab,
+    #ad9dee 0%,
+    #ad9dee 10%,
+    #9587da 21%,
+    #7165bb 31%,
+    #564ba5 39%,
+    #3f368e 47%,
+    #2e276e 57%,
+    #221d51 67%,
+    #151236 78%,
+    #110f2a 91%
+  );
+}
+
+/*
+ * The connector dropping from each agent alert into the rooftops. The frame
+ * draws it (nodes 96:41809, 96:41839–40, 246:16238) as a 2px line on a `1.5 5`
+ * dash — a fine bead rather than a rule, which is what a dotted CSS border
+ * cannot spell: `border-dotted` gives round dots on the border's own width and
+ * spacing. The gradient reproduces the dash exactly.
+ *
+ * The colour is the one thing here that is not the frame's. The frame draws
+ * these in `accent`, a dark indigo, because in the frame they hang over the
+ * pale top of the sky. On this page the alerts sit lower, against the city
+ * itself — and measured down their length, that dark line came out between
+ * 1.02:1 and 1.44:1 against what is behind it. It was not faint, it was
+ * invisible.
+ *
+ * Lavender alone does not fix it either: one of the four crosses a lit building
+ * where a light line washes out just as badly. So the line is light and carries
+ * a dark halo, which is what lets one colour hold over both the rooftops and
+ * the sky behind them.
+ */
+@utility alert-drop {
+  width: 2px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-lavender) 0 1.5px,
+    transparent 1.5px 6.5px
+  );
+  filter: drop-shadow(0 0 0.1875rem rgb(13 11 33 / 0.95));
+}
+
+/*
+ * The point where a connector meets the building it is calling out. Without it
+ * the line stopped in mid-air on the face of the block — it read as having been
+ * cut off rather than as pointing at something.
+ *
+ * It sits on the end of the line rather than inside it because the line plays
+ * its entrance as a `scaleY`, and anything parented to that gets squashed flat
+ * for the half-second the connector is drawing.
+ */
+@utility alert-drop-tip {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  translate: -50% 50%;
+  border-radius: calc(infinity * 1px);
+  background-color: var(--color-lavender);
+  box-shadow: 0 0 0.375rem rgb(13 11 33 / 0.9);
+}
+
+/* The ring that pulses off the tip. See `--animate-alert-ping`. */
+@utility alert-drop-pulse {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-lavender);
+  border-radius: calc(infinity * 1px);
+}
+
+/*
+ * One word of a scroll-filled statement (see `ScrollFillText`). The wrapper
+ * publishes how far the reader has come as `--fill`, 0 to 1, and each word works
+ * out its own weight from that and its place in the sentence — so the whole
+ * effect costs one custom-property write per frame and no re-render.
+ *
+ * The ramp is what makes it read as a fill rather than as a row of switches:
+ * dividing by three spreads the change over roughly three words, so there is
+ * always a soft edge travelling along the line instead of a hard one.
+ *
+ * The unfilled words sit well down — 0.25, not the copy's usual muted weight —
+ * so the sweep from grey to full is plainly a thing that happens rather than a
+ * shade anyone has to look for.
+ *
+ * `--fill` defaults to 1. Where the script has not run, or has been told not to
+ * by `prefers-reduced-motion`, the statement is simply delivered at full
+ * strength rather than sitting greyed out for good.
+ */
+@utility scroll-fill-word {
+  opacity: clamp(
+    0.25,
+    calc(
+      0.25 + 0.75 * (var(--fill, 1) * var(--word-count) - var(--word-index)) / 3
+    ),
+    1
+  );
+}
+
+/* Gradient hairline used between sections and under the footer links. */
+@utility brand-rule {
+  height: 1px;
+  background-image: var(--brand-sweep);
+  border: 0;
+}
+
+/*
+ * Eyebrow labels ("QUICK LINKS", "OUR LATEST BLOGS"): 14px medium, uppercase,
+ * 0.08em tracking — one rule so every section spells it the same way.
+ */
+@utility eyebrow {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/*
+ * The article body, shared by the editor and the rendered post so what is
+ * written is what ships. Plain prose rhythm — headings, lists, quotes and
+ * centred, rounded images — in the page's own type and colour, no prose
+ * framework pulled in for it.
+ */
+@utility blog-content {
+  /*
+   * Article headings are jump targets for the contents rail, so they clear the
+   * sticky bar the same way the section anchors do.
+   */
+  h2,
+  h3 {
+    scroll-margin-top: calc(var(--header-height) + 2rem);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.25;
+    margin: 2rem 0 0.75rem;
+    color: var(--color-mist);
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.3;
+    margin: 1.75rem 0 0.5rem;
+    color: var(--color-mist);
+  }
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  a {
+    color: var(--color-lavender);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 0 0 1rem;
+  }
+
+  li {
+    margin: 0.25rem 0;
+  }
+
+  blockquote {
+    border-left: 2px solid var(--color-lavender);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    color: var(--color-mist);
+    font-size: 1.125rem;
+  }
+
+  img,
+  .blog-image {
+    display: block;
+    height: auto;
+    margin: 1.5rem auto;
+    border-radius: 0.75rem;
+  }
+
+  /*
+   * Image size and alignment ride on data attributes rather than inline styles.
+   *
+   * The server strips `style` from post bodies on write — author-controlled CSS
+   * is an overlay and exfiltration surface — so anything expressed that way is
+   * silently discarded the moment a post is saved. These attributes survive the
+   * sanitizer, and because the editor and the published page both read the same
+   * rules, what an author arranges is what a reader sees.
+   *
+   * Widths are steps rather than a free percentage so a column of images lines
+   * up instead of each one being a few percent different from the last.
+   */
+  img[data-display-width="25"] {
+    width: 25%;
+  }
+  img[data-display-width="50"] {
+    width: 50%;
+  }
+  img[data-display-width="75"] {
+    width: 75%;
+  }
+  img[data-display-width="100"] {
+    width: 100%;
+  }
+
+  img[data-align="left"] {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  img[data-align="center"] {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  img[data-align="right"] {
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+
+/* In the editor, images announce that they can be dragged to reposition. */
+.blog-editor img {
+  cursor: move;
+}

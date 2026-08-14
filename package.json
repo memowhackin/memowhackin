@@ -1,68 +1,46 @@
 {
-  "name": "frontend",
+  "name": "assistsec-landing",
   "version": "0.0.0",
   "private": true,
+  "description": "AssistSec marketing site (frontend/) and its blog CMS backend (backend/).",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
-    "routes": "tsr generate",
-    "prebuild": "npm run routes",
-    "build": "tsc -b && vite build --mode=production --sourcemap=false --emptyOutDir",
-    "prelint": "npm run routes",
+    "install:all": "npm ci --prefix frontend && npm ci --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "test": "npm run test --prefix frontend && npm run test --prefix backend",
+    "e2e": "npm run e2e --prefix frontend",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "e2e": "playwright test",
+    "typecheck": "npm run typecheck --prefix frontend && npm run typecheck --prefix backend",
+    "db:migrate": "npm run db:migrate --prefix backend",
+    "fmt": "oxfmt frontend backend",
+    "fmt:check": "oxfmt --check frontend backend",
+    "check": "npm run fmt:check && npm run lint && npm run typecheck && npm run test",
     "prepare": "husky",
-    "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
-  },
-  "dependencies": {
-    "@tanstack/react-router": "^1.170.23",
-    "clsx": "^2.1.1",
-    "i18next": "^26.3.6",
-    "lucide-react": "^1.31.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "react-i18next": "^17.0.11"
+    "prelint": "npm run routes --prefix frontend",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.62.1",
-    "@tailwindcss/vite": "^4.3.3",
-    "@tanstack/router-cli": "1.167.27",
-    "@tanstack/router-plugin": "^1.168.27",
-    "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.3",
-    "@types/node": "^26.2.0",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.0.5",
-    "@vitest/coverage-v8": "^4.1.10",
-    "daisyui": "^5.7.16",
     "eslint": "^10.8.1",
-    "eslint-plugin-react-dom": "^5.18.3",
+    "eslint-plugin-react-dom": "^5.18.6",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.4",
-    "eslint-plugin-react-x": "^5.18.3",
-    "globals": "^17.9.0",
+    "eslint-plugin-react-x": "^5.18.6",
+    "globals": "^17.11.0",
     "husky": "^9.1.7",
-    "i18next-cli": "^1.69.0",
-    "jsdom": "^30.0.1",
     "lint-staged": "^17.3.0",
     "oxfmt": "^0.63.0",
-    "tailwindcss": "^4.3.3",
     "typescript": "6.0.3",
-    "typescript-eslint": "^8.67.0",
-    "vite": "^8.2.1",
-    "vitest": "^4.1.10"
+    "typescript-eslint": "^8.67.0"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
+    "*.{ts,tsx}": [
       "eslint --fix",
+      "oxfmt"
+    ],
+    "*.{js,mjs,json,css,md}": [
       "oxfmt"
     ]
   }

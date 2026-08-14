@@ -1,0 +1,98 @@
+# The whole application: database, CMS backend, and the static site in front of
+# both. `docker compose up -d` gives you a working site on http://localhost:8080.
+#
+# Every secret comes from the environment (see .env.example) — nothing sensitive
+# is baked into an image or written here.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-as_landing}
+      POSTGRES_USER: ${DB_USER:-landing}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Not published to the host. The backend reaches it over the compose
+    # network; exposing 5432 publicly is how databases end up on Shodan.
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-landing} -d ${DB_NAME:-as_landing}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Applies pending migrations, then exits. Runs as its own service rather than
+  # on backend startup, so two backend replicas can never race the same DDL and
+  # a failed migration stops the deploy instead of half-starting the app.
+  migrate:
+    build:
+      context: ./backend
+    restart: "no"
+    command: ["node", "dist/src/db/migrate.js"]
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-as_landing}
+      DB_USER: ${DB_USER:-landing}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080}
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-as_landing}
+      DB_USER: ${DB_USER:-landing}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      DB_SSL: "false"
+      # The browser's origin, for the CSRF origin check. With the nginx proxy in
+      # front, that is the site's own address.
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080}
+      PORT: 8001
+      UPLOAD_DIR: /app/uploads/blog
+      DEPLOY_HOOK_URL: ${DEPLOY_HOOK_URL:-}
+      DEPLOY_HOOK_TOKEN: ${DEPLOY_HOOK_TOKEN:-}
+      NODE_ENV: production
+      # Browsers refuse a Secure cookie over plain HTTP, so a local
+      # http://localhost run would accept a login and then lose the session.
+      # MUST be "true" once this is served over HTTPS.
+      SECURE_COOKIES: ${SECURE_COOKIES:-false}
+    volumes:
+      # Uploaded images are the only copy of themselves — they must outlive any
+      # container. Back this volume up alongside the database.
+      - blog_uploads:/app/uploads
+    expose:
+      - "8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Empty means same-origin: the bundle calls /api/... and nginx proxies
+        # it to the backend, so the browser makes no cross-origin request.
+        VITE_CMS_API_URL: ""
+    restart: unless-stopped
+    ports:
+      - "${SITE_PORT:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  blog_uploads:

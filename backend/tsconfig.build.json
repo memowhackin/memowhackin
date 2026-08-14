@@ -1,0 +1,14 @@
+{
+  /*
+   * What ships. The base config also compiles the test suite and the dev tool
+   * configs so `npm run typecheck` covers them; a production image has no
+   * business carrying either, and a test file that boots the app and deletes
+   * rows is the last thing that should be sitting next to it.
+   */
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./dist/tsconfig.build.tsbuildinfo"
+  },
+  "include": ["src", "scripts"],
+  "exclude": ["dist", "node_modules", "**/*.test.ts"]
+}
