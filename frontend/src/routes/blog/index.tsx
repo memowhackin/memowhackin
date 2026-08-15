@@ -12,6 +12,7 @@ import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 import { useSeo } from "@/localization/useSeo";
 import { BlogUnavailable } from "@/components/blog/BlogUnavailable";
+import { gridColumns } from "@/components/blog/gridColumns";
 import {
   BLOG_CATEGORIES,
   loadBlogPosts,
@@ -342,7 +343,7 @@ function BlogIndex() {
       <SectionShell
         data-testid="blog-hero"
         className="bg-transparent"
-        innerClassName="flex flex-col gap-6 pt-20 pb-12 sm:pt-28 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:pt-32"
+        innerClassName="flex flex-col gap-6 pt-12 sm:pt-16 lg:pt-20 pb-12 lg:flex-row lg:items-start lg:justify-between lg:gap-16"
       >
         <div className="flex max-w-3xl flex-col gap-5">
           <p className="eyebrow text-lavender">{t("blog.eyebrow")}</p>
@@ -477,7 +478,7 @@ function BlogIndex() {
         </div>
 
         {visible.length > 0 ? (
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className={clsx("grid gap-5", gridColumns(visible.length))}>
             {visible.map((post, index) => (
               <ArticleCard key={post.slug} post={post} index={index} />
             ))}

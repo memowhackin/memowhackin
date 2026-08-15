@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { LogoLockup } from "@/components/common/Logo";
 import { BrandButton } from "@/components/common/BrandButton";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
@@ -19,6 +19,8 @@ function activeOptionsFor(to: string) {
 export function SiteHeader() {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  /** Which nav group is expanded in the mobile panel; one at a time. */
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   // Read during the initial state, as `useMediaQuery` does, so a reload part-way
   // down the page draws the header solid on its first paint.
   const [scrolled, setScrolled] = useState(
@@ -30,6 +32,8 @@ export function SiteHeader() {
 
   const closeMenu = () => {
     setMenuOpen(false);
+    // Reopening starts from the short menu rather than wherever it was left.
+    setOpenGroup(null);
   };
 
   /*
@@ -72,6 +76,7 @@ export function SiteHeader() {
       if (event.key !== "Escape") return;
 
       setMenuOpen(false);
+      setOpenGroup(null);
       toggleRef.current?.focus();
     }
 
@@ -94,13 +99,15 @@ export function SiteHeader() {
    * A viewport that grows past the full-nav breakpoint reveals the whole nav;
    * the panel left open underneath it would then duplicate every link.
    *
-   * The full nav needs xl (80rem), not lg: seven items plus the language
-   * switcher, login and the demo button measure ~75rem, so at lg widths the
-   * row could only "fit" by letting items shrink under their own text and
-   * paint over each other. Below xl the burger is the honest layout.
+   * The nav appears at lg (64rem) and is deliberately tighter there — smaller
+   * type, narrower gaps, less bar padding — because at full spacing the seven
+   * items plus the switcher, login and demo button measure about 73rem and can
+   * only "fit" a 64rem viewport by shrinking under their own text and painting
+   * over each other. The compact tier buys the room honestly; from xl it
+   * relaxes back to the roomy version.
    */
   useEffect(() => {
-    const query = window.matchMedia("(min-width: 80rem)");
+    const query = window.matchMedia("(min-width: 64rem)");
 
     function onChange(event: MediaQueryListEvent) {
       if (event.matches) setMenuOpen(false);
@@ -184,7 +191,7 @@ export function SiteHeader() {
           />
         </a>
 
-        <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between gap-3 px-4 py-3 sm:gap-6 sm:px-10 sm:py-4 xl:px-10 2xl:px-6">
+        <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between gap-3 px-4 py-3 sm:gap-6 sm:px-10 sm:py-4 lg:gap-5 lg:px-5 xl:gap-6 xl:px-10 2xl:px-6">
           <Link
             to="/"
             data-testid="header-logo"
@@ -197,7 +204,7 @@ export function SiteHeader() {
 
           <nav
             aria-label={t("nav.primary")}
-            className="hidden items-center gap-5 xl:flex 2xl:gap-7"
+            className="hidden items-center gap-3 lg:flex xl:gap-5 2xl:gap-7"
           >
             {NAV_ITEMS.map((item) =>
               item.kind === "dropdown" ? (
@@ -208,7 +215,7 @@ export function SiteHeader() {
                   to={item.to}
                   activeOptions={activeOptionsFor(item.to)}
                   data-testid={`nav-${item.key}`}
-                  className="decoration-lavender relative inline-flex items-center py-2 text-base whitespace-nowrap underline-offset-8 transition-colors hover:underline pointer-coarse:min-h-11"
+                  className="decoration-lavender relative inline-flex items-center py-2 text-sm whitespace-nowrap underline-offset-8 transition-colors hover:underline xl:text-base pointer-coarse:min-h-11"
                   activeProps={{ className: "text-lavender" }}
                   inactiveProps={{
                     className: "hover:text-lavender text-white",
@@ -220,9 +227,16 @@ export function SiteHeader() {
             )}
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-4 xl:gap-5">
+          <div className="flex items-center gap-2 sm:gap-4 lg:gap-2.5 xl:gap-5">
             {!env.noTranslations && (
-              <div className="hidden xl:block">
+              <div
+                className={clsx(
+                  "hidden lg:block",
+                  // Globe alone until there is room for the code beside it.
+                  "[&_[data-language-label]]:hidden",
+                  "xl:[&_[data-language-label]]:inline",
+                )}
+              >
                 <LanguageSwitcher data-testid="language-switcher" />
               </div>
             )}
@@ -232,7 +246,7 @@ export function SiteHeader() {
               target="_blank"
               rel="noreferrer noopener"
               data-testid="header-login"
-              className="hover:text-lavender hidden items-center text-base whitespace-nowrap text-white transition-colors xl:inline-flex pointer-coarse:min-h-11"
+              className="hover:text-lavender hidden items-center text-sm whitespace-nowrap text-white transition-colors lg:inline-flex xl:text-base pointer-coarse:min-h-11"
             >
               {t("nav.login")}
             </a>
@@ -243,6 +257,13 @@ export function SiteHeader() {
                 variant="sweep"
                 size="sm"
                 data-testid="header-book-demo"
+                /*
+                  `text-nowrap`, not `whitespace-nowrap`: the button's base
+                  classes set `text-balance`, and both are `text-wrap`
+                  longhands — an inherited white-space rule loses to it, so the
+                  label broke across two lines once the bar got tight.
+                */
+                className="text-nowrap"
               >
                 {t("nav.bookDemo")}
               </BrandButton>
@@ -258,7 +279,7 @@ export function SiteHeader() {
               aria-controls="mobile-menu"
               aria-label={menuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
               data-testid="mobile-menu-toggle"
-              className="border-indigo-deep rounded-selector text-mist hover:border-lavender/60 hover:text-lavender active:bg-indigo-deep/60 inline-flex size-11 shrink-0 items-center justify-center border transition-colors xl:hidden"
+              className="border-indigo-deep rounded-selector text-mist hover:border-lavender/60 hover:text-lavender active:bg-indigo-deep/60 inline-flex size-11 shrink-0 items-center justify-center border transition-colors lg:hidden"
             >
               {menuOpen ? (
                 <X className="size-5" aria-hidden="true" />
@@ -282,7 +303,7 @@ export function SiteHeader() {
         data-testid="mobile-menu"
         inert={!menuOpen}
         className={clsx(
-          "bg-ink-deep grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out xl:hidden",
+          "bg-ink-deep grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out lg:hidden",
           menuOpen
             ? "border-indigo-deep/60 grid-rows-[minmax(0,1fr)] border-t"
             : "grid-rows-[minmax(0,0fr)]",
@@ -307,35 +328,81 @@ export function SiteHeader() {
                 {t(item.labelKey)}
               </Link>
             ) : (
-              <div key={item.key} className="mt-1 flex flex-col">
-                <p className="eyebrow text-mist/45 px-3 pt-3 pb-1">
-                  {t(item.labelKey)}
-                </p>
-                {item.groups
-                  .flatMap((group) => group.items)
-                  .map((leaf) => {
-                    const Icon = leaf.icon;
-
-                    return (
-                      <Link
-                        key={leaf.key}
-                        to={leaf.to}
-                        onClick={closeMenu}
-                        data-testid={`mobile-nav-${item.key}-${leaf.key}`}
-                        className="hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 transition-colors"
-                        activeProps={{
-                          className: "bg-indigo-deep/30 text-lavender",
-                        }}
-                        inactiveProps={{ className: "text-mist" }}
-                      >
-                        <Icon
-                          className="text-lavender size-4 shrink-0"
-                          aria-hidden="true"
-                        />
-                        {t(leaf.labelKey)}
-                      </Link>
+              /*
+                Expandable, rather than every leaf listed at once. Spelled out
+                in full the panel ran 745px on an 844px phone — thirteen rows,
+                with the demo button and the language control below the fold, so
+                the primary action needed a scroll to reach. Collapsed, the menu
+                fits on the smallest screen we support.
+              */
+              <div key={item.key} className="flex flex-col">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenGroup((current) =>
+                      current === item.key ? null : item.key,
                     );
-                  })}
+                  }}
+                  aria-expanded={openGroup === item.key}
+                  aria-controls={`mobile-group-${item.key}`}
+                  data-testid={`mobile-nav-${item.key}`}
+                  className={clsx(
+                    "hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left transition-colors",
+                    openGroup === item.key ? "text-lavender" : "text-mist",
+                  )}
+                >
+                  {t(item.labelKey)}
+                  <ChevronDown
+                    className={clsx(
+                      "size-4 shrink-0 transition-transform duration-200",
+                      openGroup === item.key && "rotate-180",
+                    )}
+                    aria-hidden="true"
+                  />
+                </button>
+
+                {/*
+                  Animated by grid rows for the same reason the panel itself is:
+                  no measured height that can disagree with the content.
+                */}
+                <div
+                  id={`mobile-group-${item.key}`}
+                  inert={openGroup !== item.key}
+                  className={clsx(
+                    "grid overflow-hidden transition-[grid-template-rows] duration-200 ease-out",
+                    openGroup === item.key
+                      ? "grid-rows-[minmax(0,1fr)]"
+                      : "grid-rows-[minmax(0,0fr)]",
+                  )}
+                >
+                  <div className="border-indigo-deep/60 ml-6 flex min-h-0 flex-col border-l pl-2">
+                    {item.groups
+                      .flatMap((group) => group.items)
+                      .map((leaf) => {
+                        const Icon = leaf.icon;
+
+                        return (
+                          <Link
+                            key={leaf.key}
+                            to={leaf.to}
+                            onClick={closeMenu}
+                            data-testid={`mobile-nav-${item.key}-${leaf.key}`}
+                            className="hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 transition-colors"
+                            activeProps={{
+                              className: "bg-indigo-deep/30 text-lavender",
+                            }}
+                            inactiveProps={{ className: "text-mist/85" }}
+                          >
+                            <Icon
+                              className="text-lavender size-4 shrink-0"
+                              aria-hidden="true"
+                            />
+                            {t(leaf.labelKey)}
+                          </Link>
+                        );
+                      })}
+                  </div>
+                </div>
               </div>
             ),
           )}

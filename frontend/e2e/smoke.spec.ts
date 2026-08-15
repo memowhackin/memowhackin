@@ -75,6 +75,50 @@ test("opens the mobile menu on a narrow viewport", async ({ page }) => {
   await expect(page.getByTestId("mobile-menu")).toBeHidden();
 });
 
+test("keeps the whole mobile menu on one screen", async ({ page }) => {
+  /*
+   * Listing every sub-item at once made the panel taller than the phone it was
+   * meant for, which pushed "Book demo" — the reason the menu exists — below
+   * the fold. Groups expand on demand instead, one at a time.
+   *
+   * Heights are read off the group containers rather than asserted with
+   * toBeVisible: a collapsed row is clipped by a zero-height parent, so its
+   * children still report a box and read as visible.
+   */
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByTestId("mobile-menu-toggle").click();
+
+  const height = (id: string) =>
+    page.evaluate(
+      (target) =>
+        Math.round(
+          document.getElementById(target)?.getBoundingClientRect().height ?? -1,
+        ),
+      id,
+    );
+
+  await expect.poll(() => height("mobile-group-argus")).toBe(0);
+
+  // The primary action has to be reachable without scrolling the panel.
+  const cta = await page.getByTestId("mobile-book-demo").boundingBox();
+  expect(cta).not.toBe(null);
+  expect((cta?.y ?? 0) + (cta?.height ?? 0)).toBeLessThan(844);
+
+  await page.getByTestId("mobile-nav-argus").click();
+  await expect.poll(() => height("mobile-group-argus")).toBeGreaterThan(0);
+  await expect(page.getByTestId("mobile-nav-argus")).toHaveAttribute(
+    "aria-expanded",
+    "true",
+  );
+
+  // Opening one group closes the other, so the panel cannot grow past the
+  // screen however many times it is prodded.
+  await page.getByTestId("mobile-nav-services").click();
+  await expect.poll(() => height("mobile-group-argus")).toBe(0);
+  await expect.poll(() => height("mobile-group-services")).toBeGreaterThan(0);
+});
+
 /*
  * The page is one long document with no horizontal scroller anywhere in it, so
  * a sideways overflow at any width is a layout bug rather than a design choice.
@@ -157,12 +201,15 @@ for (const target of pages) {
 }
 
 /*
- * The header at every width class it renders in. The full nav once "fit" from
- * lg by letting items shrink under their own text and paint over the language
- * switcher; it now waits for xl, where everything holds one line with room.
+ * The header at every width class it renders in.
+ *
+ * The full nav once "fit" from lg by letting items shrink under their own text
+ * and paint over the language switcher. It appears at lg again, but with a
+ * compact tier — smaller type, tighter gaps and padding — that buys the room
+ * honestly. Below that the burger is the only layout the content fits in.
  */
 test("keeps the header on one clean line at every width", async ({ page }) => {
-  for (const width of [1024, 1180, 1280, 1536, 1920]) {
+  for (const width of [900, 1000, 1024, 1180, 1280, 1536, 1920]) {
     await page.setViewportSize({ width, height: 700 });
     await page.goto("/");
     // The probe reads the DOM directly, so wait for React to have rendered.
@@ -185,19 +232,24 @@ test("keeps the header on one clean line at every width", async ({ page }) => {
           overlap = true;
         }
       }
-      const controls = nav.nextElementSibling?.getBoundingClientRect();
+      const controlsEl = nav.nextElementSibling;
+      const controls = controlsEl?.getBoundingClientRect();
       const last = rects.at(-1);
       if (controls && last && last.right > controls.left + 1) overlap = true;
 
-      // A wrapped label doubles the row height of its item.
-      const wrapped = rects.some((rect) => rect.height > 50);
+      // A wrapped label doubles the row height of its item. The right-hand
+      // controls count too: a two-line "Book demo" is how this last regressed.
+      let wrapped = rects.some((rect) => rect.height > 50);
+      for (const el of controlsEl ? [...controlsEl.children] : []) {
+        if (el.getBoundingClientRect().height > 52) wrapped = true;
+      }
       return { full, overlap, wrapped };
     });
 
     if (state === null) throw new Error(`no header nav at ${String(width)}px`);
 
-    if (width < 1280) {
-      // Below xl the burger is the honest layout — the full nav cannot fit.
+    if (width < 1024) {
+      // Below lg the burger is the honest layout — the full nav cannot fit.
       expect(state.full, `${String(width)}px should use the burger`).toBe(
         false,
       );
@@ -210,6 +262,88 @@ test("keeps the header on one clean line at every width", async ({ page }) => {
       expect(state.wrapped, `${String(width)}px: a label wrapped`).toBe(false);
     }
   }
+});
+
+test("keeps the header readable in the compact tier", async ({ page }) => {
+  /*
+   * Between lg and xl the bar carries the full nav in a smaller size. The two
+   * groups must stay visibly apart: at full spacing they touch, which is what
+   * made the row read as one undifferentiated run of items.
+   */
+  for (const width of [1024, 1100, 1180]) {
+    await page.setViewportSize({ width, height: 700 });
+    await page.goto("/");
+    await page.getByTestId("mobile-menu-toggle").waitFor({ state: "attached" });
+
+    const gap = await page.evaluate(() => {
+      const nav = document.querySelector("header nav[aria-label]");
+      const controls = nav?.nextElementSibling;
+      if (!(nav instanceof HTMLElement) || !controls) return -1;
+      const last = [...nav.children].at(-1)?.getBoundingClientRect();
+      if (!last) return -1;
+      return Math.round(controls.getBoundingClientRect().left - last.right);
+    });
+
+    expect(
+      gap,
+      `${String(width)}px: nav and controls are touching`,
+    ).toBeGreaterThan(12);
+  }
+
+  // The language code gives way to the globe here, which is where that room
+  // comes from; from xl it returns.
+  await page.setViewportSize({ width: 1100, height: 700 });
+  await page.goto("/");
+  const compact = page
+    .getByTestId("language-switcher-trigger")
+    .locator("[data-language-label]");
+  await expect(compact).toBeHidden();
+
+  await page.setViewportSize({ width: 1280, height: 700 });
+  await expect(compact).toBeVisible();
+});
+
+test("gives every templated page more than a heading", async ({ page }) => {
+  /*
+   * Ten routes — every service, every ARGUS feature, the knowledge base —
+   * render from one template. It used to emit a heading and a sentence and
+   * then stop, so each page hit the footer under half a screen of nothing.
+   * What fills them is content that already existed: the section they belong
+   * to, their sibling pages with the blurbs the nav dropdowns show, and the
+   * closing call the rest of the site ends on.
+   */
+  await page.setViewportSize({ width: 1280, height: 900 });
+
+  for (const path of [
+    "/services/web-app-pentesting",
+    "/argus/compliance",
+    "/knowledge-base",
+  ]) {
+    await page.goto(path);
+
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.getByTestId("page-book-demo")).toBeVisible();
+    // Every one of these pages ends on the closing section rather than
+    // dropping straight into the footer.
+    await expect(page.getByTestId("closing-cta")).toBeAttached();
+
+    const overflow = await page.evaluate(() => {
+      const doc = document.documentElement;
+      return doc.scrollWidth - doc.clientWidth;
+    });
+    expect(overflow, `${path} scrolls sideways`).toBeLessThanOrEqual(1);
+  }
+
+  // A page inside a nav group offers its siblings; the knowledge base has none
+  // and must not render an empty section for them.
+  await page.goto("/argus/compliance");
+  await expect(page.getByTestId("page-more")).toBeVisible();
+  expect(
+    await page.locator('[data-testid^="page-more-"]').count(),
+  ).toBeGreaterThan(0);
+
+  await page.goto("/knowledge-base");
+  await expect(page.getByTestId("page-more")).toHaveCount(0);
 });
 
 /*

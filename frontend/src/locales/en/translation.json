@@ -52,6 +52,8 @@
     }
   },
   "pages": {
+    "moreIn": "More in {{group}}",
+    "startHere": "Start here",
     "home": {
       "title": "AssistSec | AI-assisted penetration testing in Europe",
       "description": "AI-assisted penetration testing by Europe's most experienced pentesters, backed by autonomous agents. Web, API and continuous security testing.",

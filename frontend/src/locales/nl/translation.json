@@ -52,6 +52,8 @@
     }
   },
   "pages": {
+    "moreIn": "Meer in {{group}}",
+    "startHere": "Begin hier",
     "home": {
       "title": "AssistSec | AI-ondersteunde penetratietesten in Europa",
       "description": "AI-ondersteunde penetratietesten door de meest ervaren pentesters van Europa, versterkt door autonome agents. Web, API en continue security testing.",

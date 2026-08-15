@@ -196,7 +196,13 @@ export function LanguageSwitcher({
         )}
       >
         <Globe className="size-4 shrink-0" aria-hidden="true" />
-        {current}
+        {/*
+          Marked so a caller can hide the code and keep the globe. The header
+          does that in its compact tier, where these two letters are the
+          difference between the nav breathing and the nav touching it. The
+          button's accessible name carries the language either way.
+        */}
+        <span data-language-label>{current}</span>
         <ChevronDown
           className={clsx(
             "size-3.5 shrink-0 transition-transform",

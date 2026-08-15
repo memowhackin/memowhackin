@@ -131,7 +131,7 @@ export function HeaderDropdown({ dropdown, onNavigate }: HeaderDropdownProps) {
         }}
         data-testid={`nav-${dropdown.key}`}
         className={clsx(
-          "pointer-coarse:min-h-11 inline-flex items-center gap-1 py-2 text-base whitespace-nowrap transition-colors",
+          "pointer-coarse:min-h-11 xl:text-base inline-flex items-center gap-1 py-2 text-sm whitespace-nowrap transition-colors",
           open ? "text-lavender" : "hover:text-lavender text-white",
         )}
       >
@@ -158,7 +158,7 @@ export function HeaderDropdown({ dropdown, onNavigate }: HeaderDropdownProps) {
           className={clsx(
             "border-indigo-deep bg-ink-deep/95 rounded-2xl border shadow-[0_1.75rem_3.5rem_-1rem_rgba(0,0,0,0.85)] backdrop-blur-md",
             mega
-              ? "flex w-[42rem] max-w-[calc(100vw-2rem)] gap-2 p-2"
+              ? "flex w-[34rem] max-w-[calc(100vw-2rem)] gap-2 p-2 xl:w-[42rem]"
               : "w-[19rem] p-2",
           )}
         >

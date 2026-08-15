@@ -116,7 +116,7 @@ function AboutPage() {
       <SectionShell
         data-testid="about-hero"
         className="bg-ink-deep"
-        innerClassName="flex flex-col items-center gap-6 pt-20 pb-16 text-center sm:pt-28 sm:pb-24 lg:pt-36 lg:pb-28"
+        innerClassName="flex flex-col items-center gap-6 pt-12 sm:pt-16 lg:pt-20 pb-16 text-center sm:pb-24 lg:pb-28"
         backdrop={
           <div
             className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[28rem] opacity-40 blur-3xl"
