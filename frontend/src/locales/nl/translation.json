@@ -61,10 +61,10 @@
       "body": "De meest ervaren pentesters van Europa, versterkt door autonome agents."
     },
     "servicesWebApp": {
-      "title": "Web applicatie pentesting | AssistSec",
-      "description": "Diepgaande penetratietesten van webapplicaties. Onze autonome AI-agents voeren blackbox- en greybox-pentests uit, gevalideerd door senior security-experts.",
+      "title": "Web applicatie pentesting | Nederland & EU | AssistSec",
+      "description": "Penetratietesten van webapplicaties door de meest ervaren pentesters van Europa, versterkt door AI-agents. Heldere bevindingen, risicoanalyse en concrete oplossingen.",
       "heading": "Web applicatie pentesting",
-      "body": "Diepgaande penetratietesten van webapplicaties, met autonome AI-agents en senior menselijke expertise."
+      "body": "Wij testen uw webapplicaties zoals een aanvaller dat zou doen — ervaren Europese pentesters en autonome AI-agents op hetzelfde doelwit, zodat kwetsbaarheden sneller boven water komen zonder in te leveren op diepgang."
     },
     "servicesApi": {
       "title": "API pentesting | AssistSec",
@@ -137,6 +137,134 @@
       "description": "Het laatste nieuws over pentesten, hacking, security research en compliance van het AssistSec-team.",
       "heading": "Blog",
       "body": "Het laatste nieuws over pentesten, hacking, security research en compliance."
+    }
+  },
+  "servicePages": {
+    "labels": {
+      "related": "Andere diensten"
+    },
+    "webApp": {
+      "hero": {
+        "secondary": "Spreek een pentester"
+      },
+      "definition": {
+        "title": "Wat web applicatie pentesting is",
+        "p1": "Web applicatie pentesting is een securityonderzoek waarbij uw applicatie onder gecontroleerde omstandigheden wordt aangevallen, precies zoals een echte aanvaller dat zou doen — maar met een rapport als uitkomst in plaats van een incident. Alles wat een gebruiker kan bereiken valt binnen de scope: de login, de rollen daarachter, de data die elk account kan raken en de business logica die het geheel verbindt.",
+        "p2": "Wij combineren ervaren Europese pentesters met AI-ondersteunde security tooling. De agents dekken de breedte van de applicatie af, terwijl onze specialisten de bevindingen oppakken die menselijk oordeel vragen. Dat maakt de detectie sneller zonder in te leveren op diepgang."
+      },
+      "coverage": {
+        "title": "Wat wij testen",
+        "intro": "Elk onderzoek dekt het volledige aanvalsoppervlak van uw applicatie, van het inlogscherm tot de business logica erachter.",
+        "items": {
+          "auth": {
+            "title": "Authenticatie en sessies",
+            "body": "Inlogflows, multifactor-authenticatie, wachtwoordherstel, sessiebeheer en hoe lang een token geldig blijft."
+          },
+          "accessControl": {
+            "title": "Autorisatie en toegangscontrole",
+            "body": "Broken access control, IDOR, privilege escalation en de vraag of de ene klant bij de data van de andere kan."
+          },
+          "injection": {
+            "title": "Injectie en invoerverwerking",
+            "body": "SQL-injectie, cross-site scripting, template- en command-injectie, en al het andere dat volgt op ongevalideerde invoer."
+          },
+          "businessLogic": {
+            "title": "Business logica",
+            "body": "Bestelstromen, prijzen, limieten en goedkeuringsstappen, misbruikt op manieren die een geautomatiseerde scanner nooit vindt."
+          },
+          "configuration": {
+            "title": "Configuratie en hardening",
+            "body": "Securityheaders, TLS, blootgestelde beheerinterfaces, spraakzame foutmeldingen en verouderde componenten."
+          },
+          "dataExposure": {
+            "title": "Blootgestelde data",
+            "body": "Persoonsgegevens die zonder autorisatie bereikbaar zijn, API-responses die te veel prijsgeven en information disclosure met AVG-impact."
+          }
+        }
+      },
+      "process": {
+        "title": "Hoe een pentest verloopt",
+        "intro": "Zes stappen, van het eerste gesprek tot de hertest. U weet op elk moment wat er gebeurt en wat er volgt.",
+        "steps": {
+          "scope": {
+            "title": "Scoping",
+            "body": "Wij leggen de scope, het testvenster en de spelregels vast, en bepalen samen of er blackbox of greybox getest wordt."
+          },
+          "recon": {
+            "title": "Verkenning",
+            "body": "Wij brengen het volledige aanvalsoppervlak in kaart: endpoints, parameters, rollen en de techniek erachter."
+          },
+          "testing": {
+            "title": "AI-ondersteund testen",
+            "body": "Onze autonome agents werken de applicatie door, terwijl onze pentesters de sporen volgen die menselijk oordeel vragen."
+          },
+          "validation": {
+            "title": "Menselijke validatie",
+            "body": "Elke bevinding wordt gereproduceerd en beoordeeld door een senior pentester, zodat er alleen echte bevindingen in uw rapport staan."
+          },
+          "reporting": {
+            "title": "Rapportage",
+            "body": "U ontvangt de bevindingen met bewijs, een risicoanalyse en concrete aanbevelingen, met daarnaast een management summary."
+          },
+          "retest": {
+            "title": "Hertest",
+            "body": "Zodra uw fixes live staan verifiëren wij ze, zodat u weet dat een gesloten bevinding ook echt gesloten is."
+          }
+        }
+      },
+      "report": {
+        "title": "Wat u krijgt",
+        "body": "Elke test wordt afgerond met een professioneel rapport dat zowel voor uw ontwikkelaars als voor uw directie werkt.",
+        "items": {
+          "findings": "Elke bevinding met reproductiestappen en bewijs",
+          "risk": "Een risicoanalyse per bevinding, afgewogen tegen de werkelijke bedrijfsimpact",
+          "fixes": "Concrete, geprioriteerde aanbevelingen waar uw ontwikkelaars mee vooruit kunnen",
+          "summary": "Een management summary die het risico uitlegt zonder jargon",
+          "compliance": "Bevindingen gekoppeld aan de relevante ISO 27001-controls via ARGUS"
+        }
+      },
+      "reasons": {
+        "title": "Waarom organisaties in heel Europa voor AssistSec kiezen",
+        "items": {
+          "european": {
+            "title": "Europese pentesters",
+            "body": "De mensen die uw applicatie testen behoren tot de meest ervaren van Europa, en u spreekt ze rechtstreeks in plaats van via een accountmanager."
+          },
+          "agents": {
+            "title": "Agents die nooit moe worden",
+            "body": "Autonome agents dekken de breedte van uw applicatie dag en nacht af. Juist daardoor houden onze specialisten tijd over voor de diepte."
+          },
+          "language": {
+            "title": "Dichtbij, in uw eigen taal",
+            "body": "Wij werken vanuit Nederland voor organisaties in heel Europa, en rapporteren in het Nederlands of het Engels."
+          }
+        }
+      },
+      "faq": {
+        "title": "Veelgestelde vragen",
+        "items": {
+          "blackbox": {
+            "q": "Wat is het verschil tussen blackbox en greybox testen?",
+            "a": "Bij een blackbox-test beginnen wij met niet meer dan een URL, precies zoals een aanvaller van buiten. Bij een greybox-test krijgen wij accounts en desgewenst documentatie of toegang tot de broncode, waardoor wij binnen dezelfde tijd de diepere lagen van de applicatie bereiken. Voor de meeste organisaties levert greybox meer op."
+          },
+          "duration": {
+            "q": "Hoe lang duurt een pentest?",
+            "a": "Dat hangt af van de omvang van uw applicatie en het aantal rollen erin. Wij bepalen de inspanning tijdens de scoping en leggen die vooraf schriftelijk vast, zodat scope en prijs vooraf vaststaan."
+          },
+          "production": {
+            "q": "Kunnen jullie onze productieomgeving testen?",
+            "a": "Ja, en dat doen wij regelmatig. Wij spreken vooraf een testvenster af en houden destructieve acties buiten de scope, tenzij u daar uitdrukkelijk om vraagt. Werkt u liever op een acceptatieomgeving, dan kan dat ook."
+          },
+          "remediation": {
+            "q": "Helpen jullie ook met het oplossen van de bevindingen?",
+            "a": "U krijgt bij elke bevinding concrete aanbevelingen en wij lopen ze graag met uw ontwikkelaars door. Zodra een fix live staat testen wij die opnieuw, zodat u weet dat hij standhoudt."
+          },
+          "compliance": {
+            "q": "Helpt een pentest bij ISO 27001 of NIS2?",
+            "a": "Een pentest levert aantoonbaar bewijs voor een certificerings- of audittraject. Via ARGUS wordt elke bevinding gekoppeld aan de relevante ISO 27001-controls, wat de rapportage over uw securitypositie aanzienlijk eenvoudiger maakt."
+          }
+        }
+      }
     }
   },
   "announcement": {

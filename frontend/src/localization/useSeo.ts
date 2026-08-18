@@ -17,6 +17,23 @@ interface SeoArticle {
   image?: string;
 }
 
+interface SeoService {
+  /** The service as it is sold, in the page's own language. */
+  name: string;
+  /**
+   * A stable English classifier, whatever language the page is in — machines
+   * match on this, nobody reads it.
+   */
+  serviceType: string;
+  /** Regions the service is offered in, e.g. ["Netherlands", "Europe"]. */
+  areaServed: readonly string[];
+}
+
+interface SeoFaq {
+  question: string;
+  answer: string;
+}
+
 interface SeoOptions {
   /** Page title, already resolved to the active language. */
   title: string;
@@ -33,6 +50,23 @@ interface SeoOptions {
    * actually use to cite a post.
    */
   article?: SeoArticle;
+  /**
+   * Present on the service pages: describes what is being offered and where,
+   * which is what lets an engine answer "web application pentesting in the
+   * Netherlands" with this page rather than inferring the market from a domain
+   * suffix.
+   */
+  service?: SeoService;
+  /**
+   * The page's own questions and answers. Emitted as a FAQPage alongside
+   * everything else, so the answers can be quoted directly in a result or by an
+   * answer engine — but only when the questions are genuinely on the page, which
+   * is the condition Google states and enforces.
+   *
+   * Memoise this in the caller: it lands in the effect's dependencies, and a
+   * fresh array on every render would rewrite the document head on every render.
+   */
+  faq?: readonly SeoFaq[];
 }
 
 /** Open Graph locale for a supported language. */
@@ -142,6 +176,8 @@ export function useSeo({
   path,
   noindex,
   article,
+  service,
+  faq,
 }: SeoOptions) {
   const { i18n, t } = useTranslation();
   const language = i18n.language;
@@ -250,8 +286,7 @@ export function useSeo({
         ],
       });
     } else {
-      upsertJsonLd({
-        "@context": "https://schema.org",
+      const webPage = {
         "@type": "WebPage",
         name: title,
         description,
@@ -263,7 +298,47 @@ export function useSeo({
           url: site.baseUrl,
         },
         publisher,
-      });
+      };
+
+      /*
+       * A plain page stays a plain object, exactly as it was. The graph is only
+       * built where there is something to add to it — a page describing an
+       * offering, a page answering questions — so nothing that already indexes
+       * correctly changes shape to accommodate the pages that need more.
+       */
+      const nodes: object[] = [webPage];
+
+      if (service) {
+        nodes.push({
+          "@type": "Service",
+          name: service.name,
+          serviceType: service.serviceType,
+          description,
+          url,
+          areaServed: service.areaServed.map((name) => ({
+            "@type": "AdministrativeArea",
+            name,
+          })),
+          provider: publisher,
+        });
+      }
+
+      if (faq && faq.length > 0) {
+        nodes.push({
+          "@type": "FAQPage",
+          mainEntity: faq.map((entry) => ({
+            "@type": "Question",
+            name: entry.question,
+            acceptedAnswer: { "@type": "Answer", text: entry.answer },
+          })),
+        });
+      }
+
+      if (nodes.length === 1) {
+        upsertJsonLd({ "@context": "https://schema.org", ...webPage });
+      } else {
+        upsertJsonLd({ "@context": "https://schema.org", "@graph": nodes });
+      }
     }
-  }, [title, description, path, language, noindex, article, t]);
+  }, [title, description, path, language, noindex, article, service, faq, t]);
 }

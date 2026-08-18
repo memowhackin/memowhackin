@@ -61,10 +61,10 @@
       "body": "Europe's most experienced pentesters, backed by autonomous agents."
     },
     "servicesWebApp": {
-      "title": "Web application pentesting | AssistSec",
-      "description": "In-depth web application penetration testing. Our autonomous AI agents run blackbox and greybox pentests, validated by senior security experts.",
+      "title": "Web application pentesting | Netherlands & EU | AssistSec",
+      "description": "Web application penetration testing by Europe's most experienced pentesters, backed by AI agents. Clear findings, risk analysis and concrete fixes.",
       "heading": "Web application pentesting",
-      "body": "In-depth web application penetration testing, combining autonomous AI agents with senior human expertise."
+      "body": "We test your web applications the way an attacker would — experienced European pentesters and autonomous AI agents on the same target, so vulnerabilities surface faster without losing depth."
     },
     "servicesApi": {
       "title": "API pentesting | AssistSec",
@@ -137,6 +137,134 @@
       "description": "The latest on pentesting, hacking, security research and compliance from the AssistSec team.",
       "heading": "Blog",
       "body": "The latest on pentesting, hacking, security research and compliance."
+    }
+  },
+  "servicePages": {
+    "labels": {
+      "related": "Other services"
+    },
+    "webApp": {
+      "hero": {
+        "secondary": "Talk to a pentester"
+      },
+      "definition": {
+        "title": "What web application pentesting is",
+        "p1": "Web application pentesting is a security assessment in which your application is attacked under controlled conditions, exactly as a real attacker would — but ending in a report instead of an incident. Everything a user can reach is in scope: the login, the roles behind it, the data each account can touch and the business logic tying it all together.",
+        "p2": "We combine experienced European pentesters with AI-supported security tooling. The agents cover the breadth of the application while our specialists chase the findings that need human judgment, which is what makes detection faster without giving up depth."
+      },
+      "coverage": {
+        "title": "What we test",
+        "intro": "Every engagement covers the full attack surface of your application, from the login screen to the business logic behind it.",
+        "items": {
+          "auth": {
+            "title": "Authentication and sessions",
+            "body": "Login flows, multi-factor authentication, password reset, session handling and how long a token stays valid."
+          },
+          "accessControl": {
+            "title": "Authorization and access control",
+            "body": "Broken access control, IDOR, privilege escalation and whether one customer can reach another customer's data."
+          },
+          "injection": {
+            "title": "Injection and input handling",
+            "body": "SQL injection, cross-site scripting, template and command injection, and everything else that follows unvalidated input."
+          },
+          "businessLogic": {
+            "title": "Business logic",
+            "body": "Order flows, pricing, quotas and approval steps, abused in ways an automated scanner never finds."
+          },
+          "configuration": {
+            "title": "Configuration and hardening",
+            "body": "Security headers, TLS, exposed admin interfaces, verbose error messages and outdated components."
+          },
+          "dataExposure": {
+            "title": "Data exposure",
+            "body": "Personal data reachable without authorization, API responses that give away too much, and information disclosure with GDPR impact."
+          }
+        }
+      },
+      "process": {
+        "title": "How a pentest runs",
+        "intro": "Six stages, from the first call to the retest. At every point you know what is happening and what comes next.",
+        "steps": {
+          "scope": {
+            "title": "Scoping",
+            "body": "We agree the scope, the test window and the rules of engagement, and decide together whether the test is blackbox or greybox."
+          },
+          "recon": {
+            "title": "Reconnaissance",
+            "body": "We map the full attack surface: endpoints, parameters, roles and the technology stack behind them."
+          },
+          "testing": {
+            "title": "AI-assisted testing",
+            "body": "Our autonomous agents work through the application while our pentesters follow the leads that need human judgment."
+          },
+          "validation": {
+            "title": "Human validation",
+            "body": "Every finding is reproduced and rated by a senior pentester, so what reaches your report is real and nothing else."
+          },
+          "reporting": {
+            "title": "Reporting",
+            "body": "You receive the findings with evidence, a risk analysis and concrete recommendations, alongside a management summary."
+          },
+          "retest": {
+            "title": "Retest",
+            "body": "Once your fixes are live we verify them, so you know a finding you closed is actually closed."
+          }
+        }
+      },
+      "report": {
+        "title": "What you get",
+        "body": "Every test closes with a professional report that works for your developers and your board at the same time.",
+        "items": {
+          "findings": "Every finding with reproduction steps and evidence",
+          "risk": "A risk analysis per finding, weighed against real business impact",
+          "fixes": "Concrete, prioritized recommendations your developers can act on",
+          "summary": "A management summary that explains the risk without the jargon",
+          "compliance": "Findings mapped to the relevant ISO 27001 controls through ARGUS"
+        }
+      },
+      "reasons": {
+        "title": "Why organizations across Europe choose AssistSec",
+        "items": {
+          "european": {
+            "title": "European pentesters",
+            "body": "The people testing your application are among the most experienced in Europe, and you speak to them directly rather than through an account manager."
+          },
+          "agents": {
+            "title": "Agents that never tire",
+            "body": "Autonomous agents cover the breadth of your application around the clock, which is what leaves our specialists free to go deep where it matters."
+          },
+          "language": {
+            "title": "Close by, in your language",
+            "body": "We work from the Netherlands for organizations across Europe, and report in Dutch or English."
+          }
+        }
+      },
+      "faq": {
+        "title": "Frequently asked questions",
+        "items": {
+          "blackbox": {
+            "q": "What is the difference between blackbox and greybox testing?",
+            "a": "In a blackbox test we start with nothing more than a URL, exactly like an outside attacker. In a greybox test you give us accounts and, if you want, documentation or source access, so we reach the deeper layers of the application within the same amount of time. Most organizations get more out of greybox."
+          },
+          "duration": {
+            "q": "How long does a pentest take?",
+            "a": "That depends on the size of your application and the number of roles in it. We determine the effort during scoping and put it in writing before we start, so the scope and the price are agreed up front."
+          },
+          "production": {
+            "q": "Can you test our production environment?",
+            "a": "Yes, and we regularly do. We agree a test window in advance and treat destructive actions as out of scope unless you explicitly ask for them. If you would rather we work on an acceptance environment, that works too."
+          },
+          "remediation": {
+            "q": "Do you help fix the findings as well?",
+            "a": "You get concrete recommendations for every finding, and we are happy to walk your developers through them. Once a fix is live we retest it, so you know it holds."
+          },
+          "compliance": {
+            "q": "Does a pentest help with ISO 27001 or NIS2?",
+            "a": "A pentest gives you demonstrable evidence for a certification or audit track. Through ARGUS every finding is mapped to the relevant ISO 27001 controls, which makes reporting on your security posture considerably simpler."
+          }
+        }
+      }
     }
   },
   "announcement": {
