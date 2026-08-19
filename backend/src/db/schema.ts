@@ -206,7 +206,115 @@ export const auditLog = pgTable(
   (table) => [index("ix_audit_created").on(table.createdAt)],
 );
 
+/*
+ * A digital exposure scan.
+ *
+ * Two shapes share this table because they share a lifecycle — created,
+ * progressed through stages, finished or failed, then purged — and differ only
+ * in what the subject is and who may read the result. A website scan is public
+ * once created: the caller who started it may poll it. An email scan is never
+ * readable from the id alone; it is unlocked by a single-use token sent to the
+ * address itself (see `scanAccessTokens`).
+ *
+ * The subject and the findings are stored encrypted rather than in plain
+ * columns. A domain is not a secret, but an email address is personal data and
+ * the findings attached to it are the most sensitive rows this database will
+ * ever hold. One code path that always encrypts is easier to keep right than
+ * two that sometimes do, so both kinds go through it.
+ *
+ * There is deliberately no foreign key to a user: nobody signs in to run a
+ * scan, and attaching one identity to another is exactly the correlation this
+ * feature must not perform.
+ */
+export const scans = pgTable(
+  "scans",
+  {
+    /*
+     * The public identifier, and the only one that ever reaches a URL. Random
+     * rather than sequential so that holding one report never suggests where
+     * the next one is.
+     */
+    id: uuid("id").primaryKey().defaultRandom(),
+    kind: varchar("kind", { length: 16 }).notNull(),
+    status: varchar("status", { length: 32 }).notNull().default("queued"),
+    /** Which locale the requester asked for, so mail matches the site. */
+    locale: varchar("locale", { length: 5 }).notNull().default("en"),
+
+    /*
+     * AES-256-GCM over the normalized subject. `subjectDigest` is a keyed hash
+     * of the same value, which is what makes "have I already scanned this in
+     * the last minute" answerable without ever comparing plaintext — and what
+     * idempotent creation keys on.
+     */
+    subjectCipher: text("subject_cipher").notNull(),
+    subjectDigest: varchar("subject_digest", { length: 64 }).notNull(),
+
+    /** Encrypted result document. Null until the run finishes. */
+    resultCipher: text("result_cipher"),
+
+    /*
+     * A coarse band, in the clear, because it is the one field the UI needs
+     * before unlocking and the one the CRM is allowed to receive. It carries
+     * no detail: "elevated" says nothing about what was found.
+     */
+    riskBand: varchar("risk_band", { length: 16 }),
+
+    /** Set only once the subject proved control of the address. */
+    verifiedAt: timestamp("verified_at", { withTimezone: true }),
+    /** Marketing permission, separate from the transactional send. */
+    marketingConsent: boolean("marketing_consent").notNull().default(false),
+
+    /** Coarse failure reason for the UI. Never a provider message. */
+    failureCode: varchar("failure_code", { length: 32 }),
+
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    /** When the row stops being readable and becomes eligible for deletion. */
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index("ix_scans_digest_created").on(table.subjectDigest, table.createdAt),
+    index("ix_scans_expires").on(table.expiresAt),
+  ],
+);
+
+/*
+ * A single-use key to one private report.
+ *
+ * Only the hash is stored, for the same reason a password is only ever stored
+ * hashed: the table is what an attacker reads if they get the database, and a
+ * table of live report links is as good as the reports. The plaintext exists
+ * once, in the mail that was sent, and nowhere else.
+ *
+ * `usedAt` is what makes it single-use, and `expiresAt` is what makes an
+ * abandoned link stop working on its own.
+ */
+export const scanAccessTokens = pgTable(
+  "scan_access_tokens",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    scanId: uuid("scan_id")
+      .notNull()
+      .references(() => scans.id, { onDelete: "cascade" }),
+    /** SHA-256 of the token that was mailed. Never the token itself. */
+    tokenHash: varchar("token_hash", { length: 64 }).notNull().unique(),
+    usedAt: timestamp("used_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [index("ix_scan_tokens_scan").on(table.scanId)],
+);
+
 export type AdminUser = typeof adminUsers.$inferSelect;
+export type Scan = typeof scans.$inferSelect;
+export type NewScan = typeof scans.$inferInsert;
+export type ScanAccessToken = typeof scanAccessTokens.$inferSelect;
 export type Post = typeof posts.$inferSelect;
 export type PostSlug = typeof postSlugs.$inferSelect;
 export type NewPost = typeof posts.$inferInsert;

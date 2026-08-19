@@ -15,6 +15,7 @@ import { publicRouter } from "./blog/routes.public.js";
 import { pool } from "./db/client.js";
 import { env, isProduction } from "./env.js";
 import { logger } from "./logger.js";
+import { scannerRouter } from "./scanner/routes.public.js";
 import { requireAllowedOrigin } from "./security/origin.js";
 
 export const app = express();
@@ -87,6 +88,11 @@ app.get("/health", async (_req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+/*
+ * Ahead of the blog's public router because both live under /api/public and
+ * that one ends in a terminal 404 for anything it does not recognise.
+ */
+app.use("/api/public/scanner", scannerRouter);
 app.use("/api/public", publicRouter);
 app.use("/api", adminRouter);
 
