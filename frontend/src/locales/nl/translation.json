@@ -137,6 +137,18 @@
       "description": "Het laatste nieuws over pentesten, hacking, security research en compliance van het AssistSec-team.",
       "heading": "Blog",
       "body": "Het laatste nieuws over pentesten, hacking, security research en compliance."
+    },
+    "securityScan": {
+      "title": "Gratis digitale risicocheck | AssistSec",
+      "description": "Controleer wat uw website of e-mailadres publiek prijsgeeft. Een helder en eerlijk overzicht van zichtbare beveiligingsrisico's, zonder in te loggen."
+    },
+    "securityScanResult": {
+      "title": "Uw blootstellingsbeoordeling | AssistSec",
+      "description": "De resultaten van uw AssistSec digitale risicocheck."
+    },
+    "securityScanReport": {
+      "title": "Uw privérapport | AssistSec",
+      "description": "Uw persoonlijke AssistSec-blootstellingsrapport."
     }
   },
   "servicePages": {
@@ -570,5 +582,595 @@
     "retry": "Opnieuw proberen",
     "notFound": "Deze pagina bestaat niet.",
     "backHome": "Terug naar home"
+  },
+  "scanner": {
+    "eyebrow": "Gratis digitale risicocheck",
+    "heading": "Ontdek wat het internet prijsgeeft",
+    "intro": "Voer een website of e-mailadres in en ontvang een helder overzicht van publiek zichtbare beveiligingsrisico's.",
+    "modeLabel": "Wat wilt u controleren",
+    "submitting": "Bezig…",
+    "unavailable": "De scanner neemt op dit moment geen aanvragen aan. Probeer het later opnieuw of neem rechtstreeks contact met ons op.",
+    "marketingConsent": "Stuur mij ook af en toe security-onderzoek en productnieuws van AssistSec. Optioneel, en los van dit rapport.",
+    "tabs": {
+      "website": "Website",
+      "email": "E-mailadres"
+    },
+    "fields": {
+      "website": {
+        "label": "Websitedomein",
+        "placeholder": "voorbeeld.nl",
+        "action": "Start websitescan"
+      },
+      "email": {
+        "label": "E-mailadres",
+        "placeholder": "naam@bedrijf.nl",
+        "action": "Maak privérapport"
+      }
+    },
+    "privacy": {
+      "website": "We kijken alleen naar informatie die al openbaar is. Er wordt niet ingelogd en er verandert niets aan de site.",
+      "email": "Persoonlijke resultaten worden alleen naar het ingevoerde e-mailadres gestuurd."
+    },
+    "mailed": {
+      "title": "Kijk in uw inbox",
+      "body": "Als we een rapport voor dat adres kunnen maken, is er een eenmalige link onderweg. De link opent het rapport en werkt daarna niet meer.",
+      "note": "We antwoorden voor elk adres hetzelfde, zodat deze pagina nooit verraadt of een adres in een datalek voorkomt."
+    },
+    "errors": {
+      "empty": "Vul een waarde in om verder te gaan.",
+      "invalid_domain": "Dit lijkt geen websitedomein te zijn.",
+      "invalid_email": "Dit lijkt geen e-mailadres te zijn.",
+      "ip_not_allowed": "Voer een domeinnaam in in plaats van een IP-adres.",
+      "public_suffix_only": "Voer een volledig domein in, bijvoorbeeld voorbeeld.nl.",
+      "unsupported_scheme": "Alleen http- en https-adressen worden ondersteund.",
+      "too_long": "Deze waarde is te lang.",
+      "unavailable": "De scanner is momenteel niet beschikbaar. Probeer het later opnieuw.",
+      "rate_limited": "Te veel scans vanaf deze verbinding. Wacht een paar minuten en probeer het opnieuw.",
+      "invalid_subject": "Controleer de waarde en probeer het opnieuw.",
+      "expired": "Dit rapport is verlopen en niet langer beschikbaar.",
+      "not_found": "We konden dat rapport niet vinden.",
+      "network": "We konden de scanner niet bereiken. Controleer uw verbinding en probeer het opnieuw.",
+      "network_retrying": "Verbinding onderbroken. De scan loopt door en we maken opnieuw verbinding.",
+      "missing_token": "Deze link is onvolledig. Open de link opnieuw vanuit uw e-mail.",
+      "report_unavailable": "Deze link is al gebruikt of verlopen. Vraag een nieuw rapport aan om verder te gaan."
+    },
+    "progress": {
+      "title": "Uw scan loopt",
+      "queued": "In de wachtrij. Uw scan begint zo.",
+      "working": "Bezig",
+      "announce": "Stap {{step}} van {{total}}. {{stage}}.",
+      "queuedHint": "Dit duurt meestal minder dan een minuut.",
+      "step": "Stap {{step}} van {{total}}"
+    },
+    "stages": {
+      "website": {
+        "discovering": "Publieke blootstelling in kaart brengen",
+        "analyzing": "Websitebeveiliging controleren",
+        "correlating": "Bekende risico's correleren",
+        "generating_report": "Beoordeling voorbereiden"
+      },
+      "email": {
+        "discovering": "Blootstellingsbronnen controleren",
+        "analyzing": "Blootgestelde gegevenstypen correleren",
+        "correlating": "Privérelatiekaart opbouwen",
+        "generating_report": "Rapport voorbereiden"
+      }
+    },
+    "bands": {
+      "low": {
+        "title": "Niets opvallends aan de publieke buitenkant",
+        "body": "Deze scan vond geen bevestigde problemen op de delen van uw site die zichtbaar zijn zonder in te loggen. Dat is een goed teken, maar het is niet hetzelfde als veilig zijn: de meeste ernstige bevindingen zitten achter een login, waar geautomatiseerde controles niet komen."
+      },
+      "moderate": {
+        "title": "Wat achterstallig onderhoud",
+        "body": "We vonden configuratiehiaten die het sluiten waard zijn. Geen ervan geeft een aanvaller op zichzelf toegang, maar samen maken ze andere aanvallen makkelijker en goedkoper."
+      },
+      "elevated": {
+        "title": "Bevindingen om actie op te ondernemen",
+        "body": "We bevestigden bevindingen die uw publieke positie merkbaar verzwakken. Dit is het soort hiaat dat als opstapje wordt gebruikt, en meestal snel te verhelpen zodra het bekend is."
+      },
+      "high": {
+        "title": "Onderneem actie op deze bevindingen",
+        "body": "We bevestigden meerdere serieuze problemen aan uw publieke buitenkant. We raden aan deze op korte termijn aan te pakken en ook de afgeschermde delen van de applicatie te laten testen."
+      }
+    },
+    "emailBands": {
+      "low": {
+        "title": "Geen blootstelling gevonden in de bronnen die wij raadplegen",
+        "body": "Dit adres kwam niet voor in de datalekbronnen die voor ons beschikbaar zijn. Dat is geen bewijs dat het nooit is blootgesteld, alleen dat wij niets vonden."
+      },
+      "moderate": {
+        "title": "Dit adres komt voor in bekende datalekken",
+        "body_one": "We vonden dit adres in {{count}} bekende bron. Er is geen wachtwoordblootstelling vastgelegd.",
+        "body_other": "We vonden dit adres in {{count}} bekende bronnen. Er is geen wachtwoordblootstelling vastgelegd."
+      },
+      "elevated": {
+        "title": "Wachtwoordblootstelling vastgelegd",
+        "body_one": "We vonden dit adres in {{count}} bekende bron, waaronder minstens één waarbij een wachtwoord is blootgesteld.",
+        "body_other": "We vonden dit adres in {{count}} bekende bronnen, waaronder minstens één waarbij een wachtwoord is blootgesteld."
+      },
+      "high": {
+        "title": "Onderneem nu actie",
+        "body_one": "We vonden dit adres in {{count}} bekende bron met ernstige blootstelling, zoals herhaalde wachtwoordcompromittering of door malware verzamelde inloggegevens.",
+        "body_other": "We vonden dit adres in {{count}} bekende bronnen met ernstige blootstelling, zoals herhaalde wachtwoordcompromittering of door malware verzamelde inloggegevens."
+      }
+    },
+    "report": {
+      "eyebrow": "Blootstellingsbeoordeling",
+      "title": "Uw websitescan",
+      "privateEyebrow": "Privérapport",
+      "privateTitle": "Uw persoonlijke blootstellingsrapport",
+      "privateNote": "Dit rapport is geopend met een eenmalige link en is alleen in deze sessie zichtbaar. Het wordt niet geïndexeerd en kan niet opnieuw worden geopend vanuit uw geschiedenis.",
+      "back": "Terug naar de scanner",
+      "tryAgain": "Voer een nieuwe scan uit",
+      "requestAnother": "Vraag een nieuw rapport aan",
+      "opening": "Uw rapport wordt geopend…",
+      "unavailableTitle": "Dit rapport kan niet worden geopend",
+      "emptyBody": "We vonden geen problemen op de delen van uw site die bereikbaar zijn zonder in te loggen. Dit is geen schone gezondheidsverklaring: een geautomatiseerde controle komt niet bij autorisatie, bedrijfslogica of iets achter een login, en juist daar zitten de bevindingen die ertoe doen.",
+      "emailEmptyTitle": "Geen blootstelling gevonden",
+      "emailEmptyBody": "Dit adres kwam in geen van de voor ons beschikbare datalekbronnen voor. Er komen regelmatig nieuwe lekken bij, dus dit weerspiegelt wat vandaag bekend is en niet een permanent antwoord.",
+      "summaryLine_one": "{{findings}} bevinding verdeeld over {{areas}} gebieden.",
+      "summaryLine_other": "{{findings}} bevindingen verdeeld over {{areas}} gebieden.",
+      "findingsTitle": "Bevindingen",
+      "findingsHint": "Ernstigste eerst. Selecteer er een om de onderbouwing te lezen.",
+      "lookalikesTitle": "Domeinen die op de uwe lijken",
+      "lookalikesBody_one": "We hebben de typefouten en alternatieve extensies gegenereerd die een aanvaller zou proberen, en {{count}} daarvan is geregistreerd. Een deel zal uw eigen defensieve registratie zijn.",
+      "lookalikesBody_other": "We hebben de typefouten en alternatieve extensies gegenereerd die een aanvaller zou proberen, en {{count}} daarvan zijn geregistreerd. Een deel zal uw eigen defensieve registratie zijn.",
+      "lookalikesMail_one": "{{count}} hiervan kan mail versturen en ontvangen, en dat is de vorm van factuurfraude in plaats van een geparkeerde naam. Bevestig dat die van u is.",
+      "lookalikesMail_other": "{{count}} hiervan kunnen mail versturen en ontvangen, en dat is de vorm van factuurfraude in plaats van geparkeerde namen. Bevestig dat ze van u zijn.",
+      "lookalikesOther_one": "{{count}} andere geregistreerde naam",
+      "lookalikesOther_other": "{{count}} andere geregistreerde namen",
+      "hostsTitle": "Hosts zichtbaar in publieke certificaatlogs",
+      "hostsBody_one": "{{count}} hostnaam onder dit domein heeft een publiek gelogd certificaat. Alles wat u hier niet meer herkent is het controleren waard.",
+      "hostsBody_other": "{{count}} hostnamen onder dit domein hebben publiek gelogde certificaten. Alles wat u hier niet meer herkent is het controleren waard.",
+      "summaryHosts_one": "{{count}} publieke host gezien voor dit domein.",
+      "summaryHosts_other": "{{count}} publieke hosts gezien voor dit domein.",
+      "scoreLabel": "Score publieke buitenkant {{score}} van 100, beoordeeld als {{band}}",
+      "scoreOutOf": "van de 100",
+      "scoreScope": "Dit beoordeelt wat van buitenaf zichtbaar is zonder in te loggen: transport, response-headers, e-mailauthenticatie, DNS en blootgesteld oppervlak. Het is geen cijfer voor uw beveiliging als geheel, omdat een geautomatiseerde controle niet bij autorisatie of bedrijfslogica komt.",
+      "stackTitle": "Waarop de site is gebouwd",
+      "stackBody": "Afgelezen uit de headers en markup die de site aan elke bezoeker levert. Een versie verschijnt alleen waar de site die zelf noemde.",
+      "versionUnknown": "N.v.t."
+    },
+    "confidence": {
+      "confirmed": {
+        "label": "Bevestigd.",
+        "body": "Dit hebben we rechtstreeks in de respons waargenomen.",
+        "short": "Bevestigd"
+      },
+      "high": {
+        "label": "Hoge zekerheid.",
+        "body": "Sterk indirect bewijs. Het precieze detail kan afwijken.",
+        "short": "Hoge zekerheid"
+      },
+      "possible": {
+        "label": "Niet geverifieerd.",
+        "body": "Dit kan een vals positief zijn. Laat iemand het bevestigen voordat u erop handelt; we hebben het niet als bevinding meegeteld bij uw risiconiveau.",
+        "short": "Niet geverifieerd"
+      }
+    },
+    "severity": {
+      "info": "Informatief",
+      "low": "Laag",
+      "medium": "Middel",
+      "high": "Hoog"
+    },
+    "categories": {
+      "transport": "Transportbeveiliging",
+      "headers": "Response-headers",
+      "email_authentication": "E-mailauthenticatie",
+      "exposed_surface": "Blootgesteld oppervlak",
+      "software_disclosure": "Softwareonthulling",
+      "dns": "DNS-configuratie"
+    },
+    "dataTypes": {
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "phone": "Telefoonnummer",
+      "name": "Naam",
+      "address": "Postadres",
+      "ip": "Netwerkadres",
+      "dob": "Geboortedatum",
+      "financial": "Financiële gegevens",
+      "government_id": "Overheidsidentificatie"
+    },
+    "limits": {
+      "known_sources_only": "Dit rapport dekt de datalekbronnen die vandaag voor ons beschikbaar zijn. Het ontbreken van een vermelding bewijst niet dat een adres nooit is blootgesteld, en er worden regelmatig nieuwe lekken gepubliceerd.",
+      "dnssec_undetermined": "We konden geen validerende resolver bereiken, dus de DNSSEC-status is voor deze scan onbekend.",
+      "no_ct_records": "Er verschenen geen certificaten voor dit domein in Certificate Transparency-logs, dus langs deze weg zijn geen subdomeinen gevonden."
+    },
+    "failure": {
+      "failed": {
+        "title": "De scan kon niet worden afgerond",
+        "body": "Er ging iets mis voordat we klaar waren. Dat betekent niet dat er niets is gevonden, alleen dat we niet goed hebben kunnen kijken."
+      },
+      "rate_limited": {
+        "title": "Te veel aanvragen",
+        "body": "Vanaf deze verbinding zijn recent meerdere scans gestart. Wacht een paar minuten voordat u het opnieuw probeert."
+      },
+      "expired": {
+        "title": "Dit rapport is verlopen",
+        "body": "Rapporten worden na een korte bewaartermijn verwijderd. Voer een nieuwe scan uit voor een actueel beeld."
+      }
+    },
+    "failureCodes": {
+      "provider_unavailable": "Onze gegevensbron gaf geen antwoord. Dit ligt aan onze kant, niet aan uw domein.",
+      "provider_timeout": "De scan duurde langer dan toegestaan en is gestopt. Probeer het opnieuw.",
+      "target_blocked": "Dat domein wijst naar een adres dat wij niet scannen, zoals een privé- of intern netwerk.",
+      "target_unresolvable": "Dat domein kon niet worden opgezocht. Controleer de spelling en of het publiek bereikbaar is.",
+      "internal": "Er ging iets mis aan onze kant. Probeer het opnieuw."
+    },
+    "actions": {
+      "passwords": "Wijzig het wachtwoord van elk account waarvoor dit adres is gebruikt, te beginnen bij de bronnen hierboven. Gebruik nooit hetzelfde wachtwoord bij meerdere diensten.",
+      "mfa": "Zet multifactorauthenticatie aan waar dat kan. Het is de meest effectieve maatregel tegen een blootgesteld wachtwoord.",
+      "monitor": "Behandel onverwachte e-mails over wachtwoordherstel als waarschuwingssignaal in plaats van ruis, en meld ze."
+    },
+    "graph": {
+      "title": "Relatiekaart van uw digitale voetafdruk",
+      "intro": "Hoe de blootstelling samenhangt. Selecteer een punt om te zien waar de waarneming vandaan komt, hoe zeker we zijn en wat u eraan kunt doen.",
+      "loading": "De kaart wordt geladen…",
+      "subject": "Uw adres",
+      "passwordIndicator": "Wachtwoordblootstelling vastgesteld",
+      "phoneIndicator": "Telefoonindicator eindigend op {{suffix}}",
+      "networkIndicator": "Netwerkactiviteit gekoppeld aan {{country}}",
+      "stealerAction": "Deze bron bestaat uit door malware verzamelde inloggegevens. Beschouw elk account dat op het getroffen apparaat is gebruikt als gecompromitteerd en wijzig die wachtwoorden vanaf een schoon apparaat.",
+      "passwordAction": "Wijzig dit wachtwoord overal waar het is gebruikt en zet multifactorauthenticatie aan.",
+      "provenance": "Bron",
+      "provenanceReport": "Het adres dat u heeft ingevoerd",
+      "provenanceSource": "Waargenomen in de registratie van {{name}}",
+      "observed": "Waargenomen",
+      "confidence": "Zekerheid",
+      "sensitivity": "Gevoeligheid",
+      "sensitivityLevels": {
+        "low": "Laag",
+        "medium": "Middel",
+        "high": "Hoog"
+      },
+      "relations": {
+        "appearsIn": "komt voor in",
+        "exposed": "stelde bloot",
+        "indicates": "duidt op",
+        "recommends": "adviseert"
+      },
+      "kinds": {
+        "subject": "Onderwerp",
+        "source": "Gelekte dienst",
+        "data_category": "Blootgesteld gegevenstype",
+        "password_indicator": "Wachtwoordblootstelling",
+        "phone_indicator": "Telefoonindicator",
+        "network_indicator": "Netwerkindicator",
+        "stealer_log": "Blootstelling via malwarelogs",
+        "action": "Aanbevolen actie"
+      },
+      "explain": {
+        "subject": "Het adres waarvoor dit rapport is gemaakt. Het wordt hier niet getoond en stond ook niet in de e-mail die u naar deze pagina bracht.",
+        "source": "Een dienst waarvan de gelekte gegevens dit adres bevatten. De naam is zoals de bron die publiceert.",
+        "stealer": "Inloggegevens die door malware van een besmet apparaat zijn verzameld. Dit is ernstiger dan een lek bij één dienst, omdat het meestal veel accounts tegelijk buitmaakt.",
+        "password": "In deze bron is een wachtwoord bij dit adres blootgesteld. Wij slaan het wachtwoord zelf in geen enkele vorm op en tonen of verwerken het niet.",
+        "phone": "In deze registratie kwam een telefoonnummer voor. Alleen de laatste twee cijfers worden getoond, zodat u het herkent zonder dat het nummer hier wordt herhaald.",
+        "network": "Netwerkactiviteit in deze registratie werd aan dit land gekoppeld. Er wordt geen exact adres of locatie opgeslagen of getoond.",
+        "category": "Een categorie persoonsgegevens die in deze registratie naast uw adres voorkwam."
+      },
+      "website": {
+        "title": "Waar het werk zit",
+        "intro": "Uw bevindingen gegroepeerd per gebied waar ze bij horen. Selecteer een punt om te zien wat het betekent en wat u eraan kunt doen.",
+        "subject": "Uw website",
+        "subjectExplanation": "Het domein waarvoor dit rapport is gemaakt. Alles hieronder is van buitenaf waargenomen, zonder in te loggen.",
+        "provenanceScan": "Deze scan",
+        "categoryFallback": "Een groep samenhangende bevindingen uit deze scan.",
+        "categoryExplanation": {
+          "transport": "Hoe de verbinding tussen een bezoeker en uw site beschermd is, inclusief certificaten en of HTTPS wordt afgedwongen.",
+          "headers": "Instructies die uw server bij elke respons meestuurt en die de browser vertellen wat is toegestaan. Meestal zijn het aanpassingen van één regel op één plek.",
+          "email_authentication": "Of iemand anders mail kan versturen die van uw domein lijkt te komen. Doorgaans het waardevolste gebied op deze pagina.",
+          "dns": "Hoe uw domeinnaam wordt gepubliceerd en of die antwoorden te vertrouwen zijn.",
+          "exposed_surface": "Zaken die van buitenaf bereikbaar zijn terwijl dat waarschijnlijk niet de bedoeling is, en namen die zijn geregistreerd om met de uwe verward te worden.",
+          "software_disclosure": "Wat uw responses prijsgeven over de software erachter. Informatief in plaats van een fout."
+        },
+        "relations": {
+          "covers": "omvat",
+          "found": "vond"
+        },
+        "kinds": {
+          "subject": "Gescande site",
+          "category": "Bevindingsgebied",
+          "finding": "Bevinding",
+          "host": "Host",
+          "lookalike": "Lijkend domein"
+        },
+        "hostsExplanation": "Hostnamen onder dit domein die voorkomen in publieke certificate transparency-logs.",
+        "hostExplanation": "Een hostnaam met een publiek gelogd certificaat. Herkent u die niet meer, zoek dan uit wat daar nog draait.",
+        "lookalikesExplanation": "Domeinen die iemand heeft geregistreerd om op de uwe te lijken. Een deel zal uw eigen defensieve registratie zijn.",
+        "lookalikeParked": "Geregistreerd en resolvend, maar niet ingericht voor mail.",
+        "lookalikeMail": "Geregistreerd en in staat mail te versturen en ontvangen, en dat is de vorm van factuurfraude in plaats van een geparkeerde naam.",
+        "lookalikeAction": "Bevestig dat dit van u is. Zo niet, meld het bij de registrar en waarschuw de financiële administratie en de receptie."
+      },
+      "hint": "Gebruik de pijltjestoetsen om door de kaart te bewegen."
+    },
+    "cta": {
+      "website": {
+        "title": "Geautomatiseerd testen bracht de publiek zichtbare buitenkant in kaart. Autorisatie, bedrijfslogica en afgeschermde functionaliteit vragen om handmatig testen.",
+        "body": "Een gerichte penetratietest gaat verder waar dit stopt: onze testers werken mét inloggegevens, volgen de logica van uw applicatie en ketenen bevindingen zoals een aanvaller dat zou doen.",
+        "action": "Bespreek een gerichte penetratietest"
+      },
+      "email": {
+        "title": "Dit rapport beoordeelde één identiteit. AssistSec kan de blootstelling binnen uw hele organisatie beoordelen en helpen prioriteren.",
+        "body": "Eén adres is een steekproef. De blootstelling van uw hele team in kaart brengen laat zien welke accounts echt risico dragen en welke ruis zijn, zodat herstel terechtkomt waar het telt.",
+        "primary": "Bespreek met een securityspecialist",
+        "secondary": "Controleer blootstelling van de organisatie"
+      }
+    },
+    "findings": {
+      "fallback": {
+        "title": "Waarneming",
+        "observed": "We legden een waarneming over uw publieke configuratie vast.",
+        "impact": "Beoordeel dit samen met uw overige bevindingen.",
+        "remediation": "Controleer de huidige instelling en corrigeer die zo nodig."
+      },
+      "missing_hsts": {
+        "title": "Strict-Transport-Security ontbreekt",
+        "observed": "Responses over HTTPS bevatten geen Strict-Transport-Security-header.",
+        "impact": "Zonder deze header kan het eerste verzoek van een bezoeker door een aanvaller op hetzelfde netwerk worden teruggezet naar gewoon HTTP, waarna de sessie kan worden meegelezen of aangepast voordat de doorverwijzing naar HTTPS plaatsvindt.",
+        "remediation": "Stuur Strict-Transport-Security mee op HTTPS-responses met een max-age van minimaal zes maanden, zodra u zeker weet dat elk subdomein HTTPS correct aanbiedt."
+      },
+      "missing_csp": {
+        "title": "Geen Content-Security-Policy",
+        "observed": "Responses bevatten geen Content-Security-Policy-header.",
+        "impact": "Een contentbeleid is de maatregel die de schade van een cross-site scripting-fout beperkt. Zonder beleid draait geïnjecteerde code met alle rechten van uw pagina.",
+        "remediation": "Voer het beleid eerst in report-only-modus in, bekijk wat het geblokkeerd zou hebben en handhaaf het daarna."
+      },
+      "weak_spf": {
+        "title": "SPF vraagt ontvangers niet om te weigeren",
+        "observed": "Het domein publiceert een SPF-record dat eindigt op een soft-fail in plaats van een hard-fail.",
+        "impact": "Ontvangende mailservers krijgen te horen dat niet-vermelde afzenders verdacht zijn maar toch geaccepteerd mogen worden, wat ruimte laat om mail te versturen die van uw domein lijkt te komen.",
+        "remediation": "Controleer of elke legitieme verzenddienst is vermeld en zet het record daarna op een hard fail."
+      },
+      "missing_dmarc": {
+        "title": "Geen DMARC-beleid gepubliceerd",
+        "observed": "Er is geen DMARC-record gevonden voor het domein.",
+        "impact": "DMARC vertelt ontvangende servers wat ze moeten doen met mail die niet door de authenticatie komt, en levert u rapportages over wie er namens u verstuurt. Zonder DMARC wordt vervalste mail met uw domein waarschijnlijk gewoon bezorgd.",
+        "remediation": "Publiceer een DMARC-record in monitormodus, bekijk de rapportages een paar weken en ga daarna naar quarantine en uiteindelijk reject."
+      },
+      "server_version_disclosed": {
+        "title": "Serversoftware en versie worden getoond",
+        "observed": "Een response-header noemt het serverproduct en een versienummer.",
+        "impact": "Dit maakt de server niet kwetsbaar, en we hebben niet getest of dat zo is. Het stelt een aanvaller wel in staat uw versie te vergelijken met openbare kwetsbaarhedenlijsten zonder u nog een keer aan te raken, wat hun werk verkort.",
+        "remediation": "Onderdruk het versienummer in de response-headers. Zie dit als opruimen en niet als oplossing; patchen volgt zijn eigen schema."
+      },
+      "directory_listing": {
+        "title": "Een pad toont mogelijk een mappenoverzicht",
+        "observed": "Een verzoek gaf een response met de vorm van een automatisch mappenoverzicht.",
+        "impact": "Mappenoverzichten kunnen bestanden prijsgeven waar nooit naar verwezen is, zoals back-ups of configuratie. Dit signaal is makkelijk vals positief, dus behandel het als aanwijzing en niet als bevinding.",
+        "remediation": "Controleer of het pad werkelijk bestanden toont. Zo ja, schakel automatische indexering uit en ga na wat bereikbaar was."
+      },
+      "missing_caa": {
+        "title": "Geen CAA-record beperkt certificaatuitgifte",
+        "observed": "Het domein publiceert geen CAA-record.",
+        "impact": "Een CAA-record legt vast welke certificaatautoriteiten voor uw domein mogen uitgeven. Zonder record mag elke publieke autoriteit dat, wat de gevolgen van een onterechte uitgifte vergroot.",
+        "remediation": "Publiceer een CAA-record met de autoriteiten die u daadwerkelijk gebruikt."
+      },
+      "no_https": {
+        "title": "De site is niet bereikbaar via HTTPS",
+        "observed": "Een verzoek via https kwam niet tot stand, terwijl het domein wel resolvet en antwoordt op gewoon http.",
+        "impact": "Alles wat een bezoeker verstuurt, inclusief een eventuele login, gaat onversleuteld over de lijn en kan door iedereen in het netwerkpad worden meegelezen of aangepast. Browsers markeren de site bovendien als onveilig, en daar handelen de meeste bezoekers inmiddels naar.",
+        "remediation": "Neem een certificaat en bied de site via HTTPS aan. Certificaten zijn gratis via Let's Encrypt en kunnen automatisch worden vernieuwd."
+      },
+      "no_https_redirect": {
+        "title": "Gewoon HTTP wordt geserveerd in plaats van doorverwezen",
+        "observed": "Een verzoek naar het http-adres gaf de site terug in plaats van door te verwijzen naar https.",
+        "impact": "Een bezoeker die het adres intypt, een oude link volgt of er door een aanvaller naartoe wordt gestuurd, blijft de hele sessie op een onversleutelde verbinding. Dat HTTPS beschikbaar is helpt niet zolang HTTP ook nog werkt.",
+        "remediation": "Geef vanaf elke http-URL een permanente doorverwijzing naar de https-variant en voeg daarna Strict-Transport-Security toe, zodat browsers http niet meer proberen."
+      },
+      "tls_cert_expired": {
+        "title": "Het TLS-certificaat is verlopen",
+        "observed": "Het certificaat op poort 443 is over de vervaldatum heen.",
+        "impact": "Browsers tonen een schermvullende waarschuwing waar de meeste bezoekers niet doorheen klikken, dus de site is voor hen feitelijk uit de lucht. Wie er wel doorheen klikt, is aangeleerd juist de waarschuwing te negeren die ertoe doet.",
+        "remediation": "Vernieuw het certificaat nu en automatiseer de vernieuwing, zodat dit niet opnieuw kan gebeuren."
+      },
+      "tls_cert_expiring": {
+        "title": "Het TLS-certificaat verloopt binnenkort",
+        "observed": "Het certificaat op poort 443 verloopt binnen twee weken.",
+        "impact": "Zodra het verloopt is de site voor gewone bezoekers onbereikbaar, en verlopen certificaten vallen doorgaans op ongelegen momenten.",
+        "remediation": "Vernieuw nu in plaats van op de deadline, en controleer of de automatische vernieuwing daadwerkelijk draait."
+      },
+      "tls_hostname_mismatch": {
+        "title": "Het certificaat dekt deze hostnaam niet",
+        "observed": "Het aangeboden certificaat vermeldt de opgevraagde hostnaam niet.",
+        "impact": "Browsers weigeren de verbinding met een waarschuwing. Waar bezoekers gewend zijn daar doorheen te klikken, is een echte onderscheppingspoging niet te onderscheiden van de dagelijkse foutmelding.",
+        "remediation": "Geef het certificaat opnieuw uit met de juiste namen, inclusief elke hostnaam waarop de site bereikbaar is."
+      },
+      "tls_chain_untrusted": {
+        "title": "De certificaatketen valideert niet",
+        "observed": "De aangeboden keten kon niet worden geverifieerd tegen de publieke trust store, terwijl de hostnaam wel klopt.",
+        "impact": "Dit is meestal een onvolledige keten: het werkt in de browser die het tussenliggende certificaat gecacht heeft en faalt in de browser die dat niet deed, en in de meeste API-clients. De storingen zijn wisselend en lastig te herleiden.",
+        "remediation": "Serveer de volledige keten, inclusief intermediates, vanaf elke server en load balancer die TLS afhandelt."
+      },
+      "tls_legacy_protocol": {
+        "title": "Verouderde TLS-versies worden nog geaccepteerd",
+        "observed": "De server voltooide een handshake toen alleen TLS 1.1 of ouder werd aangeboden.",
+        "impact": "Deze versies hebben bekende zwakheden en worden door actuele browsers niet meer geaccepteerd. Ze aanhouden dient niemand behalve een aanvaller die een downgrade probeert, en het voldoet niet aan de meeste compliance-eisen.",
+        "remediation": "Accepteer uitsluitend TLS 1.2 en hoger."
+      },
+      "hsts_short_max_age": {
+        "title": "Strict-Transport-Security verloopt te snel",
+        "observed": "De HSTS-header is aanwezig met een max-age van minder dan zes maanden.",
+        "impact": "De bescherming vervalt voor iedere bezoeker die binnen die termijn niet terugkeert, waardoor hun volgende eerste verzoek weer af te dwingen is naar http. Een korte max-age voldoet bovendien niet aan de preload-eisen.",
+        "remediation": "Verhoog max-age naar minimaal zes maanden zodra u zeker weet dat elk subdomein HTTPS correct aanbiedt."
+      },
+      "permissive_csp": {
+        "title": "De Content-Security-Policy staat inline script toe",
+        "observed": "Het beleid staat 'unsafe-inline' of een wildcard toe in de script-directive.",
+        "impact": "Een contentbeleid bestaat om geïnjecteerde code tegen te houden. Inline script toestaan laat precies dat toe, dus de header is aanwezig zonder het werk te doen waarvoor hij er is.",
+        "remediation": "Verplaats inline script naar bestanden en verwijder daarna 'unsafe-inline'. Waar inline script onvermijdelijk is, gebruik een nonce per respons."
+      },
+      "missing_xcto": {
+        "title": "X-Content-Type-Options ontbreekt",
+        "observed": "Responses bevatten de nosniff-directive niet.",
+        "impact": "Browsers mogen dan zelf het type van een respons raden in plaats van het opgegeven type te geloven, waardoor een geüpload bestand als script kan worden uitgevoerd. Daarmee wordt een uploadfunctie een scripting-kwetsbaarheid.",
+        "remediation": "Stuur X-Content-Type-Options: nosniff mee op elke respons."
+      },
+      "missing_frame_protection": {
+        "title": "De site kan door andere origins in een frame worden geladen",
+        "observed": "Er was geen X-Frame-Options en geen frame-ancestors-directive in een CSP aanwezig.",
+        "impact": "Een andere site kan die van u in een onzichtbaar frame over zijn eigen knoppen leggen, zodat een bezoeker die op het ene denkt te klikken in werkelijkheid iets bij u doet. Dat volstaat om acties met gevolgen uit te voeren.",
+        "remediation": "Voeg frame-ancestors toe aan uw CSP met de origins die de site mogen framen, of 'none' als dat er geen zijn."
+      },
+      "missing_referrer_policy": {
+        "title": "Er is geen Referrer-Policy ingesteld",
+        "observed": "Responses bevatten geen Referrer-Policy-header.",
+        "impact": "Volledige URL's lekken naar elke derde partij waarvan de pagina iets laadt. Waar een URL een token, een identificatie of een zoekterm bevat, wordt die bij elk verzoek meegegeven.",
+        "remediation": "Stuur Referrer-Policy: strict-origin-when-cross-origin mee, of iets strikters."
+      },
+      "permissive_cors": {
+        "title": "Cross-origin-verzoeken zijn vanaf overal toegestaan",
+        "observed": "De respons bevat Access-Control-Allow-Origin: *.",
+        "impact": "Elke website kan responses van deze origin uitlezen. Voor werkelijk publieke gegevens is dat onschuldig, voor alles wat per gebruiker verschilt is het ernstig.",
+        "remediation": "Benoem de origins die toegang nodig hebben in plaats van een wildcard, en controleer dat er geen geauthenticeerde respons op deze manier wordt geserveerd."
+      },
+      "cookie_not_secure": {
+        "title": "Een cookie wordt zonder Secure-vlag gezet",
+        "observed": "Minstens één Set-Cookie-header miste Secure.",
+        "impact": "De cookie wordt ook over gewoon http meegestuurd, dus één onversleuteld verzoek volstaat om hem prijs te geven. Bij een sessiecookie is dat accountovername.",
+        "remediation": "Zet Secure op elke cookie. Er is geen reden om het weg te laten op een site die via HTTPS wordt aangeboden."
+      },
+      "cookie_not_httponly": {
+        "title": "Een cookie is leesbaar voor JavaScript",
+        "observed": "Minstens één Set-Cookie-header miste HttpOnly.",
+        "impact": "Elk script op de pagina kan de cookie uitlezen, waardoor een scriptingfout ergens op de site — ook in een script van derden — een manier wordt om de sessie te stelen.",
+        "remediation": "Zet HttpOnly op elke cookie die JavaScript niet echt hoeft te lezen."
+      },
+      "missing_spf": {
+        "title": "Er is geen SPF-record gepubliceerd",
+        "observed": "Het domein publiceert geen SPF-record.",
+        "impact": "Ontvangende mailservers hebben geen lijst van wie namens dit domein mag verzenden, waardoor vervalste mail eerder wordt bezorgd. Dit is de goedkoopste vorm van impersonatie die een aanvaller tegen uw klanten en medewerkers kan proberen.",
+        "remediation": "Publiceer een SPF-record met elke legitieme verzenddienst, eindigend op -all."
+      },
+      "spf_allows_all": {
+        "title": "SPF autoriseert het hele internet",
+        "observed": "Het SPF-record eindigt op +all.",
+        "impact": "Dit vertelt ontvangende servers dat elke host namens dit domein mag verzenden, wat erger is dan niets publiceren: het maakt van een ontbrekend beleid een expliciete toestemming om u te imiteren.",
+        "remediation": "Vervang +all door -all en vermeld alleen uw echte verzenddiensten."
+      },
+      "spf_too_many_lookups": {
+        "title": "SPF overschrijdt de limiet voor DNS-lookups",
+        "observed": "Het record bevat meer dan tien mechanismen die elk een DNS-lookup kosten.",
+        "impact": "Boven tien lookups schrijft de specificatie voor dat ontvangers het record als permanente fout behandelen, waardoor SPF helemaal niet meer wordt geëvalueerd. Het record ziet er correct uit en levert niets op.",
+        "remediation": "Verminder het aantal include-mechanismen, of vlak ze uit, zodat u onder de tien blijft."
+      },
+      "spf_duplicate": {
+        "title": "Er is meer dan één SPF-record gepubliceerd",
+        "observed": "Het domein publiceert meerdere SPF-records.",
+        "impact": "De specificatie schrijft voor dat ontvangers dit als permanente fout behandelen, dus geen van beide records wordt toegepast en het domein is onbeschermd terwijl het geconfigureerd lijkt.",
+        "remediation": "Voeg ze samen tot één record."
+      },
+      "dmarc_policy_none": {
+        "title": "DMARC is gepubliceerd maar handhaaft niet",
+        "observed": "Het DMARC-record specificeert p=none.",
+        "impact": "Ontvangers wordt gevraagd te rapporteren over mislukkingen en de mail toch te bezorgen, dus vervalste mail met uw domein komt nog steeds aan. Monitormodus is de juiste plek om te beginnen en de verkeerde plek om te blijven.",
+        "remediation": "Bekijk uw aggregatierapportages tot legitieme verzenders slagen, ga daarna naar quarantine en vervolgens naar reject."
+      },
+      "dmarc_partial": {
+        "title": "DMARC geldt maar voor een deel van uw mail",
+        "observed": "Het record bevat een pct-waarde onder 100.",
+        "impact": "Het beleid wordt op een steekproef toegepast, dus vervalste mail wordt voor het resterende percentage gewoon bezorgd. Dit is een tussenstap die makkelijk wordt vergeten af te maken.",
+        "remediation": "Verwijder de pct-tag zodra de rapportages schoon zijn, zodat het beleid overal geldt."
+      },
+      "dmarc_no_reporting": {
+        "title": "DMARC verzamelt geen rapportages",
+        "observed": "Het record bevat geen rua-adres.",
+        "impact": "Aggregatierapportages vertellen u wie er namens uw domein verzendt en wat er zou breken als u gaat handhaven. Zonder die rapportages kiest u tussen niet handhaven en blind handhaven.",
+        "remediation": "Voeg een rua-adres toe en bekijk wat binnenkomt voordat u het beleid aanscherpt."
+      },
+      "missing_mta_sts": {
+        "title": "Er is geen MTA-STS-beleid gepubliceerd",
+        "observed": "Het domein ontvangt mail maar publiceert geen MTA-STS-record.",
+        "impact": "Mailbezorging tussen servers valt terug op platte tekst wanneer TLS niet beschikbaar is, en een aanvaller in het netwerkpad kan die terugval afdwingen. MTA-STS is wat verzendende servers vertelt te weigeren in plaats van te downgraden.",
+        "remediation": "Publiceer een MTA-STS-beleid en serveer het bijbehorende beleidsbestand, te beginnen in testmodus."
+      },
+      "missing_dnssec": {
+        "title": "De zone is niet ondertekend met DNSSEC",
+        "observed": "Een validerende resolver meldde het antwoord als niet-geauthenticeerd.",
+        "impact": "DNS-antwoorden voor dit domein zijn niet als echt te verifiëren, dus een resolver die vergiftigd of onderschept wordt kan uw naam naar de server van iemand anders wijzen zonder dat iets dat tegenspreekt.",
+        "remediation": "Schakel DNSSEC in bij uw DNS-provider en publiceer het DS-record bij uw registrar."
+      },
+      "dangling_cname": {
+        "title": "Een DNS-record wijst naar een dienst die niet meer bestaat",
+        "observed": "Een hostnaam is als alias gekoppeld aan een extern platform waarvan het doel niet resolvet.",
+        "impact": "Op deze platforms kan de naam vaak worden geclaimd door wie hem als volgende registreert, waarmee een onbekende een hostnaam onder uw domein in handen krijgt: geldige certificaten, cookies die eraan gekoppeld zijn, en uw naam boven hun inhoud.",
+        "remediation": "Verwijder het record of neem de dienst waar het naar wijst weer in gebruik. Behandel dit als urgent."
+      },
+      "exposed_git": {
+        "title": "Een .git-map is mogelijk leesbaar",
+        "observed": "Een verzoek naar /.git/HEAD gaf een respons met de vorm van een Git-referentiebestand.",
+        "impact": "Een blootgestelde repository levert doorgaans de volledige broncodegeschiedenis op, en daarmee inloggegevens, interne hostnamen en de logica van de applicatie. Die reconstrueren uit een publieke .git-map is een routineuze, geautomatiseerde stap.",
+        "remediation": "Controleer of het pad bereikbaar is, blokkeer het daarna op de webserver en roteer alles wat de repository bevat."
+      },
+      "exposed_env": {
+        "title": "Een environment-bestand is mogelijk leesbaar",
+        "observed": "Een verzoek naar /.env gaf een respons met de vorm van een environment-bestand.",
+        "impact": "Dit soort bestanden bevat doorgaans databasewachtwoorden, API-sleutels en ondertekeningsgeheimen. Als het werkelijk leesbaar is, beschouw dan elke inloggegeven erin als openbaar.",
+        "remediation": "Verifieer het pad, haal het bestand uit de webroot en roteer elk geheim dat erin staat."
+      },
+      "exposed_server_status": {
+        "title": "Een serverstatuspagina is mogelijk leesbaar",
+        "observed": "Een verzoek naar /server-status gaf een respons die lijkt op een Apache-statuspagina.",
+        "impact": "De pagina toont lopende verzoeken, client-adressen en interne paden, en brengt daarmee de applicatie en het verkeer in kaart voor iedereen die erom vraagt.",
+        "remediation": "Beperk de handler tot localhost of verwijder hem."
+      },
+      "large_subdomain_surface": {
+        "title": "Er zijn veel hostnamen publiek gecertificeerd",
+        "observed": "Certificate Transparency-logs vermelden veel hostnamen onder dit domein.",
+        "impact": "Dit is informatie en geen fout. Een breed oppervlak is normaal voor een grote organisatie, maar elke naam moet onderhouden worden, en juist de namen die niemand zich herinnert zijn waar vergeten software blijft draaien.",
+        "remediation": "Vergelijk de lijst met wat u verwacht dat er draait en neem alles uit gebruik dat niet meer bereikbaar hoort te zijn."
+      },
+      "powered_by_disclosed": {
+        "title": "Het applicatieframework wordt kenbaar gemaakt",
+        "observed": "Responses bevatten een X-Powered-By-header.",
+        "impact": "Dit verkleint het zoekwerk van een aanvaller voordat die u opnieuw benadert. Het maakt de site niet kwetsbaar, en we hebben niet getest of dat zo is.",
+        "remediation": "Verwijder de header. Zie dit als opruimen en niet als oplossing."
+      },
+      "lookalike_domains_registered": {
+        "title": "Er zijn domeinen geregistreerd die op de uwe lijken",
+        "observed": "Veelvoorkomende typefouten en alternatieve extensies van uw domein resolven, wat betekent dat iemand ze heeft geregistreerd.",
+        "impact": "Lijkende domeinen zijn de voorbereiding voor phishing gericht op uw klanten en medewerkers, en voor factuurfraude in uw naam. Veel ervan worden defensief door het merk zelf geregistreerd, dus dit vraagt eerst om een blik en pas daarna om actie.",
+        "remediation": "Vergelijk de lijst met uw eigen registraties. Registreer de dichtstbijzijnde die u nog niet heeft en overweeg de rest te monitoren."
+      },
+      "lookalike_domain_with_mail": {
+        "title": "Een lijkend domein is ingericht om mail te versturen en ontvangen",
+        "observed": "Minstens één domein dat op de uwe lijkt publiceert mailserver-records.",
+        "impact": "Een geparkeerd lijkend domein is een plaatshouder. Eén die is ingericht voor mail is ingericht om op te antwoorden, en dat is de vorm van factuurfraude en imitatie van medewerkers. Dit is de variant die actie verdient.",
+        "remediation": "Bevestig dat het niet van u is. Zo niet, meld het bij de registrar en de hostingprovider en waarschuw de financiële administratie en de receptie dat mail hiervandaan niet van u komt."
+      }
+    },
+    "scoreBands": {
+      "strong": {
+        "name": "Sterk",
+        "title": "Uw publieke buitenkant ziet er goed onderhouden uit",
+        "body": "We vonden weinig te corrigeren op de delen van uw site die bereikbaar zijn zonder in te loggen. Dat zegt iets goeds over hoe de buitenkant wordt bijgehouden."
+      },
+      "fair": {
+        "name": "Redelijk",
+        "title": "Wat achterstallig onderhoud",
+        "body": "We vonden configuratiehiaten die het sluiten waard zijn. Geen ervan geeft een aanvaller op zichzelf toegang, maar samen maken ze andere aanvallen goedkoper."
+      },
+      "weak": {
+        "name": "Zwak",
+        "title": "Bevindingen om actie op te ondernemen",
+        "body": "We bevestigden bevindingen die uw publieke positie merkbaar verzwakken. Dit zijn de hiaten die als opstapje worden gebruikt, en de meeste zijn snel te verhelpen zodra ze bekend zijn."
+      },
+      "poor": {
+        "name": "Slecht",
+        "title": "Onderneem actie op deze bevindingen",
+        "body": "We bevestigden meerdere serieuze problemen aan uw publieke buitenkant. We raden aan deze op korte termijn aan te pakken en ook de afgeschermde delen van de applicatie te laten testen."
+      }
+    },
+    "stackCategories": {
+      "server": "Webserver",
+      "cdn": "Levering en edge",
+      "platform": "Platform",
+      "language": "Taal en runtime",
+      "framework": "Framework",
+      "ui": "Interfacebibliotheken",
+      "analytics": "Meting"
+    }
   }
 }
