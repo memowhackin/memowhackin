@@ -189,6 +189,26 @@
   }
 
   /*
+   * The scanner's waiting state, used by the exposure map's placeholder.
+   *
+   * A slow breath between two close opacities rather than a pulse between
+   * present and absent. A skeleton that blinks hard reads as a heartbeat and
+   * draws the eye to a region where nothing is happening; this one only says
+   * "not yet". Long and eased on both ends so it never catches the eye twice.
+   */
+  --animate-scan-settle: scan-settle 2.8s ease-in-out infinite;
+
+  @keyframes scan-settle {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+
+  /*
    * One mark of the drawn lattice band (see `LatticeBand`): each mark rests as
    * a faint outline of the ground and breathes up towards the brand lavender
    * partway through its own cycle. Every mark carries its own duration and a

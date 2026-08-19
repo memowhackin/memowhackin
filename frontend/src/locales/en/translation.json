@@ -137,6 +137,18 @@
       "description": "The latest on pentesting, hacking, security research and compliance from the AssistSec team.",
       "heading": "Blog",
       "body": "The latest on pentesting, hacking, security research and compliance."
+    },
+    "securityScan": {
+      "title": "Free digital exposure check | AssistSec",
+      "description": "Check what your website or email address reveals publicly. A clear, honest overview of visible security exposure, with no login required."
+    },
+    "securityScanResult": {
+      "title": "Your exposure assessment | AssistSec",
+      "description": "The results of your AssistSec digital exposure check."
+    },
+    "securityScanReport": {
+      "title": "Your private report | AssistSec",
+      "description": "Your personal AssistSec digital exposure report."
     }
   },
   "servicePages": {
@@ -570,5 +582,595 @@
     "retry": "Try again",
     "notFound": "This page does not exist.",
     "backHome": "Back to home"
+  },
+  "scanner": {
+    "eyebrow": "Free digital exposure check",
+    "heading": "See what the internet reveals",
+    "intro": "Enter a website or email address and receive a clear overview of publicly visible security exposure.",
+    "modeLabel": "What would you like to check",
+    "submitting": "Working…",
+    "unavailable": "The scanner is not accepting requests at the moment. Please try again later or contact us directly.",
+    "marketingConsent": "Also send me occasional security research and product updates from AssistSec. Optional, and separate from this report.",
+    "tabs": {
+      "website": "Website",
+      "email": "Email address"
+    },
+    "fields": {
+      "website": {
+        "label": "Website domain",
+        "placeholder": "example.com",
+        "action": "Start website scan"
+      },
+      "email": {
+        "label": "Email address",
+        "placeholder": "name@company.com",
+        "action": "Create private report"
+      }
+    },
+    "privacy": {
+      "website": "We look only at information that is already public. No login is attempted and nothing is changed on the site.",
+      "email": "Personal exposure results are sent only to the email address entered."
+    },
+    "mailed": {
+      "title": "Check your inbox",
+      "body": "If we can produce a report for that address, a single-use link is on its way to it. The link opens the report and then stops working.",
+      "note": "We answer the same way for every address, so this page never reveals whether an address appears in a breach."
+    },
+    "errors": {
+      "empty": "Enter a value to continue.",
+      "invalid_domain": "That does not look like a website domain.",
+      "invalid_email": "That does not look like an email address.",
+      "ip_not_allowed": "Enter a domain name rather than an IP address.",
+      "public_suffix_only": "Enter a full domain, such as example.com.",
+      "unsupported_scheme": "Only http and https addresses are supported.",
+      "too_long": "That value is too long.",
+      "unavailable": "The scanner is unavailable right now. Please try again later.",
+      "rate_limited": "Too many scans from this connection. Please wait a few minutes and try again.",
+      "invalid_subject": "Check the value and try again.",
+      "expired": "This report has expired and is no longer available.",
+      "not_found": "We could not find that report.",
+      "network": "We could not reach the scanner. Check your connection and retry.",
+      "network_retrying": "Connection interrupted. The scan is still running and we are reconnecting.",
+      "missing_token": "This link is incomplete. Open the link from your email again.",
+      "report_unavailable": "This link has already been used or has expired. Request a new report to continue."
+    },
+    "progress": {
+      "title": "Running your scan",
+      "queued": "Queued. Your scan will begin shortly.",
+      "working": "Working",
+      "announce": "Step {{step}} of {{total}}. {{stage}}.",
+      "queuedHint": "This usually takes under a minute.",
+      "step": "Step {{step}} of {{total}}"
+    },
+    "stages": {
+      "website": {
+        "discovering": "Mapping public exposure",
+        "analyzing": "Reviewing website controls",
+        "correlating": "Correlating known risks",
+        "generating_report": "Preparing your assessment"
+      },
+      "email": {
+        "discovering": "Checking exposure sources",
+        "analyzing": "Correlating exposed data types",
+        "correlating": "Building the private relationship map",
+        "generating_report": "Preparing your report"
+      }
+    },
+    "bands": {
+      "low": {
+        "title": "Nothing notable on the public surface",
+        "body": "This scan found no confirmed issues on the parts of your site that are visible without logging in. That is a good sign, and it is not the same as being secure: most serious findings live behind authentication, where automated checks cannot reach."
+      },
+      "moderate": {
+        "title": "Some housekeeping to do",
+        "body": "We found configuration gaps that are worth closing. None of them hands an attacker access on their own, but together they make other attacks easier and cheaper."
+      },
+      "elevated": {
+        "title": "Issues worth acting on",
+        "body": "We confirmed findings that meaningfully weaken your public position. These are the kind of gaps that get used as a stepping stone, and they are usually quick to fix once identified."
+      },
+      "high": {
+        "title": "Act on these findings",
+        "body": "We confirmed several significant issues on your public surface. We would recommend addressing them soon and testing the authenticated parts of the application as well."
+      }
+    },
+    "emailBands": {
+      "low": {
+        "title": "No exposure found in the sources we check",
+        "body": "This address did not appear in the breach sources available to us. That is not proof it has never been exposed, only that we found nothing."
+      },
+      "moderate": {
+        "title": "This address appears in known breaches",
+        "body_one": "We found this address in {{count}} known source. No password exposure was recorded.",
+        "body_other": "We found this address in {{count}} known sources. No password exposure was recorded."
+      },
+      "elevated": {
+        "title": "Password exposure recorded",
+        "body_one": "We found this address in {{count}} known source, including at least one where a password was exposed.",
+        "body_other": "We found this address in {{count}} known sources, including at least one where a password was exposed."
+      },
+      "high": {
+        "title": "Act on this now",
+        "body_one": "We found this address in {{count}} known source with serious exposure, such as repeated password compromise or malware-harvested credentials.",
+        "body_other": "We found this address in {{count}} known sources with serious exposure, such as repeated password compromise or malware-harvested credentials."
+      }
+    },
+    "report": {
+      "eyebrow": "Exposure assessment",
+      "title": "Your website scan",
+      "privateEyebrow": "Private report",
+      "privateTitle": "Your personal exposure report",
+      "privateNote": "This report was unlocked with a single-use link and is visible only in this session. It is not indexed and cannot be reopened from your history.",
+      "back": "Back to the scanner",
+      "tryAgain": "Run another scan",
+      "requestAnother": "Request a new report",
+      "opening": "Opening your report…",
+      "unavailableTitle": "This report cannot be opened",
+      "emptyBody": "We could not find issues on the parts of your site reachable without logging in. This is not a clean bill of health: an automated pass cannot reach authorization, business logic or anything behind a login, and those are where the findings that matter usually are.",
+      "emailEmptyTitle": "No exposure found",
+      "emailEmptyBody": "This address did not appear in any of the breach sources available to us. New breaches surface regularly, so this reflects what is known today rather than a permanent answer.",
+      "summaryLine_one": "{{findings}} finding across {{areas}} areas.",
+      "summaryLine_other": "{{findings}} findings across {{areas}} areas.",
+      "findingsTitle": "Findings",
+      "findingsHint": "Most serious first. Select one to read the reasoning.",
+      "lookalikesTitle": "Domains registered to resemble yours",
+      "lookalikesBody_one": "We generated the misspellings and alternative suffixes an attacker would try, and {{count}} of them is registered. Some will be your own defensive registrations.",
+      "lookalikesBody_other": "We generated the misspellings and alternative suffixes an attacker would try, and {{count}} of them are registered. Some will be your own defensive registrations.",
+      "lookalikesMail_one": "{{count}} of these can send and receive mail, which is the shape of invoice fraud rather than a parked name. Confirm it is yours.",
+      "lookalikesMail_other": "{{count}} of these can send and receive mail, which is the shape of invoice fraud rather than parked names. Confirm they are yours.",
+      "lookalikesOther_one": "{{count}} other registered name",
+      "lookalikesOther_other": "{{count}} other registered names",
+      "hostsTitle": "Hosts visible in public certificate logs",
+      "hostsBody_one": "{{count}} hostname under this domain has a publicly logged certificate. Anything here you no longer recognise is worth checking.",
+      "hostsBody_other": "{{count}} hostnames under this domain have publicly logged certificates. Anything here you no longer recognise is worth checking.",
+      "summaryHosts_one": "{{count}} public host seen for this domain.",
+      "summaryHosts_other": "{{count}} public hosts seen for this domain.",
+      "scoreLabel": "Public surface score {{score}} out of 100, rated {{band}}",
+      "scoreOutOf": "out of 100",
+      "scoreScope": "This scores what is visible from outside without logging in: transport, response headers, email authentication, DNS and exposed surface. It is not a score for your security overall, because an automated pass cannot reach authorization or business logic.",
+      "stackTitle": "What the site is built on",
+      "stackBody": "Read from the headers and markup the site serves to every visitor. A version appears only where the site stated one.",
+      "versionUnknown": "N/A"
+    },
+    "confidence": {
+      "confirmed": {
+        "label": "Confirmed.",
+        "body": "We observed this directly in the response.",
+        "short": "Confirmed"
+      },
+      "high": {
+        "label": "High confidence.",
+        "body": "Strong indirect evidence. The specific detail may vary.",
+        "short": "High confidence"
+      },
+      "possible": {
+        "label": "Unverified.",
+        "body": "This may be a false positive. A person should confirm it before you act on it, and we have not treated it as a finding when calculating your risk band.",
+        "short": "Unverified"
+      }
+    },
+    "severity": {
+      "info": "Informational",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "categories": {
+      "transport": "Transport security",
+      "headers": "Response headers",
+      "email_authentication": "Email authentication",
+      "exposed_surface": "Exposed surface",
+      "software_disclosure": "Software disclosure",
+      "dns": "DNS configuration"
+    },
+    "dataTypes": {
+      "email": "Email address",
+      "password": "Password",
+      "phone": "Phone number",
+      "name": "Name",
+      "address": "Postal address",
+      "ip": "Network address",
+      "dob": "Date of birth",
+      "financial": "Financial data",
+      "government_id": "Government identifier"
+    },
+    "limits": {
+      "known_sources_only": "This report covers breach sources available to us today. Absence of a record is not proof an address was never exposed, and new breaches are published regularly.",
+      "dnssec_undetermined": "We could not reach a validating resolver, so DNSSEC status is unknown for this scan.",
+      "no_ct_records": "No certificates for this domain appeared in Certificate Transparency logs, so no subdomains were discovered this way."
+    },
+    "failure": {
+      "failed": {
+        "title": "The scan could not be completed",
+        "body": "Something went wrong before we finished. This does not mean nothing was found, only that we could not look properly."
+      },
+      "rate_limited": {
+        "title": "Too many requests",
+        "body": "This connection has started several scans recently. Please wait a few minutes before trying again."
+      },
+      "expired": {
+        "title": "This report has expired",
+        "body": "Reports are deleted after a short retention period. Run a new scan to get a current view."
+      }
+    },
+    "failureCodes": {
+      "provider_unavailable": "Our data source did not answer. This is a problem on our side, not with your domain.",
+      "provider_timeout": "The scan took longer than allowed and was stopped. Please try again.",
+      "target_blocked": "That domain resolves to an address we do not scan, such as a private or internal network.",
+      "target_unresolvable": "That domain did not resolve. Check the spelling and whether it is publicly reachable.",
+      "internal": "Something went wrong on our side. Please try again."
+    },
+    "actions": {
+      "passwords": "Change the password on any account that used this address, starting with the sources listed above. Do not reuse a password across services.",
+      "mfa": "Turn on multi-factor authentication wherever it is offered. It is the single most effective step against an exposed password.",
+      "monitor": "Treat unexpected password reset emails as a warning sign rather than noise, and report them."
+    },
+    "graph": {
+      "title": "Digital footprint relationship map",
+      "intro": "How the exposure connects. Select any point to see where the observation came from, how confident we are, and what to do about it.",
+      "loading": "Loading the map…",
+      "subject": "Your address",
+      "passwordIndicator": "Password exposure detected",
+      "phoneIndicator": "Phone indicator ending in {{suffix}}",
+      "networkIndicator": "Network activity associated with {{country}}",
+      "stealerAction": "This source is malware-harvested credential data. Treat every account used on the affected device as compromised and change those passwords from a clean device.",
+      "passwordAction": "Change this password everywhere it was used and enable multi-factor authentication.",
+      "provenance": "Source",
+      "provenanceReport": "The address you submitted",
+      "provenanceSource": "Observed in the {{name}} record",
+      "observed": "Observed",
+      "confidence": "Confidence",
+      "sensitivity": "Sensitivity",
+      "sensitivityLevels": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      },
+      "relations": {
+        "appearsIn": "appears in",
+        "exposed": "exposed",
+        "indicates": "indicates",
+        "recommends": "recommends"
+      },
+      "kinds": {
+        "subject": "Subject",
+        "source": "Breached service",
+        "data_category": "Exposed data category",
+        "password_indicator": "Password exposure",
+        "phone_indicator": "Phone indicator",
+        "network_indicator": "Network indicator",
+        "stealer_log": "Malware log exposure",
+        "action": "Recommended action"
+      },
+      "explain": {
+        "subject": "The address this report was produced for. It is not displayed here, and it was not included in the email that brought you to this page.",
+        "source": "A service whose breached data includes this address. The name is as published by the source.",
+        "stealer": "Credential data harvested by malware from an infected device. This is more serious than a service breach, because it usually captures many accounts at once.",
+        "password": "A password associated with this address was exposed in this source. We never store, display or handle the password itself in any form.",
+        "phone": "A phone number appeared in this record. Only the final two digits are shown, so you can recognise it without the number being reproduced here.",
+        "network": "Network activity in this record was associated with this country. No exact address or location is stored or shown.",
+        "category": "A category of personal data that appeared in this record alongside your address."
+      },
+      "website": {
+        "title": "Where the work is",
+        "intro": "Your findings grouped by the area they belong to. Select any point to see what it means and what to do about it.",
+        "subject": "Your website",
+        "subjectExplanation": "The domain this report was produced for. Everything below was observed from outside, without logging in.",
+        "provenanceScan": "This scan",
+        "categoryFallback": "A group of related findings from this scan.",
+        "categoryExplanation": {
+          "transport": "How the connection between a visitor and your site is protected, including certificates and whether HTTPS is enforced.",
+          "headers": "Instructions your server sends with every response that tell the browser what to allow. Most are one-line changes in one place.",
+          "email_authentication": "Whether someone else can send mail that appears to come from your domain. Usually the highest-value area on this page.",
+          "dns": "How your domain name is published and whether those answers can be trusted.",
+          "exposed_surface": "Things reachable from outside that probably should not be, and names registered to be mistaken for yours.",
+          "software_disclosure": "What your responses reveal about the software behind them. Informational rather than a fault."
+        },
+        "relations": {
+          "covers": "covers",
+          "found": "found"
+        },
+        "kinds": {
+          "subject": "Scanned site",
+          "category": "Finding area",
+          "finding": "Finding",
+          "host": "Host",
+          "lookalike": "Lookalike domain"
+        },
+        "hostsExplanation": "Hostnames under this domain that appear in public certificate transparency logs.",
+        "hostExplanation": "A hostname with a publicly logged certificate. If you no longer recognise it, find out what is still running there.",
+        "lookalikesExplanation": "Domains registered by someone to resemble yours. Some will be your own defensive registrations.",
+        "lookalikeParked": "Registered and resolving, but not configured to handle mail.",
+        "lookalikeMail": "Registered and able to send and receive mail, which is the shape of invoice fraud rather than a parked name.",
+        "lookalikeAction": "Confirm this is yours. If it is not, report it to the registrar and warn finance and reception."
+      },
+      "hint": "Use the arrow keys to move through the map."
+    },
+    "cta": {
+      "website": {
+        "title": "Automated testing identified the publicly visible surface. Authorization, business logic and authenticated functionality require manual testing.",
+        "body": "A targeted penetration test picks up where this stops: our testers work with credentials, follow the logic of your application, and chain findings the way an attacker would.",
+        "action": "Discuss a targeted penetration test"
+      },
+      "email": {
+        "title": "This report assessed one identity. AssistSec can assess exposure across your organization and help prioritize remediation.",
+        "body": "One address is a sample. Mapping exposure across your team shows which accounts carry real risk and which are noise, so remediation goes where it counts.",
+        "primary": "Review with a security specialist",
+        "secondary": "Check organizational exposure"
+      }
+    },
+    "findings": {
+      "fallback": {
+        "title": "Observation",
+        "observed": "We recorded an observation about your public configuration.",
+        "impact": "Review this alongside the rest of your findings.",
+        "remediation": "Confirm the current setting and correct it if needed."
+      },
+      "missing_hsts": {
+        "title": "Strict-Transport-Security is not set",
+        "observed": "Responses over HTTPS do not include a Strict-Transport-Security header.",
+        "impact": "Without it, a visitor's first request can be downgraded to plain HTTP by an attacker on the same network, and the session can be read or modified before the redirect to HTTPS happens.",
+        "remediation": "Send Strict-Transport-Security on HTTPS responses with a max-age of at least six months, once you are confident every subdomain serves HTTPS correctly."
+      },
+      "missing_csp": {
+        "title": "No Content-Security-Policy",
+        "observed": "Responses do not include a Content-Security-Policy header.",
+        "impact": "A content policy is the control that limits the damage of a cross-site scripting flaw. Without one, any injected script runs with the full privileges of your page.",
+        "remediation": "Introduce a policy in report-only mode first, review what it would have blocked, then enforce it."
+      },
+      "weak_spf": {
+        "title": "SPF does not instruct receivers to reject",
+        "observed": "The domain publishes an SPF record that ends in a soft-fail rather than a hard-fail.",
+        "impact": "Receiving mail servers are told that unlisted senders are suspicious but should be accepted anyway, which leaves room to send mail that appears to come from your domain.",
+        "remediation": "Confirm every legitimate sending service is listed, then move the record to a hard fail."
+      },
+      "missing_dmarc": {
+        "title": "No DMARC policy published",
+        "observed": "No DMARC record was found for the domain.",
+        "impact": "DMARC is what tells receiving servers what to do with mail that fails authentication, and what gives you reports on who is sending as you. Without it, spoofed mail using your domain is likely to be delivered.",
+        "remediation": "Publish a DMARC record in monitoring mode, review the reports for a few weeks, then move to quarantine and finally reject."
+      },
+      "server_version_disclosed": {
+        "title": "Server software and version are advertised",
+        "observed": "A response header names the server product and a version number.",
+        "impact": "This does not make the server vulnerable, and we have not tested whether it is. It does let an attacker match your version against public vulnerability lists without touching you again, which shortens their work.",
+        "remediation": "Suppress the version from response headers. Treat this as tidying rather than a fix, and patch on its own schedule."
+      },
+      "directory_listing": {
+        "title": "A path may expose a directory listing",
+        "observed": "A request returned a response with the shape of an automatic directory index.",
+        "impact": "Directory listings can reveal files that were never meant to be linked, such as backups or configuration. This signal is easy to trigger falsely, so treat it as a lead rather than a finding.",
+        "remediation": "Confirm whether the path really lists files. If it does, disable automatic indexing and check what was reachable."
+      },
+      "missing_caa": {
+        "title": "No CAA record restricts certificate issuance",
+        "observed": "The domain publishes no CAA record.",
+        "impact": "A CAA record names which certificate authorities may issue for your domain. Without one, any public authority may, which widens the blast radius of a mis-issuance.",
+        "remediation": "Publish a CAA record listing the authorities you actually use."
+      },
+      "no_https": {
+        "title": "The site is not reachable over HTTPS",
+        "observed": "A request to https failed to complete, while the domain resolves and answers on plain http.",
+        "impact": "Everything a visitor sends, including any login, travels in the clear and can be read or altered by anyone on the network path. Browsers also mark the site as not secure, which most visitors now act on.",
+        "remediation": "Obtain a certificate and serve the site over HTTPS. Certificates are free through Let's Encrypt and can be renewed automatically."
+      },
+      "no_https_redirect": {
+        "title": "Plain HTTP is served instead of redirecting",
+        "observed": "A request to the http address returned the site rather than redirecting to https.",
+        "impact": "A visitor who types the address, follows an old link, or is steered there by an attacker stays on an unencrypted connection for the whole session. Having HTTPS available does not help if HTTP still works.",
+        "remediation": "Return a permanent redirect from every http URL to its https equivalent, then add Strict-Transport-Security so browsers stop trying http at all."
+      },
+      "tls_cert_expired": {
+        "title": "The TLS certificate has expired",
+        "observed": "The certificate presented on port 443 is past its expiry date.",
+        "impact": "Browsers show a full-page warning that most visitors will not click through, so the site is effectively down for them. Those who do click through have been taught to ignore exactly the warning that matters.",
+        "remediation": "Renew the certificate now, and automate renewal so this cannot recur."
+      },
+      "tls_cert_expiring": {
+        "title": "The TLS certificate expires soon",
+        "observed": "The certificate presented on port 443 expires within two weeks.",
+        "impact": "When it lapses the site becomes unreachable for ordinary visitors, and expiries tend to land at inconvenient hours.",
+        "remediation": "Renew now rather than at the deadline, and check that automated renewal is actually running."
+      },
+      "tls_hostname_mismatch": {
+        "title": "The certificate does not cover this hostname",
+        "observed": "The certificate presented does not list the hostname that was requested.",
+        "impact": "Browsers refuse the connection with a warning. Where visitors are used to clicking through it, a genuine interception attempt looks identical to the everyday error.",
+        "remediation": "Reissue the certificate with the correct names, including every hostname the site is reached by."
+      },
+      "tls_chain_untrusted": {
+        "title": "The certificate chain does not validate",
+        "observed": "The chain presented did not verify against the public trust store, though the hostname matches.",
+        "impact": "This is usually an incomplete chain: it works in the browser that cached the intermediate and fails in the one that did not, and in most API clients. The failures are intermittent and hard to attribute.",
+        "remediation": "Serve the full chain, including intermediates, from every server and load balancer that terminates TLS."
+      },
+      "tls_legacy_protocol": {
+        "title": "Deprecated TLS versions are still accepted",
+        "observed": "The server completed a handshake when offered only TLS 1.1 or older.",
+        "impact": "These versions have known weaknesses and are no longer accepted by current browsers. Keeping them on serves nobody except an attacker attempting a downgrade, and it fails most compliance baselines.",
+        "remediation": "Accept TLS 1.2 and above only."
+      },
+      "hsts_short_max_age": {
+        "title": "Strict-Transport-Security expires too quickly",
+        "observed": "The HSTS header is present with a max-age below six months.",
+        "impact": "The protection lapses for any visitor who has not returned within the window, leaving their next first request downgradeable. A short max-age also fails preload requirements.",
+        "remediation": "Raise max-age to at least six months once you are confident every subdomain serves HTTPS correctly."
+      },
+      "permissive_csp": {
+        "title": "The Content-Security-Policy permits inline script",
+        "observed": "The policy allows 'unsafe-inline' or a wildcard in its script directive.",
+        "impact": "A content policy exists to stop injected script from running. Allowing inline script permits precisely that, so the header is present without doing the job it is there for.",
+        "remediation": "Move inline script into files, then remove 'unsafe-inline'. Where inline script is unavoidable, use a per-response nonce."
+      },
+      "missing_xcto": {
+        "title": "X-Content-Type-Options is not set",
+        "observed": "Responses do not include the nosniff directive.",
+        "impact": "Browsers may guess the type of a response instead of believing the declared one, so an uploaded file can be interpreted as script. This turns a file upload into a scripting vulnerability.",
+        "remediation": "Send X-Content-Type-Options: nosniff on every response."
+      },
+      "missing_frame_protection": {
+        "title": "The site can be framed by other origins",
+        "observed": "Neither X-Frame-Options nor a CSP frame-ancestors directive was present.",
+        "impact": "Another site can load yours in an invisible frame over its own controls, so a visitor clicking what looks like one thing acts on yours instead. That is enough to trigger state-changing actions.",
+        "remediation": "Add frame-ancestors to your CSP, naming the origins allowed to frame the site, or 'none' if none are."
+      },
+      "missing_referrer_policy": {
+        "title": "No Referrer-Policy is set",
+        "observed": "Responses do not include a Referrer-Policy header.",
+        "impact": "Full URLs leak to every third party the page loads a resource from. Where a URL contains a token, an identifier or a search term, that is handed out with each request.",
+        "remediation": "Send Referrer-Policy: strict-origin-when-cross-origin, or something tighter."
+      },
+      "permissive_cors": {
+        "title": "Cross-origin requests are allowed from anywhere",
+        "observed": "The response carries Access-Control-Allow-Origin: *.",
+        "impact": "Any website can read responses from this origin. That is harmless for genuinely public data and serious for anything that varies by user.",
+        "remediation": "Name the origins that need access instead of using a wildcard, and confirm no authenticated response is served this way."
+      },
+      "cookie_not_secure": {
+        "title": "A cookie is set without the Secure flag",
+        "observed": "At least one Set-Cookie header omitted Secure.",
+        "impact": "The cookie is sent over plain http as well as https, so a single unencrypted request is enough to disclose it. For a session cookie that is account takeover.",
+        "remediation": "Add Secure to every cookie. There is no case for omitting it on a site served over HTTPS."
+      },
+      "cookie_not_httponly": {
+        "title": "A cookie is readable by JavaScript",
+        "observed": "At least one Set-Cookie header omitted HttpOnly.",
+        "impact": "Any script running on the page can read the cookie, so a scripting flaw anywhere on the site, including in a third-party tag, becomes a way to steal the session.",
+        "remediation": "Add HttpOnly to any cookie that JavaScript does not genuinely need to read."
+      },
+      "missing_spf": {
+        "title": "No SPF record is published",
+        "observed": "The domain publishes no SPF record.",
+        "impact": "Receiving mail servers have no list of who may send as this domain, so mail forged from it is more likely to be delivered. This is the cheapest impersonation an attacker can attempt against your customers and staff.",
+        "remediation": "Publish an SPF record listing every legitimate sending service, ending in -all."
+      },
+      "spf_allows_all": {
+        "title": "SPF authorises the entire internet",
+        "observed": "The SPF record ends in +all.",
+        "impact": "This tells receiving servers that any host may send as this domain, which is worse than publishing nothing: it converts a missing policy into an explicit permission to impersonate you.",
+        "remediation": "Replace +all with -all and list only your real sending services."
+      },
+      "spf_too_many_lookups": {
+        "title": "SPF exceeds its DNS lookup limit",
+        "observed": "The record contains more than ten mechanisms that each cost a DNS lookup.",
+        "impact": "Past ten lookups the specification requires receivers to treat the record as a permanent error, so SPF stops being evaluated at all. The record looks correct while providing nothing.",
+        "remediation": "Reduce the number of include mechanisms, or flatten them, to stay within ten."
+      },
+      "spf_duplicate": {
+        "title": "More than one SPF record is published",
+        "observed": "The domain publishes multiple SPF records.",
+        "impact": "The specification requires receivers to treat this as a permanent error, so neither record is applied and the domain is unprotected despite appearing configured.",
+        "remediation": "Merge them into a single record."
+      },
+      "dmarc_policy_none": {
+        "title": "DMARC is published but not enforcing",
+        "observed": "The DMARC record specifies p=none.",
+        "impact": "Receivers are asked to report on failures and to deliver the mail anyway, so forged mail using this domain still arrives. Monitoring mode is the right place to start and the wrong place to stay.",
+        "remediation": "Review your aggregate reports until legitimate senders pass, then move to quarantine and then reject."
+      },
+      "dmarc_partial": {
+        "title": "DMARC applies to only part of your mail",
+        "observed": "The record sets a pct value below 100.",
+        "impact": "The policy is applied to a sample, so forged mail continues to be delivered at the remaining percentage. This is a staging step that is easy to forget to finish.",
+        "remediation": "Once reports look clean, remove the pct tag so the policy applies to everything."
+      },
+      "dmarc_no_reporting": {
+        "title": "DMARC collects no reports",
+        "observed": "The record has no rua address.",
+        "impact": "Aggregate reports are what tell you who is sending as your domain and what would break if you enforced. Without them you are choosing between staying unenforced and enforcing blind.",
+        "remediation": "Add an rua address and review what arrives before tightening the policy."
+      },
+      "missing_mta_sts": {
+        "title": "No MTA-STS policy is published",
+        "observed": "The domain accepts mail but publishes no MTA-STS record.",
+        "impact": "Mail delivery between servers falls back to plain text when TLS is unavailable, and an attacker in the network path can force that fallback. MTA-STS is what tells sending servers to refuse rather than downgrade.",
+        "remediation": "Publish an MTA-STS policy and serve the corresponding policy file, starting in testing mode."
+      },
+      "missing_dnssec": {
+        "title": "The zone is not signed with DNSSEC",
+        "observed": "A validating resolver reported the answer as unauthenticated.",
+        "impact": "DNS answers for this domain cannot be verified as genuine, so a resolver that is poisoned or intercepted can point your name at someone else's server with nothing to contradict it.",
+        "remediation": "Enable DNSSEC at your DNS provider and publish the DS record at your registrar."
+      },
+      "dangling_cname": {
+        "title": "A DNS record points at a service that no longer exists",
+        "observed": "A hostname is aliased to a third-party platform whose target does not resolve.",
+        "impact": "On these platforms the name can often be claimed by whoever registers it next, which hands a stranger a hostname under your domain — valid certificates, cookies scoped to it, and your name on their content.",
+        "remediation": "Remove the record, or reclaim the service it points at. Treat this as urgent."
+      },
+      "exposed_git": {
+        "title": "A .git directory may be readable",
+        "observed": "A request for /.git/HEAD returned a response with the shape of a Git reference file.",
+        "impact": "An exposed repository usually yields the full source history, and with it credentials, internal hostnames and the logic of the application. Reconstructing it from a public .git directory is a routine, automated step.",
+        "remediation": "Confirm the path is reachable, then block it at the web server and rotate anything the repository contains."
+      },
+      "exposed_env": {
+        "title": "An environment file may be readable",
+        "observed": "A request for /.env returned a response with the shape of an environment file.",
+        "impact": "These files typically hold database passwords, API keys and signing secrets. If it is genuinely readable, treat every credential in it as public.",
+        "remediation": "Verify the path, remove the file from the web root, and rotate every secret it contains."
+      },
+      "exposed_server_status": {
+        "title": "A server status page may be readable",
+        "observed": "A request for /server-status returned a response resembling an Apache status page.",
+        "impact": "The page lists live requests, client addresses and internal paths, which maps the application and its traffic for anyone who asks.",
+        "remediation": "Restrict the handler to localhost or remove it."
+      },
+      "large_subdomain_surface": {
+        "title": "A large number of hostnames are publicly certificated",
+        "observed": "Certificate Transparency logs list many hostnames under this domain.",
+        "impact": "This is information rather than a fault. A wide surface is normal for a large organisation, but each name is something that has to be maintained, and the ones nobody remembers are where forgotten software tends to live.",
+        "remediation": "Review the list against what you expect to be running, and decommission anything that should no longer be reachable."
+      },
+      "powered_by_disclosed": {
+        "title": "The application framework is advertised",
+        "observed": "Responses include an X-Powered-By header.",
+        "impact": "This narrows an attacker's search before they touch you again. It does not make the site vulnerable, and we have not tested whether it is.",
+        "remediation": "Remove the header. Treat it as tidying rather than as a fix."
+      },
+      "lookalike_domains_registered": {
+        "title": "Domains resembling yours are registered",
+        "observed": "Common misspellings and alternative suffixes of your domain resolve, meaning someone has registered them.",
+        "impact": "Lookalike domains are the groundwork for phishing that targets your customers and staff, and for invoice fraud in your name. Many are registered defensively by the brand itself, so this needs a look before it needs action.",
+        "remediation": "Check the list against your own registrations. Register the closest few you do not already own, and consider monitoring the rest."
+      },
+      "lookalike_domain_with_mail": {
+        "title": "A lookalike domain is configured to send and receive mail",
+        "observed": "At least one domain resembling yours publishes mail exchanger records.",
+        "impact": "A parked lookalike is a placeholder. One set up for mail is set up to be replied to, which is the shape of invoice fraud and staff impersonation. This is the version of the finding worth acting on.",
+        "remediation": "Confirm it is not yours. If it is not, report it to the registrar and the hosting provider, and warn finance and reception that mail from it is not you."
+      }
+    },
+    "scoreBands": {
+      "strong": {
+        "name": "Strong",
+        "title": "Your public surface looks well kept",
+        "body": "We found little to correct on the parts of your site reachable without logging in. That is a good sign about how the outside is maintained."
+      },
+      "fair": {
+        "name": "Fair",
+        "title": "Some housekeeping to do",
+        "body": "We found configuration gaps worth closing. None of them hands an attacker access on its own, but together they make other attacks cheaper."
+      },
+      "weak": {
+        "name": "Weak",
+        "title": "Issues worth acting on",
+        "body": "We confirmed findings that meaningfully weaken your public position. These are the gaps used as a stepping stone, and most are quick to fix once identified."
+      },
+      "poor": {
+        "name": "Poor",
+        "title": "Act on these findings",
+        "body": "We confirmed several significant issues on your public surface. We would recommend addressing them soon, and testing the authenticated parts of the application as well."
+      }
+    },
+    "stackCategories": {
+      "server": "Web server",
+      "cdn": "Delivery and edge",
+      "platform": "Platform",
+      "language": "Language and runtime",
+      "framework": "Framework",
+      "ui": "Interface libraries",
+      "analytics": "Measurement"
+    }
   }
 }

@@ -39,8 +39,21 @@ const SITE_URL = "https://assistsec.nl";
 /*
  * Routes that must never be prerendered or indexed. The admin screens are
  * behind a login and an indexed admin URL is free reconnaissance.
+ *
+ * The private scan report is here for a different reason: it renders personal
+ * exposure data unlocked by a single-use link, so a prerendered snapshot of it
+ * in `dist/` — or a sitemap entry pointing at it — would be exactly the wrong
+ * artefact to publish. The scanner's own landing page is not excluded and is
+ * prerendered normally; only the report is.
+ *
+ * The result page needs no entry: it is a dynamic route (`$scanId`), and
+ * dynamic routes are skipped unless explicitly expanded, as the blog's are.
  */
-const EXCLUDED = new Set(["/studio-b78262a861", "/studio-b78262a861/login"]);
+const EXCLUDED = new Set([
+  "/studio-b78262a861",
+  "/studio-b78262a861/login",
+  "/security-scan/report",
+]);
 
 /*
  * An unrendered root, exactly: `<div id="root"></div>`.
