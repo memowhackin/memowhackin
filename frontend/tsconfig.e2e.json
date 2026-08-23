@@ -1,0 +1,36 @@
+{
+  /*
+   * The Playwright suite, which no other project covered.
+   *
+   * `npm run typecheck` walked src and the build configs and skipped e2e
+   * entirely, so nothing verified these files and an editor fell back to an
+   * inferred project with no @types/node — which is why `readdirSync` came
+   * through untyped and its callback parameters were implicitly `any`.
+   *
+   * It needs both halves: node types for the specs themselves (fs, path) and
+   * the DOM lib for the callbacks handed to `page.evaluate`, which run in the
+   * browser. The node project deliberately has no DOM, because build scripts
+   * must not reach for browser globals — hence a project of its own rather
+   * than widening that one.
+   */
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.e2e.tsbuildinfo",
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "types": ["node"],
+    "skipLibCheck": true,
+
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["e2e/**/*.ts"]
+}

@@ -23,6 +23,15 @@
  */
 @plugin "daisyui" {
   themes: assistsec --default;
+  /*
+   * DaisyUI ships its own `glass` utility — a translucent, blurred, gradient
+   * surface. We define our own `@utility glass` (a solid dark panel with the
+   * standard indigo border), and the two collide on the same `.glass` selector:
+   * DaisyUI's backdrop-filter, gradient and box-shadow leak through the
+   * properties ours does not set, which is exactly the glassy look we removed.
+   * Excluding it here leaves ours as the only `.glass`.
+   */
+  exclude: glass;
 }
 
 @plugin "daisyui/theme" {
@@ -968,4 +977,213 @@ body {
 /* In the editor, images announce that they can be dragged to reposition. */
 .blog-editor img {
   cursor: move;
+}
+
+/*
+ * The exposure map's arrival.
+ *
+ * Each mark settles into place once, staggered outward from the subject. It
+ * replaces a line of text that told the reader the map was interactive: a
+ * control that moves on arrival reads as a control, and a sentence explaining
+ * that it does is an admission the design did not.
+ *
+ * It runs once and stops. A permanent pulse on forty marks is a nervous page,
+ * and it would compete with the one thing on this figure that should move,
+ * which is the selection.
+ */
+@utility animate-node-settle {
+  animation: node-settle 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes node-settle {
+  from {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/*
+ * The plate behind a harvested image.
+ *
+ * A checkerboard, and not as decoration. These are other people's assets in
+ * unknown polarity: roughly half of all logos are dark artwork on
+ * transparency, which disappears entirely on this page's own ground, and the
+ * other half are white artwork, which disappears on a light one. A mid-tone
+ * checker is the only backing that shows both — and it carries a second fact
+ * for free, which is which assets actually have an alpha channel. It is the
+ * convention every image editor uses for exactly this reason.
+ */
+@utility image-plate {
+  background-color: #d7dae4;
+  background-image:
+    linear-gradient(45deg, #c3c7d4 25%, transparent 25% 75%, #c3c7d4 75%),
+    linear-gradient(45deg, #c3c7d4 25%, transparent 25% 75%, #c3c7d4 75%);
+  background-position:
+    0 0,
+    0.5rem 0.5rem;
+  background-size: 1rem 1rem;
+}
+
+/*
+ * The scanner feature figures, arriving row by row.
+ *
+ * One authored moment per figure: the rows enter in the order the scan
+ * produces them, which is the only motion on the page that carries meaning.
+ * It runs once, on the figure entering view, and never loops. A permanent
+ * animation beside four blocks of prose is a page that will not sit still.
+ */
+@utility animate-check-row {
+  animation: check-row 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes check-row {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*
+ * The scanner figures' motion.
+ *
+ * Each figure loops one gesture that shows what its check does: a chain
+ * assembling, a probe running a record, a sweep travelling a host list, a
+ * character being substituted. All four are behind `motion-safe`, so a reader
+ * who has asked for less motion gets the resting state and nothing moves.
+ */
+@utility animate-plate-in {
+  animation: plate-in 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes plate-in {
+  0%,
+  4% {
+    opacity: 0;
+    transform: translate(-1.25rem, 0.75rem);
+  }
+  22%,
+  88% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-1.25rem, 0.75rem);
+  }
+}
+
+@utility animate-record-fill {
+  animation: record-fill 6s cubic-bezier(0.33, 1, 0.68, 1) infinite;
+}
+
+@keyframes record-fill {
+  0%,
+  4% {
+    transform: scaleX(0);
+  }
+  30%,
+  86% {
+    transform: scaleX(1);
+  }
+  96%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+/*
+ * The verdict fades. It used to scale up from 40 percent, and a mark that
+ * springs into place reads as a flourish rather than as a result: this figure
+ * is showing a measurement returning, so the mark should simply become true.
+ */
+@utility animate-record-verdict {
+  animation: record-verdict 6s ease-out infinite;
+}
+
+@keyframes record-verdict {
+  0%,
+  27% {
+    opacity: 0;
+  }
+  38%,
+  86% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/*
+ * Hosts arriving one at a time, in the order the log yields them.
+ *
+ * This replaced a bar sweeping down the list: a travelling beam is the stock
+ * visual for "scanning" and it was doing the opposite of explaining a check
+ * that reads a public log rather than probing anything.
+ *
+ * It runs once and holds, rather than looping. A looping version has to remove
+ * the rows again to replay, and because each row carries its own delay they
+ * leave at different moments, so the list spends part of every cycle half
+ * empty. A discovered-host list that keeps blanking itself reads as broken.
+ */
+@utility animate-host-arrive {
+  animation: host-arrive 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes host-arrive {
+  from {
+    opacity: 0;
+    transform: translateX(-0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* A slot of four glyphs rolling through the substitutions. */
+@utility animate-glyph-roll {
+  animation: glyph-roll 7s linear infinite;
+}
+
+@keyframes glyph-roll {
+  0%,
+  20% {
+    transform: translateY(0);
+  }
+  25%,
+  45% {
+    transform: translateY(-25%);
+  }
+  50%,
+  70% {
+    transform: translateY(-50%);
+  }
+  75%,
+  95% {
+    transform: translateY(-75%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/*
+ * The scanner's container surface, the same one the studio and the rest of the
+ * site use: a solid dark panel with the standard indigo border. No translucent
+ * edge, no light fill, no blur — nothing glassy. `box-sizing: border-box` keeps
+ * the 1px border from shifting layout, and the element's own radius rounds it.
+ */
+@utility glass {
+  border: 1px solid var(--color-indigo-deep);
+  background-color: var(--color-ink-deep);
 }

@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { test, expect, type APIRequestContext } from "@playwright/test";
 
@@ -175,22 +175,37 @@ test("keeps the admin screens out of the prerendered output", () => {
   /*
    * Asserted on disk rather than over HTTP, deliberately.
    *
-   * A request for /studio-b78262a861 still succeeds — the static host falls back to
-   * index.html so the route works in a browser — but that fallback now serves
-   * the prerendered *home page*, so an HTTP check cannot distinguish "not
-   * prerendered" from "prerendered something else". What must be true is that
-   * no admin HTML was ever written for a crawler to find.
+   * A request for /studio-b78262a861 still succeeds — the static host falls
+   * back to index.html so the route works in a browser — but that fallback
+   * serves the prerendered *home page*, so an HTTP check cannot distinguish
+   * "not prerendered" from "prerendered something else". What must be true is
+   * that no admin HTML was ever written for a crawler to find.
+   *
+   * The routes are read from the source tree rather than listed here. A
+   * hand-written list is the bug this guards against: `leads` was added to the
+   * admin directory, nobody updated the prerender's exclusions, and the page
+   * shipped into the sitemap. Anything added to that directory from now on is
+   * covered the moment it exists.
    */
-  for (const route of [
-    "studio-b78262a861",
-    "studio-b78262a861/login",
-    "nl/studio-b78262a861",
-    "nl/studio-b78262a861/login",
-  ]) {
-    expect(
-      existsSync(path.join("dist", route, "index.html")),
-      `${route} must not be prerendered`,
-    ).toBe(false);
+  const adminDir = path.resolve("src/routes/studio-b78262a861");
+  const pages = readdirSync(adminDir)
+    .filter((name) => name.endsWith(".tsx"))
+    .map((name) => name.replace(/\.tsx$/, ""))
+    .map((name) => (name === "index" ? "" : name));
+
+  expect(
+    pages.length,
+    "no admin routes found — has the path moved?",
+  ).toBeGreaterThan(0);
+
+  for (const locale of ["", "nl/"]) {
+    for (const page of pages) {
+      const route = `${locale}studio-b78262a861${page === "" ? "" : `/${page}`}`;
+      expect(
+        existsSync(path.join("dist", route, "index.html")),
+        `${route} must not be prerendered`,
+      ).toBe(false);
+    }
   }
 });
 

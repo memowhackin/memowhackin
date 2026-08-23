@@ -49,11 +49,22 @@ const SITE_URL = "https://assistsec.nl";
  * The result page needs no entry: it is a dynamic route (`$scanId`), and
  * dynamic routes are skipped unless explicitly expanded, as the blog's are.
  */
-const EXCLUDED = new Set([
-  "/studio-b78262a861",
-  "/studio-b78262a861/login",
-  "/security-scan/report",
-]);
+const EXCLUDED_PREFIXES = ["/studio-b78262a861", "/security-scan/report"];
+
+/*
+ * Matched by prefix, not by exact path.
+ *
+ * This was a set of exact routes, so every page added under the admin path had
+ * to be remembered here as well — and one was not: `/studio-b78262a861/leads`
+ * shipped into the prerendered output and the sitemap, advertising an admin
+ * screen to search engines. A prefix cannot be forgotten the next time a page
+ * is added to that directory.
+ */
+function isExcluded(route) {
+  return EXCLUDED_PREFIXES.some(
+    (prefix) => route === prefix || route.startsWith(`${prefix}/`),
+  );
+}
 
 /*
  * An unrendered root, exactly: `<div id="root"></div>`.
@@ -100,7 +111,7 @@ async function staticRoutes(dir = ROUTES_DIR, prefix = "") {
 
     const base = entry.name.replace(/\.tsx$/, "");
     const route = base === "index" ? prefix || "/" : `${prefix}/${base}`;
-    if (!EXCLUDED.has(route)) routes.push(route);
+    if (!isExcluded(route)) routes.push(route);
   }
   return routes.sort();
 }

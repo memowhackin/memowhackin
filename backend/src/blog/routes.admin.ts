@@ -6,7 +6,7 @@ import { audit } from "../audit.js";
 import { currentAdmin, requireAdmin } from "../auth/middleware.js";
 import { writeLimiter, uploadLimiter } from "../auth/rateLimit.js";
 import { db } from "../db/client.js";
-import { images, postSlugs, posts } from "../db/schema.js";
+import { images, postSlugs, posts, scanLeads } from "../db/schema.js";
 import { triggerDeploy } from "../deploy.js";
 import { uuidParam } from "../http/params.js";
 import { requireCsrfToken } from "../security/csrf.js";
@@ -159,6 +159,31 @@ adminRouter.get("/posts", async (req, res) => {
     .limit(500);
 
   res.json(rows.map(adminPost));
+});
+
+/*
+ * The leads captured by the exposure scanner's unlock gate. Read-only: the
+ * studio shows who asked to see a full report and how to reach them. Newest
+ * first, and capped like the posts list.
+ */
+adminRouter.get("/scanner/leads", async (_req, res) => {
+  const rows = await db
+    .select()
+    .from(scanLeads)
+    .orderBy(desc(scanLeads.createdAt))
+    .limit(500);
+
+  res.json(
+    rows.map((row) => ({
+      id: row.id,
+      scanId: row.scanId,
+      name: row.name,
+      company: row.company,
+      position: row.position,
+      email: row.email,
+      createdAt: row.createdAt.toISOString(),
+    })),
+  );
 });
 
 adminRouter.get("/posts/:id", async (req, res) => {

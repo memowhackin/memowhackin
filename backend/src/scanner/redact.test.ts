@@ -45,6 +45,36 @@ const websiteObservation: WebsiteObservation = {
     { id: "nginx", name: "nginx", category: "server", version: "1.18.0" },
     { id: "cloudflare", name: "Cloudflare", category: "cdn" },
   ],
+  waf: [
+    {
+      id: "cloudflare",
+      name: "Cloudflare",
+      kind: "waf",
+      confidence: "confirmed",
+    },
+  ],
+  paths: {
+    entries: [
+      {
+        path: "/robots.txt",
+        kind: "crawler",
+        state: "found",
+        contentType: "text/plain",
+        bytes: 210,
+      },
+    ],
+    disallowed: ["/admin/"],
+    listings: ["/backup/"],
+    securityTxt: false,
+  },
+  images: [
+    {
+      url: "https://example.com/logo.svg",
+      kind: "logo",
+      origin: "example.com",
+      contentType: "image/svg+xml",
+    },
+  ],
   limitations: ["unauthenticated_only"],
 };
 
@@ -86,6 +116,52 @@ describe("redactWebsite", () => {
       "example.com",
       "vpn.example.com",
       "staging.example.com",
+    ]);
+  });
+
+  it("publishes paths the site chose to serve, never ones it left open", () => {
+    const redacted = redactWebsite(websiteObservation);
+
+    /*
+     * The whole distinction in one assertion. robots.txt is handed to every
+     * crawler that asks and its Disallow list is world-readable by design, so
+     * echoing it back discloses nothing new. An index at /backup/ is an
+     * accident, and naming it to a caller who has not proved they own the
+     * domain is the single detail that shortens a stranger's work — so it
+     * reaches the owner as a finding, and the path dies with `evidence`.
+     */
+    expect(redacted.paths.entries.map((entry) => entry.path)).toEqual([
+      "/robots.txt",
+    ]);
+    expect(redacted.paths.disallowed).toEqual(["/admin/"]);
+    expect(JSON.stringify(redacted)).not.toContain("listings");
+  });
+
+  it("publishes the edge the site announced in its own headers", () => {
+    const redacted = redactWebsite(websiteObservation);
+
+    // Every visitor to a Cloudflare site receives the same `cf-ray` header we
+    // read this from. Naming it back is not disclosure.
+    expect(redacted.waf).toEqual([
+      {
+        id: "cloudflare",
+        name: "Cloudflare",
+        kind: "waf",
+        confidence: "confirmed",
+      },
+    ]);
+  });
+
+  it("publishes homepage images, which the site already serves to everyone", () => {
+    const redacted = redactWebsite(websiteObservation);
+
+    expect(redacted.images).toEqual([
+      {
+        url: "https://example.com/logo.svg",
+        kind: "logo",
+        origin: "example.com",
+        contentType: "image/svg+xml",
+      },
     ]);
   });
 

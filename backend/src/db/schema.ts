@@ -311,8 +311,37 @@ export const scanAccessTokens = pgTable(
   (table) => [index("ix_scan_tokens_scan").on(table.scanId)],
 );
 
+/*
+ * A lead captured when a visitor unlocks a full website report.
+ *
+ * Stored in the clear, unlike the scan subject: these are details the person
+ * volunteered so a salesperson could contact them, so there is every reason to
+ * keep them readable and none to encrypt. `scanId` is a plain value rather than
+ * a foreign key on purpose — a scan row expires and is deleted, but the lead it
+ * produced must outlive it, so the two are not tied together at the database.
+ * The email is a company address by the time it lands here; the endpoint
+ * refuses free webmail.
+ */
+export const scanLeads = pgTable(
+  "scan_leads",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    scanId: uuid("scan_id").notNull(),
+    name: varchar("name", { length: 200 }).notNull(),
+    company: varchar("company", { length: 200 }).notNull(),
+    position: varchar("position", { length: 200 }).notNull(),
+    email: varchar("email", { length: 320 }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [index("ix_scan_leads_created").on(table.createdAt)],
+);
+
 export type AdminUser = typeof adminUsers.$inferSelect;
 export type Scan = typeof scans.$inferSelect;
+export type ScanLead = typeof scanLeads.$inferSelect;
+export type NewScanLead = typeof scanLeads.$inferInsert;
 export type NewScan = typeof scans.$inferInsert;
 export type ScanAccessToken = typeof scanAccessTokens.$inferSelect;
 export type Post = typeof posts.$inferSelect;

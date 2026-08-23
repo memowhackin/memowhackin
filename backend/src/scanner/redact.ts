@@ -65,6 +65,49 @@ export interface PublicWebsiteResult {
     category: string;
     version?: string;
   }[];
+  /*
+   * The edge, as it announced itself in its own response headers. Every
+   * visitor to the site receives the same `cf-ray` header we did.
+   */
+  waf: { id: string; name: string; kind: string; confidence: string }[];
+  /*
+   * Well-known paths and the robots.txt disclosures.
+   *
+   * This is the one addition that needed real thought, because "a list of
+   * paths" is exactly what the evidence rule above exists to withhold. It
+   * survives on the same ground the asset list does: every path here is one
+   * the web has standardised and the site chose to publish, and `disallowed`
+   * is read from a file the site serves to every crawler that asks for it. We
+   * are not disclosing anything; we are showing an owner what they already
+   * disclosed.
+   *
+   * What is still withheld is the distinction that matters. `probeSensitivePaths`
+   * results — /.git/HEAD, /.env — never appear here as paths, and neither do
+   * the open directory indexes. Both arrive as a finding id with the path in
+   * `evidence`, and `evidence` is dropped. The difference is consent: a site
+   * publishes robots.txt on purpose and leaves /backup/ browsable by accident,
+   * so naming the second one to an unverified caller is handing a stranger the
+   * one detail that shortens their work. The owner still learns it exists.
+   */
+  paths: {
+    entries: {
+      path: string;
+      kind: string;
+      state: string;
+      contentType?: string;
+      bytes?: number;
+    }[];
+    disallowed: string[];
+    securityTxt: boolean;
+  };
+  /** Images the homepage already serves to every visitor. */
+  images: {
+    url: string;
+    kind: string;
+    origin: string;
+    contentType?: string;
+    bytes?: number;
+  }[];
   /** 0-100 over the observed public surface. See `score.ts`. */
   score: number;
   scoreBand: string;
@@ -110,6 +153,34 @@ export function redactWebsite(
       name: entry.name,
       category: entry.category,
       ...(entry.version === undefined ? {} : { version: entry.version }),
+    })),
+    waf: observation.waf.map((entry) => ({
+      id: entry.id,
+      name: safeSource(entry.name),
+      kind: entry.kind,
+      confidence: entry.confidence,
+    })),
+    paths: {
+      entries: observation.paths.entries.map((entry) => ({
+        path: entry.path,
+        kind: entry.kind,
+        state: entry.state,
+        ...(entry.contentType === undefined
+          ? {}
+          : { contentType: entry.contentType }),
+        ...(entry.bytes === undefined ? {} : { bytes: entry.bytes }),
+      })),
+      disallowed: [...observation.paths.disallowed],
+      securityTxt: observation.paths.securityTxt,
+    },
+    images: observation.images.map((entry) => ({
+      url: entry.url,
+      kind: entry.kind,
+      origin: entry.origin,
+      ...(entry.contentType === undefined
+        ? {}
+        : { contentType: entry.contentType }),
+      ...(entry.bytes === undefined ? {} : { bytes: entry.bytes }),
     })),
     score: scored.value,
     scoreBand: scored.band,

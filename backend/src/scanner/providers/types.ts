@@ -38,6 +38,7 @@ export interface WebsiteFinding {
     | "email_authentication"
     | "exposed_surface"
     | "software_disclosure"
+    | "policy"
     | "dns";
   severity: Severity;
   confidence: Confidence;
@@ -57,6 +58,34 @@ export interface WebsiteObservation {
     name: string;
     category: string;
     version?: string;
+  }[];
+  /** Edge products in front of the origin. Empty is "none announced itself". */
+  waf: {
+    id: string;
+    name: string;
+    kind: "waf" | "cdn";
+    confidence: Confidence;
+  }[];
+  /** Well-known files the site publishes, and what its robots.txt discloses. */
+  paths: {
+    entries: {
+      path: string;
+      kind: string;
+      state: "found" | "protected";
+      contentType?: string;
+      bytes?: number;
+    }[];
+    disallowed: string[];
+    listings: string[];
+    securityTxt: boolean;
+  };
+  /** Images referenced by the homepage, verified to load. */
+  images: {
+    url: string;
+    kind: string;
+    origin: string;
+    contentType?: string;
+    bytes?: number;
   }[];
   /** What this run did not and could not look at. */
   limitations: string[];

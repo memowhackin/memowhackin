@@ -171,7 +171,7 @@ function ScanResultsPage() {
           data-testid="scan-results-progress"
           innerClassName="pb-16 lg:pb-24"
         >
-          <ScanProgress kind={scan.kind} status={scan.status} />
+          <ScanProgress />
         </SectionShell>
       )}
 

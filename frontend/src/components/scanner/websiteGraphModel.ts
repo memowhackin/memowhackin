@@ -193,7 +193,13 @@ export function buildWebsiteGraph(
       explanation: labels.hosts.explanation,
     });
 
-    for (const host of input.assets) {
+    /*
+     * The graph is a summary, not the index. A domain can carry hundreds of
+     * hosts, and drawing a leaf for each turns the branch into an illegible
+     * mat; the Subdomains section below the graph is the authoritative full
+     * list, so here the branch is capped to a legible fan.
+     */
+    for (const host of input.assets.slice(0, 36)) {
       leaf("branch-hosts", {
         id: `host-${host}`,
         kind: "network_indicator",

@@ -131,6 +131,53 @@ export const fixtureWebsiteProvider: WebsiteProvider = {
           category: "analytics",
         },
       ],
+      waf: [
+        {
+          id: "cloudflare",
+          name: "Cloudflare",
+          kind: "waf",
+          confidence: "confirmed",
+        },
+      ],
+      paths: {
+        entries: [
+          {
+            path: "/robots.txt",
+            kind: "crawler",
+            state: "found",
+            contentType: "text/plain",
+            bytes: 312,
+          },
+          {
+            path: "/sitemap.xml",
+            kind: "crawler",
+            state: "found",
+            contentType: "application/xml",
+            bytes: 4821,
+          },
+          {
+            path: "/manifest.json",
+            kind: "platform",
+            state: "found",
+            contentType: "application/json",
+            bytes: 604,
+          },
+          {
+            path: "/.well-known/openid-configuration",
+            kind: "config",
+            state: "protected",
+          },
+        ],
+        disallowed: ["/admin/", "/cgi-bin/", "/private/", "/wp-admin/"],
+        listings: [],
+        securityTxt: false,
+      },
+      /*
+       * No images. A fixture cannot invent a URL that would actually load, and
+       * a gallery of broken thumbnails in development is worse than an honest
+       * empty state — which is the one this exercises.
+       */
+      images: [],
       lookalikes: [
         { domain: `${domain.split(".")[0] ?? ""}-secure.com`, hasMail: true },
         { domain: `${domain.split(".")[0] ?? ""}.net`, hasMail: false },
