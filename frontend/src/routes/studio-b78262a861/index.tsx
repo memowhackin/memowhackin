@@ -2,7 +2,15 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { ArrowUpRight, Eye, LogOut, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  ArrowUpRight,
+  Eye,
+  LogOut,
+  Pencil,
+  Plus,
+  Trash2,
+  Users,
+} from "lucide-react";
 import { RichEditor } from "@/components/blog/RichEditor";
 import { LogoMark } from "@/components/common/Logo";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
@@ -215,6 +223,14 @@ function BlogAdmin() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              to="/studio-b78262a861/leads"
+              data-testid="admin-view-leads"
+              className="border-indigo-deep text-mist hover:border-lavender/50 hover:text-lavender inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors"
+            >
+              <Users className="size-4" aria-hidden="true" />
+              {t("admin.viewLeads")}
+            </Link>
             <Link
               to="/blog"
               data-testid="admin-view-blog"

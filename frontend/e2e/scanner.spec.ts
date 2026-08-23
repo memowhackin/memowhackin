@@ -75,7 +75,10 @@ test.describe("digital exposure scanner", () => {
     await runWebsiteScan(page, "");
 
     await expect(page.getByTestId("scan-verdict")).toBeVisible();
-    await expect(page.getByTestId("scan-cta-contact")).toBeVisible();
+    // A fresh scan opens locked, so the report's foot is the lead gate rather
+    // than the contact CTA: the prompt is what a first-time reader sees, and
+    // the CTA only returns once the report is unlocked.
+    await expect(page.getByTestId("scan-gate-prompt")).toBeVisible();
 
     /*
      * The subject never reaches a URL. That is the property worth keeping and
@@ -117,34 +120,6 @@ test.describe("digital exposure scanner", () => {
     });
   });
 
-  test("answers an email request without revealing anything", async ({
-    page,
-  }) => {
-    await page.goto("/security-scan");
-    await page.getByTestId("scanner-tab-email").click();
-
-    // Marketing permission is separate and off by default.
-    await expect(
-      page.getByTestId("scanner-marketing-consent"),
-    ).not.toBeChecked();
-
-    await page.getByTestId("scanner-input").fill("someone@example.com");
-    await page.getByTestId("scanner-submit").click();
-
-    // Well inside the per-test budget, so there is time left to decide to
-    // skip rather than being cut off by the timeout first.
-    const acknowledged = await page
-      .getByTestId("scanner-mail-sent")
-      .waitFor({ timeout: 12_000 })
-      .then(() => true)
-      .catch(() => false);
-    test.skip(!acknowledged, "scan creation refused, most likely rate limited");
-
-    // No result id, no navigation: the report is reachable only from the mail.
-    await expect(page.getByTestId("scanner-mail-sent")).toBeVisible();
-    expect(page.url()).not.toContain("/results/");
-  });
-
   test("refuses private and malformed targets in the field", async ({
     page,
   }) => {
@@ -165,28 +140,6 @@ test.describe("digital exposure scanner", () => {
     }
   });
 
-  test("drives the mode switch from the keyboard alone", async ({ page }) => {
-    await page.goto("/security-scan");
-
-    await page.getByTestId("scanner-tab-website").focus();
-    await page.keyboard.press("ArrowRight");
-    await expect(page.getByTestId("scanner-tab-email")).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
-    // Roving tabindex: the group is one tab stop, arrows move within it.
-    await expect(page.getByTestId("scanner-tab-website")).toHaveAttribute(
-      "tabindex",
-      "-1",
-    );
-
-    await page.keyboard.press("ArrowLeft");
-    await expect(page.getByTestId("scanner-tab-website")).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
-  });
-
   test("explains itself when a report link is incomplete", async ({ page }) => {
     await page.goto("/security-scan/report");
     await expect(page.getByTestId("private-report-error")).toBeVisible();
@@ -202,7 +155,7 @@ test.describe("digital exposure scanner", () => {
     }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/security-scan");
-      await expect(page.getByTestId("scanner-panel")).toBeVisible();
+      await expect(page.getByTestId("scanner-form")).toBeVisible();
 
       const overflow = await page.evaluate(() => {
         const doc = document.documentElement;

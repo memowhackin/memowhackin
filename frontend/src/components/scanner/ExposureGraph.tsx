@@ -92,8 +92,8 @@ const GLYPH: Record<string, string> = {
   transport: "M12 3a5 5 0 100 10 5 5 0 000-10M9 13l-1 8 4-2 4 2-1-8",
   // Document with a fold: response headers.
   headers: "M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6",
-  // Key: naming and who may answer for it.
-  dns: "M15 9a4 4 0 10-4 4l-1 1H8v2H6v2H3v-3l7-7",
+  // Signpost: a name pointing somewhere, which is what DNS answers.
+  dns: "M12 3v18M12 5h7l2.5 2.5L19 10h-7M12 13H5l-2.5 2.5L5 18h7",
   // Open door: things reachable from outside.
   exposed_surface: "M4 3h9v18H4zM13 3l7 3v12l-7 3M10 12h.01",
   // Chip: what the site is built on.
@@ -306,10 +306,20 @@ export function ExposureGraph({ model }: { model: ExposureGraphModel }) {
     const height = Math.max(...ys) + pad - minY;
     const size = Math.max(width, height, 240);
 
-    // Centred in a square box, so the figure is never stretched on one axis.
+    /*
+     * Centred on the horizontal axis, but biased upward on the vertical one.
+     *
+     * A wide figure in a square box gets tall top and bottom margins, and the
+     * top one pushed the whole constellation a long way below its section
+     * heading. Sitting the content near the top of the slack rather than
+     * centred lifts it right up under the title without stretching it — the
+     * spare room moves to the bottom, where it falls before the next section
+     * rather than between the heading and the figure. The `pad` baked into
+     * `minY` keeps a hairline of breathing room so nothing crowds the heading.
+     */
     return {
       x: minX - (size - width) / 2,
-      y: minY - (size - height) / 2,
+      y: minY - (size - height) * 0.08,
       size,
     };
   }, [placed]);
@@ -423,7 +433,7 @@ export function ExposureGraph({ model }: { model: ExposureGraphModel }) {
           })}
         </g>
 
-        {placed.map((entry) => {
+        {placed.map((entry, index) => {
           const active = entry.node.id === selectedId;
           const lit = lineage.has(entry.node.id);
           const glyph = glyphFor(entry.node, entry.depth);
@@ -451,7 +461,16 @@ export function ExposureGraph({ model }: { model: ExposureGraphModel }) {
                 setSelectedId(entry.node.id);
               }}
               aria-label={`${entry.node.label}. ${entry.node.kindLabel ?? t(`scanner.graph.kinds.${entry.node.kind}`)}`}
-              className="focus-visible:outline-lavender cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2"
+              className={clsx(
+                "focus-visible:outline-lavender cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2",
+                // One settle on arrival, staggered outward from the centre.
+                // It is the affordance: marks that move once are marks that
+                // read as controls, and it costs nothing after it lands.
+                "motion-safe:animate-node-settle",
+              )}
+              style={{
+                animationDelay: `${String(Math.min(index * 22, 700))}ms`,
+              }}
             >
               {/*
                 A halo on the lit lineage only. It is a ring rather than a
@@ -499,9 +518,9 @@ export function ExposureGraph({ model }: { model: ExposureGraphModel }) {
               */}
               {glyph !== undefined && (
                 <g
-                  transform={`translate(${String(entry.x)} ${String(entry.y)}) scale(${String((entry.radius * 1.16) / 12)}) translate(-12 -12)`}
+                  transform={`translate(${String(entry.x)} ${String(entry.y)}) scale(${String((entry.radius * 0.82) / 12)}) translate(-12 -12)`}
                   className="stroke-ink-deep fill-none"
-                  strokeWidth={2.1}
+                  strokeWidth={2.4}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
@@ -579,23 +598,6 @@ export function ExposureGraph({ model }: { model: ExposureGraphModel }) {
               {selected.node.action}
             </p>
           )}
-
-          <dl className="text-mist/45 mt-1 flex flex-col gap-1.5 text-xs">
-            <div className="flex gap-3">
-              <dt className="w-20 shrink-0">{t("scanner.graph.provenance")}</dt>
-              <dd className="text-mist/70">{selected.node.provenance}</dd>
-            </div>
-            <div className="flex gap-3">
-              <dt className="w-20 shrink-0">{t("scanner.graph.confidence")}</dt>
-              <dd className="text-mist/70">
-                {t(`scanner.confidence.${selected.node.confidence}.short`)}
-              </dd>
-            </div>
-          </dl>
-
-          <p className="text-mist/35 mt-2 text-xs leading-relaxed">
-            {t("scanner.graph.hint")}
-          </p>
         </div>
       )}
     </div>

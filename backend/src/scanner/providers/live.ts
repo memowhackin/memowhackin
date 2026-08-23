@@ -12,9 +12,16 @@ import {
   hstsMaxAge,
   inspectHttp,
 } from "../checks/http.js";
+import {
+  extractImages,
+  thirdPartyOrigins,
+  verifyImages,
+} from "../checks/images.js";
 import { findLookalikes } from "../checks/lookalike.js";
+import { discoverPaths } from "../checks/paths.js";
 import { discoverSubdomains, probeSensitivePaths } from "../checks/surface.js";
 import { detectTechnologies } from "../checks/technology.js";
+import { detectWaf, hasFirewall } from "../checks/waf.js";
 import { inspectTls } from "../net/tls.js";
 import type {
   ProviderResult,
@@ -91,8 +98,8 @@ export const liveWebsiteProvider: WebsiteProvider = {
      * and almost entirely latency-bound, so running them serially would make
      * the scan as slow as the sum of its network waits for no benefit.
      */
-    const [dns, http, tls, subdomains, exposed, lookalikes] = await Promise.all(
-      [
+    const [dns, http, tls, subdomains, exposed, lookalikes, paths] =
+      await Promise.all([
         withTimeout(lookupDns(domain), 10_000, {
           a: [],
           mx: [],
@@ -110,11 +117,18 @@ export const liveWebsiteProvider: WebsiteProvider = {
           body: "",
         }),
         withTimeout(inspectTls(domain), 20_000, { reachable: false }),
-        withTimeout(discoverSubdomains(domain), 15_000, []),
+        // Room for a crt.sh retry and the Cert Spotter fallback when the first
+        // log is down; the common case still returns in a second or two.
+        withTimeout(discoverSubdomains(domain), 26_000, []),
         withTimeout(probeSensitivePaths(domain), 20_000, []),
         withTimeout(findLookalikes(domain), 25_000, []),
-      ],
-    );
+        withTimeout(discoverPaths(domain), 25_000, {
+          entries: [],
+          disallowed: [],
+          listings: [],
+          securityTxt: false,
+        }),
+      ]);
 
     // A domain with no address is not a website; nothing below would mean
     // anything, so this is a failure rather than a clean report.
@@ -388,6 +402,102 @@ export const liveWebsiteProvider: WebsiteProvider = {
       limitations.push("no_ct_records");
     }
 
+    // ---- Published paths --------------------------------------------------
+
+    for (const path of paths.listings) {
+      // A server rendering a directory's contents to anyone who asks. Nothing
+      // was read out of it; the listing itself is the finding.
+      findings.push(
+        finding(
+          "open_directory_index",
+          "exposed_surface",
+          "medium",
+          "confirmed",
+          path,
+        ),
+      );
+    }
+
+    if (paths.entries.length > 0 && !paths.securityTxt) {
+      // RFC 9116. Cheap to publish, and its absence is why disclosure reports
+      // reach a sales inbox and die there.
+      findings.push(
+        finding("missing_security_txt", "policy", "low", "confirmed"),
+      );
+    }
+
+    /*
+     * A robots.txt that names paths worth hiding.
+     *
+     * Only raised when an entry looks administrative, because every site
+     * disallows something and a finding that fires on all of them says
+     * nothing. The file is served to every crawler on the internet by design,
+     * so this is not a leak we are creating — it is one the owner may not
+     * realise they published.
+     */
+    const revealing = paths.disallowed.filter((path) =>
+      /admin|login|private|backup|internal|staging|config|secret|\.git|\bapi\b|\bdev\b/i.test(
+        path,
+      ),
+    );
+    if (revealing.length > 0) {
+      findings.push(
+        finding(
+          "robots_reveals_paths",
+          "policy",
+          "low",
+          "confirmed",
+          String(revealing.length),
+        ),
+      );
+    }
+
+    // ---- Edge protection --------------------------------------------------
+
+    const waf = http.response === undefined ? [] : detectWaf(http.response);
+    if (!hasFirewall(waf)) {
+      /*
+       * Reported as a gap in coverage, never as "there is no firewall". A WAF
+       * configured not to announce itself is invisible to passive detection,
+       * and the one thing worse than missing it is telling an owner who has
+       * one that they do not.
+       */
+      limitations.push("waf_undetermined");
+    }
+
+    // ---- Homepage images --------------------------------------------------
+
+    const pageUrl = http.response?.finalUrl ?? `https://${domain}/`;
+    const images = await withTimeout(
+      verifyImages(extractImages(http.body, pageUrl)),
+      15_000,
+      [],
+    );
+
+    if (
+      http.httpsReachable &&
+      images.some((img) => img.url.startsWith("http:"))
+    ) {
+      // A padlock that a single image can break: the browser downgrades the
+      // whole page's guarantees for it.
+      findings.push(
+        finding("mixed_content_images", "transport", "medium", "confirmed"),
+      );
+    }
+
+    const foreign = thirdPartyOrigins(images, domain);
+    if (foreign.length >= 3) {
+      findings.push(
+        finding(
+          "many_third_party_origins",
+          "exposed_surface",
+          "info",
+          "confirmed",
+          String(foreign.length),
+        ),
+      );
+    }
+
     // ---- Brand impersonation --------------------------------------------
 
     /*
@@ -448,7 +558,14 @@ export const liveWebsiteProvider: WebsiteProvider = {
     if (elapsed > OVERALL_TIMEOUT_MS) partial = true;
 
     logger.debug(
-      { findings: findings.length, subdomains: subdomains.length, elapsed },
+      {
+        findings: findings.length,
+        subdomains: subdomains.length,
+        paths: paths.entries.length,
+        images: images.length,
+        waf: waf.length,
+        elapsed,
+      },
       "live website scan finished",
     );
 
@@ -469,6 +586,9 @@ export const liveWebsiteProvider: WebsiteProvider = {
           http.response === undefined
             ? []
             : detectTechnologies(http.response, http.body),
+        waf,
+        paths,
+        images,
         limitations: [
           ...limitations,
           "unauthenticated_only",

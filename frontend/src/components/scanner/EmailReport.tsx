@@ -210,7 +210,7 @@ export function EmailReport({ scan }: { scan: ScanState }) {
                       </dl>
 
                       {record.stealerLog && (
-                        <p className="border-indigo-deep text-mist/80 border-t pt-3 text-sm leading-relaxed text-pretty">
+                        <p className="text-mist/80 pt-1 text-sm leading-relaxed text-pretty">
                           {t("scanner.graph.stealerAction")}
                         </p>
                       )}
@@ -228,7 +228,7 @@ export function EmailReport({ scan }: { scan: ScanState }) {
                 {["passwords", "mfa", "monitor"].map((action) => (
                   <li
                     key={action}
-                    className="text-mist/75 border-indigo-deep/60 border-t pt-3 text-sm leading-relaxed text-pretty"
+                    className="text-mist/75 pt-1 text-sm leading-relaxed text-pretty"
                   >
                     {t(`scanner.actions.${action}`)}
                   </li>

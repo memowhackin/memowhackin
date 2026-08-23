@@ -551,7 +551,24 @@
     "deleted": "Bericht verwijderd.",
     "loadError": "Kon berichten niet laden. Controleer of de CMS-API bereikbaar is.",
     "errorSaveFailed": "Kon het bericht niet opslaan. Je wijzigingen staan er nog — probeer opnieuw.",
-    "errorDeleteFailed": "Kon het bericht niet verwijderen."
+    "errorDeleteFailed": "Kon het bericht niet verwijderen.",
+    "viewLeads": "Leads",
+    "leads": {
+      "title": "Scanner-leads",
+      "subheading_one": "{{count}} vastgelegd",
+      "subheading_other": "{{count}} vastgelegd",
+      "back": "Dashboard",
+      "loading": "Leads laden...",
+      "empty": "Nog geen leads vastgelegd.",
+      "error": "Kon leads niet laden.",
+      "columns": {
+        "name": "Naam",
+        "company": "Bedrijf",
+        "position": "Functie",
+        "email": "Zakelijk e-mail",
+        "date": "Vastgelegd"
+      }
+    }
   },
   "cta": {
     "title": "Interesse in een pentest?",
@@ -585,36 +602,16 @@
   },
   "scanner": {
     "eyebrow": "Gratis digitale risicocheck",
-    "heading": "Ontdek wat het internet prijsgeeft",
-    "intro": "Voer een website of e-mailadres in en ontvang een helder overzicht van publiek zichtbare beveiligingsrisico's.",
-    "modeLabel": "Wat wilt u controleren",
+    "heading": "De eerste is van het huis!",
+    "intro": "Voer een websitedomein in en ontvang een helder overzicht van publiek zichtbare beveiligingsblootstelling.",
     "submitting": "Bezig…",
     "unavailable": "De scanner neemt op dit moment geen aanvragen aan. Probeer het later opnieuw of neem rechtstreeks contact met ons op.",
-    "marketingConsent": "Stuur mij ook af en toe security-onderzoek en productnieuws van AssistSec. Optioneel, en los van dit rapport.",
-    "tabs": {
-      "website": "Website",
-      "email": "E-mailadres"
-    },
     "fields": {
       "website": {
         "label": "Websitedomein",
         "placeholder": "voorbeeld.nl",
         "action": "Start websitescan"
-      },
-      "email": {
-        "label": "E-mailadres",
-        "placeholder": "naam@bedrijf.nl",
-        "action": "Maak privérapport"
       }
-    },
-    "privacy": {
-      "website": "We kijken alleen naar informatie die al openbaar is. Er wordt niet ingelogd en er verandert niets aan de site.",
-      "email": "Persoonlijke resultaten worden alleen naar het ingevoerde e-mailadres gestuurd."
-    },
-    "mailed": {
-      "title": "Kijk in uw inbox",
-      "body": "Als we een rapport voor dat adres kunnen maken, is er een eenmalige link onderweg. De link opent het rapport en werkt daarna niet meer.",
-      "note": "We antwoorden voor elk adres hetzelfde, zodat deze pagina nooit verraadt of een adres in een datalek voorkomt."
     },
     "errors": {
       "empty": "Vul een waarde in om verder te gaan.",
@@ -640,7 +637,9 @@
       "working": "Bezig",
       "announce": "Stap {{step}} van {{total}}. {{stage}}.",
       "queuedHint": "Dit duurt meestal minder dan een minuut.",
-      "step": "Stap {{step}} van {{total}}"
+      "step": "Stap {{step}} van {{total}}",
+      "scanning": "Scannen...",
+      "scanningHint": "Meestal binnen een minuut."
     },
     "stages": {
       "website": {
@@ -720,17 +719,49 @@
       "lookalikesMail_other": "{{count}} hiervan kunnen mail versturen en ontvangen, en dat is de vorm van factuurfraude in plaats van geparkeerde namen. Bevestig dat ze van u zijn.",
       "lookalikesOther_one": "{{count}} andere geregistreerde naam",
       "lookalikesOther_other": "{{count}} andere geregistreerde namen",
-      "hostsTitle": "Hosts zichtbaar in publieke certificaatlogs",
-      "hostsBody_one": "{{count}} hostnaam onder dit domein heeft een publiek gelogd certificaat. Alles wat u hier niet meer herkent is het controleren waard.",
-      "hostsBody_other": "{{count}} hostnamen onder dit domein hebben publiek gelogde certificaten. Alles wat u hier niet meer herkent is het controleren waard.",
+      "hostsTitle": "Subdomeinen",
       "summaryHosts_one": "{{count}} publieke host gezien voor dit domein.",
       "summaryHosts_other": "{{count}} publieke hosts gezien voor dit domein.",
       "scoreLabel": "Score publieke buitenkant {{score}} van 100, beoordeeld als {{band}}",
       "scoreOutOf": "van de 100",
-      "scoreScope": "Dit beoordeelt wat van buitenaf zichtbaar is zonder in te loggen: transport, response-headers, e-mailauthenticatie, DNS en blootgesteld oppervlak. Het is geen cijfer voor uw beveiliging als geheel, omdat een geautomatiseerde controle niet bij autorisatie of bedrijfslogica komt.",
       "stackTitle": "Waarop de site is gebouwd",
       "stackBody": "Afgelezen uit de headers en markup die de site aan elke bezoeker levert. Een versie verschijnt alleen waar de site die zelf noemde.",
-      "versionUnknown": "N.v.t."
+      "versionUnknown": "N.v.t.",
+      "stackEmpty": "Deze site maakt in de headers of markup geen server, framework of platform kenbaar dat wij herkennen. Dat is de betere houding: minder voor een aanvaller om te vergelijken met een lijst met kwetsbaarheden.",
+      "imagesTitle": "Merkmateriaal en afbeeldingen",
+      "imagesOrigins_one": "Eén daarvan wordt geleverd door een ander bedrijf: {{origins}}. Die leverancier ziet elke bezoeker die de pagina opent.",
+      "imagesOrigins_other": "{{count}} daarvan worden geleverd door andere bedrijven: {{origins}}. Elke leverancier ziet elke bezoeker die de pagina opent.",
+      "imageKinds": {
+        "icon": "Favicon",
+        "logo": "Logo",
+        "social": "Deelafbeelding",
+        "content": "Pagina-afbeelding"
+      },
+      "pathsTitle": "Gepubliceerde bestanden",
+      "edgeTitle": "Webapplicatiefirewall",
+      "edgeNone": "Niet gedetecteerd",
+      "statusComplete": "Scan voltooid",
+      "statusPartial": "Sommige controles zijn niet afgerond",
+      "factCompleted": "Voltooid",
+      "factReference": "Referentie",
+      "factHosts": "Hosts gezien",
+      "countAreas_one": "{{count}} gebied",
+      "countAreas_other": "{{count}} gebieden",
+      "imagesMore": "Alles tonen",
+      "lightbox": {
+        "title": "Afbeeldingsviewer",
+        "download": "Downloaden",
+        "close": "Sluiten",
+        "previous": "Vorige afbeelding",
+        "next": "Volgende afbeelding",
+        "goTo": "Ga naar afbeelding {{index}}"
+      },
+      "edgeDeliveryLabel": "Contentnetwerk",
+      "hostsBody": "Opgehaald uit publieke Certificate Transparency-logs, zonder de site te raken. Alles wat u niet meer herkent is een blik waard.",
+      "hostsApex": "hoofddomein",
+      "hostsShowMore_one": "+{{count}} meer subdomein",
+      "hostsShowMore_other": "+{{count}} meer subdomeinen",
+      "hostsShowLess": "Toon minder"
     },
     "confidence": {
       "confirmed": {
@@ -761,7 +792,8 @@
       "email_authentication": "E-mailauthenticatie",
       "exposed_surface": "Blootgesteld oppervlak",
       "software_disclosure": "Softwareonthulling",
-      "dns": "DNS-configuratie"
+      "dns": "DNS-configuratie",
+      "policy": "Openbaarmakingsbeleid"
     },
     "dataTypes": {
       "email": "E-mailadres",
@@ -777,7 +809,8 @@
     "limits": {
       "known_sources_only": "Dit rapport dekt de datalekbronnen die vandaag voor ons beschikbaar zijn. Het ontbreken van een vermelding bewijst niet dat een adres nooit is blootgesteld, en er worden regelmatig nieuwe lekken gepubliceerd.",
       "dnssec_undetermined": "We konden geen validerende resolver bereiken, dus de DNSSEC-status is voor deze scan onbekend.",
-      "no_ct_records": "Er verschenen geen certificaten voor dit domein in Certificate Transparency-logs, dus langs deze weg zijn geen subdomeinen gevonden."
+      "no_ct_records": "Er verschenen geen certificaten voor dit domein in Certificate Transparency-logs, dus langs deze weg zijn geen subdomeinen gevonden.",
+      "waf_undetermined": "Een webapplicatiefirewall die zich niet kenbaar maakt in zijn headers is niet gedetecteerd. Wij sturen geen aanvalsverkeer om er een te vinden."
     },
     "failure": {
       "failed": {
@@ -815,7 +848,6 @@
       "networkIndicator": "Netwerkactiviteit gekoppeld aan {{country}}",
       "stealerAction": "Deze bron bestaat uit door malware verzamelde inloggegevens. Beschouw elk account dat op het getroffen apparaat is gebruikt als gecompromitteerd en wijzig die wachtwoorden vanaf een schoon apparaat.",
       "passwordAction": "Wijzig dit wachtwoord overal waar het is gebruikt en zet multifactorauthenticatie aan.",
-      "provenance": "Bron",
       "provenanceReport": "Het adres dat u heeft ingevoerd",
       "provenanceSource": "Waargenomen in de registratie van {{name}}",
       "observed": "Waargenomen",
@@ -852,7 +884,7 @@
         "category": "Een categorie persoonsgegevens die in deze registratie naast uw adres voorkwam."
       },
       "website": {
-        "title": "Waar het werk zit",
+        "title": "Visuele grafiek",
         "intro": "Uw bevindingen gegroepeerd per gebied waar ze bij horen. Selecteer een punt om te zien wat het betekent en wat u eraan kunt doen.",
         "subject": "Uw website",
         "subjectExplanation": "Het domein waarvoor dit rapport is gemaakt. Alles hieronder is van buitenaf waargenomen, zonder in te loggen.",
@@ -883,13 +915,12 @@
         "lookalikeParked": "Geregistreerd en resolvend, maar niet ingericht voor mail.",
         "lookalikeMail": "Geregistreerd en in staat mail te versturen en ontvangen, en dat is de vorm van factuurfraude in plaats van een geparkeerde naam.",
         "lookalikeAction": "Bevestig dat dit van u is. Zo niet, meld het bij de registrar en waarschuw de financiële administratie en de receptie."
-      },
-      "hint": "Gebruik de pijltjestoetsen om door de kaart te bewegen."
+      }
     },
     "cta": {
       "website": {
-        "title": "Geautomatiseerd testen bracht de publiek zichtbare buitenkant in kaart. Autorisatie, bedrijfslogica en afgeschermde functionaliteit vragen om handmatig testen.",
-        "body": "Een gerichte penetratietest gaat verder waar dit stopt: onze testers werken mét inloggegevens, volgen de logica van uw applicatie en ketenen bevindingen zoals een aanvaller dat zou doen.",
+        "title": "Benieuwd wat we nog meer kunnen ontdekken?",
+        "body": "Onze gespecialiseerde agents en penetratietesters met jarenlange ervaring voeren de pentest uit.",
         "action": "Bespreek een gerichte penetratietest"
       },
       "email": {
@@ -1035,7 +1066,7 @@
       "cookie_not_httponly": {
         "title": "Een cookie is leesbaar voor JavaScript",
         "observed": "Minstens één Set-Cookie-header miste HttpOnly.",
-        "impact": "Elk script op de pagina kan de cookie uitlezen, waardoor een scriptingfout ergens op de site — ook in een script van derden — een manier wordt om de sessie te stelen.",
+        "impact": "Elk script op de pagina kan de cookie uitlezen, waardoor een scriptingfout ergens op de site, ook in een script van derden, een manier wordt om de sessie te stelen.",
         "remediation": "Zet HttpOnly op elke cookie die JavaScript niet echt hoeft te lezen."
       },
       "missing_spf": {
@@ -1095,7 +1126,7 @@
       "dangling_cname": {
         "title": "Een DNS-record wijst naar een dienst die niet meer bestaat",
         "observed": "Een hostnaam is als alias gekoppeld aan een extern platform waarvan het doel niet resolvet.",
-        "impact": "Op deze platforms kan de naam vaak worden geclaimd door wie hem als volgende registreert, waarmee een onbekende een hostnaam onder uw domein in handen krijgt: geldige certificaten, cookies die eraan gekoppeld zijn, en uw naam boven hun inhoud.",
+        "impact": "Op deze platforms kan de naam vaak worden geclaimd door wie hem als volgende registreert, waarmee een vreemde een hostnaam onder uw domein krijgt: geldige certificaten, cookies die eraan gekoppeld zijn, en uw naam op hun inhoud.",
         "remediation": "Verwijder het record of neem de dienst waar het naar wijst weer in gebruik. Behandel dit als urgent."
       },
       "exposed_git": {
@@ -1139,6 +1170,36 @@
         "observed": "Minstens één domein dat op de uwe lijkt publiceert mailserver-records.",
         "impact": "Een geparkeerd lijkend domein is een plaatshouder. Eén die is ingericht voor mail is ingericht om op te antwoorden, en dat is de vorm van factuurfraude en imitatie van medewerkers. Dit is de variant die actie verdient.",
         "remediation": "Bevestig dat het niet van u is. Zo niet, meld het bij de registrar en de hostingprovider en waarschuw de financiële administratie en de receptie dat mail hiervandaan niet van u komt."
+      },
+      "open_directory_index": {
+        "title": "Een map toont zijn inhoud aan iedereen",
+        "observed": "Een verzoek om een map gaf een door de server gegenereerde lijst van de bestanden erin terug, in plaats van een pagina of een weigering.",
+        "impact": "Iedereen kan de bestandsnamen lezen zonder ze te raden. Zo worden vergeten back-ups, exports en concepten gevonden, de lijst doet het zoekwerk dat een aanvaller anders zelf zou moeten doen.",
+        "remediation": "Schakel automatische indexering uit voor dat pad: in nginx met `autoindex off`, in Apache met `Options -Indexes`. Controleer daarna wat erin stond, want de lijst was leesbaar zolang de instelling aanstond."
+      },
+      "missing_security_txt": {
+        "title": "Geen security.txt met een contactpersoon",
+        "observed": "Noch /.well-known/security.txt noch /security.txt is gepubliceerd, terwijl andere standaardbestanden dat wel zijn.",
+        "impact": "Een onderzoeker die een fout vindt, kan die nergens kwijt. In de praktijk gaan zulke meldingen naar een verkoopadres, een contactformulier of een socialmedia-account, en worden ze zelden gelezen door iemand die kan handelen.",
+        "remediation": "Publiceer /.well-known/security.txt met een Contact- en een Expires-regel, volgens RFC 9116. Eén bestand maakt van een onbereikbare melding een bericht dat aankomt."
+      },
+      "robots_reveals_paths": {
+        "title": "robots.txt noemt paden die u liever verbergt",
+        "observed": "De robots.txt van de site vraagt crawlers weg te blijven bij mappen waarvan de namen wijzen op beheer, staging of back-ups.",
+        "impact": "robots.txt wordt aan iedereen geserveerd en is daarmee het eerste bestand dat een vreemde leest. Een pad daarin noemen vertelt precies waar te kijken, en een crawler vragen iets niet te indexeren heeft nog nooit iemand tegengehouden het te openen.",
+        "remediation": "Vertrouw niet op robots.txt om iets te verbergen. Zet authenticatie voor die paden en verwijder de regels; moet een pad ongeïndexeerd blijven, gebruik dan een noindex-header op de pagina's zelf."
+      },
+      "mixed_content_images": {
+        "title": "Een afbeelding laadt via gewoon http",
+        "observed": "De pagina wordt via https geleverd maar verwijst naar minstens één afbeelding via http.",
+        "impact": "Iedereen op het netwerkpad kan die afbeelding vervangen of het onversleutelde verzoek gebruiken om bezoekers te volgen. Browsers blokkeren het of verlagen de beveiligingsindicator, waardoor het slotje waar een bezoeker op let niet meer betekent wat hij denkt.",
+        "remediation": "Lever elk gebruikt bestand via https, of verplaats de afbeelding naar een host die dat ondersteunt. Met upgrade-insecure-requests in uw CSP dekt u het symptoom af terwijl u ze opspoort."
+      },
+      "many_third_party_origins": {
+        "title": "Afbeeldingen op de homepage komen van meerdere andere bedrijven",
+        "observed": "Afbeeldingen op de homepage worden geladen van drie of meer hosts buiten uw eigen domein.",
+        "impact": "Elk daarvan ziet het adres van iedere bezoeker die de pagina opent, en elk daarvan kan veranderen wat die bezoekers te zien krijgen. Dat is geen fout, maar het is een leveranciers­lijst die de meeste eigenaren nooit hebben geteld.",
+        "remediation": "Ga na of elke herkomst er een is die u bewust gebruikt en kunt verantwoorden. Host zelf wat kan, en zet de rest vast met subresource integrity waar het formaat dat toelaat."
       }
     },
     "scoreBands": {
@@ -1171,6 +1232,64 @@
       "framework": "Framework",
       "ui": "Interfacebibliotheken",
       "analytics": "Meting"
+    },
+    "checks": {
+      "title": "Wat de gratis scan checkt.",
+      "transport": {
+        "title": "De verbinding, en het certificaat erachter",
+        "body": "Wij voltooien een TLS-handshake zoals een browser dat doet en lezen vervolgens wat de server werkelijk aanbood, niet wat hij zegt te ondersteunen.",
+        "points": {
+          "0": "Vervaldatum van het certificaat, naamovereenkomst en of de keten vertrouwd is",
+          "1": "Verouderde protocolversies die nog steeds worden geaccepteerd",
+          "2": "HSTS, en of gewoon http de site stilletjes uitlevert in plaats van door te verwijzen"
+        }
+      },
+      "email": {
+        "title": "Wie er namens u mag mailen",
+        "body": "SPF, DMARC en MTA-STS staan voor iedereen leesbaar in uw DNS, en het zijn de records die bepalen of een vervalste factuur vanaf uw domein bij een klant aankomt.",
+        "points": {
+          "0": "Of DMARC bestaat, en of het beleid daadwerkelijk iets weigert",
+          "1": "SPF die eindigt in een vangnet, of de limiet van tien lookups overschrijdt",
+          "2": "Of een domein dat post accepteert een transportbeleid publiceert"
+        }
+      },
+      "surface": {
+        "title": "Alles wat uw naam draagt",
+        "body": "Certificate Transparency is een openbaar, alleen-toevoegen logboek van elk certificaat dat sinds 2018 is uitgegeven. Het uitlezen brengt uw hostnamen in kaart zonder u ook maar één pakket te sturen, en levert geregeld een host op waar niemand nog aan dacht.",
+        "points": {
+          "0": "Subdomeinen gevonden in openbare certificaatlogboeken",
+          "1": "Standaardbestanden die u publiceert, en mappen die een server aan iedereen toont",
+          "2": "Of er een firewall of contentnetwerk voor de origin staat"
+        }
+      },
+      "impersonation": {
+        "title": "Namen gebouwd om voor de uwe te worden aangezien",
+        "body": "Een gelijkend domein kost een paar euro en is de eerste zet bij de meeste factuurfraude. Wij genereren de plausibele varianten van uw naam en controleren welke daarvan al door iemand zijn geregistreerd.",
+        "points": {
+          "0": "Verwisselde tekens, invoegingen en naburige toetsaanslagen",
+          "1": "Welke van die registraties post kunnen versturen en ontvangen",
+          "2": "De logo's en afbeeldingen die een overtuigende kopie van uw site zou hergebruiken"
+        }
+      }
+    },
+    "gate": {
+      "title": "Bekijk het volledige rapport",
+      "body": "Voer uw zakelijke gegevens in om alle bevindingen van deze scan te ontgrendelen.",
+      "fields": {
+        "name": "Naam",
+        "company": "Bedrijf",
+        "position": "Functie",
+        "email": "Zakelijk e-mailadres"
+      },
+      "required": "Verplicht",
+      "emailCompany": "Gebruik uw zakelijke e-mailadres, geen persoonlijk adres.",
+      "emailFormat": "Voer een geldig e-mailadres in.",
+      "submit": "Volledig rapport ontgrendelen",
+      "submitting": "Ontgrendelen...",
+      "close": "Sluiten",
+      "seeAll": "Alle resultaten zien?",
+      "seeAllBody": "Ontgrendel de rest van dit rapport met uw zakelijke gegevens.",
+      "seeAllYes": "Ja, laat zien"
     }
   }
 }

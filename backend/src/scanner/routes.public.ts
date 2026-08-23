@@ -3,10 +3,11 @@ import { Router, type Request, type Response } from "express";
 import rateLimit, { ipKeyGenerator, MemoryStore } from "express-rate-limit";
 import { z } from "zod";
 import { db } from "../db/client.js";
-import { scans, type Scan } from "../db/schema.js";
+import { scanLeads, scans, type Scan } from "../db/schema.js";
 import { env } from "../env.js";
 import { uuidParam } from "../http/params.js";
 import { logger } from "../logger.js";
+import { checkCompanyEmail } from "./companyEmail.js";
 import { decrypt, encrypt, subjectDigest } from "./crypto.js";
 import { sendReportMail } from "./mail.js";
 import { normalizeSubject } from "./normalize.js";
@@ -62,6 +63,7 @@ const stores = {
   create: new MemoryStore(),
   poll: new MemoryStore(),
   redeem: new MemoryStore(),
+  lead: new MemoryStore(),
 };
 
 /** Test-only. Clears the counters without altering any limit. */
@@ -111,6 +113,17 @@ const redeemLimiter = rateLimit({
   message: { error: "rate_limited" },
 });
 
+/** Lead capture is a form submit, so a moderate per-IP cap is enough. */
+const leadLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  limit: 30,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  store: stores.lead,
+  keyGenerator: (req: Request) => ipKeyGenerator(req.ip ?? ""),
+  message: { error: "rate_limited" },
+});
+
 /*
  * `.strict()` for the same reason the blog's input schema uses it: without it
  * a caller can post `status`, `riskBand` or `verifiedAt` and have them spread
@@ -131,6 +144,16 @@ const createInput = z
   })
   .strict();
 
+const leadInput = z
+  .object({
+    scanId: z.string().uuid(),
+    name: z.string().trim().min(1).max(200),
+    company: z.string().trim().min(1).max(200),
+    position: z.string().trim().min(1).max(200),
+    email: z.string().trim().min(3).max(320),
+  })
+  .strict();
+
 function ttlExpiry(): Date {
   return new Date(Date.now() + env.SCANNER_REPORT_TTL_HOURS * 60 * 60 * 1000);
 }
@@ -144,6 +167,48 @@ scannerRouter.get("/availability", (_req, res) => {
   // Lets the page render an honest disabled state instead of a form that
   // always fails.
   res.json({ available: resolveProviders() !== undefined });
+});
+
+/*
+ * The lead a visitor gives to unlock a full report.
+ *
+ * This is not a security boundary and never behaves like one: a website report
+ * is the visitor's own public exposure, so the gate is a sales wall, not a
+ * lock. What the endpoint does enforce is the one rule the gate exists for —
+ * the email must be a company address, not free webmail — and it stores the
+ * details in the clear for the sales team to read in the studio.
+ */
+scannerRouter.post("/leads", leadLimiter, async (req, res) => {
+  const parsed = leadInput.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "invalid_lead" });
+    return;
+  }
+
+  const { scanId, name, company, position, email } = parsed.data;
+
+  if (!checkCompanyEmail(email).ok) {
+    res.status(400).json({ error: "invalid_email" });
+    return;
+  }
+
+  try {
+    await db.insert(scanLeads).values({
+      scanId,
+      name,
+      company,
+      position,
+      email: email.toLowerCase(),
+    });
+  } catch (cause) {
+    // A capture that fails to store must not block the unlock the visitor is
+    // owed, so this answers 200 and only logs. The domain never appears here.
+    logger.warn({ err: cause }, "scanner lead not stored");
+    res.status(200).json({ ok: true });
+    return;
+  }
+
+  res.status(201).json({ ok: true });
 });
 
 scannerRouter.post("/scans", createLimiter, async (req, res) => {

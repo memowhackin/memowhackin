@@ -216,6 +216,21 @@ export function listPosts(): Promise<AdminPost[]> {
   return request<AdminPost[]>("/api/posts");
 }
 
+/** A lead captured by the exposure scanner's unlock gate. */
+export interface AdminLead {
+  id: string;
+  scanId: string;
+  name: string;
+  company: string;
+  position: string;
+  email: string;
+  createdAt: string;
+}
+
+export function listLeads(): Promise<AdminLead[]> {
+  return request<AdminLead[]>("/api/scanner/leads");
+}
+
 /*
  * Every write drops the public site's cached post list. The studio and the
  * site share one single-page app, so without this an admin who publishes and

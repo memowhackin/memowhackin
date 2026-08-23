@@ -551,7 +551,24 @@
     "deleted": "Post deleted.",
     "loadError": "Could not load posts. Check that the CMS API is reachable.",
     "errorSaveFailed": "Could not save the post. Your changes are still here — try again.",
-    "errorDeleteFailed": "Could not delete the post."
+    "errorDeleteFailed": "Could not delete the post.",
+    "viewLeads": "Leads",
+    "leads": {
+      "title": "Scanner leads",
+      "subheading_one": "{{count}} captured",
+      "subheading_other": "{{count}} captured",
+      "back": "Dashboard",
+      "loading": "Loading leads...",
+      "empty": "No leads captured yet.",
+      "error": "Could not load leads.",
+      "columns": {
+        "name": "Name",
+        "company": "Company",
+        "position": "Position",
+        "email": "Work email",
+        "date": "Captured"
+      }
+    }
   },
   "cta": {
     "title": "Interested in a pentest?",
@@ -585,36 +602,16 @@
   },
   "scanner": {
     "eyebrow": "Free digital exposure check",
-    "heading": "See what the internet reveals",
-    "intro": "Enter a website or email address and receive a clear overview of publicly visible security exposure.",
-    "modeLabel": "What would you like to check",
+    "heading": "First one is on the house!",
+    "intro": "Enter a website domain and receive a clear overview of publicly visible security exposure.",
     "submitting": "Working…",
     "unavailable": "The scanner is not accepting requests at the moment. Please try again later or contact us directly.",
-    "marketingConsent": "Also send me occasional security research and product updates from AssistSec. Optional, and separate from this report.",
-    "tabs": {
-      "website": "Website",
-      "email": "Email address"
-    },
     "fields": {
       "website": {
         "label": "Website domain",
         "placeholder": "example.com",
         "action": "Start website scan"
-      },
-      "email": {
-        "label": "Email address",
-        "placeholder": "name@company.com",
-        "action": "Create private report"
       }
-    },
-    "privacy": {
-      "website": "We look only at information that is already public. No login is attempted and nothing is changed on the site.",
-      "email": "Personal exposure results are sent only to the email address entered."
-    },
-    "mailed": {
-      "title": "Check your inbox",
-      "body": "If we can produce a report for that address, a single-use link is on its way to it. The link opens the report and then stops working.",
-      "note": "We answer the same way for every address, so this page never reveals whether an address appears in a breach."
     },
     "errors": {
       "empty": "Enter a value to continue.",
@@ -640,7 +637,9 @@
       "working": "Working",
       "announce": "Step {{step}} of {{total}}. {{stage}}.",
       "queuedHint": "This usually takes under a minute.",
-      "step": "Step {{step}} of {{total}}"
+      "step": "Step {{step}} of {{total}}",
+      "scanning": "Scanning...",
+      "scanningHint": "Usually under a minute."
     },
     "stages": {
       "website": {
@@ -720,17 +719,49 @@
       "lookalikesMail_other": "{{count}} of these can send and receive mail, which is the shape of invoice fraud rather than parked names. Confirm they are yours.",
       "lookalikesOther_one": "{{count}} other registered name",
       "lookalikesOther_other": "{{count}} other registered names",
-      "hostsTitle": "Hosts visible in public certificate logs",
-      "hostsBody_one": "{{count}} hostname under this domain has a publicly logged certificate. Anything here you no longer recognise is worth checking.",
-      "hostsBody_other": "{{count}} hostnames under this domain have publicly logged certificates. Anything here you no longer recognise is worth checking.",
+      "hostsTitle": "Subdomains",
       "summaryHosts_one": "{{count}} public host seen for this domain.",
       "summaryHosts_other": "{{count}} public hosts seen for this domain.",
       "scoreLabel": "Public surface score {{score}} out of 100, rated {{band}}",
       "scoreOutOf": "out of 100",
-      "scoreScope": "This scores what is visible from outside without logging in: transport, response headers, email authentication, DNS and exposed surface. It is not a score for your security overall, because an automated pass cannot reach authorization or business logic.",
       "stackTitle": "What the site is built on",
       "stackBody": "Read from the headers and markup the site serves to every visitor. A version appears only where the site stated one.",
-      "versionUnknown": "N/A"
+      "versionUnknown": "N/A",
+      "stackEmpty": "This site announces no server, framework or platform we recognise in its headers or markup. That is the better posture: less for an attacker to match against a vulnerability list.",
+      "imagesTitle": "Brand assets and images",
+      "imagesOrigins_one": "One of them is served by another company: {{origins}}. That supplier sees every visitor who loads the page.",
+      "imagesOrigins_other": "{{count}} of them are served by other companies: {{origins}}. Each supplier sees every visitor who loads the page.",
+      "imageKinds": {
+        "icon": "Favicon",
+        "logo": "Logo",
+        "social": "Share card",
+        "content": "Page image"
+      },
+      "pathsTitle": "Published files",
+      "edgeTitle": "Web application firewall",
+      "edgeNone": "Not detected",
+      "statusComplete": "Scan complete",
+      "statusPartial": "Some checks did not finish",
+      "factCompleted": "Completed",
+      "factReference": "Reference",
+      "factHosts": "Hosts seen",
+      "countAreas_one": "{{count}} area",
+      "countAreas_other": "{{count}} areas",
+      "imagesMore": "Show all",
+      "lightbox": {
+        "title": "Image viewer",
+        "download": "Download",
+        "close": "Close",
+        "previous": "Previous image",
+        "next": "Next image",
+        "goTo": "Go to image {{index}}"
+      },
+      "edgeDeliveryLabel": "Content network",
+      "hostsBody": "Enumerated from public Certificate Transparency logs, without touching the site. Anything you no longer recognise is worth a look.",
+      "hostsApex": "apex",
+      "hostsShowMore_one": "+{{count}} more subdomain",
+      "hostsShowMore_other": "+{{count}} more subdomains",
+      "hostsShowLess": "Show fewer"
     },
     "confidence": {
       "confirmed": {
@@ -761,7 +792,8 @@
       "email_authentication": "Email authentication",
       "exposed_surface": "Exposed surface",
       "software_disclosure": "Software disclosure",
-      "dns": "DNS configuration"
+      "dns": "DNS configuration",
+      "policy": "Disclosure policy"
     },
     "dataTypes": {
       "email": "Email address",
@@ -777,7 +809,8 @@
     "limits": {
       "known_sources_only": "This report covers breach sources available to us today. Absence of a record is not proof an address was never exposed, and new breaches are published regularly.",
       "dnssec_undetermined": "We could not reach a validating resolver, so DNSSEC status is unknown for this scan.",
-      "no_ct_records": "No certificates for this domain appeared in Certificate Transparency logs, so no subdomains were discovered this way."
+      "no_ct_records": "No certificates for this domain appeared in Certificate Transparency logs, so no subdomains were discovered this way.",
+      "waf_undetermined": "A web application firewall that does not announce itself in its headers would not have been detected. We do not send attack traffic to find one."
     },
     "failure": {
       "failed": {
@@ -815,7 +848,6 @@
       "networkIndicator": "Network activity associated with {{country}}",
       "stealerAction": "This source is malware-harvested credential data. Treat every account used on the affected device as compromised and change those passwords from a clean device.",
       "passwordAction": "Change this password everywhere it was used and enable multi-factor authentication.",
-      "provenance": "Source",
       "provenanceReport": "The address you submitted",
       "provenanceSource": "Observed in the {{name}} record",
       "observed": "Observed",
@@ -852,7 +884,7 @@
         "category": "A category of personal data that appeared in this record alongside your address."
       },
       "website": {
-        "title": "Where the work is",
+        "title": "Visual graph",
         "intro": "Your findings grouped by the area they belong to. Select any point to see what it means and what to do about it.",
         "subject": "Your website",
         "subjectExplanation": "The domain this report was produced for. Everything below was observed from outside, without logging in.",
@@ -883,13 +915,12 @@
         "lookalikeParked": "Registered and resolving, but not configured to handle mail.",
         "lookalikeMail": "Registered and able to send and receive mail, which is the shape of invoice fraud rather than a parked name.",
         "lookalikeAction": "Confirm this is yours. If it is not, report it to the registrar and warn finance and reception."
-      },
-      "hint": "Use the arrow keys to move through the map."
+      }
     },
     "cta": {
       "website": {
-        "title": "Automated testing identified the publicly visible surface. Authorization, business logic and authenticated functionality require manual testing.",
-        "body": "A targeted penetration test picks up where this stops: our testers work with credentials, follow the logic of your application, and chain findings the way an attacker would.",
+        "title": "Curious to what we can discover more?",
+        "body": "Our specialized agents and penetration testers with years of experience will perform the pentest.",
         "action": "Discuss a targeted penetration test"
       },
       "email": {
@@ -1095,7 +1126,7 @@
       "dangling_cname": {
         "title": "A DNS record points at a service that no longer exists",
         "observed": "A hostname is aliased to a third-party platform whose target does not resolve.",
-        "impact": "On these platforms the name can often be claimed by whoever registers it next, which hands a stranger a hostname under your domain — valid certificates, cookies scoped to it, and your name on their content.",
+        "impact": "On these platforms the name can often be claimed by whoever registers it next, which hands a stranger a hostname under your domain: valid certificates, cookies scoped to it, and your name on their content.",
         "remediation": "Remove the record, or reclaim the service it points at. Treat this as urgent."
       },
       "exposed_git": {
@@ -1139,6 +1170,36 @@
         "observed": "At least one domain resembling yours publishes mail exchanger records.",
         "impact": "A parked lookalike is a placeholder. One set up for mail is set up to be replied to, which is the shape of invoice fraud and staff impersonation. This is the version of the finding worth acting on.",
         "remediation": "Confirm it is not yours. If it is not, report it to the registrar and the hosting provider, and warn finance and reception that mail from it is not you."
+      },
+      "open_directory_index": {
+        "title": "A directory lists its contents to anyone",
+        "observed": "A request for a directory returned a server-generated index of the files inside it, rather than a page or a refusal.",
+        "impact": "Anyone can read the file names without guessing them. Directory indexes are how forgotten backups, exports and drafts get found, the listing does the searching that an attacker would otherwise have to do by hand.",
+        "remediation": "Turn off automatic indexing for that path. In nginx that is `autoindex off`; in Apache it is `Options -Indexes`. Then check what was in there, because the listing has been readable for as long as it has been enabled."
+      },
+      "missing_security_txt": {
+        "title": "No security.txt names who to contact",
+        "observed": "Neither /.well-known/security.txt nor /security.txt was published, while other well-known files were.",
+        "impact": "A researcher who finds a flaw has nowhere to send it. In practice those reports go to a sales address, a contact form or a social account, and most of them are never read by anyone who could act.",
+        "remediation": "Publish /.well-known/security.txt with a Contact line and an Expires line, per RFC 9116. It takes one file and turns an unreachable finding into a message that lands."
+      },
+      "robots_reveals_paths": {
+        "title": "robots.txt names paths worth hiding",
+        "observed": "The site's robots.txt asks crawlers to stay out of directories whose names suggest administration, staging or backups.",
+        "impact": "robots.txt is served to anyone who asks, so it is the first file a stranger reads. Listing a path there tells them where to look, and asking a crawler not to index something has never stopped anyone from opening it.",
+        "remediation": "Do not rely on robots.txt to hide anything. Put authentication in front of those paths, then remove the entries; if a path must stay unindexed, use a noindex header on the pages themselves."
+      },
+      "mixed_content_images": {
+        "title": "An image loads over plain http",
+        "observed": "The page is served over https but references at least one image over http.",
+        "impact": "Anyone on the network path can replace that image or use the unencrypted request to track visitors. Browsers either block it or downgrade the page's security indicator, so the padlock a visitor is looking for stops meaning what they think.",
+        "remediation": "Serve every referenced asset over https, or move the image to a host that supports it. Adding upgrade-insecure-requests to your CSP fixes the symptom while you find them all."
+      },
+      "many_third_party_origins": {
+        "title": "Homepage images come from several other companies",
+        "observed": "Images on the homepage are loaded from three or more hosts outside your domain.",
+        "impact": "Each one sees the address of every visitor who opens the page, and each one could change what those visitors are shown. This is not a fault, but it is a supplier list most owners have never counted.",
+        "remediation": "Check that each origin is one you meant to use and can vouch for. Self-host what you can, and pin the rest with subresource integrity where the format allows it."
       }
     },
     "scoreBands": {
@@ -1171,6 +1232,64 @@
       "framework": "Framework",
       "ui": "Interface libraries",
       "analytics": "Measurement"
+    },
+    "checks": {
+      "title": "What the free scan looks at",
+      "transport": {
+        "title": "The connection, and the certificate behind it",
+        "body": "We complete a TLS handshake the way a browser would, then read what the server actually presented rather than what it claims to support.",
+        "points": {
+          "0": "Certificate expiry, hostname match, and whether the chain is trusted",
+          "1": "Legacy protocol versions still being accepted",
+          "2": "HSTS, and whether plain http quietly serves the site instead of redirecting"
+        }
+      },
+      "email": {
+        "title": "Who is allowed to send mail as you",
+        "body": "SPF, DMARC and MTA-STS are published in your DNS for anyone to read, and they are the records that decide whether a forged invoice from your domain reaches a customer.",
+        "points": {
+          "0": "Whether DMARC exists, and whether its policy actually rejects anything",
+          "1": "SPF that ends in a catch-all, or exceeds the ten-lookup limit",
+          "2": "Whether a domain that accepts mail publishes a transport policy"
+        }
+      },
+      "surface": {
+        "title": "Everything carrying your name",
+        "body": "Certificate Transparency is a public append-only log of every certificate issued since 2018. Reading it maps your hostnames without sending a single packet to you, and it routinely surfaces a host nobody has thought about in years.",
+        "points": {
+          "0": "Subdomains found in public certificate logs",
+          "1": "Standard files you publish, and directories a server lists to anyone",
+          "2": "Whether a firewall or a content network sits in front of the origin"
+        }
+      },
+      "impersonation": {
+        "title": "Names built to be misread as yours",
+        "body": "A lookalike domain costs a few euros and is the first move in most invoice fraud. We generate the plausible variants of your name and check which ones somebody has already registered.",
+        "points": {
+          "0": "Character swaps, insertions and neighbouring keyboard slips",
+          "1": "Which of those registrations can send and receive mail",
+          "2": "The logos and images a convincing copy of your site would reuse"
+        }
+      }
+    },
+    "gate": {
+      "title": "See the full report",
+      "body": "Enter your work details to unlock every finding for this scan.",
+      "fields": {
+        "name": "Name",
+        "company": "Company",
+        "position": "Position",
+        "email": "Work email"
+      },
+      "required": "Required",
+      "emailCompany": "Use your company email, not a personal one.",
+      "emailFormat": "Enter a valid email address.",
+      "submit": "Unlock the full report",
+      "submitting": "Unlocking...",
+      "close": "Close",
+      "seeAll": "Want to see all results?",
+      "seeAllBody": "Unlock the rest of this report with your work details.",
+      "seeAllYes": "Yes, show me"
     }
   }
 }

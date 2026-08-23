@@ -96,12 +96,48 @@ export interface DetectedTechnology {
   version?: string;
 }
 
+export interface EdgeProduct {
+  id: string;
+  name: string;
+  /** A firewall inspects requests; a CDN only moves them closer. */
+  kind: string;
+  confidence: string;
+}
+
+export interface PublishedPath {
+  path: string;
+  kind: string;
+  /** `protected` means it is there and guarded, which is its own answer. */
+  state: string;
+  contentType?: string;
+  bytes?: number;
+}
+
+export interface SiteImage {
+  /** Always absolute http(s); the server drops every other scheme. */
+  url: string;
+  kind: string;
+  origin: string;
+  contentType?: string;
+  bytes?: number;
+}
+
 export interface WebsiteResult {
   findings: WebsiteFinding[];
   /** 0-100 over the observed public surface. */
   score: number;
   scoreBand: string;
   technologies: DetectedTechnology[];
+  /** Edge products that announced themselves in their own headers. */
+  waf: EdgeProduct[];
+  /** Well-known files the site serves, and what its robots.txt names. */
+  paths: {
+    entries: PublishedPath[];
+    disallowed: string[];
+    securityTxt: boolean;
+  };
+  /** Images the homepage references, each verified to load. */
+  images: SiteImage[];
   /** Hostnames seen in Certificate Transparency for this domain. */
   assets: string[];
   /** Third-party domains registered to resemble it. */
@@ -145,6 +181,7 @@ export type ScannerErrorCode =
   | "unavailable"
   | "rate_limited"
   | "invalid_subject"
+  | "invalid_email"
   | "expired"
   | "not_found"
   | "network";
@@ -180,6 +217,47 @@ function statusOf(value: unknown): ScanStatus {
     "expired",
   ];
   return known.find((entry) => entry === value) ?? "failed";
+}
+
+function toPaths(raw: unknown): WebsiteResult["paths"] {
+  const empty = { entries: [], disallowed: [], securityTxt: false };
+  if (!isRecord(raw)) return empty;
+
+  return {
+    entries: Array.isArray(raw.entries)
+      ? raw.entries.filter(
+          (entry): entry is PublishedPath =>
+            isRecord(entry) && typeof entry.path === "string",
+        )
+      : [],
+    disallowed: Array.isArray(raw.disallowed)
+      ? raw.disallowed.filter(
+          (entry): entry is string => typeof entry === "string",
+        )
+      : [],
+    securityTxt: raw.securityTxt === true,
+  };
+}
+
+/**
+ * Read the image list, re-checking the scheme the server already checked.
+ *
+ * Every URL here ends up in an `<img src>`, so the one property that must hold
+ * is that it cannot be `javascript:`. The server drops those before they are
+ * stored and this drops them again on arrival — not because the server is
+ * doubted, but because a rule enforced at both ends survives one end being
+ * rewritten by someone who did not read this comment.
+ */
+function toImages(raw: unknown): SiteImage[] {
+  if (!Array.isArray(raw)) return [];
+
+  return raw.filter(
+    (entry): entry is SiteImage =>
+      isRecord(entry) &&
+      typeof entry.url === "string" &&
+      (entry.url.startsWith("https://") || entry.url.startsWith("http://")) &&
+      typeof entry.origin === "string",
+  );
 }
 
 /**
@@ -244,6 +322,16 @@ function toScanState(payload: unknown): ScanState {
                 typeof entry.name === "string",
             )
           : [],
+        waf: Array.isArray(result.waf)
+          ? result.waf.filter(
+              (entry): entry is EdgeProduct =>
+                isRecord(entry) &&
+                typeof entry.id === "string" &&
+                typeof entry.name === "string",
+            )
+          : [],
+        paths: toPaths(result.paths),
+        images: toImages(result.images),
         limitations: Array.isArray(result.limitations)
           ? result.limitations.filter(
               (entry): entry is string => typeof entry === "string",
@@ -388,4 +476,37 @@ export async function redeemReport(token: string): Promise<ScanState> {
 
   if (!response.ok) throw await failureFor(response);
   return toScanState(await response.json());
+}
+
+/**
+ * Record the lead that unlocked a report.
+ *
+ * The details a visitor gives to see the full report are posted here and stored
+ * against the scan, so the sales team can see who asked. This is not a security
+ * boundary — a website report is the visitor's own public exposure and the gate
+ * is a lead wall, not a lock — so the caller reveals the report regardless and
+ * this is best-effort capture.
+ */
+export async function submitLead(input: {
+  scanId: string;
+  name: string;
+  company: string;
+  position: string;
+  email: string;
+}): Promise<void> {
+  let response: Response;
+  try {
+    response = await fetch(`${ROOT}/leads`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify(input),
+    });
+  } catch {
+    throw new ScannerError("network");
+  }
+
+  if (!response.ok) throw await failureFor(response);
 }

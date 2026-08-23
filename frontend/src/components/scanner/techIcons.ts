@@ -89,3 +89,60 @@ export const TECH_ICON_PATHS: Record<string, string> = {
 export function hasTechIcon(id: string): boolean {
   return id in TECH_ICON_PATHS;
 }
+
+/*
+ * Each brand's own colour, as published alongside its mark.
+ *
+ * The marks used to render in one muted grey, which made a row of them read as
+ * a set of unrelated glyphs: a brand mark carries most of its recognition in
+ * its colour, and stripping that out means the reader has to decode each shape
+ * instead of recognising it. These are the official hex values from the same
+ * source as the paths.
+ *
+ * A handful are near-black by specification. Those are lightened here rather
+ * than used literally, because a black mark on this page's ground is an empty
+ * square; the note beside each says what it is.
+ */
+export const TECH_ICON_COLORS: Record<string, string> = {
+  nginx: "#009639",
+  apache: "#D22128",
+  caddy: "#1F88C0",
+  cloudflare: "#F38020",
+  fastly: "#FF282D",
+  akamai: "#0099CC",
+  vercel: "#F5F5F7", // black by spec; lightened to stay visible on dark
+  netlify: "#00C7B7",
+  php: "#777BB4",
+  nodedotjs: "#5FA04E",
+  dotnet: "#512BD4",
+  ruby: "#CC342D",
+  python: "#3776AB",
+  wordpress: "#21759B",
+  drupal: "#0678BE",
+  joomla: "#5091CD",
+  shopify: "#7AB55C",
+  wix: "#0C6EFC",
+  squarespace: "#E8E8E8", // black by spec; lightened
+  webflow: "#146EF5",
+  contentful: "#2478CC",
+  nextdotjs: "#F5F5F7", // black by spec; lightened
+  nuxtdotjs: "#00DC82",
+  react: "#61DAFB",
+  vuedotjs: "#4FC08D",
+  angular: "#DD0031",
+  svelte: "#FF3E00",
+  astro: "#BC52EE", // brand is black; the wordmark violet reads better here
+  jquery: "#0769AD",
+  bootstrap: "#7952B3",
+  tailwindcss: "#06B6D4",
+  googleanalytics: "#E37400",
+  googletagmanager: "#246FDB",
+  matomo: "#3152A0",
+  plausibleanalytics: "#5850EC",
+  hotjar: "#FF3C00",
+  // The three with no published single-path mark, so the monogram carries the
+  // colour instead. See `Mark` in TechStack.tsx.
+  amazonwebservices: "#FF9900",
+  iis: "#0078D4",
+  litespeed: "#00A0E1",
+};

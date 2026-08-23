@@ -8,58 +8,199 @@ import { safeFetch } from "../net/fetch.js";
  * subdomains they had forgotten existed is new information.
  */
 
-const CT_TIMEOUT_MS = 12_000;
+const CT_TIMEOUT_MS = 8_000;
+const CT_RETRIES = 1;
+const USER_AGENT = "AssistSecScanner/1.0 (+https://assistsec.nl)";
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 /**
- * Subdomains, from Certificate Transparency logs.
+ * Add a candidate name to the set, once it passes the domain filter.
  *
- * Every publicly trusted certificate issued since 2018 is published to CT, so
- * querying the logs enumerates a domain's certificated names without sending a
- * single packet to the target. That matters twice over: it is far faster than
- * brute-forcing names, and it is entirely passive, so it cannot be mistaken
- * for an attack by anyone watching the target's logs.
- *
- * It finds only names that appear on a certificate. Internal names on private
- * PKI and names never certificated are invisible to it, which is a limit worth
- * knowing rather than a fault.
+ * CT search is a substring match and will happily return a different
+ * registrant's name, so anything not actually under the domain is discarded.
+ * Wildcards collapse to their parent.
  */
-export async function discoverSubdomains(domain: string): Promise<string[]> {
+function keep(names: Set<string>, raw: string, domain: string): void {
+  const name = raw.trim().toLowerCase().replace(/^\*\./, "");
+  if (name.endsWith(`.${domain}`) || name === domain) names.add(name);
+}
+
+/**
+ * crt.sh, the usual CT search. Reliable in aggregate but prone to transient
+ * 502s under load, so a failed attempt is retried once before giving up.
+ */
+async function fromCrtSh(domain: string, names: Set<string>): Promise<void> {
+  for (let attempt = 0; attempt <= CT_RETRIES; attempt += 1) {
+    try {
+      const response = await fetch(
+        `https://crt.sh/?q=%25.${encodeURIComponent(domain)}&output=json`,
+        {
+          headers: { accept: "application/json", "user-agent": USER_AGENT },
+          signal: AbortSignal.timeout(CT_TIMEOUT_MS),
+        },
+      );
+      if (!response.ok) {
+        // A 5xx is the transient case worth a second try; a 4xx is not.
+        if (response.status >= 500 && attempt < CT_RETRIES) {
+          await sleep(600);
+          continue;
+        }
+        return;
+      }
+
+      const payload: unknown = await response.json();
+      if (!Array.isArray(payload)) return;
+      for (const entry of payload) {
+        if (typeof entry !== "object" || entry === null) continue;
+        const value = (entry as { name_value?: unknown }).name_value;
+        if (typeof value !== "string") continue;
+        // One certificate can carry many names, newline separated.
+        for (const line of value.split("\n")) keep(names, line, domain);
+      }
+      return;
+    } catch {
+      if (attempt < CT_RETRIES) {
+        await sleep(600);
+        continue;
+      }
+      return;
+    }
+  }
+}
+
+/** Cert Spotter, a second CT log. Free tier is capped but real when up. */
+async function fromCertSpotter(
+  domain: string,
+  names: Set<string>,
+): Promise<void> {
   try {
     const response = await fetch(
-      `https://crt.sh/?q=%25.${encodeURIComponent(domain)}&output=json`,
+      `https://api.certspotter.com/v1/issuances?domain=${encodeURIComponent(
+        domain,
+      )}&include_subdomains=true&expand=dns_names`,
       {
-        headers: {
-          accept: "application/json",
-          "user-agent": "AssistSecScanner/1.0 (+https://assistsec.nl)",
-        },
+        headers: { accept: "application/json", "user-agent": USER_AGENT },
         signal: AbortSignal.timeout(CT_TIMEOUT_MS),
       },
     );
-    if (!response.ok) return [];
+    if (!response.ok) return;
 
     const payload: unknown = await response.json();
-    if (!Array.isArray(payload)) return [];
-
-    const names = new Set<string>();
+    if (!Array.isArray(payload)) return;
     for (const entry of payload) {
       if (typeof entry !== "object" || entry === null) continue;
-      const value = (entry as { name_value?: unknown }).name_value;
-      if (typeof value !== "string") continue;
-
-      // One certificate can carry many names, newline separated.
-      for (const raw of value.split("\n")) {
-        const name = raw.trim().toLowerCase().replace(/^\*\./, "");
-        // Wildcards collapse to their parent, and anything not under the
-        // domain asked about is discarded — CT search is a substring match
-        // and will happily return a different registrant's name.
-        if (name.endsWith(`.${domain}`) || name === domain) names.add(name);
+      const dnsNames = (entry as { dns_names?: unknown }).dns_names;
+      if (!Array.isArray(dnsNames)) continue;
+      for (const name of dnsNames) {
+        if (typeof name === "string") keep(names, name, domain);
       }
     }
-
-    return [...names].sort();
   } catch {
-    return [];
+    // A source that fails just leaves the set as the others left it.
   }
+}
+
+/** Escape a domain so it can be dropped into a RegExp literally. */
+function escapeRe(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * RapidDNS, a passive-DNS aggregator. Its answer is an HTML table rather than
+ * JSON, so hostnames are lifted out with a bounded regex whose lookarounds
+ * pin each match to a whole token ending exactly at the domain, so a name like
+ * `x.example.com.evil.net` cannot be mistaken for a subdomain of example.com.
+ */
+async function fromRapidDns(domain: string, names: Set<string>): Promise<void> {
+  try {
+    const response = await fetch(
+      `https://rapiddns.io/subdomain/${encodeURIComponent(domain)}?full=1`,
+      {
+        headers: { accept: "text/html", "user-agent": USER_AGENT },
+        signal: AbortSignal.timeout(CT_TIMEOUT_MS),
+      },
+    );
+    if (!response.ok) return;
+
+    const html = await response.text();
+    const pattern = new RegExp(
+      `(?<![\\w.-])((?:[a-z0-9-]+\\.)+${escapeRe(domain)})(?![\\w.-])`,
+      "gi",
+    );
+    for (const match of html.matchAll(pattern)) {
+      if (match[1] !== undefined) keep(names, match[1], domain);
+    }
+  } catch {
+    // Ignore; the other sources still contribute.
+  }
+}
+
+/**
+ * HackerTarget host search. Free tier is rate limited to a few queries a day
+ * per address and answers "API count exceeded" once spent, which is treated
+ * as no result rather than a name.
+ */
+async function fromHackerTarget(
+  domain: string,
+  names: Set<string>,
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `https://api.hackertarget.com/hostsearch/?q=${encodeURIComponent(domain)}`,
+      {
+        headers: { accept: "text/plain", "user-agent": USER_AGENT },
+        signal: AbortSignal.timeout(CT_TIMEOUT_MS),
+      },
+    );
+    if (!response.ok) return;
+
+    const text = await response.text();
+    if (text.includes("API count exceeded") || text.includes("error")) return;
+    for (const line of text.split("\n")) {
+      const host = line.split(",")[0];
+      if (host !== undefined && host.length > 0) keep(names, host, domain);
+    }
+  } catch {
+    // Ignore; the other sources still contribute.
+  }
+}
+
+/** How many names the module and graph will carry, however many exist. */
+const SUBDOMAIN_CAP = 300;
+
+/**
+ * Subdomains, enumerated passively from several public sources at once.
+ *
+ * All of these read a public log or aggregator, not the target: Certificate
+ * Transparency (crt.sh, Cert Spotter) publishes every certificate issued since
+ * 2018, and the passive-DNS services (RapidDNS, HackerTarget) replay
+ * resolutions other people's resolvers already made. Not one packet is sent to
+ * the site, so this cannot be mistaken for an attack by anyone watching it.
+ *
+ * Several sources rather than one because any single service has a bad minute
+ * — crt.sh in particular 502s under load — and a lone source down leaves the
+ * report showing only the apex and calling it the whole estate. They run in
+ * parallel and their answers are merged, so the result is the union of
+ * whichever happened to be healthy.
+ *
+ * It finds only names some source has recorded. Internal names on private PKI
+ * and names never certificated or resolved publicly are invisible to it, which
+ * is a limit worth knowing rather than a fault.
+ */
+export async function discoverSubdomains(domain: string): Promise<string[]> {
+  const names = new Set<string>();
+
+  await Promise.allSettled([
+    fromCrtSh(domain, names),
+    fromCertSpotter(domain, names),
+    fromRapidDns(domain, names),
+    fromHackerTarget(domain, names),
+  ]);
+
+  return [...names].sort().slice(0, SUBDOMAIN_CAP);
 }
 
 /*

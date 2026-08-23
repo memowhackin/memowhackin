@@ -1,17 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
+import { LogoMark } from "@/components/common/Logo";
+import { GlassPanel } from "@/components/scanner/GlassPanel";
+import { ScannerChecks } from "@/components/scanner/ScannerChecks";
 import { ScannerPanel } from "@/components/scanner/ScannerPanel";
 import { useSeo } from "@/localization/useSeo";
-import {
-  ScannerError,
-  scannerAvailable,
-  startScan,
-  type ScanKind,
-} from "@/config/scanner";
+import { ScannerError, scannerAvailable, startScan } from "@/config/scanner";
 
 export const Route = createFileRoute("/security-scan/")({
   component: SecurityScanPage,
@@ -20,15 +18,18 @@ export const Route = createFileRoute("/security-scan/")({
 /*
  * The scanner's landing state.
  *
- * Deliberately a short page: an eyebrow, a heading, one paragraph and the
- * panel. Everything else a marketing page would carry — the case studies, the
- * logos, the second call to action — competes with the one thing a visitor
- * came here to do, and the panel is strong enough to carry the fold on its own.
+ * The fold is a heading, one paragraph and the console, and nothing else: no
+ * eyebrow, no logo wall, no second call to action. Everything a marketing page
+ * would normally stack above the form competes with the one thing a visitor
+ * came here to do, and the console is strong enough to carry the fold alone.
  *
- * A website scan navigates to its result page as soon as the id exists, so the
- * scan survives a refresh and can be linked. An email scan navigates nowhere:
- * it has no id to navigate to by design, and the page turns into the same
- * neutral acknowledgement whatever the address was.
+ * What follows the fold is not more marketing. It is four sections naming the
+ * specific checks the scan performs, because the question a visitor actually
+ * has before typing their domain into a stranger's form is what will be done
+ * to it.
+ *
+ * The scan navigates to its result page as soon as the id exists, so it
+ * survives a refresh and can be linked.
  */
 function SecurityScanPage() {
   const { t } = useTranslation();
@@ -36,9 +37,7 @@ function SecurityScanPage() {
 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [mailed, setMailed] = useState(false);
   const [available, setAvailable] = useState(true);
-  const acknowledgementRef = useRef<HTMLDivElement>(null);
 
   const { ref: heroRef, className: heroReveal } = useReveal<HTMLDivElement>();
   const { ref: panelRef, className: panelReveal } = useReveal<HTMLDivElement>({
@@ -78,25 +77,20 @@ function SecurityScanPage() {
     [t],
   );
 
-  function handleSubmit(input: {
-    kind: ScanKind;
-    subject: string;
-    marketingConsent: boolean;
-  }) {
+  function handleSubmit(input: { subject: string }) {
     if (busy) return;
     setBusy(true);
     setError(undefined);
 
-    startScan(input)
+    startScan({
+      kind: "website",
+      subject: input.subject,
+      marketingConsent: false,
+    })
       .then((scan) => {
-        if (scan === undefined) {
-          // The email flow. There is no id and never will be one here.
-          setMailed(true);
-          // Move focus to the acknowledgement, or a keyboard user is left on
-          // a submit button whose form has just been replaced.
-          requestAnimationFrame(() => acknowledgementRef.current?.focus());
-          return;
-        }
+        // A website scan always has an id to navigate to; the earlier
+        // id-less email path is gone with the email feature.
+        if (scan === undefined) return;
         void navigate({
           to: "/security-scan/results/$scanId",
           params: { scanId: scan.id },
@@ -112,25 +106,20 @@ function SecurityScanPage() {
 
   return (
     <div data-testid="security-scan" className="bg-ink relative">
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[30rem]"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(60% 100% at 50% 0%, rgba(96,70,202,0.2) 0%, transparent 68%)",
-        }}
-      />
-
       <SectionShell
         className="bg-transparent"
         data-testid="security-scan-hero"
-        innerClassName="flex flex-col gap-10 pt-12 pb-16 sm:pt-16 lg:pt-20 lg:pb-24"
+        innerClassName="flex flex-col gap-10 pt-12 pb-20 sm:pt-16 lg:gap-14 lg:pt-20 lg:pb-28"
       >
+        {/*
+          No eyebrow. The heading carries the page on its own, and a label
+          above it saying the same thing in smaller type was the third time
+          the fold introduced itself.
+        */}
         <div
           ref={heroRef}
           className={`flex max-w-3xl flex-col gap-5 ${heroReveal}`}
         >
-          <p className="eyebrow text-lavender">{t("scanner.eyebrow")}</p>
           <h1 className="font-display text-mist text-3xl leading-tight font-normal text-balance sm:text-4xl lg:text-5xl">
             {t("scanner.heading")}
           </h1>
@@ -139,41 +128,38 @@ function SecurityScanPage() {
           </p>
         </div>
 
-        <div ref={panelRef} className={`max-w-3xl ${panelReveal}`}>
-          {mailed ? (
-            <div
-              ref={acknowledgementRef}
-              tabIndex={-1}
-              role="status"
-              data-testid="scanner-mail-sent"
-              className="border-indigo-deep bg-ink-deep rounded-2xl border p-6 outline-none sm:p-8"
-            >
-              <h2 className="font-display text-mist text-xl font-normal sm:text-2xl">
-                {t("scanner.mailed.title")}
-              </h2>
-              {/*
-                Worded so that it says the same thing for an address with
-                exposure, an address without, and an address that does not
-                exist. Any difference here would answer the question the
-                report is supposed to answer only to its owner.
-              */}
-              <p className="text-mist/75 mt-3 max-w-prose text-base leading-relaxed text-pretty">
-                {t("scanner.mailed.body")}
-              </p>
-              <p className="text-mist/55 mt-3 max-w-prose text-sm leading-relaxed text-pretty">
-                {t("scanner.mailed.note")}
-              </p>
-            </div>
-          ) : (
-            <ScannerPanel
-              onSubmit={handleSubmit}
-              busy={busy}
-              available={available}
-              {...(error === undefined ? {} : { error })}
+        {/*
+          The console, in the same frosted shell the figures below use. See
+          `GlassPanel` for why the edge is a band rather than a line and why
+          the surface inside it is a single flat colour.
+        */}
+        <div ref={panelRef} className={`w-full ${panelReveal}`}>
+          {/*
+            `overflow-hidden` on the inner surface is what keeps the watermark
+            a watermark: the mark is nudged past the top-right corner and the
+            container clips whatever crosses its own rounded edge, so about a
+            quarter of it is cut and nothing of it ever shows outside the panel.
+            It sits behind the form (the content wrapper below is positioned and
+            paints over it) and is `aria-hidden`, so it is decoration only.
+          */}
+          <GlassPanel innerClassName="relative overflow-hidden p-6 sm:p-9 lg:p-11">
+            <LogoMark
+              aria-hidden="true"
+              className="text-lavender/[0.12] pointer-events-none absolute -top-5 -right-5 w-24 sm:w-28"
             />
-          )}
+            <div className="relative">
+              <ScannerPanel
+                onSubmit={handleSubmit}
+                busy={busy}
+                available={available}
+                {...(error === undefined ? {} : { error })}
+              />
+            </div>
+          </GlassPanel>
         </div>
       </SectionShell>
+
+      <ScannerChecks />
 
       <ClosingCta />
     </div>
