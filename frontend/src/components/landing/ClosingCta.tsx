@@ -61,8 +61,9 @@ const REACH_AT_VISIBLE = 0.85;
  * section already in view — a reload at the foot of the page, a jump to the
  * footer — it lands at its final number before the first paint and nothing
  * ever moves. The follower starts at 0 on mount and closes the gap with a
- * ~200ms time constant, so the hands visibly reach in on arrival however the
- * reader got there, and visibly trail the scroll while it is happening.
+ * short ~55ms time constant, so the hands still reach in on arrival however
+ * the reader got there, and still smooth a notchy wheel, but stay close enough
+ * to the scroll that they read as tied to it rather than drifting after it.
  *
  * One custom property per frame and no state, so nothing re-renders. The loop
  * only runs while there is a gap to close; at rest there is no frame work.
@@ -107,12 +108,22 @@ function useHandReach<T extends HTMLElement>() {
        */
       const dt = Math.min((now - last) / 1000, 0.1);
       last = now;
-      // A ~270ms time constant: enough trail behind the scroll that the
-      // reach is seen happening, short enough that it never feels detached.
-      current += (target - current) * (1 - Math.exp(-dt * 3.7));
+      /*
+       * A ~55ms time constant. It still smooths the steps a notchy mouse wheel
+       * arrives in, and still animates the hand in from nothing on first mount,
+       * but it is tight enough that the hand reads as tied to the scrollbar
+       * rather than chasing it. The old ~270ms trailed far enough behind that
+       * on a short page — where a scrollbar drag crosses the whole reach ramp
+       * in one flick — the hand went on drifting inward for most of a second
+       * after the scroll had already stopped, which read as motion of its own.
+       */
+      current += (target - current) * (1 - Math.exp(-dt * 18));
       if (Math.abs(target - current) < 0.002) current = target;
 
-      element.style.setProperty("--cta-reach", current.toFixed(4));
+      // The pose is only defined between its rest and its reach; a stray frame
+      // outside that range would flick the hand off-screen or past the copy.
+      const shown = Math.min(Math.max(current, 0), 1);
+      element.style.setProperty("--cta-reach", shown.toFixed(4));
       if (current !== target) frame ||= requestAnimationFrame(tick);
     };
 

@@ -2,14 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { ArrowUpRight, Check, Search } from "lucide-react";
+import { ArrowUpRight, Search } from "lucide-react";
 import { BrandWatermark } from "@/components/blog/BrandWatermark";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { PostCover } from "@/components/blog/PostCover";
-import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
-import { ClosingCta } from "@/components/landing/ClosingCta";
 import { useSeo } from "@/localization/useSeo";
 import { BlogUnavailable } from "@/components/blog/BlogUnavailable";
 import { gridColumns } from "@/components/blog/gridColumns";
@@ -131,148 +129,6 @@ function ArticleCard({ post, index }: { post: BlogSummary; index: number }) {
         </Link>
       </div>
     </li>
-  );
-}
-
-/**
- * The subscribe invitation closing the archive.
- *
- * Built to the shape a newsletter call to action has settled on: a benefit as
- * the headline rather than the word "Newsletter", one line saying who writes
- * it, the field and its button on one row, and the reassurance underneath
- * where it answers the objection a reader has at the moment they are deciding.
- * The old version put a bare rule across the page with the word "Newsletter"
- * beside a field, which asked for an address and offered nothing for it.
- *
- * It is deliberately quieter than `ClosingCta` below: the diamond band lies
- * along the top edge as a tint, the ground is the panel the cards use, and
- * nothing is centred. Two full-blooded conversion blocks in a row cancel each
- * other out.
- */
-function NewsletterCta({ className: outerClassName }: { className?: string }) {
-  const { t } = useTranslation();
-  const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
-  const { ref, className, style } = useReveal<HTMLDivElement>();
-
-  return (
-    <div
-      ref={ref}
-      style={style}
-      data-testid="blog-newsletter"
-      className={clsx(
-        "border-indigo-deep bg-ink-deep relative rounded-3xl border",
-        className,
-        outerClassName,
-      )}
-    >
-      {/*
-        The light that circles the edge. Kept faint on purpose: it should catch
-        the eye only if the eye is already there. Hidden outright under reduced
-        motion, where the static border is the design (see `panel-beam`).
-      */}
-      <svg
-        aria-hidden="true"
-        data-testid="blog-newsletter-beam"
-        className="panel-beam size-full"
-      >
-        {/*
-          The track stays under reduced motion. It is the faint ring the light
-          runs on, and on its own it reads as part of the panel rather than as
-          something that stopped halfway.
-        */}
-        <rect className="beam-track" />
-
-        {/*
-          The three lit strokes are one object: same dash, same phase, stacked
-          from a wide blurred bloom down to a thin bright core. `pathLength`
-          normalises the outline to 100 units, so the dash and its travel are
-          fractions of the perimeter rather than pixels, and the light keeps the
-          same pace whatever width the panel ends up at.
-        */}
-        <rect
-          pathLength={100}
-          className="beam-bloom motion-safe:animate-panel-beam hidden motion-safe:block"
-        />
-        <rect
-          pathLength={100}
-          className="beam-halo motion-safe:animate-panel-beam hidden motion-safe:block"
-        />
-        <rect
-          pathLength={100}
-          className="beam-core motion-safe:animate-panel-beam hidden motion-safe:block"
-        />
-      </svg>
-
-      {/*
-        Tiled at the size it was drawn rather than stretched across the panel.
-        The band is 488 by 84, and as one `object-cover` image it had to cover a
-        panel nearly three times that wide, which on a large desktop read as a
-        soft smear. Repeating it horizontally at its own height keeps every edge
-        crisp at any width, for the same single request.
-
-        Only the first row of the weave shows. Over its full height the mark's
-        diagonal chains run right across a panel this wide, which reads as a
-        wave rolling through the header rather than as a straight top edge.
-      */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl"
-      >
-        <div className="absolute inset-x-0 top-0 h-7 bg-[url('/assets/blog-pattern.webp')] [mask-image:linear-gradient(to_bottom,black_40%,transparent)] bg-[length:auto_5.25rem] bg-top bg-repeat-x opacity-[0.18]" />
-      </div>
-
-      <div className="relative flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12 lg:p-9">
-        <div className="flex max-w-xl flex-col gap-2.5">
-          <h2 className="font-display text-mist text-xl leading-tight font-normal text-balance sm:text-2xl">
-            {t("blog.newsletter.ctaTitle")}
-          </h2>
-          <p className="text-mist/70 text-base leading-relaxed text-pretty">
-            {t("blog.newsletter.ctaBody")}
-          </p>
-        </div>
-
-        <div className="flex w-full max-w-md flex-col gap-3 lg:shrink-0">
-          {sent ? (
-            <p
-              className="text-lavender flex items-center gap-2 text-base"
-              role="status"
-            >
-              <Check className="size-5 shrink-0" aria-hidden="true" />
-              {t("blog.newsletter.success")}
-            </p>
-          ) : (
-            <>
-              <form
-                className="flex flex-col gap-3 sm:flex-row"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  setSent(true);
-                }}
-              >
-                <label className="sr-only" htmlFor="blog-index-email">
-                  {t("blog.newsletter.placeholder")}
-                </label>
-                <input
-                  id="blog-index-email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                  }}
-                  placeholder={t("blog.newsletter.placeholder")}
-                  className="border-indigo-deep bg-ink-deep/80 field-sheen text-mist placeholder:text-mist/35 focus:border-lavender min-w-0 flex-1 rounded-lg border px-4 py-3 text-base transition-colors outline-none"
-                />
-                <button type="submit" className={brandButtonClass()}>
-                  {t("blog.newsletter.submit")}
-                </button>
-              </form>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -491,10 +347,7 @@ function BlogIndex() {
             {t("blog.empty")}
           </p>
         )}
-        <NewsletterCta className="mt-6 lg:mt-14" />
       </SectionShell>
-
-      <ClosingCta />
     </div>
   );
 }
