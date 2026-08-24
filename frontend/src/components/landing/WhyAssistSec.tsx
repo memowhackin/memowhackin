@@ -154,25 +154,6 @@ export function WhyAssistSec() {
         middle of the page tightened for one section and then opened again.
       */
       innerClassName="flex flex-col items-center gap-12 py-16 sm:py-24 lg:gap-16 lg:py-28"
-      /*
-       * The heading sits at the top of the section, which is where the gradient
-       * is at its lightest, and light type on it measured 2.4:1 on a phone —
-       * unreadable, and the reason an earlier pass flipped the heading to dark
-       * and lost the design with it. This is the least the section can be
-       * darkened to carry it: a wash that is nothing at the very top edge (so
-       * the join with the stripe band above stays seamless), strongest across
-       * the heading, and gone again before the first pillar.
-       */
-      backdrop={
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-64"
-          aria-hidden="true"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(13,11,33,0) 0%, rgba(13,11,33,0.34) 30%, rgba(13,11,33,0.3) 55%, rgba(13,11,33,0) 100%)",
-          }}
-        />
-      }
     >
       {/*
         The frame sets this in a pale lavender on the lavender sky, which no one
