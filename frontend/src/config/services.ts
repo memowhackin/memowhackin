@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   Crosshair,
   Database,
+  Gauge,
   KeyRound,
   SlidersHorizontal,
   UserCheck,
@@ -58,6 +59,14 @@ export interface ServiceDefinition {
   deliverables: readonly string[];
   /** Reasons to pick us, kept to the claims this site can actually stand behind. */
   reasons: readonly string[];
+  /**
+   * Rows of the comparison against a conventional engagement.
+   *
+   * Every left-hand claim is one this site already makes somewhere else — the
+   * ARGUS pages are where most of them live — so the table is a summary of the
+   * product rather than a new set of promises invented for a table.
+   */
+  comparison: readonly string[];
   /** Question keys, in the order they are asked. */
   faqs: readonly string[];
   /**
@@ -95,10 +104,118 @@ export const WEB_APP_PENTESTING: ServiceDefinition = {
   process: ["scope", "recon", "testing", "validation", "reporting", "retest"],
   deliverables: ["findings", "risk", "fixes", "summary", "compliance"],
   reasons: ["european", "agents", "language"],
+  comparison: [
+    "approach",
+    "cadence",
+    "findings",
+    "retesting",
+    "contact",
+    "compliance",
+    "integrations",
+  ],
   faqs: ["blackbox", "duration", "production", "remediation", "compliance"],
   related: [
     "/services/api-pentesting",
     "/services/security-awareness",
     "/argus/retesting",
+  ],
+};
+
+/**
+ * The awareness programme, which is not shaped like a pentest.
+ *
+ * Its own type rather than a `ServiceDefinition` with unused fields. The two
+ * pentests share a shape because they *are* the same engagement pointed at
+ * different targets — scope it, test it, report it, retest it — and a template
+ * over that shape is what keeps them consistent. Awareness has no scope call,
+ * no findings and no retest: it is a programme that runs on people and repeats.
+ * Forcing it through `coverage`/`process`/`deliverables` would have produced a
+ * third page that reads like the first two with the nouns swapped, which is
+ * exactly what it should not be.
+ */
+export interface AwarenessDefinition {
+  key: string;
+  pageKey: string;
+  path: string;
+  serviceType: string;
+  /** The subjects a programme covers, in the order they are taught. */
+  topics: readonly string[];
+  /** The loop a programme runs on — it ends where it started, on purpose. */
+  phases: readonly string[];
+  /** What a programme is cut to fit. */
+  tailoring: readonly string[];
+  faqs: readonly string[];
+  related: readonly string[];
+}
+
+export const SECURITY_AWARENESS: AwarenessDefinition = {
+  key: "awareness",
+  pageKey: "servicesAwareness",
+  path: "/services/security-awareness",
+  serviceType: "Security awareness training",
+  topics: [
+    "phishing",
+    "socialEngineering",
+    "passwords",
+    "workingSafely",
+    "dataLeaks",
+  ],
+  phases: ["baseline", "training", "simulation", "adjust"],
+  tailoring: ["sector", "size", "risk"],
+  faqs: ["format", "language", "consent", "duration", "measure"],
+  related: [
+    "/services/web-app-pentesting",
+    "/services/api-pentesting",
+    "/argus/expert-chat",
+  ],
+};
+
+export const API_PENTESTING: ServiceDefinition = {
+  key: "api",
+  pageKey: "servicesApi",
+  path: "/services/api-pentesting",
+  serviceType: "API penetration testing",
+  /*
+   * Ordered the way an API is actually attacked: who you are, what you may
+   * reach, what comes back, how hard you can push, what the calls mean
+   * together, and what the deployment gives away for free.
+   */
+  coverage: [
+    { key: "auth", icon: KeyRound },
+    { key: "authorization", icon: UserCheck },
+    { key: "dataExposure", icon: Database },
+    { key: "rateLimits", icon: Gauge },
+    { key: "businessLogic", icon: Workflow },
+    { key: "configuration", icon: SlidersHorizontal },
+  ],
+  /*
+   * The same six stages as a web application test, and deliberately the same
+   * keys: an engagement runs the way it runs whatever is being tested, the
+   * marks beside each stage are drawn once in `StepGlyph`, and a client buying
+   * both should recognise the second process as the first. What differs is the
+   * copy behind each key.
+   */
+  process: ["scope", "recon", "testing", "validation", "reporting", "retest"],
+  deliverables: ["findings", "risk", "fixes", "summary", "compliance"],
+  reasons: ["european", "agents", "language"],
+  comparison: [
+    "approach",
+    "cadence",
+    "findings",
+    "retesting",
+    "contact",
+    "compliance",
+    "integrations",
+  ],
+  faqs: ["protocols", "documentation", "access", "production", "compliance"],
+  /*
+   * ARGUS integrations rather than retesting here: an API team's next question
+   * after "what did you find" is how those findings reach the tools they
+   * already work in.
+   */
+  related: [
+    "/services/web-app-pentesting",
+    "/services/security-awareness",
+    "/argus/integrations",
   ],
 };

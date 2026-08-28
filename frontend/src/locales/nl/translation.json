@@ -64,19 +64,19 @@
       "title": "Web applicatie pentesting | Nederland & EU | AssistSec",
       "description": "Penetratietesten van webapplicaties door de meest ervaren pentesters van Europa, versterkt door AI-agents. Heldere bevindingen, risicoanalyse en concrete oplossingen.",
       "heading": "Web applicatie pentesting",
-      "body": "Wij testen uw webapplicaties zoals een aanvaller dat zou doen — ervaren Europese pentesters en autonome AI-agents op hetzelfde doelwit, zodat kwetsbaarheden sneller boven water komen zonder in te leveren op diepgang."
+      "body": "Wij testen uw webapplicaties zoals een aanvaller dat zou doen. Ervaren Europese pentesters en autonome AI-agents werken op hetzelfde doelwit, zodat kwetsbaarheden sneller boven water komen zonder in te leveren op diepgang."
     },
     "servicesApi": {
-      "title": "API pentesting | AssistSec",
-      "description": "Grondige penetratietesten van uw API's (REST, GraphQL en meer). Leg fouten in authenticatie, autorisatie en business-logica bloot voordat aanvallers dat doen.",
+      "title": "API pentesting | Nederland & EU | AssistSec",
+      "description": "Penetratietesten van API's (REST, GraphQL en gRPC) door de meest ervaren pentesters van Europa, versterkt door AI-agents. Heldere bevindingen voor uw developers.",
       "heading": "API pentesting",
-      "body": "Grondige penetratietesten van uw API's, van authenticatie tot business-logica."
+      "body": "Uw API is het deel van uw product dat zich niet achter een interface kan verschuilen. Wij testen hem zoals een aanvaller dat doet, call voor call en rol voor rol, met ervaren Europese pentesters en autonome agents op hetzelfde doelwit."
     },
     "servicesAwareness": {
-      "title": "Security awareness training | AssistSec",
-      "description": "Security awareness training die uw team tot eerste verdedigingslinie maakt tegen phishing, social engineering en alledaagse dreigingen.",
-      "heading": "Security awareness",
-      "body": "Praktische security awareness training die uw team tot eerste verdedigingslinie maakt."
+      "title": "Security awareness training | Nederland & EU | AssistSec",
+      "description": "Security awareness training op maat: phishing, social engineering en dagelijkse gewoontes. Meetbaar, herhaald, en afgestemd op uw sector en risicoprofiel.",
+      "heading": "Security awareness training",
+      "body": "Training op maat die uw collega's het enige geeft wat geen enkele maatregel kan bieden: de reflex om even te stoppen en te controleren. Opgebouwd rond uw sector, uw omvang en de risico's die u werkelijk loopt."
     },
     "argusScanning": {
       "title": "Continu scannen — ARGUS | AssistSec",
@@ -141,7 +141,9 @@
   },
   "servicePages": {
     "labels": {
-      "related": "Andere diensten"
+      "related": "Andere diensten",
+      "timelineStart": "Waar het begint",
+      "timelineFinish": "Geverifieerd en gesloten"
     },
     "webApp": {
       "hero": {
@@ -149,7 +151,7 @@
       },
       "definition": {
         "title": "Wat web applicatie pentesting is",
-        "p1": "Web applicatie pentesting is een securityonderzoek waarbij uw applicatie onder gecontroleerde omstandigheden wordt aangevallen, precies zoals een echte aanvaller dat zou doen — maar met een rapport als uitkomst in plaats van een incident. Alles wat een gebruiker kan bereiken valt binnen de scope: de login, de rollen daarachter, de data die elk account kan raken en de business logica die het geheel verbindt.",
+        "p1": "Web applicatie pentesting is een securityonderzoek waarbij uw applicatie onder gecontroleerde omstandigheden wordt aangevallen, precies zoals een echte aanvaller dat zou doen, maar met een rapport als uitkomst in plaats van een incident. Alles wat een gebruiker kan bereiken valt binnen de scope: de login, de rollen daarachter, de data die elk account kan raken en de business logica die het geheel verbindt.",
         "p2": "Wij combineren ervaren Europese pentesters met AI-ondersteunde security tooling. De agents dekken de breedte van de applicatie af, terwijl onze specialisten de bevindingen oppakken die menselijk oordeel vragen. Dat maakt de detectie sneller zonder in te leveren op diepgang."
       },
       "coverage": {
@@ -240,6 +242,53 @@
           }
         }
       },
+      "comparison": {
+        "title": "Waar AssistSec het verschil maakt",
+        "intro": "Dezelfde test, geleverd zoals security tegenwoordig werkt: doorlopend, in de open lucht, en met de mensen die het lek vonden bereikbaar terwijl u het dicht zet.",
+        "caption": "AssistSec vergeleken met een conventionele penetratietest",
+        "columns": {
+          "aspect": "Onderdeel",
+          "ours": "AssistSec",
+          "theirs": "Een conventionele pentest"
+        },
+        "rows": {
+          "approach": {
+            "aspect": "Aanpak",
+            "ours": "Senior Europese pentesters en autonome agents op hetzelfde doelwit",
+            "theirs": "Een scanner of een consultant, zelden allebei"
+          },
+          "cadence": {
+            "aspect": "Frequentie",
+            "ours": "Doorlopend testen, ook tussen pentests door",
+            "theirs": "Eén momentopname, eens per jaar"
+          },
+          "findings": {
+            "aspect": "Bevindingen",
+            "ours": "Live in het ARGUS-portaal, op risico gerangschikt, zodra ze gevonden zijn",
+            "theirs": "Een PDF, weken na afloop van de test"
+          },
+          "retesting": {
+            "aspect": "Hertesten",
+            "ours": "Op aanvraag, rechtstreeks vanuit het portaal",
+            "theirs": "Apart geoffreerd en opnieuw ingepland"
+          },
+          "contact": {
+            "aspect": "Contact",
+            "ours": "Direct contact met de pentester die het vond",
+            "theirs": "Een ticketwachtrij en een accountmanager"
+          },
+          "compliance": {
+            "aspect": "Compliance",
+            "ours": "Elke bevinding gekoppeld aan de relevante ISO 27001-controls",
+            "theirs": "Bewijs dat u zelf bij elkaar zoekt"
+          },
+          "integrations": {
+            "aspect": "Uw eigen tooling",
+            "ours": "Bevindingen rechtstreeks in uw SIEM en ticketing",
+            "theirs": "Met de hand overgetypt uit het rapport"
+          }
+        }
+      },
       "faq": {
         "title": "Veelgestelde vragen",
         "items": {
@@ -262,6 +311,275 @@
           "compliance": {
             "q": "Helpt een pentest bij ISO 27001 of NIS2?",
             "a": "Een pentest levert aantoonbaar bewijs voor een certificerings- of audittraject. Via ARGUS wordt elke bevinding gekoppeld aan de relevante ISO 27001-controls, wat de rapportage over uw securitypositie aanzienlijk eenvoudiger maakt."
+          }
+        }
+      }
+    },
+    "api": {
+      "hero": {
+        "secondary": "Spreek een pentester"
+      },
+      "definition": {
+        "title": "Wat API pentesting is",
+        "p1": "API pentesting is een securityonderzoek van de interface zelf, en niet van wat daar bovenop getekend is. Elk endpoint, elke parameter, elk token en elke rol wordt onder gecontroleerde omstandigheden aangevallen, inclusief de calls die uw eigen front-end nooit doet. Want daar begint een aanvaller.",
+        "p2": "Wij combineren ervaren Europese pentesters met AI-ondersteunde tooling. De agents werken het oppervlak op schaal door, elk endpoint tegen elke rol, terwijl onze specialisten de fouten oppakken waarvoor je moet begrijpen waar de calls voor bedoeld zijn."
+      },
+      "coverage": {
+        "title": "Wat wij testen",
+        "intro": "REST, GraphQL, gRPC en de SOAP-services die in stilte nog een bedrijf draaiende houden. Elk endpoint, tegen elke rol.",
+        "items": {
+          "auth": {
+            "title": "Authenticatie en tokens",
+            "body": "JWT-afhandeling en handtekeningvalidatie, OAuth-flows, API-keys, refresh-logica en hoe lang een gestolen token bruikbaar blijft."
+          },
+          "authorization": {
+            "title": "Autorisatie per object",
+            "body": "Broken object level authorization, gaten op functieniveau, rol-escalatie en de vraag of het klantnummer van de één bij de data van de ander komt."
+          },
+          "dataExposure": {
+            "title": "Wat er terugkomt",
+            "body": "Responses die meer teruggeven dan het scherm toont, mass assignment aan de invoerkant, en foutmeldingen die uw binnenkant beschrijven, met AVG-impact."
+          },
+          "rateLimits": {
+            "title": "Limieten en misbruik",
+            "body": "Throttling, quota en lockout, plus de endpoints die een aanvaller in een kostenpost verandert: enumeratie, brute force en dure queries."
+          },
+          "businessLogic": {
+            "title": "Business logica",
+            "body": "Bestel-, betaal- en goedkeuringscalls in de verkeerde volgorde, opnieuw afgespeeld, of met waarden die geen enkele client van u ooit zou versturen."
+          },
+          "configuration": {
+            "title": "Configuratie en transport",
+            "body": "CORS, TLS, HTTP-methoden, spraakzame foutmeldingen, debug-routes en oude API-versies die nog antwoorden nadat de nieuwe live ging."
+          }
+        }
+      },
+      "process": {
+        "title": "Hoe een API-test verloopt",
+        "intro": "Zes stappen, van de eerste call tot de hertest. U weet op elk moment wat er gebeurt en wat er volgt.",
+        "steps": {
+          "scope": {
+            "title": "Scoping",
+            "body": "Wij leggen de omgevingen, de rollen, het testvenster, de spelregels en de endpoints binnen de scope vast."
+          },
+          "recon": {
+            "title": "In kaart brengen",
+            "body": "Wij bouwen het volledige beeld van het oppervlak: elk endpoint, elke parameter en elke versie, uit uw specificatie én uit wat de API werkelijk antwoordt."
+          },
+          "testing": {
+            "title": "AI-ondersteund testen",
+            "body": "Onze agents draaien de matrix, elk endpoint tegen elke rol, terwijl onze pentesters de logica bewerken die geen matrix kan beschrijven."
+          },
+          "validation": {
+            "title": "Menselijke validatie",
+            "body": "Elke bevinding wordt gereproduceerd en beoordeeld door een senior pentester, zodat er alleen echte bevindingen in uw rapport staan."
+          },
+          "reporting": {
+            "title": "Rapportage",
+            "body": "U ontvangt de bevindingen met de exacte request die ze aantoont, een risicoanalyse en concrete oplossingen, met daarnaast een management summary."
+          },
+          "retest": {
+            "title": "Hertest",
+            "body": "Zodra uw fixes live staan spelen wij dezelfde calls opnieuw af, zodat u weet dat een gesloten bevinding ook echt gesloten is."
+          }
+        }
+      },
+      "report": {
+        "title": "Wat u krijgt",
+        "body": "Een rapport waar uw developers direct mee vooruit kunnen, met een samenvatting die leesbaar is voor wie het werk betaalt.",
+        "items": {
+          "findings": "Elke bevinding met de exacte request en response die het bewijst",
+          "risk": "Een risicoanalyse per bevinding, afgewogen tegen de werkelijke bedrijfsimpact",
+          "fixes": "Concrete, geprioriteerde oplossingen, geschreven voor wie het endpoint beheert",
+          "summary": "Een management summary die het risico uitlegt zonder jargon",
+          "compliance": "Bevindingen gekoppeld aan de relevante ISO 27001-controls via ARGUS"
+        }
+      },
+      "reasons": {
+        "title": "Waarom organisaties in heel Europa voor AssistSec kiezen",
+        "items": {
+          "european": {
+            "title": "Europese pentesters",
+            "body": "De mensen die uw API testen behoren tot de meest ervaren van Europa, en u spreekt ze rechtstreeks in plaats van via een accountmanager."
+          },
+          "agents": {
+            "title": "Dekking die geen planning toelaat",
+            "body": "Een API met veertig endpoints en vijf rollen is tweehonderd combinaties. Agents werken ze allemaal af, waardoor onze specialisten tijd houden voor de fouten die oordeel vragen."
+          },
+          "language": {
+            "title": "Dichtbij, in uw eigen taal",
+            "body": "Wij werken vanuit Nederland voor organisaties in heel Europa, en rapporteren in het Nederlands of het Engels."
+          }
+        }
+      },
+      "comparison": {
+        "title": "Waar AssistSec het verschil maakt",
+        "intro": "API's veranderen bij elke release. Dat is precies het probleem met één keer per jaar testen en de PDF opbergen.",
+        "caption": "AssistSec vergeleken met een conventionele API-penetratietest",
+        "columns": {
+          "aspect": "Onderdeel",
+          "ours": "AssistSec",
+          "theirs": "Een conventionele pentest"
+        },
+        "rows": {
+          "approach": {
+            "aspect": "Aanpak",
+            "ours": "Agents die elk endpoint tegen elke rol afgaan, met senior pentesters op de logica",
+            "theirs": "Een scanner die uw specificatie leest en daar stopt"
+          },
+          "cadence": {
+            "aspect": "Frequentie",
+            "ours": "Doorlopend testen, ook tussen releases door",
+            "theirs": "Eén momentopname, bij de volgende deploy alweer verouderd"
+          },
+          "findings": {
+            "aspect": "Bevindingen",
+            "ours": "Live in het ARGUS-portaal, op risico gerangschikt, zodra ze gevonden zijn",
+            "theirs": "Een PDF, weken na afloop van de test"
+          },
+          "retesting": {
+            "aspect": "Hertesten",
+            "ours": "Op aanvraag, rechtstreeks vanuit het portaal",
+            "theirs": "Apart geoffreerd en opnieuw ingepland"
+          },
+          "contact": {
+            "aspect": "Contact",
+            "ours": "Uw developers spreken de pentester die het vond",
+            "theirs": "Een ticketwachtrij en een accountmanager"
+          },
+          "compliance": {
+            "aspect": "Compliance",
+            "ours": "Elke bevinding gekoppeld aan de relevante ISO 27001-controls",
+            "theirs": "Bewijs dat u zelf bij elkaar zoekt"
+          },
+          "integrations": {
+            "aspect": "Uw eigen tooling",
+            "ours": "Bevindingen rechtstreeks in uw SIEM en ticketing",
+            "theirs": "Met de hand overgetypt uit het rapport"
+          }
+        }
+      },
+      "faq": {
+        "title": "Veelgestelde vragen",
+        "items": {
+          "protocols": {
+            "q": "Welke soorten API's testen jullie?",
+            "a": "Het vaakst REST en GraphQL, en net zo goed gRPC-, WebSocket- en SOAP-services. Wat telt is niet het protocol, maar of wij erbij kunnen en of duidelijk is welke rol waar bij hoort te komen."
+          },
+          "documentation": {
+            "q": "Hebben jullie onze OpenAPI-specificatie nodig?",
+            "a": "Het helpt en wij vragen erom, samen met een Postman-collectie als u die heeft. Daarmee beginnen wij bij de logica in plaats van bij het zoeken. Verplicht is het niet: wij brengen het oppervlak ook in kaart via verkeer en via de antwoorden van de API zelf, en endpoints vinden die uw specificatie vergeten was is vaak op zichzelf al een resultaat."
+          },
+          "access": {
+            "q": "Wat hebben jullie van ons nodig?",
+            "a": "Accounts voor elke rol, het liefst twee per rol zodat wij kunnen testen of het ene account bij de data van het andere komt, plus een bereikbare omgeving en iemand die tijdens de test een vraag kan beantwoorden."
+          },
+          "production": {
+            "q": "Kunnen jullie onze productie-API testen?",
+            "a": "Ja, en dat doen wij regelmatig. Wij spreken vooraf een testvenster af en houden destructieve acties buiten de scope, tenzij u daar uitdrukkelijk om vraagt. Zijn rate limits of drukke monitoring een punt, dan werken wij daaromheen, of u wijst ons naar een acceptatieomgeving."
+          },
+          "compliance": {
+            "q": "Helpt een pentest bij ISO 27001 of NIS2?",
+            "a": "Een pentest levert aantoonbaar bewijs voor een certificerings- of audittraject. Via ARGUS wordt elke bevinding gekoppeld aan de relevante ISO 27001-controls, wat de rapportage over uw securitypositie aanzienlijk eenvoudiger maakt."
+          }
+        }
+      }
+    },
+    "awareness": {
+      "hero": {
+        "secondary": "Spreek een trainer"
+      },
+      "statement": {
+        "body": "Een firewall heeft nog nooit op een link geklikt. De mensen die uw bedrijf draaiende houden wordt dat tientallen keren per week gevraagd, door berichten die er precies uitzien als de berichten waar zij op zitten te wachten."
+      },
+      "topics": {
+        "title": "Wat een programma behandelt",
+        "intro": "Vijf onderwerpen, getraind met uw eigen tooling en uw eigen scenario's in plaats van met standaardvoorbeelden uit een presentatie.",
+        "items": {
+          "phishing": {
+            "title": "Phishing",
+            "body": "Hoe een overtuigend bericht er tegenwoordig uitziet: goed geschreven, op de juiste dag verstuurd en verwijzend naar een project waar uw collega echt aan werkt, en wat te doen in de tien seconden ná het klikken."
+          },
+          "socialEngineering": {
+            "title": "Social engineering",
+            "body": "Het telefoontje van de leverancier, de bezoeker die met iemand mee naar binnen loopt, het spoedverzoek van een directeur die net onbereikbaar is. Druk en autoriteit zijn het gereedschap; die herkennen is de training."
+          },
+          "passwords": {
+            "title": "Wachtwoorden en toegang",
+            "body": "Waarom hergebruik het risico is en niet de complexiteit, hoe een wachtwoordmanager de gewoonte verandert, en waar multifactor-authenticatie wél en niet tegen beschermt."
+          },
+          "workingSafely": {
+            "title": "Veilig werken, elke dag",
+            "body": "Openbare netwerken, privéapparaten, de AI-tool die niemand heeft aangemeld, en wat er het pand verlaat via een gedeelde link of een bijlage naar de verkeerde automatische aanvulling."
+          },
+          "dataLeaks": {
+            "title": "Als het misgaat",
+            "body": "Hoe u een incident herkent, wie u binnen het uur inlicht, en waarom snel melden zwaarder weegt dan de fout niet gemaakt hebben. Schuld is wat incidenten verborgen houdt."
+          }
+        }
+      },
+      "cycle": {
+        "title": "Hoe een programma verloopt",
+        "intro": "Een cyclus, geen cursus. Eén sessie leert iets; een ritme verandert wat mensen doen.",
+        "phases": {
+          "baseline": {
+            "title": "Meten",
+            "body": "Wij beginnen bij waar u werkelijk staat, met een simulatie en een korte vragenlijst, zodat de training uw situatie beantwoordt en u later iets heeft om mee te vergelijken."
+          },
+          "training": {
+            "title": "Trainen",
+            "body": "Live sessies, op locatie of op afstand, in groepen die klein genoeg zijn om de vragen te stellen die mensen anders niet durven te stellen."
+          },
+          "simulation": {
+            "title": "Simuleren",
+            "body": "Realistische phishing naar uw eigen mensen, in uw eigen huisstijl, gebruikt om te leren op het moment van klikken, niet om iemand te betrappen."
+          },
+          "adjust": {
+            "title": "Bijsturen",
+            "body": "U krijgt de resultaten per afdeling en per scenario, we spreken af wat meer aandacht nodig heeft, en de cyclus begint opnieuw daar waar het risico zit."
+          }
+        }
+      },
+      "fit": {
+        "title": "Op maat van uw organisatie",
+        "body": "Een ziekenhuis, een logistiek bedrijf en een accountantskantoor worden op totaal verschillende manieren aangevallen, en een training die dat negeert besteedt zijn uur aan andermans dreigingen. Drie dingen bepalen die van u.",
+        "items": {
+          "sector": {
+            "title": "Uw sector",
+            "body": "De scenario's komen uit de fraude die daadwerkelijk op uw branche wordt losgelaten, in de toon die uw leveranciers en klanten echt gebruiken."
+          },
+          "size": {
+            "title": "Uw omvang",
+            "body": "Twintig mensen in één ruimte is een gesprek; tweeduizend verspreid over zes locaties is een programma met een plan erachter. Allebei werkt, anders."
+          },
+          "risk": {
+            "title": "Uw risicoprofiel",
+            "body": "Finance, HR en support worden benaderd op manieren die de rest van het bedrijf nooit ziet, dus krijgen zij materiaal dat de rest niet nodig heeft."
+          }
+        }
+      },
+      "faq": {
+        "title": "Veelgestelde vragen",
+        "items": {
+          "format": {
+            "q": "Is de training op locatie of online?",
+            "a": "Allebei kan, en vaak allebei: een live sessie op locatie voor het gesprek, en kortere sessies op afstand voor wie er niet bij kon zijn of later is ingestroomd. Wat wij vermijden is een video die iedereen in stilte wegklikt."
+          },
+          "language": {
+            "q": "In welke taal traint u?",
+            "a": "Nederlands of Engels, en wij zeggen het eerlijk als een gemengde groep beter af is met één van de twee. Het materiaal volgt de taal van de sessie."
+          },
+          "consent": {
+            "q": "Mogen jullie onze medewerkers phishen zonder het te melden?",
+            "a": "Een simulatie werkt alleen onaangekondigd, maar het is nooit een geheime operatie: hij wordt vooraf met u afgestemd, en waar een ondernemingsraad of functionaris gegevensbescherming iets over te zeggen heeft, vindt dat gesprek plaats vóórdat er iets verstuurd wordt. De resultaten rapporteren wij per groep en niet per persoon. Het doel is leren, geen namenlijst."
+          },
+          "duration": {
+            "q": "Hoe lang duurt een programma?",
+            "a": "Een eerste sessie duurt meestal een halve dag. Echte verandering komt van herhaling, dus een programma loopt normaal gesproken over een jaar met een beperkt aantal momenten erin. Wij leggen die opzet vooraf schriftelijk vast."
+          },
+          "measure": {
+            "q": "Hoe laat u zien dat het gewerkt heeft?",
+            "a": "Door dezelfde metingen in de tijd te vergelijken: hoeveel mensen klikken, hoeveel er melden, en hoe snel. Meldsnelheid is het getal dat er het meest toe doet, en het getal dat als eerste beweegt."
           }
         }
       }

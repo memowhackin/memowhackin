@@ -64,19 +64,19 @@
       "title": "Web application pentesting | Netherlands & EU | AssistSec",
       "description": "Web application penetration testing by Europe's most experienced pentesters, backed by AI agents. Clear findings, risk analysis and concrete fixes.",
       "heading": "Web application pentesting",
-      "body": "We test your web applications the way an attacker would — experienced European pentesters and autonomous AI agents on the same target, so vulnerabilities surface faster without losing depth."
+      "body": "We test your web applications the way an attacker would. Experienced European pentesters and autonomous AI agents work the same target, so vulnerabilities surface faster without losing depth."
     },
     "servicesApi": {
-      "title": "API pentesting | AssistSec",
-      "description": "Thorough API penetration testing for REST, GraphQL and more. Expose authentication, authorization and business-logic flaws before attackers do.",
+      "title": "API pentesting | Netherlands & EU | AssistSec",
+      "description": "API penetration testing for REST, GraphQL and gRPC by Europe's most experienced pentesters, backed by AI agents. Clear findings your developers can act on.",
       "heading": "API pentesting",
-      "body": "Thorough penetration testing for your APIs, from authentication to business logic."
+      "body": "Your API is the part of your product with no interface to hide behind. We test it the way an attacker does, call by call and role by role, with experienced European pentesters and autonomous agents working the same target."
     },
     "servicesAwareness": {
-      "title": "Security awareness training | AssistSec",
-      "description": "Security awareness training that turns your team into a first line of defense against phishing, social engineering and everyday threats.",
-      "heading": "Security awareness",
-      "body": "Practical security awareness training that turns your team into a first line of defense."
+      "title": "Security awareness training | Netherlands & EU | AssistSec",
+      "description": "Security awareness training built for your organization: phishing, social engineering and everyday habits. Measured, repeated, and cut to your sector and risk.",
+      "heading": "Security awareness training",
+      "body": "Tailored training that gives your colleagues the one thing no control can: the reflex to stop and check. Built around your sector, your size and the risks you actually carry."
     },
     "argusScanning": {
       "title": "Continuous scanning — ARGUS | AssistSec",
@@ -141,7 +141,9 @@
   },
   "servicePages": {
     "labels": {
-      "related": "Other services"
+      "related": "Other services",
+      "timelineStart": "Where it starts",
+      "timelineFinish": "Verified and closed"
     },
     "webApp": {
       "hero": {
@@ -149,7 +151,7 @@
       },
       "definition": {
         "title": "What web application pentesting is",
-        "p1": "Web application pentesting is a security assessment in which your application is attacked under controlled conditions, exactly as a real attacker would — but ending in a report instead of an incident. Everything a user can reach is in scope: the login, the roles behind it, the data each account can touch and the business logic tying it all together.",
+        "p1": "Web application pentesting is a security assessment in which your application is attacked under controlled conditions, exactly as a real attacker would, but ending in a report instead of an incident. Everything a user can reach is in scope: the login, the roles behind it, the data each account can touch and the business logic tying it all together.",
         "p2": "We combine experienced European pentesters with AI-supported security tooling. The agents cover the breadth of the application while our specialists chase the findings that need human judgment, which is what makes detection faster without giving up depth."
       },
       "coverage": {
@@ -240,6 +242,53 @@
           }
         }
       },
+      "comparison": {
+        "title": "Where AssistSec makes the difference",
+        "intro": "The same test, delivered the way security actually works now: continuously, in the open, and with the people who found the issue reachable while you fix it.",
+        "caption": "AssistSec compared with a conventional penetration test",
+        "columns": {
+          "aspect": "Aspect",
+          "ours": "AssistSec",
+          "theirs": "A conventional pentest"
+        },
+        "rows": {
+          "approach": {
+            "aspect": "Approach",
+            "ours": "Senior European pentesters and autonomous agents on the same target",
+            "theirs": "A scanner or a consultant, rarely both"
+          },
+          "cadence": {
+            "aspect": "Frequency",
+            "ours": "Continuous testing that carries on between pentests",
+            "theirs": "One snapshot, once a year"
+          },
+          "findings": {
+            "aspect": "Findings",
+            "ours": "Live in the ARGUS portal, ranked by risk, as they are found",
+            "theirs": "A PDF, weeks after the test ended"
+          },
+          "retesting": {
+            "aspect": "Retesting",
+            "ours": "Requested on demand, straight from the portal",
+            "theirs": "Quoted separately, scheduled again"
+          },
+          "contact": {
+            "aspect": "Contact",
+            "ours": "Talk to the pentester who found it, in real time",
+            "theirs": "A ticket queue and an account manager"
+          },
+          "compliance": {
+            "aspect": "Compliance",
+            "ours": "Every finding mapped to the relevant ISO 27001 controls",
+            "theirs": "Evidence you assemble yourself"
+          },
+          "integrations": {
+            "aspect": "Your own tools",
+            "ours": "Findings streamed into your SIEM and ticketing",
+            "theirs": "Copied over by hand from the report"
+          }
+        }
+      },
       "faq": {
         "title": "Frequently asked questions",
         "items": {
@@ -262,6 +311,275 @@
           "compliance": {
             "q": "Does a pentest help with ISO 27001 or NIS2?",
             "a": "A pentest gives you demonstrable evidence for a certification or audit track. Through ARGUS every finding is mapped to the relevant ISO 27001 controls, which makes reporting on your security posture considerably simpler."
+          }
+        }
+      }
+    },
+    "api": {
+      "hero": {
+        "secondary": "Talk to a pentester"
+      },
+      "definition": {
+        "title": "What API pentesting is",
+        "p1": "API pentesting is a security assessment of the interface itself, rather than of anything drawn on top of it. Every endpoint, parameter, token and role is attacked under controlled conditions, including the calls your own front end never makes. That is exactly where an attacker starts.",
+        "p2": "We combine experienced European pentesters with AI-supported tooling. The agents work through the surface at scale, every endpoint against every role, while our specialists chase the flaws that need a person to understand what the calls are for."
+      },
+      "coverage": {
+        "title": "What we test",
+        "intro": "REST, GraphQL, gRPC and the SOAP services still quietly holding a business together. Every endpoint, against every role.",
+        "items": {
+          "auth": {
+            "title": "Authentication and tokens",
+            "body": "JWT handling and signature validation, OAuth flows, API keys, refresh logic and how long a stolen token stays useful."
+          },
+          "authorization": {
+            "title": "Authorization per object",
+            "body": "Broken object-level authorization, function-level gaps, role escalation and whether one tenant's identifier reaches another tenant's data."
+          },
+          "dataExposure": {
+            "title": "What comes back",
+            "body": "Responses returning more than the screen shows, mass assignment on the way in, and errors that describe your internals with GDPR impact attached."
+          },
+          "rateLimits": {
+            "title": "Rate limits and abuse",
+            "body": "Throttling, quotas and lockout, plus the endpoints an attacker can turn into an expense: enumeration, brute force and costly queries."
+          },
+          "businessLogic": {
+            "title": "Business logic",
+            "body": "Order, payment and approval calls made out of sequence, replayed, or carrying values no client of yours would ever send."
+          },
+          "configuration": {
+            "title": "Configuration and transport",
+            "body": "CORS, TLS, HTTP methods, verbose errors, debug routes and old API versions still answering after the new one shipped."
+          }
+        }
+      },
+      "process": {
+        "title": "How an API test runs",
+        "intro": "Six stages, from the first call to the retest. At every point you know what is happening and what comes next.",
+        "steps": {
+          "scope": {
+            "title": "Scoping",
+            "body": "We agree the environments, the roles, the test window, the rules of engagement and which endpoints are in scope."
+          },
+          "recon": {
+            "title": "Mapping",
+            "body": "We build the full picture of the surface: every endpoint, parameter and version, from your specification and from what the API actually answers."
+          },
+          "testing": {
+            "title": "AI-assisted testing",
+            "body": "Our agents run the matrix, every endpoint against every role, while our pentesters work the logic no matrix can describe."
+          },
+          "validation": {
+            "title": "Human validation",
+            "body": "Every finding is reproduced and rated by a senior pentester, so what reaches your report is real and nothing else."
+          },
+          "reporting": {
+            "title": "Reporting",
+            "body": "You receive the findings with the exact request that triggers them, a risk analysis and concrete fixes, alongside a management summary."
+          },
+          "retest": {
+            "title": "Retest",
+            "body": "Once your fixes are deployed we replay the same calls, so you know a finding you closed is actually closed."
+          }
+        }
+      },
+      "report": {
+        "title": "What you get",
+        "body": "A report your developers can work from directly, with a summary the people funding the work can read.",
+        "items": {
+          "findings": "Every finding with the exact request and response that proves it",
+          "risk": "A risk analysis per finding, weighed against real business impact",
+          "fixes": "Concrete, prioritized fixes written for the people who own the endpoint",
+          "summary": "A management summary that explains the risk without the jargon",
+          "compliance": "Findings mapped to the relevant ISO 27001 controls through ARGUS"
+        }
+      },
+      "reasons": {
+        "title": "Why organizations across Europe choose AssistSec",
+        "items": {
+          "european": {
+            "title": "European pentesters",
+            "body": "The people testing your API are among the most experienced in Europe, and you speak to them directly rather than through an account manager."
+          },
+          "agents": {
+            "title": "Coverage no schedule allows",
+            "body": "An API with forty endpoints and five roles is two hundred combinations. Agents work through all of them, which leaves our specialists free for the flaws that need judgment."
+          },
+          "language": {
+            "title": "Close by, in your language",
+            "body": "We work from the Netherlands for organizations across Europe, and report in Dutch or English."
+          }
+        }
+      },
+      "comparison": {
+        "title": "Where AssistSec makes the difference",
+        "intro": "APIs change with every release, which is the problem with testing them once a year and filing the PDF.",
+        "caption": "AssistSec compared with a conventional API penetration test",
+        "columns": {
+          "aspect": "Aspect",
+          "ours": "AssistSec",
+          "theirs": "A conventional pentest"
+        },
+        "rows": {
+          "approach": {
+            "aspect": "Approach",
+            "ours": "Agents covering every endpoint against every role, with senior pentesters on the logic",
+            "theirs": "A scanner that reads your specification and stops there"
+          },
+          "cadence": {
+            "aspect": "Frequency",
+            "ours": "Continuous testing that carries on between releases",
+            "theirs": "One snapshot, already out of date by the next deploy"
+          },
+          "findings": {
+            "aspect": "Findings",
+            "ours": "Live in the ARGUS portal, ranked by risk, as they are found",
+            "theirs": "A PDF, weeks after the test ended"
+          },
+          "retesting": {
+            "aspect": "Retesting",
+            "ours": "Requested on demand, straight from the portal",
+            "theirs": "Quoted separately, scheduled again"
+          },
+          "contact": {
+            "aspect": "Contact",
+            "ours": "Your developers talk to the pentester who found it",
+            "theirs": "A ticket queue and an account manager"
+          },
+          "compliance": {
+            "aspect": "Compliance",
+            "ours": "Every finding mapped to the relevant ISO 27001 controls",
+            "theirs": "Evidence you assemble yourself"
+          },
+          "integrations": {
+            "aspect": "Your own tools",
+            "ours": "Findings streamed into your SIEM and ticketing",
+            "theirs": "Copied over by hand from the report"
+          }
+        }
+      },
+      "faq": {
+        "title": "Frequently asked questions",
+        "items": {
+          "protocols": {
+            "q": "Which kinds of API do you test?",
+            "a": "REST and GraphQL most often, and gRPC, WebSocket and SOAP services just as readily. What matters is not the protocol but whether we can reach it and know which roles are supposed to reach what."
+          },
+          "documentation": {
+            "q": "Do you need our OpenAPI specification?",
+            "a": "It helps and we will ask for it, along with a Postman collection if you have one. Both let us start on the logic instead of on discovery. Neither is required: we can map the surface from traffic and from the API's own answers, and finding endpoints your specification forgot is often a result in itself."
+          },
+          "access": {
+            "q": "What do you need from us?",
+            "a": "Accounts for each role, ideally two per role so we can test whether one account reaches the other's data, plus a reachable environment and a contact who can answer a question during the test."
+          },
+          "production": {
+            "q": "Can you test our production API?",
+            "a": "Yes, and we regularly do. We agree a test window in advance and treat destructive actions as out of scope unless you explicitly ask for them. If rate limits or noisy monitoring are a concern we work around them, or you point us at an acceptance environment instead."
+          },
+          "compliance": {
+            "q": "Does a pentest help with ISO 27001 or NIS2?",
+            "a": "A pentest gives you demonstrable evidence for a certification or audit track. Through ARGUS every finding is mapped to the relevant ISO 27001 controls, which makes reporting on your security posture considerably simpler."
+          }
+        }
+      }
+    },
+    "awareness": {
+      "hero": {
+        "secondary": "Talk to a trainer"
+      },
+      "statement": {
+        "body": "A firewall has never once clicked a link. The people who keep your business running are asked to, dozens of times a week, by messages built to look exactly like the ones they are waiting for."
+      },
+      "topics": {
+        "title": "What a programme covers",
+        "intro": "Five subjects, taught with your own tools and your own scenarios rather than stock examples from a slide deck.",
+        "items": {
+          "phishing": {
+            "title": "Phishing",
+            "body": "What a convincing message looks like now that they are written well, arrive on the right day and refer to a project your colleague is genuinely working on, and what to do in the ten seconds after clicking."
+          },
+          "socialEngineering": {
+            "title": "Social engineering",
+            "body": "The phone call from the supplier, the visitor who follows someone through the door, the urgent request from a director who is conveniently unreachable. Pressure and authority are the tools; recognising them is the training."
+          },
+          "passwords": {
+            "title": "Passwords and access",
+            "body": "Why reuse is the risk rather than complexity, how a password manager changes the habit, and what multi-factor authentication does and does not protect against."
+          },
+          "workingSafely": {
+            "title": "Working safely, day to day",
+            "body": "Public networks, personal devices, the AI tool nobody registered, and what leaves the building in a shared link or an attachment sent to the wrong autocomplete."
+          },
+          "dataLeaks": {
+            "title": "When something goes wrong",
+            "body": "How to recognise an incident, who to tell within the hour, and why reporting quickly matters more than not having made the mistake. Blame is what keeps incidents hidden."
+          }
+        }
+      },
+      "cycle": {
+        "title": "How a programme runs",
+        "intro": "A loop, not a course. One session teaches; a rhythm changes what people do.",
+        "phases": {
+          "baseline": {
+            "title": "Measure",
+            "body": "We start with where you actually stand, using a simulation and a short survey, so the training answers your situation and you have something to compare against later."
+          },
+          "training": {
+            "title": "Train",
+            "body": "Live sessions, on site or remote, in groups small enough that people ask the questions they would otherwise be embarrassed to ask."
+          },
+          "simulation": {
+            "title": "Simulate",
+            "body": "Realistic phishing sent to your own people, in your own house style, and used to teach at the moment of clicking rather than to catch anyone out."
+          },
+          "adjust": {
+            "title": "Adjust",
+            "body": "You get the results per department and per scenario, we agree what needs more attention, and the loop starts again where the risk actually is."
+          }
+        }
+      },
+      "fit": {
+        "title": "Cut to your organization",
+        "body": "A hospital, a logistics firm and an accountancy practice are attacked in completely different ways, and a training programme that ignores that spends its hour on somebody else's threats. Three things shape yours.",
+        "items": {
+          "sector": {
+            "title": "Your sector",
+            "body": "The scenarios come from the fraud actually run against your industry, in the tone your suppliers and customers really use."
+          },
+          "size": {
+            "title": "Your size",
+            "body": "Twenty people in one room is a conversation; two thousand across six sites is a programme with a plan behind it. Both work, differently."
+          },
+          "risk": {
+            "title": "Your risk profile",
+            "body": "Finance, HR and support are targeted in ways the rest of the company never sees, so they get material the rest of the company does not need."
+          }
+        }
+      },
+      "faq": {
+        "title": "Frequently asked questions",
+        "items": {
+          "format": {
+            "q": "Is the training on site or online?",
+            "a": "Either, and often both: a live session on site for the discussion, and shorter remote sessions for the people who could not be there or who joined later. What we avoid is a video everybody clicks through in silence."
+          },
+          "language": {
+            "q": "In which language do you train?",
+            "a": "Dutch or English, and we will say plainly if a mixed group is better served by one over the other. The material follows the language of the session."
+          },
+          "consent": {
+            "q": "May you send our staff phishing without telling them?",
+            "a": "A simulation only works unannounced, but it is never a secret operation: it is agreed with you in advance, and where a works council or a data protection officer has a say, that conversation happens before anything is sent. Results are reported per group rather than per person. The point is to teach, not to build a list of names."
+          },
+          "duration": {
+            "q": "How long does a programme take?",
+            "a": "A first session is usually half a day. Real change comes from repetition, so a programme normally runs across a year with a small number of moments in it. We put the shape in writing before we start."
+          },
+          "measure": {
+            "q": "How do you show it worked?",
+            "a": "By comparing the same measurements over time: how many people click, how many report, and how quickly. Reporting speed is the number that matters most, and the one that moves first."
           }
         }
       }

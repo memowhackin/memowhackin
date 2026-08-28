@@ -2,15 +2,19 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
-import { CheckCircle2, ChevronDown } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { BrandButton } from "@/components/common/BrandButton";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { PageLinkCard } from "@/components/common/PageLinkCard";
 import { ReportStack } from "@/components/common/ReportStack";
+import { CrossingMark } from "@/components/common/CrossingMark";
 import { SectionShell } from "@/components/common/SectionShell";
+import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 import { SampleReportModal } from "@/components/landing/SampleReportModal";
+import { ProcessTimeline } from "@/components/services/ProcessTimeline";
+import { ServiceComparison } from "@/components/services/ServiceComparison";
 import { useSeo } from "@/localization/useSeo";
 import { NAV_ITEMS, type NavLeaf } from "@/config/nav";
 import { SERVICE_AREA_SERVED, type ServiceDefinition } from "@/config/services";
@@ -30,102 +34,6 @@ function relatedLeaves(paths: readonly string[]): NavLeaf[] {
   );
 
   return paths.flatMap((path) => leaves.filter((leaf) => leaf.to === path));
-}
-
-/** One numbered stage of an engagement. */
-function ProcessStep({
-  service,
-  step,
-  index,
-}: {
-  service: ServiceDefinition;
-  step: string;
-  index: number;
-}) {
-  const { t } = useTranslation();
-  const { ref, className, style } = useReveal<HTMLLIElement>({
-    delay: Math.min(index, 4) * 60,
-  });
-
-  return (
-    <li
-      ref={ref}
-      style={style}
-      data-testid={`service-step-${step}`}
-      className={clsx(
-        /*
-         * The hairline sits on top of every row rather than between them, which
-         * is what closes the list off at both ends — the same unbroken rule the
-         * home page's service rows are drawn on. The last row's foot is closed
-         * by the section's own padding.
-         */
-        "border-indigo-deep/60 grid gap-2 border-t py-6 sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-6 lg:py-8",
-        className,
-      )}
-    >
-      {/*
-        The step number, set in the display face at the weight the rest of the
-        page gives a heading. It is decorative in the accessibility sense — the
-        list is already ordered, and a screen reader announcing "one, one" is
-        the kind of duplication `aria-hidden` exists for.
-      */}
-      <span
-        aria-hidden="true"
-        className="font-display text-lavender/70 text-lg leading-none tabular-nums sm:w-12 sm:text-xl lg:text-2xl"
-      >
-        {(index + 1).toString().padStart(2, "0")}
-      </span>
-
-      <div className="flex flex-col gap-2">
-        <h3 className="font-display text-mist text-xl font-normal text-balance sm:text-2xl">
-          {t(`servicePages.${service.key}.process.steps.${step}.title`)}
-        </h3>
-        <p className="text-mist/70 max-w-prose text-base leading-relaxed text-pretty">
-          {t(`servicePages.${service.key}.process.steps.${step}.body`)}
-        </p>
-      </div>
-    </li>
-  );
-}
-
-/** One question, open on click and present in the markup either way. */
-function FaqEntry({
-  service,
-  entry,
-}: {
-  service: ServiceDefinition;
-  entry: string;
-}) {
-  const { t } = useTranslation();
-
-  return (
-    /*
-     * A native `<details>`, not a state-driven panel. The answer is in the
-     * document whether or not it is open, which is what a crawler and an answer
-     * engine read — an accordion that mounts its answer on click ships a page of
-     * questions with no answers on it. It also keeps the keyboard and the
-     * screen-reader behaviour the browser already implements correctly.
-     */
-    <details
-      data-testid={`service-faq-${entry}`}
-      className="group border-indigo-deep bg-ink-deep overflow-hidden rounded-2xl border"
-    >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 [&::-webkit-details-marker]:hidden">
-        <h3 className="text-mist group-hover:text-lavender text-base font-medium text-pretty transition-colors sm:text-lg">
-          {t(`servicePages.${service.key}.faq.items.${entry}.q`)}
-        </h3>
-
-        <ChevronDown
-          aria-hidden="true"
-          className="text-lavender/70 size-5 shrink-0 transition-transform duration-300 group-open:rotate-180"
-        />
-      </summary>
-
-      <p className="text-mist/70 max-w-prose px-5 pb-5 text-base leading-relaxed text-pretty">
-        {t(`servicePages.${service.key}.faq.items.${entry}.a`)}
-      </p>
-    </details>
-  );
 }
 
 /**
@@ -207,10 +115,6 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
           ref={heroRef}
           className={clsx("flex flex-col items-center gap-6", heroReveal)}
         >
-          {/* The site's own eyebrow, naming the group this page sits in — the
-              same mark the blog and every home section are headed with. */}
-          <p className="eyebrow text-lavender">{t("nav.services.label")}</p>
-
           <h1 className="font-display text-mist max-w-4xl text-3xl leading-tight font-normal text-balance sm:text-4xl lg:text-5xl">
             {t(`pages.${service.pageKey}.heading`)}
           </h1>
@@ -300,44 +204,50 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
           </p>
         </div>
 
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {service.coverage.map((item, index) => (
-            <CoverageCard
-              key={item.key}
-              service={service}
-              item={item}
-              index={index}
-            />
-          ))}
-        </ul>
-      </SectionShell>
+        {/*
+          The ruled grid the home page draws its services on, rather than a row
+          of panels. Six bordered cards read as a template someone filled in —
+          the same shape whatever is written in them — and the site already has
+          its own answer for a set of related things: an unbroken hairline with
+          the brand's diamond where the rules meet, and the copy set straight
+          onto the page with nothing drawn around it.
 
-      {/* How an engagement runs, start to finish. */}
-      <SectionShell
-        className="bg-transparent"
-        data-testid={`service-${service.key}-process`}
-        innerClassName="flex flex-col gap-8 pb-16 lg:gap-10 lg:pb-24"
-      >
-        <div className="flex flex-col gap-3">
-          <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
-            {t(`servicePages.${service.key}.process.title`)}
-          </h2>
-          <p className="text-mist/70 max-w-2xl text-base leading-relaxed text-pretty">
-            {t(`servicePages.${service.key}.process.intro`)}
-          </p>
+          The centre rule is its own layer, so it runs the full height of the
+          grid instead of being interrupted at every cell boundary — the same
+          reason the home page's service rows draw theirs that way.
+        */}
+        <div className="relative">
+          <span
+            aria-hidden="true"
+            className="bg-indigo-deep/60 pointer-events-none absolute inset-y-0 left-1/2 hidden w-px lg:block"
+          />
+
+          {/* The last crossing. Every one above it is drawn by the cell that
+              opens its row (see `CoverageEntry`), but the closing rule has no
+              cell below it to carry its mark. */}
+          <CrossingMark className="absolute bottom-0 left-1/2 hidden -translate-x-1/2 translate-y-1/2 lg:block" />
+
+          <ul className="border-indigo-deep/60 grid border-b lg:grid-cols-2">
+            {service.coverage.map((item, index) => (
+              <CoverageEntry
+                key={item.key}
+                service={service}
+                item={item}
+                index={index}
+              />
+            ))}
+          </ul>
         </div>
-
-        <ol className="flex flex-col">
-          {service.process.map((step, index) => (
-            <ProcessStep
-              key={step}
-              service={service}
-              step={step}
-              index={index}
-            />
-          ))}
-        </ol>
       </SectionShell>
+
+      {/*
+        How an engagement runs, start to finish. Unwrapped, unlike every other
+        section here: on a wide screen this one pins itself to the viewport and
+        spends the scroll sideways, which needs the full width and its own
+        height rather than a column and a padding rhythm. It brings its own
+        shell in the layout that wants one.
+      */}
+      <ProcessTimeline service={service} />
 
       {/*
         The deliverable, against the report still life the home page closes its
@@ -430,6 +340,16 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
         </ul>
       </SectionShell>
 
+      {/* The same argument as the reasons above, but measured against what a
+          conventional engagement gives you. */}
+      <SectionShell
+        className="bg-transparent"
+        data-testid={`service-${service.key}-comparison`}
+        innerClassName="pb-16 lg:pb-24"
+      >
+        <ServiceComparison service={service} />
+      </SectionShell>
+
       {/* The questions buyers actually ask, answered on the page. */}
       <SectionShell
         className="bg-transparent"
@@ -440,11 +360,7 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
           {t(`servicePages.${service.key}.faq.title`)}
         </h2>
 
-        <div className="flex max-w-4xl flex-col gap-3">
-          {service.faqs.map((entry) => (
-            <FaqEntry key={entry} service={service} entry={entry} />
-          ))}
-        </div>
+        <ServiceFaq serviceKey={service.key} entries={service.faqs} />
       </SectionShell>
 
       {related.length > 0 && (
@@ -470,8 +386,15 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
   );
 }
 
-/** One area the test covers. */
-function CoverageCard({
+/**
+ * One area the test covers, laid on the grid rather than boxed.
+ *
+ * The cell keeps the column's air on the side the centre rule is on, which is
+ * how the home page's rows are spaced against theirs. Below `lg` there is one
+ * column and no centre rule, so the padding and the mark both drop away and
+ * the areas read as a plain ruled list.
+ */
+function CoverageEntry({
   service,
   item,
   index,
@@ -485,6 +408,7 @@ function CoverageCard({
   const { ref, className, style } = useReveal<HTMLLIElement>({
     delay: Math.min(index, 4) * 60,
   });
+  const rightColumn = index % 2 === 1;
 
   return (
     <li
@@ -492,17 +416,56 @@ function CoverageCard({
       style={style}
       data-testid={`service-coverage-${item.key}`}
       className={clsx(
-        "border-indigo-deep bg-ink-deep flex flex-col gap-3 rounded-2xl border p-5",
+        /*
+         * The icon hangs in its own column with the title and the copy sharing
+         * the one beside it, which is the same figure the process steps make
+         * with their numbers. Set inline before the title instead, it pushed
+         * the heading a icon's width to the right of its own paragraph — a
+         * misalignment that reads as an accident on a grid this exposed.
+         */
+        /*
+         * `content-start` is load-bearing, not tidiness.
+         *
+         * The cells sit in a grid that stretches every one of them to the
+         * tallest in its row, and each cell is itself a grid of two auto rows.
+         * Left at the default, the leftover height is shared out *between*
+         * those rows — so a cell whose copy runs a line shorter than its
+         * neighbour's had its title pushed down by half the difference, and the
+         * six titles came to rest at four different heights. Measured on the
+         * API page before this: rows of `41px 65px` against `28px 78px` beside
+         * it, a 13px stagger visible across the whole grid.
+         *
+         * Packing the rows to the top puts the spare height where it belongs —
+         * under the last line — and the titles line up whatever the copy does.
+         */
+        "border-indigo-deep/60 relative grid grid-cols-[auto_minmax(0,1fr)] content-start gap-x-4 gap-y-2 border-t py-6 lg:py-8",
+        rightColumn ? "lg:pl-10 xl:pl-14" : "lg:pr-10 xl:pr-14",
         className,
       )}
     >
-      <Icon aria-hidden="true" className="text-lavender/70 size-6 shrink-0" />
+      {/*
+        The crossing where this row's rule meets the centre one, drawn by the
+        cell that opens the right-hand column because that cell's top-left
+        corner *is* the crossing. Deriving it from the cell rather than placing
+        marks at fixed heights is what keeps them on the rules when a row grows
+        a line taller in another language.
+      */}
+      {rightColumn && (
+        <CrossingMark className="absolute top-0 left-0 hidden -translate-x-1/2 -translate-y-1/2 lg:block" />
+      )}
 
-      <h3 className="text-mist text-base font-medium text-pretty">
+      {/* Nudged down onto the title's first line rather than its box, which
+          sits a shade higher than the letters do. */}
+      <Icon
+        aria-hidden="true"
+        className="text-lavender/70 mt-1 size-5 shrink-0"
+      />
+
+      <h3 className="font-display text-mist text-lg font-normal text-balance sm:text-xl">
         {t(`servicePages.${service.key}.coverage.items.${item.key}.title`)}
       </h3>
 
-      <p className="text-mist/60 text-sm leading-relaxed text-pretty">
+      <p className="text-mist/70 col-start-2 max-w-prose text-base leading-relaxed text-pretty">
         {t(`servicePages.${service.key}.coverage.items.${item.key}.body`)}
       </p>
     </li>

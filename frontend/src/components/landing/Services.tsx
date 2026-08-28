@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { ArrowUpRight } from "lucide-react";
+import { RuleNode } from "@/components/common/RuleNode";
 import { SectionBadge } from "@/components/common/SectionBadge";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
@@ -27,19 +28,6 @@ const services = [
     imageFirst: false,
   },
 ] as const;
-
-/** The diamond that marks each hairline intersection in the frame. */
-function RuleNode({ className }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={clsx(
-        "bg-lavender absolute size-2 rotate-45 rounded-xs",
-        className,
-      )}
-    />
-  );
-}
 
 /** One service row. Split out so each can hold its own reveal state. */
 function ServiceRow({ service }: { service: (typeof services)[number] }) {
