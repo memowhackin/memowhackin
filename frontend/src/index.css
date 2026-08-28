@@ -395,6 +395,100 @@
       transform: translateY(-0.45rem);
     }
   }
+
+  /*
+   * The six marks beside the steps of a service page's process rail (see
+   * `StepGlyph`). Only the step the reader is on animates; the other five hold
+   * their finished pose at a quarter strength, so the section has exactly one
+   * moving thing in it at a time and that movement is the answer to "where am
+   * I" rather than decoration playing to an empty room.
+   *
+   * Three keyframes carry all six. What differs between the marks is the shape
+   * they are drawn on and the speed they run at, which is a far cheaper way to
+   * six distinct behaviours than six sets of keyframes to keep in step.
+   */
+
+  /*
+   * A line drawing itself, then holding. Every path that uses it carries
+   * `pathLength="100"`, so the offset is in hundredths of that path and one
+   * timing draws a rectangle, a tick and a rule at the same pace — the trick
+   * `--animate-panel-beam` uses for the newsletter edge.
+   *
+   * The hold is most of the cycle on purpose. A stroke that restarts the moment
+   * it lands reads as a loading spinner; one that draws, rests, then starts
+   * over reads as a step being carried out.
+   */
+  --animate-glyph-trace: glyph-trace 3.2s ease-in-out infinite;
+
+  @keyframes glyph-trace {
+    0% {
+      stroke-dashoffset: 100;
+    }
+    40%,
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* The reconnaissance sweep, and — at half the pace — the retest loop. */
+  --animate-glyph-sweep: glyph-spin 4s linear infinite;
+  --animate-glyph-spin: glyph-spin 8s linear infinite;
+
+  @keyframes glyph-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* The scan passing down the surface under test, and back up it. */
+  --animate-glyph-scan: glyph-scan 2.8s ease-in-out infinite alternate;
+
+  @keyframes glyph-scan {
+    from {
+      transform: translateY(-0.5rem);
+    }
+    to {
+      transform: translateY(0.5rem);
+    }
+  }
+}
+
+/*
+ * The pinned process track, for a reader with no scripting.
+ *
+ * Everything that makes that section work is measured and written by
+ * JavaScript: how far the track has to travel, how tall the section must be to
+ * spend that travel, and where the track has got to. With none of it running,
+ * the section would stand exactly one screen tall with a row of panels clipped
+ * at its edge and no way to reach the rest — four of the six stages unreadable
+ * on a page this site promises is readable without scripts.
+ *
+ * So it unpins. The section takes its content's height, the pane stops sticking,
+ * and the panels wrap into a column: the same content, in the shape it has on a
+ * narrow screen. This cannot be done with utility classes — there is no variant
+ * for it — and it is deliberately the only rule in this file that reaches into a
+ * component's markup.
+ */
+@media (scripting: none) {
+  [data-pinned-track] {
+    height: auto;
+  }
+
+  [data-pinned-track] > div {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  [data-pinned-track] ol {
+    flex-wrap: wrap;
+    gap: 3rem;
+    transform: none;
+  }
+
+  [data-pinned-track] ol > li {
+    width: 100%;
+  }
 }
 
 html,
