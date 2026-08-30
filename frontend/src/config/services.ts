@@ -12,13 +12,13 @@ import {
 /*
  * The services the site sells, as structure rather than copy.
  *
- * Every service page is the same page: a definition, what the test covers, how
- * an engagement runs, what lands on the client's desk at the end, why it is us,
- * the questions buyers actually ask, and a way into the neighbouring services.
+ * Both pentest pages are the same page: a definition, what the test covers, the
+ * levels it can be run at, how an engagement runs, what lands on the client's
+ * desk at the end, how that measures up, and the questions buyers actually ask.
  * What differs between them is which items each section holds — so that is what
  * lives here, and the words live in `servicePages.<key>` in the translation
- * files. One template renders all three, and a fourth service is this object
- * plus a translation block, not a new layout.
+ * files. One template renders both, and a third pentest is this object plus a
+ * translation block, not a new layout.
  *
  * The keys here are i18n keys, never text: a definition that carried English
  * strings would have to be duplicated per language, which is exactly the drift
@@ -57,8 +57,6 @@ export interface ServiceDefinition {
   process: readonly string[];
   /** What the client is left holding: the report's contents. */
   deliverables: readonly string[];
-  /** Reasons to pick us, kept to the claims this site can actually stand behind. */
-  reasons: readonly string[];
   /**
    * Rows of the comparison against a conventional engagement.
    *
@@ -69,13 +67,6 @@ export interface ServiceDefinition {
   comparison: readonly string[];
   /** Question keys, in the order they are asked. */
   faqs: readonly string[];
-  /**
-   * Pages to hand the reader on to, as route paths. Read back out of `NAV_ITEMS`
-   * so each one arrives with the label, blurb and icon the nav already carries —
-   * no second copy of that text, and a renamed page cannot leave a stale link
-   * behind here.
-   */
-  related: readonly string[];
 }
 
 /**
@@ -103,7 +94,6 @@ export const WEB_APP_PENTESTING: ServiceDefinition = {
   ],
   process: ["scope", "recon", "testing", "validation", "reporting", "retest"],
   deliverables: ["findings", "risk", "fixes", "summary", "compliance"],
-  reasons: ["european", "agents", "language"],
   comparison: [
     "approach",
     "cadence",
@@ -114,11 +104,6 @@ export const WEB_APP_PENTESTING: ServiceDefinition = {
     "integrations",
   ],
   faqs: ["blackbox", "duration", "production", "remediation", "compliance"],
-  related: [
-    "/services/api-pentesting",
-    "/services/security-awareness",
-    "/argus/retesting",
-  ],
 };
 
 /**
@@ -145,7 +130,6 @@ export interface AwarenessDefinition {
   /** What a programme is cut to fit. */
   tailoring: readonly string[];
   faqs: readonly string[];
-  related: readonly string[];
 }
 
 export const SECURITY_AWARENESS: AwarenessDefinition = {
@@ -163,11 +147,6 @@ export const SECURITY_AWARENESS: AwarenessDefinition = {
   phases: ["baseline", "training", "simulation", "adjust"],
   tailoring: ["sector", "size", "risk"],
   faqs: ["format", "language", "consent", "duration", "measure"],
-  related: [
-    "/services/web-app-pentesting",
-    "/services/api-pentesting",
-    "/argus/expert-chat",
-  ],
 };
 
 export const API_PENTESTING: ServiceDefinition = {
@@ -197,7 +176,6 @@ export const API_PENTESTING: ServiceDefinition = {
    */
   process: ["scope", "recon", "testing", "validation", "reporting", "retest"],
   deliverables: ["findings", "risk", "fixes", "summary", "compliance"],
-  reasons: ["european", "agents", "language"],
   comparison: [
     "approach",
     "cadence",
@@ -208,14 +186,4 @@ export const API_PENTESTING: ServiceDefinition = {
     "integrations",
   ],
   faqs: ["protocols", "documentation", "access", "production", "compliance"],
-  /*
-   * ARGUS integrations rather than retesting here: an API team's next question
-   * after "what did you find" is how those findings reach the tools they
-   * already work in.
-   */
-  related: [
-    "/services/web-app-pentesting",
-    "/services/security-awareness",
-    "/argus/integrations",
-  ],
 };

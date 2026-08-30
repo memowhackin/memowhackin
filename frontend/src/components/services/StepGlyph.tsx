@@ -10,9 +10,11 @@ import clsx from "clsx";
  * pages are built in. An icon set or a stock illustration would be a second
  * visual vocabulary bolted onto a page that already has one.
  *
- * Only the step being read animates. The other five hold their finished pose at
- * a quarter strength, so the section has exactly one moving thing in it and that
- * movement answers "where am I" rather than playing to an empty room.
+ * Only the step being read animates. The other five hold their finished pose,
+ * dimmed but still plainly drawn, so the section has exactly one moving thing in
+ * it and that movement answers "where am I" rather than playing to an empty
+ * room. They used to sit at a quarter strength, which on this background was
+ * close enough to invisible that five of the six marks were not worth drawing.
  *
  * Every animation is CSS on an SVG shape: no runtime, no library, nothing
  * measured per frame. `motion-safe` gates all of them, so a reader who asked for
@@ -199,7 +201,7 @@ export function StepGlyph({ step, active }: { step: string; active: boolean }) {
       className={clsx(
         "text-[var(--step-tone)]",
         "motion-safe:transition-opacity motion-safe:duration-500",
-        active ? "opacity-100" : "opacity-25 group-hover:opacity-50",
+        active ? "opacity-100" : "opacity-55 group-hover:opacity-80",
       )}
     >
       {glyph()}

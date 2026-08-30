@@ -1,11 +1,9 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
 import { CheckCircle2 } from "lucide-react";
 import { BrandButton } from "@/components/common/BrandButton";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
-import { PageLinkCard } from "@/components/common/PageLinkCard";
 import { ReportStack } from "@/components/common/ReportStack";
 import { CrossingMark } from "@/components/common/CrossingMark";
 import { SectionShell } from "@/components/common/SectionShell";
@@ -13,44 +11,29 @@ import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 import { SampleReportModal } from "@/components/landing/SampleReportModal";
+import { PentestTypes } from "@/components/services/PentestTypes";
 import { ProcessTimeline } from "@/components/services/ProcessTimeline";
 import { ServiceComparison } from "@/components/services/ServiceComparison";
 import { useSeo } from "@/localization/useSeo";
-import { NAV_ITEMS, type NavLeaf } from "@/config/nav";
 import { SERVICE_AREA_SERVED, type ServiceDefinition } from "@/config/services";
 import { site } from "@/config/site";
 
 /**
- * The pages the reader is handed on to, resolved out of the navigation tree.
+ * The shape both pentest pages take: what the service is, what it covers, the
+ * three levels it can be run at, how an engagement runs, what the client is
+ * left holding, how that measures against a conventional test, and the
+ * questions buyers ask — then straight into the closing call to action.
  *
- * Order follows the service's own list rather than the nav's, because the first
- * card is the one most people want next and that differs per service. A path
- * that no longer exists in the tree drops out silently: the alternative is a
- * card linking somewhere that 404s.
- */
-function relatedLeaves(paths: readonly string[]): NavLeaf[] {
-  const leaves = NAV_ITEMS.flatMap((item) =>
-    item.kind === "dropdown" ? item.groups.flatMap((group) => group.items) : [],
-  );
-
-  return paths.flatMap((path) => leaves.filter((leaf) => leaf.to === path));
-}
-
-/**
- * The shape every service page takes: what the service is, what it covers, how
- * an engagement runs, what the client is left holding, why it is us, the
- * questions buyers ask, and the way on to the neighbouring services.
- *
- * One template for all three rather than three hand-built pages — the sections
- * are the same argument in the same order for every service we sell, and three
- * copies of it would drift the moment one of them was touched. What differs per
- * service is `ServiceDefinition` (which items each section holds) and the
- * translation block behind it.
+ * One template rather than two hand-built pages — the sections are the same
+ * argument in the same order for both, and two copies of it would drift the
+ * moment one of them was touched. What differs per service is
+ * `ServiceDefinition` (which items each section holds) and the translation
+ * block behind it. The awareness programme is not this shape and has its own
+ * page; see `AwarenessPage`.
  */
 export function ServicePage({ service }: { service: ServiceDefinition }) {
   const { t } = useTranslation();
   const [reportOpen, setReportOpen] = useState(false);
-  const related = relatedLeaves(service.related);
 
   const { ref: heroRef, className: heroReveal } = useReveal<HTMLDivElement>();
   const { ref: definitionRef, className: definitionReveal } =
@@ -106,10 +89,15 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
         }}
       />
 
+      {/*
+        The opening: the headline, what the service is in a sentence, and the
+        one action. No badge over the heading and no ornament under it — these
+        pages open on the statement itself.
+      */}
       <SectionShell
         className="bg-transparent"
         data-testid={`service-${service.key}-hero`}
-        innerClassName="flex flex-col items-center gap-6 pt-12 pb-16 text-center sm:pt-16 lg:pt-20 lg:pb-20"
+        innerClassName="flex flex-col items-center gap-6 pt-12 pb-16 text-center sm:pt-16 lg:pt-24 lg:pb-24"
       >
         <div
           ref={heroRef}
@@ -117,48 +105,29 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
         >
           <h1 className="font-display text-mist max-w-4xl text-3xl leading-tight font-normal text-balance sm:text-4xl lg:text-5xl">
             {t(`pages.${service.pageKey}.heading`)}
+            <span aria-hidden="true" className="text-lavender">
+              .
+            </span>
           </h1>
 
-          <p className="text-mist/75 max-w-2xl text-lg leading-relaxed text-pretty">
+          <p className="text-mist/85 max-w-2xl text-lg leading-relaxed text-pretty">
             {t(`pages.${service.pageKey}.body`)}
           </p>
 
           {/*
-            Two actions, as the about page ends on: a service page is where the
-            decision is made, and the reader who is not ready to book a slot is
-            the one who wants to ask a question first. Sending both to the same
-            place would be the same button twice.
+            One action. The page has a contact link in the header, another in
+            the footer and a whole closing section of its own; a second pill
+            beside the first was a choice the reader did not need to make in
+            order to get past the fold.
           */}
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
-            <BrandButton
-              href={site.bookDemoUrl}
-              variant="sweep"
-              data-testid="page-book-demo"
-              className="text-nowrap"
-            >
-              {t("nav.bookDemo")}
-            </BrandButton>
-
-            {/*
-              A router link, not a `BrandButton`: that component is an `<a
-              href>` that opens in a new tab, and both halves are wrong here.
-              An internal destination has to go through the router or the
-              Dutch build walks out of its own `/nl` prefix, and a page of this
-              site opening in a second tab is not a thing the site does. The
-              look comes from the shared class list, which exists for exactly
-              this.
-            */}
-            <Link
-              to="/contact"
-              data-testid={`service-${service.key}-contact`}
-              className={brandButtonClass({
-                variant: "ghost",
-                className: "text-nowrap",
-              })}
-            >
-              {t(`servicePages.${service.key}.hero.secondary`)}
-            </Link>
-          </div>
+          <BrandButton
+            href={site.bookDemoUrl}
+            variant="sweep"
+            data-testid="page-book-demo"
+            className="mt-2 text-nowrap"
+          >
+            {t("servicePages.labels.requestPentest")}
+          </BrandButton>
         </div>
       </SectionShell>
 
@@ -182,7 +151,7 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
             {t(`servicePages.${service.key}.definition.title`)}
           </h2>
 
-          <div className="text-mist/75 flex max-w-2xl flex-col gap-5 text-base leading-relaxed text-pretty sm:text-lg">
+          <div className="text-mist/85 flex max-w-2xl flex-col gap-5 text-base leading-relaxed text-pretty sm:text-lg">
             <p>{t(`servicePages.${service.key}.definition.p1`)}</p>
             <p>{t(`servicePages.${service.key}.definition.p2`)}</p>
           </div>
@@ -199,7 +168,7 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
           <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
             {t(`servicePages.${service.key}.coverage.title`)}
           </h2>
-          <p className="text-mist/70 max-w-2xl text-base leading-relaxed text-pretty">
+          <p className="text-mist/80 max-w-2xl text-base leading-relaxed text-pretty">
             {t(`servicePages.${service.key}.coverage.intro`)}
           </p>
         </div>
@@ -240,13 +209,11 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
         </div>
       </SectionShell>
 
-      {/*
-        How an engagement runs, start to finish. Unwrapped, unlike every other
-        section here: on a wide screen this one pins itself to the viewport and
-        spends the scroll sideways, which needs the full width and its own
-        height rather than a column and a padding rhythm. It brings its own
-        shell in the layout that wants one.
-      */}
+      {/* The three levels of access a test can be run at — the decision that has
+          to be made before the process below can start. */}
+      <PentestTypes serviceKey={service.key} />
+
+      {/* How an engagement runs, start to finish. */}
       <ProcessTimeline service={service} />
 
       {/*
@@ -257,7 +224,12 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
       <SectionShell
         className="overflow-x-clip bg-transparent"
         data-testid={`service-${service.key}-report`}
-        innerClassName="grid items-center gap-10 pb-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-x-24 lg:pb-24"
+        /* Deeper than the sections above it. Everything from here down is the
+           page arguing for itself rather than describing the work, and the two
+           halves need visibly more air between them than the run of parts
+           does — the report still life ends level with its own copy, so the
+           standard rhythm left the next heading sitting right under it. */
+        innerClassName="grid items-center gap-10 pb-24 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-x-24 lg:pb-36"
       >
         <div
           ref={reportRef}
@@ -267,7 +239,7 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
             {t(`servicePages.${service.key}.report.title`)}
           </h2>
 
-          <p className="text-mist/75 max-w-prose text-base leading-relaxed text-pretty sm:text-lg">
+          <p className="text-mist/85 max-w-prose text-base leading-relaxed text-pretty sm:text-lg">
             {t(`servicePages.${service.key}.report.body`)}
           </p>
 
@@ -276,9 +248,9 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
               <li key={item} className="flex items-start gap-3">
                 <CheckCircle2
                   aria-hidden="true"
-                  className="text-lavender/70 mt-0.5 size-5 shrink-0"
+                  className="text-lavender mt-0.5 size-5 shrink-0"
                 />
-                <span className="text-mist/80 text-base leading-relaxed text-pretty">
+                <span className="text-mist/85 text-base leading-relaxed text-pretty">
                   {t(`servicePages.${service.key}.report.items.${item}`)}
                 </span>
               </li>
@@ -318,30 +290,8 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
         }}
       />
 
-      {/* Why it is us. */}
-      <SectionShell
-        className="bg-transparent"
-        data-testid={`service-${service.key}-reasons`}
-        innerClassName="flex flex-col gap-8 pb-16 lg:gap-10 lg:pb-24"
-      >
-        <h2 className="font-display text-mist max-w-3xl text-2xl font-normal text-balance sm:text-3xl">
-          {t(`servicePages.${service.key}.reasons.title`)}
-        </h2>
-
-        <ul className="grid gap-8 sm:grid-cols-3 sm:gap-6">
-          {service.reasons.map((reason, index) => (
-            <ReasonColumn
-              key={reason}
-              service={service}
-              reason={reason}
-              index={index}
-            />
-          ))}
-        </ul>
-      </SectionShell>
-
-      {/* The same argument as the reasons above, but measured against what a
-          conventional engagement gives you. */}
+      {/* Why it is us, measured against what a conventional engagement gives
+          you rather than asserted in three columns of our own. */}
       <SectionShell
         className="bg-transparent"
         data-testid={`service-${service.key}-comparison`}
@@ -350,36 +300,16 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
         <ServiceComparison service={service} />
       </SectionShell>
 
-      {/* The questions buyers actually ask, answered on the page. */}
+      {/* The questions buyers actually ask, answered on the page. The heading is
+          the accordion's own — on a wide screen it is the left half of that
+          section's layout rather than a line above it. */}
       <SectionShell
         className="bg-transparent"
         data-testid={`service-${service.key}-faq`}
-        innerClassName="flex flex-col gap-8 pb-16 lg:pb-24"
+        innerClassName="pb-16 lg:pb-24"
       >
-        <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
-          {t(`servicePages.${service.key}.faq.title`)}
-        </h2>
-
         <ServiceFaq serviceKey={service.key} entries={service.faqs} />
       </SectionShell>
-
-      {related.length > 0 && (
-        <SectionShell
-          className="bg-transparent"
-          data-testid={`service-${service.key}-related`}
-          innerClassName="flex flex-col gap-6 pb-16 lg:pb-24"
-        >
-          <h2 className="font-display text-mist text-2xl font-normal">
-            {t("servicePages.labels.related")}
-          </h2>
-
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((leaf, index) => (
-              <PageLinkCard key={leaf.key} leaf={leaf} index={index} />
-            ))}
-          </ul>
-        </SectionShell>
-      )}
 
       <ClosingCta />
     </div>
@@ -456,58 +386,14 @@ function CoverageEntry({
 
       {/* Nudged down onto the title's first line rather than its box, which
           sits a shade higher than the letters do. */}
-      <Icon
-        aria-hidden="true"
-        className="text-lavender/70 mt-1 size-5 shrink-0"
-      />
+      <Icon aria-hidden="true" className="text-lavender mt-1 size-5 shrink-0" />
 
       <h3 className="font-display text-mist text-lg font-normal text-balance sm:text-xl">
         {t(`servicePages.${service.key}.coverage.items.${item.key}.title`)}
       </h3>
 
-      <p className="text-mist/70 col-start-2 max-w-prose text-base leading-relaxed text-pretty">
+      <p className="text-mist/80 col-start-2 max-w-prose text-base leading-relaxed text-pretty">
         {t(`servicePages.${service.key}.coverage.items.${item.key}.body`)}
-      </p>
-    </li>
-  );
-}
-
-/** One reason to pick us, as a column under a hairline. */
-function ReasonColumn({
-  service,
-  reason,
-  index,
-}: {
-  service: ServiceDefinition;
-  reason: string;
-  index: number;
-}) {
-  const { t } = useTranslation();
-  const { ref, className, style } = useReveal<HTMLLIElement>({
-    delay: Math.min(index, 4) * 60,
-  });
-
-  return (
-    <li
-      ref={ref}
-      style={style}
-      data-testid={`service-reason-${reason}`}
-      /*
-       * A rule above rather than a card around: three bordered panels here
-       * would be the coverage grid again two sections later, and this is the
-       * page's argument, not another list of parts.
-       */
-      className={clsx(
-        "border-indigo-deep/60 flex flex-col gap-3 border-t pt-6",
-        className,
-      )}
-    >
-      <h3 className="font-display text-mist text-lg font-normal text-balance sm:text-xl">
-        {t(`servicePages.${service.key}.reasons.items.${reason}.title`)}
-      </h3>
-
-      <p className="text-mist/70 text-base leading-relaxed text-pretty">
-        {t(`servicePages.${service.key}.reasons.items.${reason}.body`)}
       </p>
     </li>
   );

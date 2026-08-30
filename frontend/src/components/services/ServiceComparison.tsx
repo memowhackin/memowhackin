@@ -33,7 +33,7 @@ export function ServiceComparison({ service }: { service: ServiceDefinition }) {
         <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
           {t(key("title"))}
         </h2>
-        <p className="text-mist/70 max-w-2xl text-base leading-relaxed text-pretty">
+        <p className="text-mist/80 max-w-2xl text-base leading-relaxed text-pretty">
           {t(key("intro"))}
         </p>
       </div>
@@ -48,7 +48,7 @@ export function ServiceComparison({ service }: { service: ServiceDefinition }) {
             <tr>
               <th
                 scope="col"
-                className="text-mist/50 w-[22%] pb-4 text-sm font-medium"
+                className="text-mist/65 w-[22%] pb-4 text-sm font-medium"
               >
                 {t(key("columns.aspect"))}
               </th>
@@ -79,7 +79,7 @@ export function ServiceComparison({ service }: { service: ServiceDefinition }) {
 
               <th
                 scope="col"
-                className="text-mist/50 w-[39%] px-5 pb-4 text-base font-medium"
+                className="text-mist/65 w-[39%] px-5 pb-4 text-base font-medium"
               >
                 <span
                   aria-hidden="true"
@@ -126,9 +126,9 @@ export function ServiceComparison({ service }: { service: ServiceDefinition }) {
                   <span className="flex items-start gap-3">
                     <Minus
                       aria-hidden="true"
-                      className="text-mist/30 mt-0.5 size-5 shrink-0"
+                      className="text-mist/45 mt-0.5 size-5 shrink-0"
                     />
-                    <span className="text-mist/55 text-base leading-relaxed text-pretty">
+                    <span className="text-mist/70 text-base leading-relaxed text-pretty">
                       {t(key(`rows.${row}.theirs`))}
                     </span>
                   </span>
