@@ -1,31 +1,18 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
-import { brandButtonClass } from "@/components/common/brandButtonClass";
-import { LatticeDivider } from "@/components/common/LatticeDivider";
-import { PageLinkCard } from "@/components/common/PageLinkCard";
 import { ScrollFillText } from "@/components/common/ScrollFillText";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { useSeo } from "@/localization/useSeo";
-import { NAV_ITEMS, type NavLeaf } from "@/config/nav";
 import {
   SERVICE_AREA_SERVED,
   type AwarenessDefinition,
 } from "@/config/services";
 import { site } from "@/config/site";
-
-function relatedLeaves(paths: readonly string[]): NavLeaf[] {
-  const leaves = NAV_ITEMS.flatMap((item) =>
-    item.kind === "dropdown" ? item.groups.flatMap((group) => group.items) : [],
-  );
-
-  return paths.flatMap((path) => leaves.filter((leaf) => leaf.to === path));
-}
 
 /** One subject on the syllabus: what it is called, and what a session does with it. */
 function Topic({ topic, index }: { topic: string; index: number }) {
@@ -55,7 +42,7 @@ function Topic({ topic, index }: { topic: string; index: number }) {
         {t(`servicePages.awareness.topics.items.${topic}.title`)}
       </h3>
 
-      <p className="text-mist/70 max-w-prose text-base leading-relaxed text-pretty">
+      <p className="text-mist/80 max-w-prose text-base leading-relaxed text-pretty">
         {t(`servicePages.awareness.topics.items.${topic}.body`)}
       </p>
     </li>
@@ -71,14 +58,16 @@ function Topic({ topic, index }: { topic: string; index: number }) {
  * findings, no report to hand over and nothing to retest. It is a programme that
  * runs on people, repeats, and is measured by what they do differently next
  * quarter — so the page is built from the parts of the design system the other
- * two do not use. The lattice band and the filling statement are the about
- * page's; the heading-beside-copy rows are its story rhythm. Nothing new was
- * invented for it, and nothing was borrowed from the pages it should not
- * resemble.
+ * two do not use. The filling statement is the about page's; the
+ * heading-beside-copy rows are its story rhythm. Nothing new was invented for
+ * it, and nothing was borrowed from the pages it should not resemble.
+ *
+ * What it does share with the pentest pages is the opening and the close: the
+ * same centred hero on one action, and the same accordion. Those are the parts
+ * a reader crossing between services should recognise.
  */
 export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
   const { t } = useTranslation();
-  const related = relatedLeaves(service.related);
 
   const { ref: heroRef, className: heroReveal } = useReveal<HTMLDivElement>();
   const { ref: cycleRef, className: cycleReveal } = useReveal<HTMLDivElement>();
@@ -122,11 +111,13 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
       />
 
       {/* The page opening every route below the home page shares. It is the one
-          part that should look the same on all three services. */}
+          part that should look the same on all three services: the headline,
+          what the service is in a sentence, and one action — no badge over it
+          and no ornament under it. */}
       <SectionShell
         className="bg-transparent"
         data-testid="service-awareness-hero"
-        innerClassName="flex flex-col items-center gap-6 pt-12 pb-16 text-center sm:pt-16 lg:pt-20 lg:pb-20"
+        innerClassName="flex flex-col items-center gap-6 pt-12 pb-16 text-center sm:pt-16 lg:pt-24 lg:pb-24"
       >
         <div
           ref={heroRef}
@@ -134,39 +125,35 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
         >
           <h1 className="font-display text-mist max-w-4xl text-3xl leading-tight font-normal text-balance sm:text-4xl lg:text-5xl">
             {t(`pages.${service.pageKey}.heading`)}
+            <span aria-hidden="true" className="text-lavender">
+              .
+            </span>
           </h1>
 
-          <p className="text-mist/75 max-w-2xl text-lg leading-relaxed text-pretty">
+          <p className="text-mist/85 max-w-2xl text-lg leading-relaxed text-pretty">
             {t(`pages.${service.pageKey}.body`)}
           </p>
 
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
-            <BrandButton
-              href={site.bookDemoUrl}
-              variant="sweep"
-              data-testid="page-book-demo"
-              className="text-nowrap"
-            >
-              {t("nav.bookDemo")}
-            </BrandButton>
+          {/*
+            One action, as the pentest pages open on. The page has a contact
+            link in the header, another in the footer and a whole closing
+            section of its own; a second pill beside the first was a choice the
+            reader did not need to make in order to get past the fold.
 
-            <Link
-              to="/contact"
-              data-testid="service-awareness-contact"
-              className={brandButtonClass({
-                variant: "ghost",
-                className: "text-nowrap",
-              })}
-            >
-              {t("servicePages.awareness.hero.secondary")}
-            </Link>
-          </div>
+            It stays `nav.bookDemo` rather than taking the pentest pages'
+            "Request pentest": this is a training programme, and asking for a
+            pentest is not what the button does.
+          */}
+          <BrandButton
+            href={site.bookDemoUrl}
+            variant="sweep"
+            data-testid="page-book-demo"
+            className="mt-2 text-nowrap"
+          >
+            {t("nav.bookDemo")}
+          </BrandButton>
         </div>
       </SectionShell>
-
-      {/* The brand's weave, drawn live. It carries the turn from the promise
-          into the argument, exactly as it does on the about page. */}
-      <LatticeDivider data-testid="awareness-lattice" />
 
       {/*
         The case for the whole service, as one sentence that fills in as it is
@@ -196,7 +183,7 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
           <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
             {t("servicePages.awareness.topics.title")}
           </h2>
-          <p className="text-mist/70 max-w-2xl text-base leading-relaxed text-pretty">
+          <p className="text-mist/80 max-w-2xl text-base leading-relaxed text-pretty">
             {t("servicePages.awareness.topics.intro")}
           </p>
         </div>
@@ -230,7 +217,7 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
             <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
               {t("servicePages.awareness.cycle.title")}
             </h2>
-            <p className="text-mist/60 text-base leading-relaxed text-pretty">
+            <p className="text-mist/80 text-base leading-relaxed text-pretty">
               {t("servicePages.awareness.cycle.intro")}
             </p>
           </div>
@@ -251,12 +238,12 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
                 */}
                 <span
                   aria-hidden="true"
-                  className="font-display text-lavender/70 text-sm tabular-nums"
+                  className="font-display text-lavender text-sm tabular-nums"
                 >
                   {(index + 1).toString().padStart(2, "0")}
                 </span>
 
-                <p className="text-mist/80 text-base leading-relaxed text-pretty">
+                <p className="text-mist/85 text-base leading-relaxed text-pretty">
                   <span className="text-mist font-medium">
                     {t(`servicePages.awareness.cycle.phases.${phase}.title`)}
                     <span aria-hidden="true" className="text-lavender">
@@ -289,7 +276,7 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
           </h2>
 
           <div className="flex max-w-2xl flex-col gap-5">
-            <p className="text-mist/75 text-base leading-relaxed text-pretty sm:text-lg">
+            <p className="text-mist/85 text-base leading-relaxed text-pretty sm:text-lg">
               {t("servicePages.awareness.fit.body")}
             </p>
 
@@ -303,7 +290,7 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
                   <dt className="text-mist text-base font-medium">
                     {t(`servicePages.awareness.fit.items.${item}.title`)}
                   </dt>
-                  <dd className="text-mist/65 text-base leading-relaxed text-pretty">
+                  <dd className="text-mist/85 text-base leading-relaxed text-pretty">
                     {t(`servicePages.awareness.fit.items.${item}.body`)}
                   </dd>
                 </div>
@@ -316,32 +303,11 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
       <SectionShell
         className="bg-transparent"
         data-testid="service-awareness-faq"
-        innerClassName="flex flex-col gap-8 pb-16 lg:pb-24"
+        innerClassName="pb-16 lg:pb-24"
       >
-        <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
-          {t("servicePages.awareness.faq.title")}
-        </h2>
-
+        {/* The heading is the accordion's own — see `ServiceFaq`. */}
         <ServiceFaq serviceKey="awareness" entries={service.faqs} />
       </SectionShell>
-
-      {related.length > 0 && (
-        <SectionShell
-          className="bg-transparent"
-          data-testid="service-awareness-related"
-          innerClassName="flex flex-col gap-6 pb-16 lg:pb-24"
-        >
-          <h2 className="font-display text-mist text-2xl font-normal">
-            {t("servicePages.labels.related")}
-          </h2>
-
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((leaf, index) => (
-              <PageLinkCard key={leaf.key} leaf={leaf} index={index} />
-            ))}
-          </ul>
-        </SectionShell>
-      )}
 
       <ClosingCta />
     </div>

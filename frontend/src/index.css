@@ -453,44 +453,6 @@
   }
 }
 
-/*
- * The pinned process track, for a reader with no scripting.
- *
- * Everything that makes that section work is measured and written by
- * JavaScript: how far the track has to travel, how tall the section must be to
- * spend that travel, and where the track has got to. With none of it running,
- * the section would stand exactly one screen tall with a row of panels clipped
- * at its edge and no way to reach the rest — four of the six stages unreadable
- * on a page this site promises is readable without scripts.
- *
- * So it unpins. The section takes its content's height, the pane stops sticking,
- * and the panels wrap into a column: the same content, in the shape it has on a
- * narrow screen. This cannot be done with utility classes — there is no variant
- * for it — and it is deliberately the only rule in this file that reaches into a
- * component's markup.
- */
-@media (scripting: none) {
-  [data-pinned-track] {
-    height: auto;
-  }
-
-  [data-pinned-track] > div {
-    position: static;
-    height: auto;
-    overflow: visible;
-  }
-
-  [data-pinned-track] ol {
-    flex-wrap: wrap;
-    gap: 3rem;
-    transform: none;
-  }
-
-  [data-pinned-track] ol > li {
-    width: 100%;
-  }
-}
-
 html,
 body,
 #root {
@@ -853,6 +815,39 @@ body {
   height: 1px;
   background-image: var(--brand-sweep);
   border: 0;
+}
+
+/*
+ * The travel a `<details>` makes when it opens, for the FAQ accordions.
+ *
+ * Animating a native `<details>` used to mean taking the disclosure over in
+ * JavaScript — hold the element open, measure the panel, transition a height —
+ * which is exactly the trade the accordion refuses to make: the answer has to be
+ * in the document for a crawler whether or not the question is open, and the
+ * browser's own keyboard and screen-reader behaviour is worth more than the
+ * animation. `::details-content` is the panel the browser already generates, so
+ * this animates the real thing and leaves the element alone.
+ *
+ * `interpolate-size` is what makes `auto` an animatable height; without it the
+ * open state has nothing to travel to and the panel snaps. `content-visibility`
+ * has to ride along with `allow-discrete`, or the panel stays hidden for the
+ * whole of its own opening. Where either is unsupported the accordion simply
+ * opens instantly, which is what it did before.
+ */
+@utility faq-reveal {
+  interpolate-size: allow-keywords;
+
+  &::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 300ms var(--default-transition-timing-function),
+      content-visibility 300ms allow-discrete;
+  }
+
+  &[open]::details-content {
+    block-size: auto;
+  }
 }
 
 /*

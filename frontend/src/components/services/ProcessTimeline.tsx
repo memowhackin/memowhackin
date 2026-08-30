@@ -3,9 +3,7 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { CrossingMark } from "@/components/common/CrossingMark";
 import { useReveal } from "@/components/common/useReveal";
-import { useMediaQuery } from "@/components/common/useMediaQuery";
 import { useTimelineProgress } from "@/components/common/useTimelineProgress";
-import { ProcessTrack } from "@/components/services/ProcessTrack";
 import { StepGlyph } from "@/components/services/StepGlyph";
 import { stepTone } from "@/components/services/stepTone";
 import { SectionShell } from "@/components/common/SectionShell";
@@ -28,7 +26,7 @@ import type { ServiceDefinition } from "@/config/services";
  * agreeing about what intersects it.
  *
  * An IntersectionObserver rather than a measurement per scroll frame, because
- * this answer changes five times in the length of the section and a reading per
+ * this answer changes six times in the length of the section and a reading per
  * frame would be several hundred. The rail's fill is the part that has to move
  * continuously, and that never touches React at all.
  */
@@ -56,7 +54,7 @@ function StepNode({ active }: { active: boolean }) {
          * box, because the rail runs the full height of the list behind it and
          * the mark has to meet the line the eye actually reads.
          */
-        "mt-2 size-2 justify-self-center rotate-45 rounded-xs lg:mt-4",
+        "mt-2 size-2 justify-self-center rotate-45 rounded-xs lg:mt-3",
         "motion-safe:transition-[background-color,box-shadow] motion-safe:duration-500",
         /*
          * The active station is the brand lavender with one thin ring of the
@@ -67,8 +65,8 @@ function StepNode({ active }: { active: boolean }) {
          * step this is.
          */
         active
-          ? "bg-lavender shadow-[0_0_0_0.25rem_rgba(173,157,238,0.12)]"
-          : "bg-[var(--step-tone)] opacity-60 group-hover:opacity-100",
+          ? "bg-lavender shadow-[0_0_0_0.3rem_rgba(173,157,238,0.14)]"
+          : "bg-[var(--step-tone)] opacity-70 group-hover:opacity-100",
       )}
     />
   );
@@ -90,7 +88,7 @@ function RailEnd({ label, tone }: { label: string; tone: "start" | "finish" }) {
     <div
       className={clsx(
         "grid grid-cols-[1rem_minmax(0,1fr)] items-center gap-x-5 sm:gap-x-8",
-        finish ? "pt-10 lg:pt-12" : "pb-10 lg:pb-12",
+        finish ? "pt-8 lg:pt-10" : "pb-8 lg:pb-10",
       )}
     >
       {finish ? (
@@ -98,15 +96,12 @@ function RailEnd({ label, tone }: { label: string; tone: "start" | "finish" }) {
       ) : (
         <span
           aria-hidden="true"
-          className="bg-indigo-deep/60 h-px w-4 justify-self-center"
+          className="bg-indigo-deep h-px w-4 justify-self-center"
         />
       )}
 
       <span
-        className={clsx(
-          "eyebrow",
-          finish ? "text-lavender/80" : "text-mist/35",
-        )}
+        className={clsx("eyebrow", finish ? "text-lavender" : "text-mist/70")}
       >
         {label}
       </span>
@@ -142,22 +137,22 @@ function ProcessStep({
       /*
        * `aria-current` is the whole of what the highlight means, said in the
        * one word assistive technology already understands. Everything else
-       * here — the glow, the scale, the brightening — is decoration on top of
+       * here — the lit node, the brightened number — is decoration on top of
        * it, and none of it is the only way to tell where you are: the list is
        * numbered and every step's copy is on the page, in full, at all times.
        * Nothing is behind a hover, so there is nothing a keyboard cannot reach.
        */
       aria-current={active ? "step" : undefined}
       className={clsx(
-        "group grid grid-cols-[1rem_minmax(0,1fr)] gap-x-5 pb-10 last:pb-0 sm:gap-x-8 lg:pb-16",
+        "group grid grid-cols-[1rem_minmax(0,1fr)] gap-x-5 pb-9 last:pb-0 sm:gap-x-8 lg:pb-12",
         className,
       )}
     >
       <StepNode active={active} />
 
-      <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:gap-10">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-8">
         {/*
-          The anchor column: the number, and beneath it the mark for what this
+          The anchor column: the number, and beside it the mark for what this
           step does. Side by side on a phone, where stacking them would push the
           copy down a line and buy nothing.
 
@@ -165,13 +160,21 @@ function ProcessStep({
           six rows of a two-digit number and a mark line up exactly rather than
           each finding its own left edge.
         */}
-        <div className="flex items-center gap-4 lg:w-24 lg:flex-col lg:items-start lg:gap-3">
+        <div className="flex items-center gap-4 sm:w-20 sm:flex-col sm:items-start sm:gap-3 lg:w-24">
           <span
             aria-hidden="true"
             className={clsx(
               "font-display shrink-0 text-3xl leading-none tabular-nums text-[var(--step-tone)] sm:text-4xl lg:text-5xl",
-              "motion-safe:transition-[opacity,transform] motion-safe:duration-500",
-              active ? "opacity-100" : "opacity-40 group-hover:opacity-70",
+              "motion-safe:transition-opacity motion-safe:duration-500",
+              /*
+               * The number and the mark are the only things that dim, and even
+               * the dim end is legible rather than a ghost. The step being read
+               * is said by the lit station on the rail beside it; fading the
+               * other five towards the page — which is what this section used
+               * to do to its copy as well — bought that emphasis by making five
+               * sixths of the section hard to read.
+               */
+              active ? "opacity-100" : "opacity-65 group-hover:opacity-90",
             )}
           >
             <span className="opacity-45">0</span>
@@ -181,14 +184,14 @@ function ProcessStep({
           <StepGlyph step={step} active={active} />
         </div>
 
-        <div
-          className={clsx(
-            "flex flex-col gap-2",
-            "motion-safe:transition-opacity motion-safe:duration-500",
-            active ? "opacity-100" : "opacity-70 group-hover:opacity-100",
-          )}
-        >
-          <h3 className="font-display text-mist text-xl font-normal text-balance sm:text-2xl">
+        <div className="flex flex-col gap-2">
+          <h3
+            className={clsx(
+              "font-display text-xl font-normal text-balance sm:text-2xl",
+              "motion-safe:transition-colors motion-safe:duration-500",
+              active ? "text-lavender-soft" : "text-mist",
+            )}
+          >
             {t(`servicePages.${service.key}.process.steps.${step}.title`)}
             {/*
               The site sets its display headings with a full stop ("An assistsec
@@ -202,7 +205,7 @@ function ProcessStep({
             </span>
           </h3>
 
-          <p className="text-mist/70 max-w-prose text-base leading-relaxed text-pretty">
+          <p className="text-mist/80 max-w-prose text-base leading-relaxed text-pretty">
             {t(`servicePages.${service.key}.process.steps.${step}.body`)}
           </p>
         </div>
@@ -219,16 +222,23 @@ function ProcessStep({
  * a separate question with a separate answer — an observer watching a band
  * across the middle of the screen — because the two change at completely
  * different rates, and driving the highlight off the scroll position would put
- * a render on every frame to answer a question that changes five times.
+ * a render on every frame to answer a question that changes six times.
  *
  * The rail belongs to this wrapper rather than to the list, so it can run
  * through both ends: it begins at the tick above the first step and finishes on
  * the brand mark below the last, which is what makes six numbered rows read as
  * a route with a start and a destination.
  */
-function ProcessRail({ service }: { service: ServiceDefinition }) {
+function ProcessRail({
+  service,
+  activeIndex,
+  onActiveChange,
+}: {
+  service: ServiceDefinition;
+  activeIndex: number;
+  onActiveChange: (index: number) => void;
+}) {
   const timelineRef = useTimelineProgress<HTMLDivElement>();
-  const [activeIndex, setActiveIndex] = useState(0);
   const { t } = useTranslation();
   const total = service.process.length;
 
@@ -260,7 +270,7 @@ function ProcessRail({ service }: { service: ServiceDefinition }) {
 
         // Scrolled clean past the section: hold the last step rather than
         // dropping the highlight, which would read as the rail switching off.
-        if (inBand.size > 0) setActiveIndex(Math.min(...inBand));
+        if (inBand.size > 0) onActiveChange(Math.min(...inBand));
       },
       { rootMargin: FOCUS_BAND },
     );
@@ -270,7 +280,7 @@ function ProcessRail({ service }: { service: ServiceDefinition }) {
     return () => {
       observer.disconnect();
     };
-  }, [timelineRef]);
+  }, [timelineRef, onActiveChange]);
 
   return (
     <div ref={timelineRef} className="relative flex flex-col">
@@ -278,12 +288,12 @@ function ProcessRail({ service }: { service: ServiceDefinition }) {
         The track and the fill over it, both a hairline on the column the marks
         sit in: that cell is 1rem wide, so its centre — and theirs — is 0.5rem.
 
-        `inset-y-0` now spans the ends as well as the steps, so the line begins
-        at the tick and stops at the mark rather than bleeding past both.
+        `inset-y-0` spans the ends as well as the steps, so the line begins at
+        the tick and stops at the mark rather than bleeding past both.
       */}
       <span
         aria-hidden="true"
-        className="bg-indigo-deep/60 pointer-events-none absolute inset-y-0 left-2 w-px -translate-x-1/2"
+        className="bg-indigo-deep pointer-events-none absolute inset-y-0 left-2 w-px -translate-x-1/2"
       />
       <span
         aria-hidden="true"
@@ -317,52 +327,80 @@ function ProcessRail({ service }: { service: ServiceDefinition }) {
   );
 }
 
-/*
- * Where the pinned, sideways version is used at all.
- *
- * It needs width — six panels walking past on a phone would be six taps of
- * scrolling per stage — and it needs a reader who has not asked for less
- * movement, since the whole device is movement. Below either bar the section is
- * the vertical rail, which is not a fallback so much as the same content in the
- * shape that suits a narrow screen.
- *
- * Read in JavaScript rather than with a CSS breakpoint because the two layouts
- * are different markup, not one layout restyled: rendering both and hiding one
- * would leave a pinned section measuring itself while invisible.
- */
-const PINS_SIDEWAYS =
-  "(min-width: 64rem) and (prefers-reduced-motion: no-preference)";
-
 /**
- * How an engagement runs, in whichever shape the screen can carry.
+ * How an engagement runs, start to finish.
  *
- * The section owns its own heading, because where that heading goes differs
- * between the two: the vertical rail scrolls its heading away above the steps,
- * and the pinned track has to keep it on screen for as long as the panels are
- * sliding past underneath it.
+ * One layout at every width. This section used to pin itself on a wide screen
+ * and spend the reader's scroll walking six panels sideways — which meant two
+ * sets of markup for one piece of content, a measured section height, and a
+ * page that stopped answering the scroll wheel for the length of it. The rail
+ * says the same thing in one shape, and lets the reader keep their scroll.
+ *
+ * The heading rides in a column of its own on a wide screen and stays with the
+ * reader down the length of the list, which is what the pin was really for: the
+ * question the six steps answer, on screen for as long as they are.
  */
 export function ProcessTimeline({ service }: { service: ServiceDefinition }) {
   const { t } = useTranslation();
-  const sideways = useMediaQuery(PINS_SIDEWAYS);
-
-  if (sideways) return <ProcessTrack service={service} />;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const { ref, className } = useReveal<HTMLDivElement>();
 
   return (
     <SectionShell
       className="bg-transparent"
       data-testid={`service-${service.key}-process`}
-      innerClassName="flex flex-col gap-8 pb-16 lg:gap-10 lg:pb-24"
+      innerClassName="pb-16 lg:pb-24"
     >
-      <div className="flex flex-col gap-3">
-        <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
-          {t(`servicePages.${service.key}.process.title`)}
-        </h2>
-        <p className="text-mist/70 max-w-2xl text-base leading-relaxed text-pretty">
-          {t(`servicePages.${service.key}.process.intro`)}
-        </p>
-      </div>
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+        {/*
+          `self-start` is what makes `sticky` do anything: a grid item stretches
+          to its row by default, so the rail would already be as tall as the
+          steps and have nothing to travel over.
+        */}
+        <div
+          ref={ref}
+          className={clsx(
+            "flex flex-col gap-4 lg:sticky lg:top-32 lg:self-start",
+            className,
+          )}
+        >
+          <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
+            {t(`servicePages.${service.key}.process.title`)}
+          </h2>
 
-      <ProcessRail service={service} />
+          <p className="text-mist/75 max-w-2xl text-base leading-relaxed text-pretty">
+            {t(`servicePages.${service.key}.process.intro`)}
+          </p>
+
+          {/*
+            Where the reader has got to, in the same figures the rail is
+            numbered in. It is the one thing the pinned track did better than a
+            plain list — you could see the whole sequence at once — said in two
+            numbers instead of a hijacked scroll.
+
+            Hidden from assistive technology: the list is an ordered one and the
+            step being read already carries `aria-current`, so this would be a
+            third telling of something said twice.
+          */}
+          <div
+            aria-hidden="true"
+            className="border-indigo-deep mt-2 hidden w-fit items-baseline gap-2 border-t pt-4 lg:flex"
+          >
+            <span className="font-display text-lavender text-2xl tabular-nums">
+              {(activeIndex + 1).toString().padStart(2, "0")}
+            </span>
+            <span className="text-mist/55 font-display text-base tabular-nums">
+              / {service.process.length.toString().padStart(2, "0")}
+            </span>
+          </div>
+        </div>
+
+        <ProcessRail
+          service={service}
+          activeIndex={activeIndex}
+          onActiveChange={setActiveIndex}
+        />
+      </div>
     </SectionShell>
   );
 }

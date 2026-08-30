@@ -153,14 +153,50 @@
   },
   "servicePages": {
     "labels": {
-      "related": "Other services",
       "timelineStart": "Where it starts",
-      "timelineFinish": "Verified and closed"
+      "timelineFinish": "Verified and closed",
+      "requestPentest": "Request pentest"
+    },
+    "pentestTypes": {
+      "title": "Types of pentest",
+      "intro": "How much you hand over at the start decides how much ground a test can cover. Each of the three is run by our own pentesters alongside an AI agent configured for that level of access.",
+      "labels": {
+        "access": "What we start with",
+        "agents": "How we work it",
+        "yield": "What it surfaces",
+        "duration": "Turnaround"
+      },
+      "items": {
+        "black": {
+          "name": "Black box",
+          "agents": "An agent tuned for external reconnaissance maps the surface from outside, and our pentesters work the leads it turns up.",
+          "yield": "The most realistic simulation of a real attack, and for that reason the one that generally surfaces the fewest findings.",
+          "duration": "3–5 working days"
+        },
+        "grey": {
+          "name": "Grey box",
+          "agents": "The agent is set up to drive authenticated flows — every role against every endpoint — while our pentesters chase what needs human judgment.",
+          "yield": "The attack surface widens far enough that the whole application can be tested, which generally surfaces considerably more.",
+          "duration": "5–7 working days"
+        },
+        "white": {
+          "name": "White box",
+          "agents": "The agent reads the codebase alongside our pentesters rather than probing the application from outside.",
+          "yield": "Alongside the usual findings, the report names the exact lines the vulnerability lives in. The most thorough of the three, and the least likely to miss something.",
+          "duration": "Around 2 weeks"
+        }
+      },
+      "access": {
+        "target": "A URL, IP address or application",
+        "accounts": "Test accounts and API documentation",
+        "source": "Your full source code"
+      },
+      "state": {
+        "granted": "Included",
+        "withheld": "Not included"
+      }
     },
     "webApp": {
-      "hero": {
-        "secondary": "Talk to a pentester"
-      },
       "definition": {
         "title": "What web application pentesting is",
         "p1": "Web application pentesting is a security assessment in which your application is attacked under controlled conditions, exactly as a real attacker would, but ending in a report instead of an incident. Everything a user can reach is in scope: the login, the roles behind it, the data each account can touch and the business logic tying it all together.",
@@ -237,25 +273,8 @@
           "compliance": "Findings mapped to the relevant ISO 27001 controls through ARGUS"
         }
       },
-      "reasons": {
-        "title": "Why organizations across Europe choose AssistSec",
-        "items": {
-          "european": {
-            "title": "European pentesters",
-            "body": "The people testing your application are among the most experienced in Europe, and you speak to them directly rather than through an account manager."
-          },
-          "agents": {
-            "title": "Agents that never tire",
-            "body": "Autonomous agents cover the breadth of your application around the clock, which is what leaves our specialists free to go deep where it matters."
-          },
-          "language": {
-            "title": "Close by, in your language",
-            "body": "We work from the Netherlands for organizations across Europe, and report in Dutch or English."
-          }
-        }
-      },
       "comparison": {
-        "title": "Where AssistSec makes the difference",
+        "title": "AssistSec v.s. others",
         "intro": "The same test, delivered the way security actually works now: continuously, in the open, and with the people who found the issue reachable while you fix it.",
         "caption": "AssistSec compared with a conventional penetration test",
         "columns": {
@@ -328,9 +347,6 @@
       }
     },
     "api": {
-      "hero": {
-        "secondary": "Talk to a pentester"
-      },
       "definition": {
         "title": "What API pentesting is",
         "p1": "API pentesting is a security assessment of the interface itself, rather than of anything drawn on top of it. Every endpoint, parameter, token and role is attacked under controlled conditions, including the calls your own front end never makes. That is exactly where an attacker starts.",
@@ -407,25 +423,8 @@
           "compliance": "Findings mapped to the relevant ISO 27001 controls through ARGUS"
         }
       },
-      "reasons": {
-        "title": "Why organizations across Europe choose AssistSec",
-        "items": {
-          "european": {
-            "title": "European pentesters",
-            "body": "The people testing your API are among the most experienced in Europe, and you speak to them directly rather than through an account manager."
-          },
-          "agents": {
-            "title": "Coverage no schedule allows",
-            "body": "An API with forty endpoints and five roles is two hundred combinations. Agents work through all of them, which leaves our specialists free for the flaws that need judgment."
-          },
-          "language": {
-            "title": "Close by, in your language",
-            "body": "We work from the Netherlands for organizations across Europe, and report in Dutch or English."
-          }
-        }
-      },
       "comparison": {
-        "title": "Where AssistSec makes the difference",
+        "title": "AssistSec v.s. others",
         "intro": "APIs change with every release, which is the problem with testing them once a year and filing the PDF.",
         "caption": "AssistSec compared with a conventional API penetration test",
         "columns": {
@@ -498,9 +497,6 @@
       }
     },
     "awareness": {
-      "hero": {
-        "secondary": "Talk to a trainer"
-      },
       "statement": {
         "body": "A firewall has never once clicked a link. The people who keep your business running are asked to, dozens of times a week, by messages built to look exactly like the ones they are waiting for."
       },
