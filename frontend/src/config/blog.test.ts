@@ -204,6 +204,55 @@ describe("loadPost", () => {
 
     await expect(loadPost("a")).rejects.toThrow("500");
   });
+
+  /*
+   * The list falls back to the default language when a build's own language has
+   * no articles, so every list on the Dutch site is a list of English posts.
+   * Opening one has to reach the same article, or the site spends its time
+   * advertising pages it then refuses to serve, which is exactly what it did.
+   */
+  it("falls back to the default language for an untranslated article", async () => {
+    fetchMock
+      .mockResolvedValueOnce(jsonResponse({ error: "not_found" }, 404))
+      .mockResolvedValueOnce(
+        jsonResponse({ ...post("a"), body: "<p>english</p>" }),
+      );
+    const { loadPost } = await loadModule("nl");
+
+    const article = await loadPost("a");
+
+    expect(article?.body).toBe("<p>english</p>");
+    expect(requestedLocales(fetchMock)).toEqual(["nl", "en"]);
+  });
+
+  it("does not ask twice when the build is already the default language", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ error: "not_found" }, 404));
+    const { loadPost } = await loadModule("en");
+
+    expect(await loadPost("a")).toBeUndefined();
+    expect(requestedLocales(fetchMock)).toEqual(["en"]);
+  });
+
+  it("still reports a genuinely missing article as missing", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ error: "not_found" }, 404));
+    const { loadPost } = await loadModule("nl");
+
+    expect(await loadPost("never-existed")).toBeUndefined();
+    expect(requestedLocales(fetchMock)).toEqual(["nl", "en"]);
+  });
+
+  /*
+   * An outage is not a translation gap. Retrying a 500 against another locale
+   * would turn a CMS that is down into an article that does not exist, and the
+   * route would render its not-found state instead of the retry screen.
+   */
+  it("does not fall back when the failure is not a 404", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ error: "boom" }, 500));
+    const { loadPost } = await loadModule("nl");
+
+    await expect(loadPost("a")).rejects.toThrow("500");
+    expect(requestedLocales(fetchMock)).toEqual(["nl"]);
+  });
 });
 
 describe("the list", () => {

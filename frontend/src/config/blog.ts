@@ -151,16 +151,12 @@ export function invalidateBlogPosts(): void {
   bypassHttpCache = true;
 }
 
-/**
- * One article, with its body.
- *
- * A request of its own rather than a lookup in the list, because the list no
- * longer carries bodies. Returns undefined for a slug that is not published, so
- * the article page can render its not-found state rather than throwing.
- */
-export async function loadPost(slug: string): Promise<BlogPost | undefined> {
+async function requestPost(
+  slug: string,
+  locale: string,
+): Promise<BlogPost | undefined> {
   const response = await fetch(
-    `${API_BASE}/api/public/posts/${encodeURIComponent(slug)}?locale=${SITE_LOCALE}`,
+    `${API_BASE}/api/public/posts/${encodeURIComponent(slug)}?locale=${locale}`,
     {
       headers: { accept: "application/json" },
       cache: bypassHttpCache ? "reload" : "default",
@@ -173,6 +169,31 @@ export async function loadPost(slug: string): Promise<BlogPost | undefined> {
   const payload: unknown = await response.json();
   if (!isBlogSummary(payload)) return undefined;
   return payload as BlogPost;
+}
+
+/**
+ * One article, with its body.
+ *
+ * A request of its own rather than a lookup in the list, because the list no
+ * longer carries bodies. Returns undefined for a slug that is not published, so
+ * the article page can render its not-found state rather than throwing.
+ *
+ * Falls back to the default language exactly as `requestPosts` does, and for
+ * the same reason it has to: a language with no articles of its own is shown
+ * the default language's, so every list on a Dutch build is a list of English
+ * posts. Without the same fallback here, each of those listed articles opened
+ * on "this article could not be found" — the blog index, the home page teaser
+ * and the related rows all advertised articles the site then refused to serve.
+ *
+ * The fallback is on 404 alone. Any other failure is a real one and still
+ * throws, so an outage reaches the route's error component instead of being
+ * quietly retried against another locale.
+ */
+export async function loadPost(slug: string): Promise<BlogPost | undefined> {
+  const post = await requestPost(slug, SITE_LOCALE);
+  if (post !== undefined || SITE_LOCALE === DEFAULT_LOCALE) return post;
+
+  return requestPost(slug, DEFAULT_LOCALE);
 }
 
 /**
