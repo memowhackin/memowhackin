@@ -159,41 +159,35 @@
     },
     "pentestTypes": {
       "title": "Soorten pentests",
-      "intro": "Hoeveel u vooraf deelt bepaalt hoeveel terrein een test kan afleggen. Alle drie worden ze uitgevoerd door onze eigen hackers, samen met een AI-agent die is ingericht op dat niveau van toegang.",
+      "intro": "Hoeveel u vooraf deelt bepaalt hoe ver een test kan gaan. Alle drie worden ze uitgevoerd door onze eigen hackers, samen met een AI-agent die is ingericht op dat niveau van toegang.",
       "labels": {
-        "access": "Waar we mee starten",
-        "agents": "Hoe we te werk gaan",
-        "yield": "Wat het oplevert",
-        "duration": "Doorlooptijd"
-      },
-      "items": {
-        "black": {
-          "name": "Black box",
-          "agents": "Een agent die is ingericht op externe verkenning brengt het aanvalsoppervlak van buitenaf in kaart; onze hackers werken de aanwijzingen uit die dat oplevert.",
-          "yield": "De meest realistische simulatie van een echte aanval, en juist daarom de variant die over het algemeen de minste bevindingen oplevert.",
-          "duration": "3–5 werkdagen"
-        },
-        "grey": {
-          "name": "Grey box",
-          "agents": "De agent is ingericht op geauthenticeerde flows — elke rol tegen elk endpoint — terwijl onze hackers oppakken wat menselijk inzicht vraagt.",
-          "yield": "Het aanvalsoppervlak wordt zo veel groter dat de hele applicatie getest kan worden, wat over het algemeen aanzienlijk meer bevindingen oplevert.",
-          "duration": "5–7 werkdagen"
-        },
-        "white": {
-          "name": "White box",
-          "agents": "De agent leest de codebase mee met onze hackers, in plaats van de applicatie van buitenaf af te tasten.",
-          "yield": "Naast de gebruikelijke bevindingen benoemt het rapport de precieze regels code waarin de kwetsbaarheid zit. De meest uitgebreide van de drie, en de variant met de kleinste kans dat er iets gemist wordt.",
-          "duration": "Ongeveer 2 weken"
-        }
+        "access": "Wat u ons geeft"
       },
       "access": {
-        "target": "Een URL, IP-adres of applicatie",
-        "accounts": "Testaccounts en API-documentatie",
-        "source": "Uw volledige broncode"
+        "target": "Uw adres of applicatie",
+        "accounts": "Testaccounts en documentatie",
+        "source": "Uw broncode"
       },
       "state": {
         "granted": "Inbegrepen",
         "withheld": "Niet inbegrepen"
+      },
+      "items": {
+        "black": {
+          "name": "Black box",
+          "summary": "We beginnen met niets meer dan uw adres, precies zoals een echte aanvaller. De meest realistische test, en meestal de kortste lijst met bevindingen.",
+          "duration": "Meestal klaar in 3-5 werkdagen"
+        },
+        "grey": {
+          "name": "Grey box",
+          "summary": "U geeft ons een login, zodat we alles kunnen testen wat uw eigen gebruikers kunnen bereiken. Dat levert meestal aanzienlijk meer op.",
+          "duration": "Meestal klaar in 5-7 werkdagen"
+        },
+        "white": {
+          "name": "White box",
+          "summary": "U geeft ons ook de broncode. Niets blijft verborgen, en het rapport wijst precies aan welke regels u moet herstellen.",
+          "duration": "Meestal klaar in ongeveer 2 weken"
+        }
       }
     },
     "webApp": {
