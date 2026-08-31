@@ -632,22 +632,18 @@
     "channels": {
       "demo": {
         "title": "See it in action",
-        "body": "A live tour of ARGUS and our AI-assisted pentesting.",
-        "cta": "Book a demo"
+        "body": "A live tour of ARGUS and our AI-assisted pentesting."
       },
       "scan": {
         "title": "Try the free scanner",
-        "body": "See what your website or e-mail address reveals publicly, with no login needed.",
-        "cta": "Start a free scan"
+        "body": "See what your website or e-mail address reveals publicly."
       },
       "knowledge": {
         "title": "Browse the knowledge base",
-        "body": "Read up on pentesting, compliance and how we work.",
-        "cta": "Open the knowledge base"
+        "body": "Read up on pentesting, compliance and how we work."
       },
       "direct": {
-        "title": "Prefer e-mail?",
-        "body": "Skip the form and reach the team straight away."
+        "title": "Prefer e-mail?"
       }
     }
   },

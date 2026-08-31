@@ -632,22 +632,18 @@
     "channels": {
       "demo": {
         "title": "Zie het in actie",
-        "body": "Een live rondleiding door ARGUS en onze AI-ondersteunde pentesting.",
-        "cta": "Demo boeken"
+        "body": "Een live rondleiding door ARGUS en onze AI-ondersteunde pentesting."
       },
       "scan": {
         "title": "Probeer de gratis scanner",
-        "body": "Bekijk wat uw website of e-mailadres publiek prijsgeeft, zonder in te loggen.",
-        "cta": "Start een gratis scan"
+        "body": "Bekijk wat uw website of e-mailadres publiek prijsgeeft."
       },
       "knowledge": {
         "title": "Bekijk de kennisbank",
-        "body": "Lees meer over pentesting, compliance en onze werkwijze.",
-        "cta": "Open de kennisbank"
+        "body": "Lees meer over pentesting, compliance en onze werkwijze."
       },
       "direct": {
-        "title": "Liever direct e-mailen?",
-        "body": "Sla het formulier over en bereik het team meteen."
+        "title": "Liever direct e-mailen?"
       }
     }
   },
