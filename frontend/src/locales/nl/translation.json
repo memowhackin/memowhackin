@@ -79,40 +79,40 @@
       "body": "Training op maat die uw collega's het enige geeft wat geen enkele maatregel kan bieden: de reflex om even te stoppen en te controleren. Opgebouwd rond uw sector, uw omvang en de risico's die u werkelijk loopt."
     },
     "argusScanning": {
-      "title": "Continu scannen — ARGUS | AssistSec",
-      "description": "ARGUS scant uw applicaties en infrastructuur continu, zodat nieuwe kwetsbaarheden direct zichtbaar worden in plaats van maanden later.",
-      "heading": "Continu scannen",
-      "body": "ARGUS blijft scannen tussen pentests door en toont nieuwe kwetsbaarheden zodra ze ontstaan."
+      "title": "Maandelijkse security scans | Continue validatie | AssistSec",
+      "description": "ARGUS draait elke maand een gevalideerde ronde over uw volledige aanvalsoppervlak. Nieuwe assets gevonden, bevindingen door een pentester gereproduceerd.",
+      "heading": "Maandelijkse scans",
+      "body": "Elke maand een volledige ronde over alles wat u blootstelt, met elke bevinding door een mens gecontroleerd."
     },
     "argusCompliance": {
-      "title": "Continue compliance — ARGUS | AssistSec",
-      "description": "ARGUS koppelt elke bevinding aan de relevante ISO 27001-controls en geeft uw organisatie een actueel beeld van de compliance-postuur.",
-      "heading": "Compliancebewaking",
-      "body": "Elke bevinding gekoppeld aan de relevante ISO 27001-controls, voor een actueel beeld van uw compliance."
+      "title": "ISO 27001-koppeling | Auditbewijs uit testen | AssistSec",
+      "description": "ARGUS koppelt elke bevinding aan de ISO 27001-controls die hij raakt en bewaart het bewijs, met datums. Stap een audit in met de technische controls al beantwoord.",
+      "heading": "ISO 27001-koppeling",
+      "body": "Elke bevinding gekoppeld aan de controls die hij raakt, met het bewijs bewaard en gedateerd."
     },
     "argusInsights": {
-      "title": "Live inzicht in bevindingen — ARGUS | AssistSec",
-      "description": "Bekijk elke bevinding live in uw ARGUS-portaal, gerangschikt op risico, zonder te wachten op het eindrapport.",
+      "title": "Live inzicht in kwetsbaarheden | Realtime bevindingen | AssistSec",
+      "description": "Zie elke gevalideerde bevinding in het ARGUS-portaal zodra een pentester hem bevestigt, gerangschikt op werkelijk bereik, met bewijs en een fix erbij.",
       "heading": "Live inzicht",
-      "body": "Elke bevinding live in uw portaal, gerangschikt op risico — geen wachten op het rapport."
+      "body": "Elke gevalideerde bevinding in uw portaal zodra hij bevestigd is, niet weken later in een rapport."
     },
     "argusRetesting": {
-      "title": "Direct hertesten — ARGUS | AssistSec",
-      "description": "Vraag 24/7 een hertest van elke bevinding aan en bevestig dat uw fixes standhouden, direct vanuit het ARGUS-portaal.",
-      "heading": "Direct hertesten",
-      "body": "Hertest elke bevinding op aanvraag en bevestig dat uw fixes standhouden, direct vanuit het portaal."
+      "title": "Hertestmodule | Verifieer uw fixes | AssistSec",
+      "description": "Vraag een hertest aan vanuit de bevinding zelf. Dezelfde aanval draait opnieuw, de bevinding sluit alleen als de fix standhoudt, en elke statuswissel wordt gedateerd bewaard.",
+      "heading": "Hertestmodule",
+      "body": "Vraag de hertest aan vanuit de bevinding. Hij sluit pas als de fix de oorspronkelijke aanval doorstaat."
     },
     "argusExpertChat": {
-      "title": "Chat met pentesters — ARGUS | AssistSec",
-      "description": "Praat direct met de pentesters achter uw bevindingen. Stel vragen en krijg remediation-advies in realtime via ARGUS.",
-      "heading": "Expertchat",
-      "body": "Praat direct met de pentesters achter uw bevindingen, in realtime."
+      "title": "Praat met de pentester | Live expertchat | AssistSec",
+      "description": "Elke ARGUS-bevinding heeft een draad, met de pentester die hem vond. Vraag wat een fix echt afdekt en krijg antwoord van degene die de exploit schreef.",
+      "heading": "Live chat",
+      "body": "Een draad bij elke bevinding, beantwoord door de pentester die hem vond."
     },
     "argusIntegrations": {
-      "title": "Integraties — ARGUS | AssistSec",
-      "description": "Stream ARGUS-bevindingen naar de tools die u al gebruikt, van Splunk tot uw SIEM en ticketing, voor één bron van waarheid.",
+      "title": "Integraties | SIEM, ticketing en CI | AssistSec",
+      "description": "Stuur gevalideerde ARGUS-bevindingen naar uw SIEM, uw backlog en uw pijplijn, met de status die terugkomt. Routeringsregels bepalen wat waarheen gaat.",
       "heading": "Integraties",
-      "body": "Stream bevindingen naar de tools die u al gebruikt, van Splunk tot uw SIEM en ticketing."
+      "body": "Bevindingen in de tools waar uw teams al in werken, met hun status die terugkomt."
     },
     "knowledgeBase": {
       "title": "Kennisbank | AssistSec",
@@ -162,12 +162,6 @@
       "intro": "Hoeveel u vooraf deelt bepaalt hoe ver een test kan gaan. Alle drie worden ze uitgevoerd door onze eigen hackers, samen met een AI-agent die is ingericht op dat niveau van toegang.",
       "labels": {
         "access": "Wat u ons geeft"
-      },
-      "access": {
-        "target": "Uw adres of applicatie",
-        "accounts": "Testaccounts en documentatie",
-        "source": "Uw broncode"
-      },
       "state": {
         "granted": "Inbegrepen",
         "withheld": "Niet inbegrepen"
@@ -491,12 +485,6 @@
       }
     },
     "awareness": {
-      "statement": {
-        "body": "Een firewall heeft nog nooit op een link geklikt. De mensen die uw bedrijf draaiende houden wordt dat tientallen keren per week gevraagd, door berichten die er precies uitzien als de berichten waar zij op zitten te wachten."
-      },
-      "topics": {
-        "title": "Wat een programma behandelt",
-        "intro": "Vijf onderwerpen, getraind met uw eigen tooling en uw eigen scenario's in plaats van met standaardvoorbeelden uit een presentatie.",
         "items": {
           "phishing": {
             "title": "Phishing",
@@ -517,13 +505,6 @@
           "dataLeaks": {
             "title": "Als het misgaat",
             "body": "Hoe u een incident herkent, wie u binnen het uur inlicht, en waarom snel melden zwaarder weegt dan de fout niet gemaakt hebben. Schuld is wat incidenten verborgen houdt."
-          }
-        }
-      },
-      "cycle": {
-        "title": "Hoe een programma verloopt",
-        "intro": "Een cyclus, geen cursus. Eén sessie leert iets; een ritme verandert wat mensen doen.",
-        "phases": {
           "baseline": {
             "title": "Meten",
             "body": "Wij beginnen bij waar u werkelijk staat, met een simulatie en een korte vragenlijst, zodat de training uw situatie beantwoordt en u later iets heeft om mee te vergelijken."
@@ -542,21 +523,6 @@
           }
         }
       },
-      "fit": {
-        "title": "Op maat van uw organisatie",
-        "body": "Een ziekenhuis, een logistiek bedrijf en een accountantskantoor worden op totaal verschillende manieren aangevallen, en een training die dat negeert besteedt zijn uur aan andermans dreigingen. Drie dingen bepalen die van u.",
-        "items": {
-          "sector": {
-            "title": "Uw sector",
-            "body": "De scenario's komen uit de fraude die daadwerkelijk op uw branche wordt losgelaten, in de toon die uw leveranciers en klanten echt gebruiken."
-          },
-          "size": {
-            "title": "Uw omvang",
-            "body": "Twintig mensen in één ruimte is een gesprek; tweeduizend verspreid over zes locaties is een programma met een plan erachter. Allebei werkt, anders."
-          },
-          "risk": {
-            "title": "Uw risicoprofiel",
-            "body": "Finance, HR en support worden benaderd op manieren die de rest van het bedrijf nooit ziet, dus krijgen zij materiaal dat de rest niet nodig heeft."
           }
         }
       },
@@ -586,6 +552,9 @@
         }
       }
     }
+  },
+  "shots": {
+    "pending": "Screenshot volgt"
   },
   "announcement": {
     "badge": "Ontdek",

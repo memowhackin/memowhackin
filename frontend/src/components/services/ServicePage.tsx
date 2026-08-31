@@ -24,12 +24,6 @@ import { site } from "@/config/site";
  * left holding, how that measures against a conventional test, and the
  * questions buyers ask — then straight into the closing call to action.
  *
- * One template rather than two hand-built pages — the sections are the same
- * argument in the same order for both, and two copies of it would drift the
- * moment one of them was touched. What differs per service is
- * `ServiceDefinition` (which items each section holds) and the translation
- * block behind it. The awareness programme is not this shape and has its own
- * page; see `AwarenessPage`.
  */
 export function ServicePage({ service }: { service: ServiceDefinition }) {
   const { t } = useTranslation();
@@ -210,8 +204,6 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
       </SectionShell>
 
       {/* The three levels of access a test can be run at — the decision that has
-          to be made before the process below can start. */}
-      <PentestTypes serviceKey={service.key} />
 
       {/* How an engagement runs, start to finish. */}
       <ProcessTimeline service={service} />
@@ -263,32 +255,50 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
             somewhere, and takes the call-to-action's look from the shared class
             list instead of a second definition of it.
           */}
-          <button
-            type="button"
-            data-testid={`service-${service.key}-sample-report`}
-            onClick={() => {
-              setReportOpen(true);
-            }}
-            className={brandButtonClass({ className: "mt-2 w-fit" })}
-          >
-            {t("benefits.cta")}
-          </button>
+          {service.pentest && (
+            <button
+              type="button"
+              data-testid={`service-${service.key}-sample-report`}
+              onClick={() => {
+                setReportOpen(true);
+              }}
+              className={brandButtonClass({ className: "mt-2 w-fit" })}
+            >
+              {t("benefits.cta")}
+            </button>
+          )}
         </div>
 
+        {/*
+          What the engagement leaves you with, as a picture. A pentest ends on
+          the report, so it gets the still life the home page uses. Awareness
+          ends on results per group, so it gets the screen those live on, held
+          by a placeholder until the screenshot exists.
+        */}
         <div
           ref={stackRef}
           className={clsx("mx-auto w-full max-w-lg lg:max-w-none", stackReveal)}
         >
-          <ReportStack />
+          {service.pentest ? (
+            <ReportStack />
+          ) : (
+            <PortalShot
+              src={`/assets/services/${service.key}-dashboard.webp`}
+              altKey={`servicePages.${service.key}.report.shot.alt`}
+              captionKey={`servicePages.${service.key}.report.shot.caption`}
+            />
+          )}
         </div>
       </SectionShell>
 
-      <SampleReportModal
-        open={reportOpen}
-        onClose={() => {
-          setReportOpen(false);
-        }}
-      />
+      {service.pentest && (
+        <SampleReportModal
+          open={reportOpen}
+          onClose={() => {
+            setReportOpen(false);
+          }}
+        />
+      )}
 
       {/* Why it is us, measured against what a conventional engagement gives
           you rather than asserted in three columns of our own. */}
@@ -383,11 +393,7 @@ function CoverageEntry({
       {rightColumn && (
         <CrossingMark className="absolute top-0 left-0 hidden -translate-x-1/2 -translate-y-1/2 lg:block" />
       )}
-
-      {/* Nudged down onto the title's first line rather than its box, which
-          sits a shade higher than the letters do. */}
-      <Icon aria-hidden="true" className="text-lavender mt-1 size-5 shrink-0" />
-
+      
       <h3 className="font-display text-mist text-lg font-normal text-balance sm:text-xl">
         {t(`servicePages.${service.key}.coverage.items.${item.key}.title`)}
       </h3>

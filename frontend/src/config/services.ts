@@ -5,7 +5,9 @@ import {
   Gauge,
   KeyRound,
   SlidersHorizontal,
+  ShieldAlert,
   UserCheck,
+  Users,
   Workflow,
 } from "lucide-react";
 
@@ -57,16 +59,6 @@ export interface ServiceDefinition {
   process: readonly string[];
   /** What the client is left holding: the report's contents. */
   deliverables: readonly string[];
-  /**
-   * Rows of the comparison against a conventional engagement.
-   *
-   * Every left-hand claim is one this site already makes somewhere else — the
-   * ARGUS pages are where most of them live — so the table is a summary of the
-   * product rather than a new set of promises invented for a table.
-   */
-  comparison: readonly string[];
-  /** Question keys, in the order they are asked. */
-  faqs: readonly string[];
 }
 
 /**
@@ -104,49 +96,10 @@ export const WEB_APP_PENTESTING: ServiceDefinition = {
     "integrations",
   ],
   faqs: ["blackbox", "duration", "production", "remediation", "compliance"],
-};
-
-/**
- * The awareness programme, which is not shaped like a pentest.
- *
- * Its own type rather than a `ServiceDefinition` with unused fields. The two
- * pentests share a shape because they *are* the same engagement pointed at
- * different targets — scope it, test it, report it, retest it — and a template
- * over that shape is what keeps them consistent. Awareness has no scope call,
- * no findings and no retest: it is a programme that runs on people and repeats.
- * Forcing it through `coverage`/`process`/`deliverables` would have produced a
- * third page that reads like the first two with the nouns swapped, which is
- * exactly what it should not be.
- */
-export interface AwarenessDefinition {
-  key: string;
-  pageKey: string;
-  path: string;
-  serviceType: string;
-  /** The subjects a programme covers, in the order they are taught. */
-  topics: readonly string[];
-  /** The loop a programme runs on — it ends where it started, on purpose. */
-  phases: readonly string[];
-  /** What a programme is cut to fit. */
-  tailoring: readonly string[];
-  faqs: readonly string[];
-}
-
-export const SECURITY_AWARENESS: AwarenessDefinition = {
   key: "awareness",
   pageKey: "servicesAwareness",
   path: "/services/security-awareness",
   serviceType: "Security awareness training",
-  topics: [
-    "phishing",
-    "socialEngineering",
-    "passwords",
-    "workingSafely",
-    "dataLeaks",
-  ],
-  phases: ["baseline", "training", "simulation", "adjust"],
-  tailoring: ["sector", "size", "risk"],
-  faqs: ["format", "language", "consent", "duration", "measure"],
 };
 
 export const API_PENTESTING: ServiceDefinition = {
