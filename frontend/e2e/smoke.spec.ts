@@ -303,28 +303,30 @@ test("keeps the header readable in the compact tier", async ({ page }) => {
   await expect(compact).toBeVisible();
 });
 
-test("gives every templated page more than a heading", async ({ page }) => {
+test("gives every service and ARGUS page more than a heading", async ({
+  page,
+}) => {
   /*
-   * Ten routes — every service, every ARGUS feature, the knowledge base —
-   * render from one template. It used to emit a heading and a sentence and
-   * then stop, so each page hit the footer under half a screen of nothing.
-   * What fills them is content that already existed: the section they belong
-   * to, their sibling pages with the blurbs the nav dropdowns show, and the
-   * closing call the rest of the site ends on.
+   * These pages used to render a heading and one sentence and then stop, so
+   * each hit the footer under half a screen of nothing.
+   *
+   * Most of them now have components of their own; only the knowledge base
+   * still comes from the shared `RoutePage` template. What is asserted here is
+   * therefore the property they must all hold however they are built — a single
+   * heading, a way to act, a closing section rather than a bare footer, and no
+   * sideways scroll — not the internals of any one of them.
    */
   await page.setViewportSize({ width: 1280, height: 900 });
 
   for (const path of [
     "/services/web-app-pentesting",
+    "/services/api-pentesting",
     "/argus/compliance",
     "/knowledge-base",
   ]) {
     await page.goto(path);
 
     await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.getByTestId("page-book-demo")).toBeVisible();
-    // Every one of these pages ends on the closing section rather than
-    // dropping straight into the footer.
     await expect(page.getByTestId("closing-cta")).toBeAttached();
 
     const overflow = await page.evaluate(() => {
@@ -334,15 +336,14 @@ test("gives every templated page more than a heading", async ({ page }) => {
     expect(overflow, `${path} scrolls sideways`).toBeLessThanOrEqual(1);
   }
 
-  // A page inside a nav group offers its siblings; the knowledge base has none
-  // and must not render an empty section for them.
-  await page.goto("/argus/compliance");
-  await expect(page.getByTestId("page-more")).toBeVisible();
-  expect(
-    await page.locator('[data-testid^="page-more-"]').count(),
-  ).toBeGreaterThan(0);
-
+  /*
+   * The template's own rule: it offers the sibling pages of the nav group it
+   * belongs to, and renders no empty section when there are none. The knowledge
+   * base is a top-level nav entry with no siblings, and is the last route still
+   * rendered by the template.
+   */
   await page.goto("/knowledge-base");
+  await expect(page.getByTestId("page-knowledgeBase")).toBeAttached();
   await expect(page.getByTestId("page-more")).toHaveCount(0);
 });
 

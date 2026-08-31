@@ -440,6 +440,19 @@
     }
   }
 
+  /* A control being moved: the last phase of the awareness loop, where what
+     was measured is what gets changed before the round starts again. */
+  --animate-glyph-slide: glyph-slide 2.4s ease-in-out infinite alternate;
+
+  @keyframes glyph-slide {
+    from {
+      transform: translateX(-0.2rem);
+    }
+    to {
+      transform: translateX(0.2rem);
+    }
+  }
+
   /* The scan passing down the surface under test, and back up it. */
   --animate-glyph-scan: glyph-scan 2.8s ease-in-out infinite alternate;
 

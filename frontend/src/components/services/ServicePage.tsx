@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { CheckCircle2 } from "lucide-react";
 import { BrandButton } from "@/components/common/BrandButton";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
+import { PortalShot } from "@/components/common/PortalShot";
 import { ReportStack } from "@/components/common/ReportStack";
 import { CrossingMark } from "@/components/common/CrossingMark";
 import { SectionShell } from "@/components/common/SectionShell";
@@ -24,6 +25,16 @@ import { site } from "@/config/site";
  * left holding, how that measures against a conventional test, and the
  * questions buyers ask — then straight into the closing call to action.
  *
+ * One template rather than three hand-built pages — the sections are the same
+ * argument in the same order for all of them, and three copies of it would
+ * drift the moment one was touched. What differs per service is
+ * `ServiceDefinition` (which items each section holds) and the translation
+ * block behind it.
+ *
+ * Two sections are a pentest's and are gated on `pentest`: the levels of access
+ * a test can be run at, and the report still life with the request for a sample
+ * beside it. The awareness programme has neither a blackbox variant nor that
+ * document at the end of it, so it runs the same page without them.
  */
 export function ServicePage({ service }: { service: ServiceDefinition }) {
   const { t } = useTranslation();
@@ -204,6 +215,9 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
       </SectionShell>
 
       {/* The three levels of access a test can be run at — the decision that has
+          to be made before the process below can start. Only a pentest has it:
+          there is no blackbox variant of a training programme. */}
+      {service.pentest && <PentestTypes serviceKey={service.key} />}
 
       {/* How an engagement runs, start to finish. */}
       <ProcessTimeline service={service} />
@@ -393,7 +407,11 @@ function CoverageEntry({
       {rightColumn && (
         <CrossingMark className="absolute top-0 left-0 hidden -translate-x-1/2 -translate-y-1/2 lg:block" />
       )}
-      
+
+      {/* Nudged down onto the title's first line rather than its box, which
+          sits a shade higher than the letters do. */}
+      <Icon aria-hidden="true" className="text-lavender mt-1 size-5 shrink-0" />
+
       <h3 className="font-display text-mist text-lg font-normal text-balance sm:text-xl">
         {t(`servicePages.${service.key}.coverage.items.${item.key}.title`)}
       </h3>

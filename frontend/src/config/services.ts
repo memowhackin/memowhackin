@@ -2,6 +2,8 @@ import type { LucideIcon } from "lucide-react";
 import {
   Crosshair,
   Database,
+  Lock,
+  Mail,
   Gauge,
   KeyRound,
   SlidersHorizontal,
@@ -59,6 +61,26 @@ export interface ServiceDefinition {
   process: readonly string[];
   /** What the client is left holding: the report's contents. */
   deliverables: readonly string[];
+  /**
+   * Rows of the comparison against a conventional engagement.
+   *
+   * Every left-hand claim is one this site already makes somewhere else — the
+   * ARGUS pages are where most of them live — so the table is a summary of the
+   * product rather than a new set of promises invented for a table.
+   */
+  comparison: readonly string[];
+  /** Question keys, in the order they are asked. */
+  faqs: readonly string[];
+  /**
+   * Whether this service is a penetration test.
+   *
+   * Two sections of the template exist only because it usually is: the levels
+   * of access a test can be run at, and the report still life with the request
+   * for a sample beside it. Awareness training has no blackbox/greybox decision
+   * to make and does not end on that document, and illustrating it with a
+   * photograph of a pentest report would be showing the wrong object.
+   */
+  pentest: boolean;
 }
 
 /**
@@ -96,10 +118,54 @@ export const WEB_APP_PENTESTING: ServiceDefinition = {
     "integrations",
   ],
   faqs: ["blackbox", "duration", "production", "remediation", "compliance"],
+  pentest: true,
+};
+
+export interface AwarenessDefinition {
+  key: string;
+  pageKey: string;
+  path: string;
+  serviceType: string;
+  /** The subjects a programme covers, in the order they are taught. */
+  topics: readonly string[];
+  /** The loop a programme runs on — it ends where it started, on purpose. */
+  phases: readonly string[];
+  /** What a programme is cut to fit. */
+  tailoring: readonly string[];
+  faqs: readonly string[];
+}
+
+export const SECURITY_AWARENESS: ServiceDefinition = {
   key: "awareness",
   pageKey: "servicesAwareness",
   path: "/services/security-awareness",
   serviceType: "Security awareness training",
+  coverage: [
+    { key: "phishing", icon: Mail },
+    { key: "socialEngineering", icon: Users },
+    { key: "passwords", icon: KeyRound },
+    { key: "workingSafely", icon: Lock },
+    { key: "dataLeaks", icon: Database },
+    { key: "reporting", icon: ShieldAlert },
+  ],
+  /*
+   * Four phases rather than six stages, and the last leads back to the first: a
+   * programme that runs on people does not finish, it comes round again. The
+   * timeline numbers whatever it is given, so the loop reads 01 to 04 and the
+   * copy carries the rest.
+   */
+  process: ["baseline", "training", "simulation", "adjust"],
+  deliverables: ["results", "trend", "materials", "guidance"],
+  comparison: [
+    "approach",
+    "cadence",
+    "realism",
+    "reporting",
+    "delivery",
+    "privacy",
+  ],
+  faqs: ["format", "language", "consent", "duration", "measure"],
+  pentest: false,
 };
 
 export const API_PENTESTING: ServiceDefinition = {
@@ -139,4 +205,5 @@ export const API_PENTESTING: ServiceDefinition = {
     "integrations",
   ],
   faqs: ["protocols", "documentation", "access", "production", "compliance"],
+  pentest: true,
 };
