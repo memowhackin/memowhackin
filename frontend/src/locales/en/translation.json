@@ -612,11 +612,43 @@
         "api": "API pentesting",
         "awareness": "Security awareness",
         "other": "Something else"
+      },
+      "title": "Send us a message"
+    },
+    "facts": {
+      "reply": {
+        "title": "Within one business day",
+        "body": "Every message gets an answer within one business day."
+      },
+      "reader": {
+        "title": "Read by a pentester",
+        "body": "Your message lands with the team, not a sales queue."
+      },
+      "region": {
+        "title": "Netherlands based",
+        "body": "We work from the Netherlands for organizations across Europe."
       }
     },
-    "aside": {
-      "directBody": "Skip the form and reach the team straight away.",
-      "responseBody": "A pentester reads your message, not a sales queue. You hear from us within one business day."
+    "channels": {
+      "demo": {
+        "title": "See it in action",
+        "body": "A live tour of ARGUS and our AI-assisted pentesting.",
+        "cta": "Book a demo"
+      },
+      "scan": {
+        "title": "Try the free scanner",
+        "body": "See what your website or e-mail address reveals publicly, with no login needed.",
+        "cta": "Start a free scan"
+      },
+      "knowledge": {
+        "title": "Browse the knowledge base",
+        "body": "Read up on pentesting, compliance and how we work.",
+        "cta": "Open the knowledge base"
+      },
+      "direct": {
+        "title": "Prefer e-mail?",
+        "body": "Skip the form and reach the team straight away."
+      }
     }
   },
   "aboutPage": {

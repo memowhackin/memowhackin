@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState, type FormEvent } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
+import { ArrowRight } from "lucide-react";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { LatticeDivider } from "@/components/common/LatticeDivider";
 import { SectionShell } from "@/components/common/SectionShell";
@@ -17,6 +18,9 @@ export const Route = createFileRoute("/contact")({
 /** The services a visitor can ask about, in the order the site sells them. */
 const SERVICES = ["webApp", "api", "awareness", "other"] as const;
 
+/** What is true of a message here, whichever way it is sent. */
+const FACTS = ["reply", "reader", "region"] as const;
+
 /** A text field's value. FormData can also carry files; this form never does. */
 function fieldValue(data: FormData, key: string): string {
   const value = data.get(key);
@@ -25,18 +29,120 @@ function fieldValue(data: FormData, key: string): string {
 
 /** The field dress every input on the site's forms wears (see the sample-report modal). */
 const inputClass =
-  "border-lavender/25 bg-indigo-deep/40 text-mist placeholder:text-mist/35 focus:border-lavender focus:ring-lavender/30 w-full rounded-lg border px-4 py-3 text-base outline-none transition-colors focus:ring-2";
+  "border-lavender/25 bg-ink/60 text-mist placeholder:text-mist/35 focus:border-lavender focus:ring-lavender/30 w-full rounded-lg border px-4 py-3 text-base outline-none transition-colors focus:ring-2";
 
 /**
- * Contact: the about page's hero voice over the same glow, then the form
- * beside a short aside. There is no data layer on this site, so a valid
- * submit composes the message into the visitor's own mail client, addressed
- * to the team — nothing is posted anywhere, and the visitor keeps a copy in
- * their sent mail.
+ * One of the ways to reach us that is not the form: a whole card as the link,
+ * with the action named on its last line.
+ *
+ * The card is the anchor rather than holding one, so the target is the whole
+ * surface the eye lands on and not a phrase inside it. Internal destinations
+ * come as `to` and go through the router, which is what keeps the Dutch build
+ * inside its own `/nl` prefix; the demo comes as `href` because it lives on
+ * the scanner app, and external app links open in a new tab everywhere else on
+ * this site.
+ */
+function ChannelCard({
+  to,
+  href,
+  channel,
+  "data-testid": testId,
+}: {
+  to?: "/security-scan" | "/knowledge-base";
+  href?: string;
+  channel: string;
+  "data-testid": string;
+}) {
+  const { t } = useTranslation();
+
+  const inner = (
+    <>
+      <h3 className="font-display text-mist group-hover:text-lavender-soft text-lg leading-tight font-normal transition-colors">
+        {t(`contactPage.channels.${channel}.title`)}
+      </h3>
+
+      <p className="text-mist/75 text-base leading-relaxed text-pretty">
+        {t(`contactPage.channels.${channel}.body`)}
+      </p>
+
+      {/* Pinned to the card's foot: the three cards share the form panel's
+          height (see `flex-1`), and the action reads from the same line on
+          every card whatever its copy runs to. */}
+      <span className="text-lavender mt-auto inline-flex items-center gap-1.5 pt-2 text-base font-medium">
+        {t(`contactPage.channels.${channel}.cta`)}
+        <ArrowRight
+          aria-hidden="true"
+          className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </span>
+    </>
+  );
+
+  const cardClass = clsx(
+    "group border-indigo-deep bg-ink-deep/50 flex flex-1 flex-col gap-2 rounded-2xl border p-6",
+    "transition-[border-color,transform] duration-300 hover:border-lavender/45 motion-safe:hover:-translate-y-0.5",
+  );
+
+  if (to !== undefined) {
+    return (
+      <Link to={to} data-testid={testId} className={cardClass}>
+        {inner}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer noopener"
+      data-testid={testId}
+      className={cardClass}
+    >
+      {inner}
+    </a>
+  );
+}
+
+/** A labelled form field, so the grid below reads as fields rather than markup. */
+function Field({
+  id,
+  label,
+  children,
+}: {
+  id: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label htmlFor={id} className="text-mist/80 text-sm font-medium">
+        {label}
+      </label>
+      {children}
+    </div>
+  );
+}
+
+/**
+ * Contact: the about page's hero voice over the same glow, three facts about
+ * what a message here gets, then the form in its own panel with the other ways
+ * in stacked beside it, and the direct address across the foot.
+ *
+ * There is no data layer on this site, so a valid submit composes the message
+ * into the visitor's own mail client, addressed to the team. Nothing is posted
+ * anywhere, and the visitor keeps a copy in their sent mail.
  */
 function ContactPage() {
   const { t } = useTranslation();
   const { ref: heroRef, className: heroReveal } = useReveal<HTMLDivElement>();
+  const { ref: factsRef, className: factsReveal } = useReveal<HTMLDListElement>(
+    { delay: 120 },
+  );
+  const { ref: formRef, className: formReveal } = useReveal<HTMLDivElement>();
+  const { ref: cardsRef, className: cardsReveal } = useReveal<HTMLDivElement>({
+    delay: 120,
+  });
   const [service, setService] = useState("");
   const [serviceError, setServiceError] = useState(false);
 
@@ -93,7 +199,7 @@ function ContactPage() {
       <SectionShell
         data-testid="contact-hero"
         className="bg-ink-deep"
-        innerClassName="flex flex-col items-center gap-6 pt-12 sm:pt-16 lg:pt-20 pb-16 text-center sm:pb-24 lg:pb-24"
+        innerClassName="flex flex-col items-center gap-10 pt-12 sm:pt-16 lg:pt-20 pb-14 sm:pb-16 lg:gap-12"
         backdrop={
           <div
             className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[28rem] opacity-40 blur-3xl"
@@ -107,177 +213,242 @@ function ContactPage() {
       >
         <div
           ref={heroRef}
-          className={clsx("flex flex-col items-center gap-6", heroReveal)}
+          className={clsx(
+            "flex flex-col items-center gap-6 text-center",
+            heroReveal,
+          )}
         >
           <h1 className="font-display text-mist max-w-4xl text-3xl leading-tight font-normal text-pretty sm:text-4xl lg:text-5xl lg:leading-[1.15]">
             {t("contactPage.heroTitle")}
           </h1>
 
-          <p className="text-mist/75 max-w-2xl text-base leading-relaxed text-pretty sm:text-lg">
+          <p className="text-mist/85 max-w-2xl text-base leading-relaxed text-pretty sm:text-lg">
             {t("contactPage.heroBody")}
           </p>
         </div>
+
+        {/*
+          What a message here gets, before any way of sending one is offered.
+          Three short facts on hairlines rather than three cards: they are not
+          options to choose between, and every claim in them is one the site
+          already makes elsewhere. This row is what the reference design spends
+          on office addresses; we have no offices to list, and what a visitor
+          actually wants to know at this point is who reads their message and
+          how fast.
+        */}
+        <dl
+          ref={factsRef}
+          data-testid="contact-facts"
+          className={clsx(
+            "grid w-full max-w-4xl gap-6 text-left sm:grid-cols-3 sm:gap-8",
+            factsReveal,
+          )}
+        >
+          {FACTS.map((fact) => (
+            <div
+              key={fact}
+              className="border-indigo-deep flex flex-col gap-1 border-l pl-5"
+            >
+              <dt className="text-mist text-base font-medium">
+                {t(`contactPage.facts.${fact}.title`)}
+              </dt>
+              <dd className="text-mist/75 text-base leading-relaxed text-pretty">
+                {t(`contactPage.facts.${fact}.body`)}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </SectionShell>
 
       {/*
         The lattice carries the hero's ground into the form's, exactly as it
-        does on the about page — one surface, with the brand pattern owning
-        the transition instead of a colour seam.
+        does on the about page: one surface, with the brand pattern owning the
+        transition instead of a colour seam.
       */}
       <LatticeDivider data-testid="contact-lattice" />
 
       <SectionShell
         data-testid="contact-form-section"
         className="bg-ink"
-        innerClassName="grid gap-14 pt-4 pb-14 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-20 lg:pt-8 lg:pb-24"
+        innerClassName="flex flex-col gap-5 pt-4 pb-14 lg:pt-8 lg:pb-24"
       >
-        {/* The direct route, and what a message here actually starts — two
-            quiet cards, stacked, matching the form's own field dress. */}
-        <div className="flex flex-col gap-4">
-          <div className="border-indigo-deep bg-ink-deep/50 flex flex-col gap-3 rounded-2xl border p-6 sm:p-7">
-            <p className="text-mist/70 text-base leading-relaxed">
-              {t("contactPage.aside.directBody")}
-            </p>
-            <a
-              href={`mailto:${site.contactEmail}`}
-              data-testid="contact-direct-email"
-              className="font-display text-lavender hover:text-lavender-soft mt-1 w-fit text-xl break-all transition-colors sm:text-2xl"
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+          {/*
+            The form in a panel of its own rather than loose on the page. The
+            fields already wore the site's field dress; what was missing was a
+            surface for them to belong to, which is most of what made the page
+            read as unfinished.
+          */}
+          <div
+            ref={formRef}
+            className={clsx(
+              "border-indigo-deep bg-ink-deep/50 rounded-2xl border p-6 sm:p-8",
+              formReveal,
+            )}
+          >
+            <form
+              onSubmit={handleSubmit}
+              data-testid="contact-form"
+              className="flex flex-col gap-5"
             >
-              {site.contactEmail}
-            </a>
+              <h2 className="font-display text-mist text-xl font-normal sm:text-2xl">
+                {t("contactPage.form.title")}
+              </h2>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field id="contact-name" label={t("contactPage.form.name")}>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    required
+                    autoComplete="name"
+                    placeholder={t("contactPage.form.namePlaceholder")}
+                    className={inputClass}
+                    data-testid="contact-name"
+                  />
+                </Field>
+
+                <Field id="contact-email" label={t("contactPage.form.email")}>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder={t("contactPage.form.emailPlaceholder")}
+                    className={inputClass}
+                    data-testid="contact-email"
+                  />
+                </Field>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field
+                  id="contact-company"
+                  label={t("contactPage.form.company")}
+                >
+                  <input
+                    id="contact-company"
+                    name="company"
+                    type="text"
+                    autoComplete="organization"
+                    placeholder={t("contactPage.form.companyPlaceholder")}
+                    className={inputClass}
+                    data-testid="contact-company"
+                  />
+                </Field>
+
+                <Field
+                  id="contact-service"
+                  label={t("contactPage.form.service")}
+                >
+                  {/*
+                    A themed listbox rather than a native select: its dropdown
+                    wears the site's own dark panel instead of the browser's
+                    white sheet.
+                  */}
+                  <SelectField
+                    id="contact-service"
+                    value={service}
+                    onChange={(next) => {
+                      setService(next);
+                      setServiceError(false);
+                    }}
+                    options={serviceOptions}
+                    placeholder={t("contactPage.form.servicePlaceholder")}
+                    invalid={serviceError}
+                    data-testid="contact-service"
+                  />
+                  {serviceError && (
+                    <p
+                      className="text-ember text-sm"
+                      data-testid="contact-service-error"
+                    >
+                      {t("contactPage.form.serviceError")}
+                    </p>
+                  )}
+                </Field>
+              </div>
+
+              <Field id="contact-note" label={t("contactPage.form.note")}>
+                <textarea
+                  id="contact-note"
+                  name="note"
+                  required
+                  rows={6}
+                  placeholder={t("contactPage.form.notePlaceholder")}
+                  className={clsx(inputClass, "resize-y")}
+                  data-testid="contact-note"
+                />
+              </Field>
+
+              <button
+                type="submit"
+                data-testid="contact-submit"
+                className={brandButtonClass({
+                  className: "mt-1 w-full sm:w-fit",
+                })}
+              >
+                {t("contactPage.form.submit")}
+              </button>
+            </form>
           </div>
 
-          <div className="border-indigo-deep bg-ink-deep/50 flex flex-col gap-3 rounded-2xl border p-6 sm:p-7">
-            <p className="text-mist/70 text-base leading-relaxed text-pretty">
-              {t("contactPage.aside.responseBody")}
-            </p>
+          {/*
+            The other ways in, stacked beside the form the way the reference
+            stacks its demo, documentation and press cards. Each is a whole-card
+            link to something this site already offers; nothing here was
+            invented to fill the column.
+          */}
+          <div
+            ref={cardsRef}
+            className={clsx("flex flex-col gap-5", cardsReveal)}
+          >
+            <ChannelCard
+              href={site.bookDemoUrl}
+              channel="demo"
+              data-testid="contact-channel-demo"
+            />
+            <ChannelCard
+              to="/security-scan"
+              channel="scan"
+              data-testid="contact-channel-scan"
+            />
+            <ChannelCard
+              to="/knowledge-base"
+              channel="knowledge"
+              data-testid="contact-channel-knowledge"
+            />
           </div>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          data-testid="contact-form"
-          className="flex flex-col gap-5"
+        {/*
+          The direct address across the whole foot, as the reference closes on
+          its chat strip: the one channel that works without anything else on
+          this page, set large enough to be the thing a skimmer leaves with.
+        */}
+        <div
+          data-testid="contact-email-card"
+          className="border-indigo-deep bg-ink-deep/50 flex flex-col justify-between gap-4 rounded-2xl border p-6 sm:flex-row sm:items-center sm:gap-8 sm:p-8"
         >
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="contact-name"
-                className="text-mist/80 text-sm font-medium"
-              >
-                {t("contactPage.form.name")}
-              </label>
-              <input
-                id="contact-name"
-                name="name"
-                type="text"
-                required
-                autoComplete="name"
-                placeholder={t("contactPage.form.namePlaceholder")}
-                className={inputClass}
-                data-testid="contact-name"
-              />
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="contact-email"
-                className="text-mist/80 text-sm font-medium"
-              >
-                {t("contactPage.form.email")}
-              </label>
-              <input
-                id="contact-email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                placeholder={t("contactPage.form.emailPlaceholder")}
-                className={inputClass}
-                data-testid="contact-email"
-              />
-            </div>
+          <div className="flex flex-col gap-1">
+            <h2 className="font-display text-mist text-xl font-normal sm:text-2xl">
+              {t("contactPage.channels.direct.title")}
+            </h2>
+            <p className="text-mist/75 text-base leading-relaxed text-pretty">
+              {t("contactPage.channels.direct.body")}
+            </p>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="contact-company"
-                className="text-mist/80 text-sm font-medium"
-              >
-                {t("contactPage.form.company")}
-              </label>
-              <input
-                id="contact-company"
-                name="company"
-                type="text"
-                autoComplete="organization"
-                placeholder={t("contactPage.form.companyPlaceholder")}
-                className={inputClass}
-                data-testid="contact-company"
-              />
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="contact-service"
-                className="text-mist/80 text-sm font-medium"
-              >
-                {t("contactPage.form.service")}
-              </label>
-              {/*
-                A themed listbox rather than a native select — its dropdown wears
-                the site's own dark panel instead of the browser's white sheet.
-              */}
-              <SelectField
-                id="contact-service"
-                value={service}
-                onChange={(next) => {
-                  setService(next);
-                  setServiceError(false);
-                }}
-                options={serviceOptions}
-                placeholder={t("contactPage.form.servicePlaceholder")}
-                invalid={serviceError}
-                data-testid="contact-service"
-              />
-              {serviceError && (
-                <p
-                  className="text-ember text-sm"
-                  data-testid="contact-service-error"
-                >
-                  {t("contactPage.form.serviceError")}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="contact-note"
-              className="text-mist/80 text-sm font-medium"
-            >
-              {t("contactPage.form.note")}
-            </label>
-            <textarea
-              id="contact-note"
-              name="note"
-              required
-              rows={6}
-              placeholder={t("contactPage.form.notePlaceholder")}
-              className={clsx(inputClass, "resize-y")}
-              data-testid="contact-note"
-            />
-          </div>
-
-          <button
-            type="submit"
-            data-testid="contact-submit"
-            className={brandButtonClass({ className: "mt-1 w-full sm:w-fit" })}
+          <a
+            href={`mailto:${site.contactEmail}`}
+            data-testid="contact-direct-email"
+            className="font-display text-lavender hover:text-lavender-soft shrink-0 text-xl break-all transition-colors sm:text-2xl"
           >
-            {t("contactPage.form.submit")}
-          </button>
-        </form>
+            {site.contactEmail}
+          </a>
+        </div>
       </SectionShell>
     </div>
   );

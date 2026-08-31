@@ -612,11 +612,43 @@
         "api": "API pentesting",
         "awareness": "Security awareness",
         "other": "Iets anders"
+      },
+      "title": "Stuur ons een bericht"
+    },
+    "facts": {
+      "reply": {
+        "title": "Binnen één werkdag",
+        "body": "Elk bericht krijgt binnen één werkdag antwoord."
+      },
+      "reader": {
+        "title": "Gelezen door een pentester",
+        "body": "Uw bericht komt bij het team terecht, niet bij een salesafdeling."
+      },
+      "region": {
+        "title": "Vanuit Nederland",
+        "body": "We werken vanuit Nederland voor organisaties in heel Europa."
       }
     },
-    "aside": {
-      "directBody": "Sla het formulier over en bereik het team meteen.",
-      "responseBody": "Uw bericht wordt gelezen door een pentester, niet door een salesafdeling. U hoort binnen één werkdag van ons."
+    "channels": {
+      "demo": {
+        "title": "Zie het in actie",
+        "body": "Een live rondleiding door ARGUS en onze AI-ondersteunde pentesting.",
+        "cta": "Demo boeken"
+      },
+      "scan": {
+        "title": "Probeer de gratis scanner",
+        "body": "Bekijk wat uw website of e-mailadres publiek prijsgeeft, zonder in te loggen.",
+        "cta": "Start een gratis scan"
+      },
+      "knowledge": {
+        "title": "Bekijk de kennisbank",
+        "body": "Lees meer over pentesting, compliance en onze werkwijze.",
+        "cta": "Open de kennisbank"
+      },
+      "direct": {
+        "title": "Liever direct e-mailen?",
+        "body": "Sla het formulier over en bereik het team meteen."
+      }
     }
   },
   "aboutPage": {
