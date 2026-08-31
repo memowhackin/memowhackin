@@ -159,41 +159,35 @@
     },
     "pentestTypes": {
       "title": "Types of pentest",
-      "intro": "How much you hand over at the start decides how much ground a test can cover. Each of the three is run by our own pentesters alongside an AI agent configured for that level of access.",
+      "intro": "How much you hand over at the start decides how far a test can go. All three are run by our own pentesters, working with an AI agent set up for that level of access.",
       "labels": {
-        "access": "What we start with",
-        "agents": "How we work it",
-        "yield": "What it surfaces",
-        "duration": "Turnaround"
-      },
-      "items": {
-        "black": {
-          "name": "Black box",
-          "agents": "An agent tuned for external reconnaissance maps the surface from outside, and our pentesters work the leads it turns up.",
-          "yield": "The most realistic simulation of a real attack, and for that reason the one that generally surfaces the fewest findings.",
-          "duration": "3–5 working days"
-        },
-        "grey": {
-          "name": "Grey box",
-          "agents": "The agent is set up to drive authenticated flows — every role against every endpoint — while our pentesters chase what needs human judgment.",
-          "yield": "The attack surface widens far enough that the whole application can be tested, which generally surfaces considerably more.",
-          "duration": "5–7 working days"
-        },
-        "white": {
-          "name": "White box",
-          "agents": "The agent reads the codebase alongside our pentesters rather than probing the application from outside.",
-          "yield": "Alongside the usual findings, the report names the exact lines the vulnerability lives in. The most thorough of the three, and the least likely to miss something.",
-          "duration": "Around 2 weeks"
-        }
+        "access": "What you give us"
       },
       "access": {
-        "target": "A URL, IP address or application",
-        "accounts": "Test accounts and API documentation",
-        "source": "Your full source code"
+        "target": "Your address or application",
+        "accounts": "Test logins and documentation",
+        "source": "Your source code"
       },
       "state": {
         "granted": "Included",
         "withheld": "Not included"
+      },
+      "items": {
+        "black": {
+          "name": "Black box",
+          "summary": "We start with nothing but your address, exactly as a real attacker would. The most realistic test, and usually the shortest list of findings.",
+          "duration": "Usually done in 3-5 working days"
+        },
+        "grey": {
+          "name": "Grey box",
+          "summary": "You give us a login, so we can test everything your own users can reach. That usually finds considerably more.",
+          "duration": "Usually done in 5-7 working days"
+        },
+        "white": {
+          "name": "White box",
+          "summary": "You give us the source code as well. Nothing stays hidden, and the report points at the exact lines to fix.",
+          "duration": "Usually done in about 2 weeks"
+        }
       }
     },
     "webApp": {

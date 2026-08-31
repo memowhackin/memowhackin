@@ -161,11 +161,26 @@ export function SiteHeader() {
     >
       <div ref={barRef}>
         {/* Announcement strip — the gradient bar across the top of the frame. */}
-        <a
-          href={site.scannerBaseUrl}
-          target="_blank"
-          rel="noreferrer noopener"
+        {/*
+          A router `Link` to the scanner on this site, not an `<a href>` to the
+          scanner app. Two things follow from that, and both are the point:
+
+          The language comes out right on its own. Every `Link` is written
+          without a language prefix and the router adds the one this build was
+          compiled for (see `basepath` in `main.tsx`), so the Dutch build sends
+          the reader to `/nl/security-scan` and the English build to
+          `/security-scan`. Writing the path by hand here, or reaching for
+          `window.location`, is what would strand a Dutch visitor on the English
+          page.
+
+          And it stays in the tab. The strip used to open the external scanner
+          app in a second window; the exposure check now lives on this site, and
+          a page of this site opening in a new tab is not a thing the site does.
+        */}
+        <Link
+          to="/security-scan"
           data-testid="announcement-bar"
+          onClick={closeMenu}
           className="brand-sweep flex w-full items-center justify-center gap-2 px-4 py-2 text-center transition-[filter] hover:brightness-110 pointer-coarse:min-h-11"
         >
           <span className="bg-lavender text-ink-deep rounded-selector hidden shrink-0 px-3 py-0.5 text-xs font-semibold sm:inline">
@@ -189,7 +204,7 @@ export function SiteHeader() {
             className="hidden size-4 shrink-0 text-white sm:block"
             aria-hidden="true"
           />
-        </a>
+        </Link>
 
         <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between gap-3 px-4 py-3 sm:gap-6 sm:px-10 sm:py-4 lg:gap-5 lg:px-5 xl:gap-6 xl:px-10 2xl:px-6">
           <Link
