@@ -612,11 +612,39 @@
         "api": "API pentesting",
         "awareness": "Security awareness",
         "other": "Something else"
+      },
+      "title": "Send us a message"
+    },
+    "facts": {
+      "reply": {
+        "title": "Within one business day",
+        "body": "Every message gets an answer within one business day."
+      },
+      "reader": {
+        "title": "Read by a pentester",
+        "body": "Your message lands with the team, not a sales queue."
+      },
+      "region": {
+        "title": "Netherlands based",
+        "body": "We work from the Netherlands for organizations across Europe."
       }
     },
-    "aside": {
-      "directBody": "Skip the form and reach the team straight away.",
-      "responseBody": "A pentester reads your message, not a sales queue. You hear from us within one business day."
+    "channels": {
+      "demo": {
+        "title": "See it in action",
+        "body": "A live tour of ARGUS and our AI-assisted pentesting."
+      },
+      "scan": {
+        "title": "Try the free scanner",
+        "body": "See what your website or e-mail address reveals publicly."
+      },
+      "knowledge": {
+        "title": "Browse the knowledge base",
+        "body": "Read up on pentesting, compliance and how we work."
+      },
+      "direct": {
+        "title": "Prefer e-mail?"
+      }
     }
   },
   "aboutPage": {
@@ -784,23 +812,6 @@
     "viewDetails": "View details",
     "outroIntro": "Do you want to know what developments are taking place and what our specialists are working on? Discover the latest news on pentesting, hacking, security research, and compliance here.",
     "outroFollow": "Do you want to stay up to date with all updates? Then follow us on",
-    "posts": {
-      "rules": {
-        "date": "4 Jun 2026",
-        "title": "How AI pentesting changes the rules of the game",
-        "excerpt": "Automated scans and human expertise reinforce each other. This is what that looks like in practice."
-      },
-      "owasp": {
-        "date": "28 Mar 2026",
-        "title": "OWASP Top 10 in 2026: what you need to know",
-        "excerpt": "A practical guide for development and security teams that want to address vulnerabilities structurally."
-      },
-      "compliance": {
-        "date": "4 Jun 2026",
-        "title": "Compliance without compromising on speed",
-        "excerpt": "ISO 27001 and NIS2 require demonstrable control. This way, you remain audit-ready without losing momentum."
-      }
-    },
     "linkedIn": "LinkedIn"
   },
   "admin": {

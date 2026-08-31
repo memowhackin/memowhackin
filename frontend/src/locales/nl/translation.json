@@ -612,11 +612,39 @@
         "api": "API pentesting",
         "awareness": "Security awareness",
         "other": "Iets anders"
+      },
+      "title": "Stuur ons een bericht"
+    },
+    "facts": {
+      "reply": {
+        "title": "Binnen één werkdag",
+        "body": "Elk bericht krijgt binnen één werkdag antwoord."
+      },
+      "reader": {
+        "title": "Gelezen door een pentester",
+        "body": "Uw bericht komt bij het team terecht, niet bij een salesafdeling."
+      },
+      "region": {
+        "title": "Vanuit Nederland",
+        "body": "We werken vanuit Nederland voor organisaties in heel Europa."
       }
     },
-    "aside": {
-      "directBody": "Sla het formulier over en bereik het team meteen.",
-      "responseBody": "Uw bericht wordt gelezen door een pentester, niet door een salesafdeling. U hoort binnen één werkdag van ons."
+    "channels": {
+      "demo": {
+        "title": "Zie het in actie",
+        "body": "Een live rondleiding door ARGUS en onze AI-ondersteunde pentesting."
+      },
+      "scan": {
+        "title": "Probeer de gratis scanner",
+        "body": "Bekijk wat uw website of e-mailadres publiek prijsgeeft."
+      },
+      "knowledge": {
+        "title": "Bekijk de kennisbank",
+        "body": "Lees meer over pentesting, compliance en onze werkwijze."
+      },
+      "direct": {
+        "title": "Liever direct e-mailen?"
+      }
     }
   },
   "aboutPage": {
@@ -784,23 +812,6 @@
     "viewDetails": "Lees verder",
     "outroIntro": "Wilt u weten welke ontwikkelingen er spelen en waar onze specialisten aan werken? Ontdek hier het laatste nieuws over pentesting, hacking, security research en compliance.",
     "outroFollow": "Wil je op de hoogte blijven van alle updates? Volg ons dan op",
-    "posts": {
-      "rules": {
-        "date": "4 jun 2026",
-        "title": "Hoe AI-pentesting de spelregels verandert",
-        "excerpt": "Geautomatiseerde scans en menselijke expertise versterken elkaar. Zo ziet dat er in de praktijk uit."
-      },
-      "owasp": {
-        "date": "28 mrt 2026",
-        "title": "OWASP Top 10 in 2026: wat u moet weten",
-        "excerpt": "Een praktische gids voor ontwikkel- en securityteams die kwetsbaarheden structureel willen aanpakken."
-      },
-      "compliance": {
-        "date": "4 jun 2026",
-        "title": "Compliance zonder in te leveren op snelheid",
-        "excerpt": "ISO 27001 en NIS2 vragen om aantoonbare beheersing. Zo blijft u audit-ready zonder vaart te verliezen."
-      }
-    },
     "linkedIn": "LinkedIn"
   },
   "admin": {
