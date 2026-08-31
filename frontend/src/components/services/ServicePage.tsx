@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { CheckCircle2 } from "lucide-react";
 import { BrandButton } from "@/components/common/BrandButton";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
+import { PortalShot } from "@/components/common/PortalShot";
 import { ReportStack } from "@/components/common/ReportStack";
 import { CrossingMark } from "@/components/common/CrossingMark";
 import { SectionShell } from "@/components/common/SectionShell";
@@ -24,12 +25,16 @@ import { site } from "@/config/site";
  * left holding, how that measures against a conventional test, and the
  * questions buyers ask — then straight into the closing call to action.
  *
- * One template rather than two hand-built pages — the sections are the same
- * argument in the same order for both, and two copies of it would drift the
- * moment one of them was touched. What differs per service is
+ * One template rather than three hand-built pages — the sections are the same
+ * argument in the same order for all of them, and three copies of it would
+ * drift the moment one was touched. What differs per service is
  * `ServiceDefinition` (which items each section holds) and the translation
- * block behind it. The awareness programme is not this shape and has its own
- * page; see `AwarenessPage`.
+ * block behind it.
+ *
+ * Two sections are a pentest's and are gated on `pentest`: the levels of access
+ * a test can be run at, and the report still life with the request for a sample
+ * beside it. The awareness programme has neither a blackbox variant nor that
+ * document at the end of it, so it runs the same page without them.
  */
 export function ServicePage({ service }: { service: ServiceDefinition }) {
   const { t } = useTranslation();
@@ -210,8 +215,9 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
       </SectionShell>
 
       {/* The three levels of access a test can be run at — the decision that has
-          to be made before the process below can start. */}
-      <PentestTypes serviceKey={service.key} />
+          to be made before the process below can start. Only a pentest has it:
+          there is no blackbox variant of a training programme. */}
+      {service.pentest && <PentestTypes serviceKey={service.key} />}
 
       {/* How an engagement runs, start to finish. */}
       <ProcessTimeline service={service} />
@@ -263,32 +269,50 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
             somewhere, and takes the call-to-action's look from the shared class
             list instead of a second definition of it.
           */}
-          <button
-            type="button"
-            data-testid={`service-${service.key}-sample-report`}
-            onClick={() => {
-              setReportOpen(true);
-            }}
-            className={brandButtonClass({ className: "mt-2 w-fit" })}
-          >
-            {t("benefits.cta")}
-          </button>
+          {service.pentest && (
+            <button
+              type="button"
+              data-testid={`service-${service.key}-sample-report`}
+              onClick={() => {
+                setReportOpen(true);
+              }}
+              className={brandButtonClass({ className: "mt-2 w-fit" })}
+            >
+              {t("benefits.cta")}
+            </button>
+          )}
         </div>
 
+        {/*
+          What the engagement leaves you with, as a picture. A pentest ends on
+          the report, so it gets the still life the home page uses. Awareness
+          ends on results per group, so it gets the screen those live on, held
+          by a placeholder until the screenshot exists.
+        */}
         <div
           ref={stackRef}
           className={clsx("mx-auto w-full max-w-lg lg:max-w-none", stackReveal)}
         >
-          <ReportStack />
+          {service.pentest ? (
+            <ReportStack />
+          ) : (
+            <PortalShot
+              src={`/assets/services/${service.key}-dashboard.webp`}
+              altKey={`servicePages.${service.key}.report.shot.alt`}
+              captionKey={`servicePages.${service.key}.report.shot.caption`}
+            />
+          )}
         </div>
       </SectionShell>
 
-      <SampleReportModal
-        open={reportOpen}
-        onClose={() => {
-          setReportOpen(false);
-        }}
-      />
+      {service.pentest && (
+        <SampleReportModal
+          open={reportOpen}
+          onClose={() => {
+            setReportOpen(false);
+          }}
+        />
+      )}
 
       {/* Why it is us, measured against what a conventional engagement gives
           you rather than asserted in three columns of our own. */}

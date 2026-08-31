@@ -169,6 +169,108 @@ function Retest({ animate }: { animate: boolean }) {
   );
 }
 
+/*
+ * The awareness programme's four phases. It is a loop rather than a line, so
+ * these are the marks for measuring, teaching, testing what stuck, and changing
+ * what did not before it comes round again.
+ */
+
+/** 01 — Baseline: where the organisation actually stands, measured first. */
+function Baseline({ animate }: { animate: boolean }) {
+  return (
+    <Canvas>
+      <path d="M9 30h22" opacity={0.35} />
+      {[
+        { x: 14, y: 22 },
+        { x: 20, y: 16 },
+        { x: 26, y: 11 },
+      ].map((bar, index) => (
+        <path
+          key={bar.x}
+          d={`M${bar.x.toString()} 30V${bar.y.toString()}`}
+          {...TRACE}
+          className={clsx(
+            animate && "motion-safe:animate-glyph-trace",
+            index === 1 && "[animation-delay:0.3s]",
+            index === 2 && "[animation-delay:0.6s]",
+          )}
+        />
+      ))}
+    </Canvas>
+  );
+}
+
+/** 02 — Training: the session itself, and the people in it. */
+function Training({ animate }: { animate: boolean }) {
+  return (
+    <Canvas>
+      <rect x={7} y={9} width={26} height={18} rx={2} opacity={0.3} />
+      <circle
+        cx={20}
+        cy={16}
+        r={3}
+        {...TRACE}
+        className={clsx(animate && "motion-safe:animate-glyph-trace")}
+      />
+      <path
+        d="M14.5 23.5c1.6-3.2 9.4-3.2 11 0"
+        {...TRACE}
+        className={clsx(
+          animate && "motion-safe:animate-glyph-trace [animation-delay:0.4s]",
+        )}
+      />
+      <path d="M16 31h8" opacity={0.3} />
+    </Canvas>
+  );
+}
+
+/** 03 — Simulation: a message that looks exactly like the real thing. */
+function Simulation({ animate }: { animate: boolean }) {
+  return (
+    <Canvas>
+      <rect x={7} y={12} width={26} height={17} rx={2} opacity={0.35} />
+      <path
+        d="M7.8 13.2L20 21.5l12.2-8.3"
+        {...TRACE}
+        className={clsx(animate && "motion-safe:animate-glyph-trace")}
+      />
+      <circle cx={30} cy={12} r={2.5} fill="currentColor" stroke="none" />
+    </Canvas>
+  );
+}
+
+/** 04 — Adjust: what the round taught, turned into what changes next. */
+function Adjust({ animate }: { animate: boolean }) {
+  return (
+    <Canvas>
+      <path d="M9 16h22" opacity={0.35} />
+      <path d="M9 24h22" opacity={0.35} />
+      <rect
+        x={14}
+        y={13}
+        width={4}
+        height={6}
+        rx={1}
+        fill="currentColor"
+        stroke="none"
+        className={clsx(animate && "motion-safe:animate-glyph-slide")}
+      />
+      <rect
+        x={22}
+        y={21}
+        width={4}
+        height={6}
+        rx={1}
+        fill="currentColor"
+        stroke="none"
+        className={clsx(
+          animate && "motion-safe:animate-glyph-slide [animation-delay:0.8s]",
+        )}
+      />
+    </Canvas>
+  );
+}
+
 /**
  * The mark for one step, by the key the service definition gives it.
  *
@@ -191,6 +293,14 @@ export function StepGlyph({ step, active }: { step: string; active: boolean }) {
         return <Reporting animate={active} />;
       case "retest":
         return <Retest animate={active} />;
+      case "baseline":
+        return <Baseline animate={active} />;
+      case "training":
+        return <Training animate={active} />;
+      case "simulation":
+        return <Simulation animate={active} />;
+      case "adjust":
+        return <Adjust animate={active} />;
       default:
         return null;
     }

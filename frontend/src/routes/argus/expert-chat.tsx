@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { RoutePage } from "@/components/common/RoutePage";
+import { LiveChatPage } from "@/components/argus/LiveChatPage";
 
 export const Route = createFileRoute("/argus/expert-chat")({
-  component: () => (
-    <RoutePage pageKey="argusExpertChat" path="/argus/expert-chat" />
-  ),
+  component: LiveChatPage,
 });

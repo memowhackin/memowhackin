@@ -79,40 +79,40 @@
       "body": "Training op maat die uw collega's het enige geeft wat geen enkele maatregel kan bieden: de reflex om even te stoppen en te controleren. Opgebouwd rond uw sector, uw omvang en de risico's die u werkelijk loopt."
     },
     "argusScanning": {
-      "title": "Continu scannen — ARGUS | AssistSec",
-      "description": "ARGUS scant uw applicaties en infrastructuur continu, zodat nieuwe kwetsbaarheden direct zichtbaar worden in plaats van maanden later.",
-      "heading": "Continu scannen",
-      "body": "ARGUS blijft scannen tussen pentests door en toont nieuwe kwetsbaarheden zodra ze ontstaan."
+      "title": "Maandelijkse security scans | Continue validatie | AssistSec",
+      "description": "ARGUS draait elke maand een gevalideerde ronde over uw volledige aanvalsoppervlak. Nieuwe assets gevonden, bevindingen door een pentester gereproduceerd.",
+      "heading": "Maandelijkse scans",
+      "body": "Elke maand een volledige ronde over alles wat u blootstelt, met elke bevinding door een mens gecontroleerd."
     },
     "argusCompliance": {
-      "title": "Continue compliance — ARGUS | AssistSec",
-      "description": "ARGUS koppelt elke bevinding aan de relevante ISO 27001-controls en geeft uw organisatie een actueel beeld van de compliance-postuur.",
-      "heading": "Compliancebewaking",
-      "body": "Elke bevinding gekoppeld aan de relevante ISO 27001-controls, voor een actueel beeld van uw compliance."
+      "title": "ISO 27001-koppeling | Auditbewijs uit testen | AssistSec",
+      "description": "ARGUS koppelt elke bevinding aan de ISO 27001-controls die hij raakt en bewaart het bewijs, met datums. Stap een audit in met de technische controls al beantwoord.",
+      "heading": "ISO 27001-koppeling",
+      "body": "Elke bevinding gekoppeld aan de controls die hij raakt, met het bewijs bewaard en gedateerd."
     },
     "argusInsights": {
-      "title": "Live inzicht in bevindingen — ARGUS | AssistSec",
-      "description": "Bekijk elke bevinding live in uw ARGUS-portaal, gerangschikt op risico, zonder te wachten op het eindrapport.",
+      "title": "Live inzicht in kwetsbaarheden | Realtime bevindingen | AssistSec",
+      "description": "Zie elke gevalideerde bevinding in het ARGUS-portaal zodra een pentester hem bevestigt, gerangschikt op werkelijk bereik, met bewijs en een fix erbij.",
       "heading": "Live inzicht",
-      "body": "Elke bevinding live in uw portaal, gerangschikt op risico — geen wachten op het rapport."
+      "body": "Elke gevalideerde bevinding in uw portaal zodra hij bevestigd is, niet weken later in een rapport."
     },
     "argusRetesting": {
-      "title": "Direct hertesten — ARGUS | AssistSec",
-      "description": "Vraag 24/7 een hertest van elke bevinding aan en bevestig dat uw fixes standhouden, direct vanuit het ARGUS-portaal.",
-      "heading": "Direct hertesten",
-      "body": "Hertest elke bevinding op aanvraag en bevestig dat uw fixes standhouden, direct vanuit het portaal."
+      "title": "Hertestmodule | Verifieer uw fixes | AssistSec",
+      "description": "Vraag een hertest aan vanuit de bevinding zelf. Dezelfde aanval draait opnieuw, de bevinding sluit alleen als de fix standhoudt, en elke statuswissel wordt gedateerd bewaard.",
+      "heading": "Hertestmodule",
+      "body": "Vraag de hertest aan vanuit de bevinding. Hij sluit pas als de fix de oorspronkelijke aanval doorstaat."
     },
     "argusExpertChat": {
-      "title": "Chat met pentesters — ARGUS | AssistSec",
-      "description": "Praat direct met de pentesters achter uw bevindingen. Stel vragen en krijg remediation-advies in realtime via ARGUS.",
-      "heading": "Expertchat",
-      "body": "Praat direct met de pentesters achter uw bevindingen, in realtime."
+      "title": "Praat met de pentester | Live expertchat | AssistSec",
+      "description": "Elke ARGUS-bevinding heeft een draad, met de pentester die hem vond. Vraag wat een fix echt afdekt en krijg antwoord van degene die de exploit schreef.",
+      "heading": "Live chat",
+      "body": "Een draad bij elke bevinding, beantwoord door de pentester die hem vond."
     },
     "argusIntegrations": {
-      "title": "Integraties — ARGUS | AssistSec",
-      "description": "Stream ARGUS-bevindingen naar de tools die u al gebruikt, van Splunk tot uw SIEM en ticketing, voor één bron van waarheid.",
+      "title": "Integraties | SIEM, ticketing en CI | AssistSec",
+      "description": "Stuur gevalideerde ARGUS-bevindingen naar uw SIEM, uw backlog en uw pijplijn, met de status die terugkomt. Routeringsregels bepalen wat waarheen gaat.",
       "heading": "Integraties",
-      "body": "Stream bevindingen naar de tools die u al gebruikt, van Splunk tot uw SIEM en ticketing."
+      "body": "Bevindingen in de tools waar uw teams al in werken, met hun status die terugkomt."
     },
     "knowledgeBase": {
       "title": "Kennisbank | AssistSec",
@@ -491,12 +491,14 @@
       }
     },
     "awareness": {
-      "statement": {
-        "body": "Een firewall heeft nog nooit op een link geklikt. De mensen die uw bedrijf draaiende houden wordt dat tientallen keren per week gevraagd, door berichten die er precies uitzien als de berichten waar zij op zitten te wachten."
+      "definition": {
+        "title": "Wat security awareness training is",
+        "p1": "Security awareness training is een programma dat verandert hoe uw mensen omgaan met precies die momenten waar een aanvaller op rekent: een bericht dat op het juiste moment binnenkomt, een beller die net genoeg weet, een wachtwoord dat één keer te vaak is hergebruikt. Het wordt om uw organisatie heen gebouwd in plaats van uit de kast getrokken, en het draait op een ritme in plaats van één keer per jaar.",
+        "p2": "Een firewall heeft nog nooit op een link geklikt. De mensen die uw bedrijf draaiende houden wordt dat tientallen keren per week gevraagd, door berichten die er precies uitzien als de berichten waar zij op zitten te wachten."
       },
-      "topics": {
+      "coverage": {
         "title": "Wat een programma behandelt",
-        "intro": "Vijf onderwerpen, getraind met uw eigen tooling en uw eigen scenario's in plaats van met standaardvoorbeelden uit een presentatie.",
+        "intro": "Zes onderwerpen, getraind met uw eigen tooling en uw eigen scenario's in plaats van met standaardvoorbeelden uit een presentatie.",
         "items": {
           "phishing": {
             "title": "Phishing",
@@ -517,13 +519,17 @@
           "dataLeaks": {
             "title": "Als het misgaat",
             "body": "Hoe u een incident herkent, wie u binnen het uur inlicht, en waarom snel melden zwaarder weegt dan de fout niet gemaakt hebben. Schuld is wat incidenten verborgen houdt."
+          },
+          "reporting": {
+            "title": "Op tijd aan de bel trekken",
+            "body": "Wat verdacht is, bij wie u het meldt, en waarom een uur na een misser iets zeggen veel meer waard is dan helemaal niets zeggen."
           }
         }
       },
-      "cycle": {
+      "process": {
         "title": "Hoe een programma verloopt",
         "intro": "Een cyclus, geen cursus. Eén sessie leert iets; een ritme verandert wat mensen doen.",
-        "phases": {
+        "steps": {
           "baseline": {
             "title": "Meten",
             "body": "Wij beginnen bij waar u werkelijk staat, met een simulatie en een korte vragenlijst, zodat de training uw situatie beantwoordt en u later iets heeft om mee te vergelijken."
@@ -542,21 +548,59 @@
           }
         }
       },
-      "fit": {
-        "title": "Op maat van uw organisatie",
-        "body": "Een ziekenhuis, een logistiek bedrijf en een accountantskantoor worden op totaal verschillende manieren aangevallen, en een training die dat negeert besteedt zijn uur aan andermans dreigingen. Drie dingen bepalen die van u.",
+      "report": {
+        "title": "Wat u krijgt",
+        "body": "Elke ronde eindigt met iets waar u mee vooruit kunt, geschreven voor de mensen die de organisatie leiden en niet voor een securitypubliek.",
         "items": {
-          "sector": {
-            "title": "Uw sector",
-            "body": "De scenario's komen uit de fraude die daadwerkelijk op uw branche wordt losgelaten, in de toon die uw leveranciers en klanten echt gebruiken."
+          "results": "Resultaten per groep, nooit een score naast een naam",
+          "trend": "Een vergelijking met uw eigen nulmeting, zodat vooruitgang een getal is en geen gevoel",
+          "materials": "Materiaal dat uw mensen na de sessie houden",
+          "guidance": "Concrete aanbevelingen voor het beleid en de processen eromheen"
+        },
+        "shot": {
+          "caption": "Het programmaoverzicht: resultaten per groep, afgezet tegen uw eigen nulmeting.",
+          "alt": "Het ARGUS-awarenessoverzicht met resultaten per groep tegen een nulmeting"
+        }
+      },
+      "comparison": {
+        "title": "Waar AssistSec het verschil maakt",
+        "intro": "Awareness is een gewoonte, geen module. Daar zit het hele verschil tussen een programma dat gedrag verandert en een programma dat een aanwezigheidslijst oplevert.",
+        "caption": "AssistSec vergeleken met conventionele awareness training",
+        "columns": {
+          "aspect": "Onderdeel",
+          "ours": "AssistSec",
+          "theirs": "Conventionele training"
+        },
+        "rows": {
+          "approach": {
+            "aspect": "Aanpak",
+            "ours": "Afgestemd op uw sector, uw omvang en de risico's die u werkelijk loopt",
+            "theirs": "Eén cursus, voor elke organisatie dezelfde"
           },
-          "size": {
-            "title": "Uw omvang",
-            "body": "Twintig mensen in één ruimte is een gesprek; tweeduizend verspreid over zes locaties is een programma met een plan erachter. Allebei werkt, anders."
+          "cadence": {
+            "aspect": "Ritme",
+            "ours": "Een cyclus die terugkomt en voortbouwt op de vorige ronde",
+            "theirs": "Een jaarlijkse module om af te vinken"
           },
-          "risk": {
-            "title": "Uw risicoprofiel",
-            "body": "Finance, HR en support worden benaderd op manieren die de rest van het bedrijf nooit ziet, dus krijgen zij materiaal dat de rest niet nodig heeft."
+          "realism": {
+            "aspect": "Realisme",
+            "ours": "Simulaties in uw eigen huisstijl, op de tooling die uw mensen gebruiken",
+            "theirs": "Algemene voorbeelden die niemand herkent"
+          },
+          "reporting": {
+            "aspect": "Rapportage",
+            "ours": "Per groep, afgezet tegen uw eigen beginpunt",
+            "theirs": "Een voltooiingspercentage"
+          },
+          "delivery": {
+            "aspect": "Uitvoering",
+            "ours": "Live sessies, gegeven door de mensen die de aanvallen dagelijks uitvoeren",
+            "theirs": "Een opgenomen video met een quiz"
+          },
+          "privacy": {
+            "aspect": "Privacy",
+            "ours": "Vooraf afgestemd, en nooit een namenlijst",
+            "theirs": "Individuele scores, doorgegeven naar boven"
           }
         }
       },
@@ -586,6 +630,605 @@
         }
       }
     }
+  },
+  "argusPages": {
+    "labels": {
+      "related": "Ontdek ARGUS"
+    },
+    "scanning": {
+      "hero": {
+        "heading": "Uw aanvalsoppervlak verandert elke week. Test het elke maand.",
+        "lede": "ARGUS draait elke maand een volledige ronde over alles wat u blootstelt. Agents doen de breedte, een pentester controleert de bevindingen, en wat in uw wachtrij belandt is al bewezen.",
+        "points": {
+          "surface": "Assets waarvan u vergeten was dat u ze had, gevonden voordat een aanvaller ze vindt",
+          "validated": "Elke bevinding door een mens gereproduceerd voordat u hem ziet",
+          "ranked": "Gerangschikt op wat een aanvaller als volgende bereikt, niet op een algemene score",
+          "retest": "Fixes op verzoek geverifieerd, in hetzelfde portaal"
+        },
+        "secondary": "Spreek een pentester",
+        "footnote": "De scope spreken we met u af voordat de eerste ronde draait."
+      },
+      "problem": {
+        "title": "Twaalf maanden is lang om ergens zeker van te zijn",
+        "body": "Een jaarlijkse test beschrijft de systemen die u had op de dag dat hij draaide. Sindsdien heeft u features uitgerold, subdomeinen toegevoegd, een testomgeving opgezet voor een demo en laten staan. Niets daarvan zat in de scope, en niemand kijkt ernaar."
+      },
+      "features": {
+        "title": "Wat een ronde werkelijk doet",
+        "items": {
+          "discovery": {
+            "title": "Eerst in kaart brengen, dan aanvallen",
+            "body": "Elke ronde begint met uitzoeken wat u vandaag blootstelt, en vertrouwt niet op het scopedocument van vorig jaar. Nieuwe subdomeinen, een API die vrijdag live ging, de testomgeving die niemand heeft opgeruimd."
+          },
+          "validated": {
+            "title": "Achter elke bevinding staat een mens",
+            "body": "Agents dekken het terrein af en markeren kandidaten. Een pentester reproduceert er elk van en schrijft hem uit. Niemand bij u verliest een ochtend aan het weerleggen van iets dat er nooit was."
+          },
+          "ranked": {
+            "title": "Op bereik gerangschikt, niet op score",
+            "body": "Een medium op een login die aan het internet hangt gaat voor een high op een dienst die niemand kan bereiken. De wachtrij staat op volgorde van wat een aanvaller als volgende pakt."
+          },
+          "record": {
+            "title": "Elke maand houdt zijn eigen dossier",
+            "body": "U ziet wanneer een asset verscheen, wanneer een bevinding openging en welke release hem sloot. Die historie maakt van een scan bewijs."
+          }
+        }
+      },
+      "process": {
+        "title": "Hoe een ronde verloopt",
+        "intro": "Vijf stappen, elke maand dezelfde, zodat u weet wat er gebeurt zonder ernaar te vragen.",
+        "steps": {
+          "scope": {
+            "title": "Scope",
+            "body": "We spreken eenmalig af wat binnen en buiten de scope valt. Wijzigingen daarna zijn een gesprek, geen verrassing."
+          },
+          "discover": {
+            "title": "In kaart brengen",
+            "body": "Agents brengen het oppervlak in kaart zoals het deze maand is: hosts, subdomeinen, endpoints, rollen."
+          },
+          "test": {
+            "title": "Testen",
+            "body": "Dat oppervlak wordt aangevallen zoals een buitenstaander dat zou doen, dieper dan een scanner komt."
+          },
+          "validate": {
+            "title": "Valideren",
+            "body": "Een pentester reproduceert elke kandidaat en gooit weg wat niet standhoudt."
+          },
+          "publish": {
+            "title": "Publiceren",
+            "body": "Bevindingen verschijnen in het portaal zodra ze bevestigd zijn, met bewijs en een aanbeveling erbij."
+          }
+        }
+      },
+      "ui": {
+        "queueLabel": "Bevindingen, ronde maart",
+        "discoveryLabel": "Wijzigingen in het oppervlak",
+        "validationLabel": "Validatie",
+        "rankLabel": "Volgorde van de wachtrij",
+        "historyLabel": "Rondes dit jaar",
+        "assets": {
+          "domains": {
+            "label": "Domeinen",
+            "count": "24"
+          },
+          "apis": {
+            "label": "API's",
+            "count": "11"
+          },
+          "hosts": {
+            "label": "Hosts",
+            "count": "63"
+          },
+          "staging": {
+            "label": "Acceptatie",
+            "count": "4"
+          }
+        },
+        "findings": {
+          "cookie": {
+            "name": "Sessiecookie mist de Secure-vlag",
+            "meta": "web-01"
+          },
+          "admin": {
+            "name": "Slapend beheerdersaccount nog actief",
+            "meta": "portaal"
+          },
+          "tls": {
+            "name": "TLS 1.0 geaccepteerd op de mailgateway",
+            "meta": "mx-02"
+          },
+          "bucket": {
+            "name": "Back-upbucket leesbaar zonder inloggegevens",
+            "meta": "opslag"
+          }
+        },
+        "callout": {
+          "figure": "17",
+          "label": "bevindingen deze ronde door een pentester gereproduceerd"
+        },
+        "discovery": {
+          "found": {
+            "name": "api-staging.uwbedrijf.nl"
+          },
+          "known": {
+            "name": "checkout.uwbedrijf.nl"
+          },
+          "gone": {
+            "name": "old-cdn.uwbedrijf.nl"
+          }
+        },
+        "validation": {
+          "finding": "Slapend beheerdersaccount nog actief. Gereproduceerd op de portaallogin, sessie afgegeven, toegang bevestigd.",
+          "by": "Voor publicatie geverifieerd door een senior pentester"
+        },
+        "rank": {
+          "critical": {
+            "name": "Back-upbucket leesbaar zonder inloggegevens",
+            "meta": "internet"
+          },
+          "high": {
+            "name": "Slapend beheerdersaccount nog actief",
+            "meta": "internet"
+          },
+          "medium": {
+            "name": "Uitgebreide foutpagina op een interne dienst",
+            "meta": "intern"
+          }
+        }
+      }
+    },
+    "insights": {
+      "hero": {
+        "heading": "De bevinding is het probleem niet. Er drie weken later achter komen wel.",
+        "lede": "Een gevalideerde bevinding verschijnt in uw portaal op het moment dat een pentester hem bevestigt. Niet aan het eind van het traject, en niet in een document dat pas geschreven wordt als het werk al klaar is.",
+        "secondary": "Spreek een pentester"
+      },
+      "delay": {
+        "title": "Waar de tijd werkelijk blijft",
+        "body": "In een rapportmodel is het werk vroeg klaar en het papierwerk laat. Elke dag in dat gat is een dag waarop u had kunnen repareren, en een dag dat de ingang open bleef staan.",
+        "lanes": {
+          "report": {
+            "name": "Rapportmodel",
+            "stops": {
+              "found": {
+                "label": "Pentester vindt het",
+                "day": "Dag 3"
+              },
+              "written": {
+                "label": "Uitgeschreven",
+                "day": "Dag 14"
+              },
+              "delivered": {
+                "label": "Rapport geleverd",
+                "day": "Dag 30"
+              }
+            }
+          },
+          "argus": {
+            "name": "ARGUS",
+            "stops": {
+              "sameDay": {
+                "label": "Gevonden, gereproduceerd en gepubliceerd",
+                "day": "Dag 3"
+              }
+            }
+          }
+        }
+      },
+      "anatomy": {
+        "title": "Wat er meekomt",
+        "body": "Een regel in een wachtrij zegt op zichzelf weinig. Elke bevinding komt binnen met alles wat een ontwikkelaar nodig heeft om hem te reproduceren en alles wat een manager nodig heeft om te bepalen wanneer hij aan de beurt is.",
+        "items": {
+          "reproduction": {
+            "title": "Reproductie",
+            "body": "Het exacte verzoek, op volgorde, zodat een engineer het op zijn eigen machine ziet misgaan in plaats van ons op ons woord te geloven."
+          },
+          "reach": {
+            "title": "Bereik",
+            "body": "Wat het raakt en wie erbij kan. Een interne dienst en een login aan het internet zijn niet hetzelfde probleem."
+          },
+          "rank": {
+            "title": "Rangorde",
+            "body": "Waar hij staat ten opzichte van al het andere dat openstaat, zodat de wachtrij antwoord geeft op wat nu moet en niet alleen opsomt wat er mis is."
+          },
+          "fix": {
+            "title": "Aanbeveling",
+            "body": "Wat u moet veranderen, geschreven voor uw stack en niet overgeschreven uit een norm."
+          },
+          "state": {
+            "title": "Status",
+            "body": "Open, gefixt, hertest, gesloten, elk met de datum waarop het veranderde. Dat spoor is wat een auditor later opvraagt."
+          }
+        }
+      },
+      "changes": {
+        "title": "Uw wachtrij is geen momentopname van vorige maand meer",
+        "body": "De severity die u ziet is de severity van nu. Een bevinding die u sloot staat als geverifieerd zodra een pentester de fix heeft gecontroleerd, en eentje die terugkwam staat weer open. Niemand hoeft een spreadsheet naast een PDF te leggen om te weten hoe het ervoor staat."
+      },
+      "ui": {
+        "queueLabel": "Openstaande bevindingen",
+        "detailLabel": "ARG-2291",
+        "callout": {
+          "figure": "Live",
+          "label": "gepubliceerd op het moment van bevestigen"
+        },
+        "queue": {
+          "bucket": {
+            "name": "Back-upbucket leesbaar zonder inloggegevens",
+            "meta": "opslag"
+          },
+          "token": {
+            "name": "API-token geldig na wachtwoordreset",
+            "meta": "api"
+          },
+          "idor": {
+            "name": "Order zichtbaar voor een andere klant",
+            "meta": "checkout"
+          },
+          "headers": {
+            "name": "Securityheaders ontbreken op het portaal",
+            "meta": "web-01"
+          }
+        },
+        "detail": {
+          "title": "Back-upbucket leesbaar zonder inloggegevens",
+          "state": "Open, gepubliceerd 14:12",
+          "rows": {
+            "reproduction": {
+              "label": "Reproductie",
+              "value": "GET /uw-backups-prod/?list-type=2 HTTP/1.1  ->  200 OK, 1284 objecten"
+            },
+            "reach": {
+              "label": "Bereik",
+              "value": "Bereikbaar vanaf het internet zonder sessie. Bevat nachtelijke database-exports."
+            },
+            "rank": {
+              "label": "Rangorde",
+              "value": "Eerste van 14 openstaande bevindingen. Niets anders is bereikbaar zonder inloggegevens."
+            },
+            "fix": {
+              "label": "Aanbeveling",
+              "value": "Blokkeer publieke toegang op de bucket en op het account, en roteer daarna alles wat in die exports staat."
+            }
+          }
+        }
+      }
+    },
+    "expertChat": {
+      "hero": {
+        "heading": "Vraag het aan degene die het vond",
+        "lede": "Elke bevinding in ARGUS heeft een draad, en de pentester die die bevinding schreef zit erin. Geen ticketwachtrij, geen accountmanager die uw vraag doorgeeft aan iemand die er niet bij was.",
+        "secondary": "Spreek een pentester"
+      },
+      "notes": {
+        "items": {
+          "who": {
+            "title": "Een naam, geen wachtrij",
+            "body": "Degene die antwoordt is degene die het lek vond en uitschreef. Die kent uw opzet al, dus u begint niet elke keer opnieuw met uitleggen."
+          },
+          "context": {
+            "title": "De bevinding is de context",
+            "body": "Draden hangen aan de bevinding zelf. Niemand plakt twee keer een screenshot of discussieert over welk probleem bedoeld wordt, want het bewijs staat er direct boven."
+          },
+          "close": {
+            "title": "Het eindigt in een statuswissel",
+            "body": "Zodra uw fix live staat vraagt u de hertest aan vanuit dezelfde draad. Het gesprek sluit de bevinding in plaats van dood te lopen."
+          }
+        }
+      },
+      "asked": {
+        "title": "De vragen die mensen echt sturen",
+        "items": {
+          "waf": {
+            "q": "Houdt een WAF-regel dit tegen tot we het netjes kunnen patchen?",
+            "a": "U krijgt een recht antwoord over wat die regel tegenhoudt en wat niet, van degene die de exploit schreef."
+          },
+          "first": {
+            "q": "Er staan er vier open. Welke eerst?",
+            "a": "De volgorde in het portaal is een startpunt. Een pentester die uw architectuur kent zegt het wanneer die volgorde voor u niet klopt."
+          },
+          "staging": {
+            "q": "Kun je het op acceptatie reproduceren zodat we kunnen meekijken?",
+            "a": "Meestal wel, als acceptatie binnen de scope valt. Het zien misgaan is meer waard dan lezen dat het misging."
+          },
+          "tenant": {
+            "q": "Komt dit ook bij de andere klant uit?",
+            "a": "Dat is een test, geen mening, en het antwoord komt terug met het verzoek dat het hoe dan ook bewijst."
+          }
+        }
+      },
+      "limits": {
+        "title": "Wat het niet is",
+        "body": "Het is geen 24-uurs hotline, en doen alsof zou uw tijd verspillen. Draden worden tijdens werktijd beantwoord door de mensen die uw tests draaien. Zit de pentester die het vond midden in een ander traject, dan antwoordt iemand die de bevinding gelezen heeft en haalt hem erbij."
+      },
+      "ui": {
+        "threadLabel": "ARG-2291, draad",
+        "attachment": "ARG-2291 evidence.har",
+        "state": "Geverifieerd",
+        "messages": {
+          "confirm": {
+            "author": "Sanne, ARGUS-pentester",
+            "time": "09:14",
+            "body": "Bevestigd op storage.uwbedrijf.nl. De bucket geeft een listing zonder enige sessie. Verzoek zit erbij, dan ziet u het zelf gebeuren."
+          },
+          "askScope": {
+            "author": "U",
+            "time": "09:31",
+            "body": "We hebben net publieke toegang op de bucket geblokkeerd. Moet die instelling ook op accountniveau, of is de bucket genoeg?"
+          },
+          "answer": {
+            "author": "Sanne, ARGUS-pentester",
+            "time": "09:38",
+            "body": "Ook op accountniveau. Met de bucketpolicy aan maar de accountinstelling uit krijg ik nog steeds een listing, dus de bucket alleen laat de weg open."
+          },
+          "deployed": {
+            "author": "U",
+            "time": "09:52",
+            "body": "Allebei staan aan en zijn naar productie uitgerold. Kun je het controleren?"
+          },
+          "verified": {
+            "author": "Sanne, ARGUS-pentester",
+            "time": "10:20",
+            "body": "Opnieuw getest van buitenaf, geen listing, anonieme toegang geweigerd. Ik sluit deze."
+          }
+        }
+      }
+    },
+    "compliance": {
+      "hero": {
+        "heading": "Audits stranden zelden op veiligheid. Ze stranden op bewijs.",
+        "lede": "ARGUS koppelt elke bevinding aan de ISO 27001-controls waar hij over gaat en bewaart wat het aantoont. Vraagt een auditor hoe u test en wat u eraan gedaan heeft, dan staat dat antwoord er al, met datums erbij.",
+        "secondary": "Spreek een pentester"
+      },
+      "mapping": {
+        "title": "Van technische bevinding naar audittaal",
+        "body": "Een pentester schrijft op wat er stuk was. Een auditor vraagt welke control dat raakt. Die koppeling gebeurt één keer, bij publicatie van de bevinding, zodat niemand dat onder tijdsdruk hoeft te vertalen in de week voor het bezoek."
+      },
+      "asks": {
+        "title": "Wat de auditor vraagt, en wat u overlegt",
+        "items": {
+          "how": {
+            "q": "Hoe test u uw applicaties op kwetsbaarheden?",
+            "a": "Een programma met datums, geen beleidsstuk waarin staat dat u het van plan bent. Elke ronde is vastgelegd met scope en resultaten."
+          },
+          "when": {
+            "q": "Wanneer heeft u voor het laatst getest, en wat kwam eruit?",
+            "a": "Elke ronde houdt zijn eigen dossier. U laat de maand zien, de scope, de bevindingen en wie ze valideerde."
+          },
+          "fixed": {
+            "q": "Wat heeft u gedaan met wat u vond?",
+            "a": "Het statusspoor per bevinding, van open naar gefixt naar hertest, met de datum van elke wijziging en de hertest die het bevestigde."
+          },
+          "scope": {
+            "q": "Dekt dat alles binnen de scope?",
+            "a": "De assetlijst uit de ronde, zodat de grens van wat getest is expliciet is en niet impliciet."
+          }
+        }
+      },
+      "limits": {
+        "title": "Wat dit niet doet",
+        "body": "Het certificeert u niet, en het dekt Annex A niet af. Het grootste deel van die lijst gaat over beleid, mensen en fysieke beveiliging, en daar levert testen geen bewijs voor. Wat ARGUS u geeft is het technische deel, doorlopend bijgehouden en klaar om te overleggen. Uw auditor doet nog steeds de audit en uw ISMS blijft van u."
+      },
+      "ui": {
+        "gridLabel": "Annex A-dekking, ronde maart",
+        "findingLabel": "Bevinding",
+        "controlsLabel": "Gekoppelde controls",
+        "legend": {
+          "evidence": "Bewijs uit deze ronde",
+          "partial": "Deels gedekt",
+          "none": "Niet aantoonbaar via testen"
+        },
+        "finding": {
+          "name": "TLS 1.0 geaccepteerd op de mailgateway",
+          "meta": "mx-02",
+          "detail": "Verouderd protocol werd geaccepteerd op poort 443. Gereproduceerd op 12 maart, dezelfde dag gevalideerd."
+        },
+        "controls": {
+          "a88": {
+            "id": "A.8.8",
+            "title": "Beheer van technische kwetsbaarheden",
+            "evidence": "Bevinding, severity, validatie en de datum waarop hij gesloten werd."
+          },
+          "a89": {
+            "id": "A.8.9",
+            "title": "Configuratiebeheer",
+            "evidence": "De configuratie die het mogelijk maakte, en de wijziging die het weghaalde."
+          },
+          "a824": {
+            "id": "A.8.24",
+            "title": "Gebruik van cryptografie",
+            "evidence": "Protocolversies en cipher suites die geaccepteerd werden, voor en na de fix."
+          }
+        }
+      }
+    },
+    "retesting": {
+      "hero": {
+        "heading": "Een fix is pas een fix als iemand het opnieuw probeert",
+        "lede": "Vraag de hertest aan vanuit de bevinding zelf. De pentester valt hem opnieuw aan met dezelfde stappen, en de bevinding sluit alleen als hij standhoudt. Alles wat ermee gebeurd is blijft vastgelegd.",
+        "secondary": "Spreek een pentester"
+      },
+      "proof": {
+        "title": "Hetzelfde verzoek, voor en na",
+        "body": "Een hertest is geen mening over uw wijziging. Het is de oorspronkelijke aanval, een tweede keer uitgevoerd, en u leest zelf het antwoord dat terugkwam."
+      },
+      "skipped": {
+        "title": "Waarom deze stap overal anders verdwijnt",
+        "items": {
+          "cost": {
+            "title": "Hij wordt apart geoffreerd",
+            "body": "Zodra verificatie een aparte regel op de offerte is, is dat de regel die sneuvelt. Het traject eindigt bij het rapport en de fix wordt nooit gecontroleerd."
+          },
+          "moved": {
+            "title": "De tester is verder",
+            "body": "Weken later zit degene die het vond midden in een ander traject. Iemand anders leest de uitwerking en maakt er een inschatting van."
+          },
+          "ticket": {
+            "title": "Een gesloten ticket geldt als bewijs",
+            "body": "Het ticket staat op klaar, dus het risicoregister staat op klaar. Niemand heeft het verzoek waar het mee begon opnieuw gedraaid."
+          }
+        }
+      },
+      "does": {
+        "title": "Wat een hertest hier is",
+        "items": {
+          "onDemand": {
+            "title": "Aangevraagd vanuit de bevinding",
+            "body": "Eén handeling op de bevinding die u net gefixt heeft. Geen scopinggesprek, geen nieuw traject, geen wachten op de volgende ronde."
+          },
+          "sameSteps": {
+            "title": "Dezelfde stappen, hetzelfde team",
+            "body": "De oorspronkelijke reproductie ligt bij de bevinding opgeslagen, dus de hertest herhaalt hem in plaats van hem te benaderen."
+          },
+          "verdict": {
+            "title": "Een oordeel, geen opmerking",
+            "body": "Hij houdt stand of niet. Zo niet, dan blijft de bevinding open met eronder wat er nog steeds werkt."
+          },
+          "regression": {
+            "title": "Hij blijft in de gaten gehouden",
+            "body": "Komt hetzelfde probleem in een latere ronde terug, dan gaat hij open met zijn eigen historie eraan vast in plaats van als iets nieuws binnen te komen."
+          }
+        }
+      },
+      "ui": {
+        "trailLabel": "ARG-2291, historie",
+        "request": "GET /uw-backups-prod/?list-type=2 HTTP/1.1   Host: storage.uwbedrijf.nl",
+        "before": {
+          "label": "Voor de fix",
+          "response": "HTTP/1.1 200 OK   ListBucketResult, 1284 objecten"
+        },
+        "after": {
+          "label": "Na de hertest",
+          "response": "HTTP/1.1 403 Forbidden   AccessDenied, anonieme aanroeper"
+        },
+        "trail": {
+          "published": {
+            "time": "12 mrt 09:14",
+            "actor": "Sanne, ARGUS-pentester",
+            "event": "Bevinding gepubliceerd met reproductie en bewijs.",
+            "state": "Open"
+          },
+          "deployed": {
+            "time": "14 mrt 16:02",
+            "actor": "Uw team",
+            "event": "Publieke toegang geblokkeerd op de bucket en op het account."
+          },
+          "requested": {
+            "time": "14 mrt 16:05",
+            "actor": "Uw team",
+            "event": "Hertest aangevraagd vanuit de bevinding.",
+            "state": "Hertest aangevraagd"
+          },
+          "attacked": {
+            "time": "15 mrt 10:20",
+            "actor": "Sanne, ARGUS-pentester",
+            "event": "Oorspronkelijk verzoek opnieuw uitgevoerd van buiten het netwerk."
+          },
+          "closed": {
+            "time": "15 mrt 10:24",
+            "actor": "Sanne, ARGUS-pentester",
+            "event": "Anonieme listing geweigerd. Fix bevestigd.",
+            "state": "Gesloten, geverifieerd"
+          }
+        }
+      }
+    },
+    "integrations": {
+      "hero": {
+        "heading": "Een bevinding is niets waard in een tabblad dat niemand open heeft",
+        "lede": "ARGUS stuurt gevalideerde bevindingen naar de tools waar uw teams al in werken, en haalt hun status weer op. Het portaal blijft de vastlegging. Niemand hoeft er langs om het werk te doen.",
+        "secondary": "Spreek een pentester"
+      },
+      "destinations": {
+        "title": "Dezelfde bevinding, in drie talen",
+        "body": "Een logregel, een ticket en een buildcontrole zijn niet hetzelfde object dat je drie keer tekent. Elke bestemming krijgt de bevinding in de vorm die die tool ook echt leest, en dat is het verschil tussen een integratie en een link in een mail.",
+        "items": {
+          "siem": {
+            "title": "Naar uw SIEM",
+            "body": "Gevalideerde bevindingen komen op dezelfde tijdlijn als uw eigen events, zodat correleren geen handmatige vergelijking tussen twee schermen meer is."
+          },
+          "ticket": {
+            "title": "Naar de backlog",
+            "body": "Een ticket in de tool waar uw ontwikkelaars al in zitten, met de reproductie, het bewijs en de aanbeveling erbij. De status komt terug, dus het portaal is geen tweede plek om bij te werken."
+          },
+          "pipeline": {
+            "title": "Naar de pijplijn",
+            "body": "Vraag wat er openstaat op een dienst voordat hij uitrolt. Waarschuwen of blokkeren, net wat uw beleid zegt."
+          }
+        }
+      },
+      "routing": {
+        "title": "U bepaalt wat er weggaat",
+        "body": "Routering is een set regels en geen aan-uitknop. Match op severity, op de asset, op wat er veranderde, en stuur elke match naar de plek waar de mensen zitten die hem bezitten."
+      },
+      "boundary": {
+        "title": "Wat er overgaat, en welke kant op",
+        "items": {
+          "out": {
+            "title": "Eruit gaat de bevinding",
+            "body": "Titel, severity, de asset waar hij op zit, de reproductie en de aanbeveling. Genoeg om mee te handelen zonder iets anders te openen."
+          },
+          "back": {
+            "title": "Terug komt de status",
+            "body": "Sluit het ticket en de bevinding volgt. Dat is wat voorkomt dat twee systemen het oneens zijn over of iets nog openstaat."
+          },
+          "truth": {
+            "title": "Het portaal blijft de vastlegging",
+            "body": "Elke statuswissel wordt daar met datum vastgelegd, in welke tool hij ook gemaakt is. Een auditor leest één historie, geen vier."
+          }
+        }
+      },
+      "ui": {
+        "rulesLabel": "Routeringsregels",
+        "gate": {
+          "command": "argus check --service checkout --fail-on high",
+          "scanning": "openstaande bevindingen voor checkout ophalen ...",
+          "open": "2 open op high of hoger",
+          "blocked": "ARG-2291 critical  storage.uwbedrijf.nl  blokkeert",
+          "hint": "gebruik --warn-only om te melden zonder de build te laten falen"
+        },
+        "log": {
+          "before": "10:19:58  auth      session.renewed        user 8821",
+          "finding": "10:20:04  argus     finding.published     ARG-2291 critical  storage",
+          "after": "10:20:11  gateway   request.denied        203.0.113.44"
+        },
+        "ticket": {
+          "id": "SEC-4471",
+          "title": "Back-upbucket leesbaar zonder inloggegevens",
+          "labels": {
+            "severity": "critical",
+            "source": "argus",
+            "asset": "storage"
+          },
+          "footer": "Reproductie en bewijs zitten erbij. Dit sluiten sluit ARG-2291."
+        },
+        "check": {
+          "command": "argus check --service payments",
+          "pass": "0 open op high of hoger, geslaagd",
+          "note": "laatste ronde 12 maart, 14 bevindingen gesloten"
+        },
+        "rules": {
+          "critical": {
+            "match": "Critical op een asset aan het internet",
+            "destination": "piket oppiepen"
+          },
+          "high": {
+            "match": "High of hoger, elke asset",
+            "destination": "ticket, eigen team"
+          },
+          "checkout": {
+            "match": "Alles op checkout",
+            "destination": "kanaal payments"
+          },
+          "reopened": {
+            "match": "Heropend na een hertest",
+            "destination": "terug naar de sluiter"
+          }
+        }
+      }
+    }
+  },
+  "shots": {
+    "pending": "Screenshot volgt"
   },
   "announcement": {
     "badge": "Ontdek",
@@ -1598,6 +2241,19 @@
       "seeAll": "Alle resultaten zien?",
       "seeAllBody": "Ontgrendel de rest van dit rapport met uw zakelijke gegevens.",
       "seeAllYes": "Ja, laat zien"
+    }
+  },
+  "argusUi": {
+    "severity": {
+      "critical": "Kritiek",
+      "high": "Hoog",
+      "medium": "Middel"
+    },
+    "sample": "Voorbeeldgegevens, ter illustratie van de interface.",
+    "state": {
+      "new": "Nieuw",
+      "known": "Bekend",
+      "closed": "Weg"
     }
   }
 }
