@@ -12,8 +12,6 @@ Avoid multiple or multi-step type-casts (e.g. do not do `value as unknown as Typ
 
 Prefer the nullish coalescing operator (`??`) over logical or (`||`), as it is safer (enforced by `@typescript-eslint/prefer-nullish-coalescing`). Only fall back to `||` when you intentionally need empty-string/`0`/`false` treated as absent.
 
-Never commit, push, merge, or perform any other write git operations. Read-only git commands are fine. `git add` and `git mv` are write operations too.
-
 If you are unsure, ask the user instead of guessing — it is always better to ask clarifying questions than to do useless work.
 
 ## Repository layout
