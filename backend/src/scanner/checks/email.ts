@@ -108,7 +108,7 @@ export function analyseDmarc(txt: readonly string[]): DmarcReport {
  * DMARC lives on a fixed subdomain rather than the apex, so it needs its own
  * lookup — reading the apex TXT records and hoping is a common bug.
  */
-export async function lookupDmarc(domain: string): Promise<string[]> {
+async function lookupDmarc(domain: string): Promise<string[]> {
   const dns = new Resolver({ timeout: TIMEOUT_MS, tries: 2 });
   try {
     const records = await dns.resolveTxt(`_dmarc.${domain}`);
@@ -126,7 +126,7 @@ export async function lookupDmarc(domain: string): Promise<string[]> {
  * fetching the policy would be another request for a finding almost nobody
  * has yet.
  */
-export async function hasMtaSts(domain: string): Promise<boolean> {
+async function hasMtaSts(domain: string): Promise<boolean> {
   const dns = new Resolver({ timeout: TIMEOUT_MS, tries: 2 });
   try {
     const records = await dns.resolveTxt(`_mta-sts.${domain}`);
@@ -159,9 +159,7 @@ const COMMON_SELECTORS = [
   "zoho",
 ];
 
-export async function findDkimSelector(
-  domain: string,
-): Promise<string | undefined> {
+async function findDkimSelector(domain: string): Promise<string | undefined> {
   const dns = new Resolver({ timeout: TIMEOUT_MS, tries: 1 });
 
   const probes = COMMON_SELECTORS.map(async (selector) => {

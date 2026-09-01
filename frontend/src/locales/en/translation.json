@@ -53,7 +53,6 @@
   },
   "pages": {
     "moreIn": "More in {{group}}",
-    "startHere": "Start here",
     "home": {
       "title": "AssistSec | AI-assisted penetration testing in Europe",
       "description": "AI-assisted penetration testing by Europe's most experienced pentesters, backed by autonomous agents. Web, API and continuous security testing.",
@@ -758,10 +757,6 @@
       "direct": {
         "title": "Prefer e-mail?"
       }
-    },
-    "aside": {
-      "directBody": "Skip the form and reach the team straight away.",
-      "responseBody": "A pentester reads your message, not a sales queue. You hear from us within one business day."
     }
   },
   "aboutPage": {
@@ -878,7 +873,6 @@
       "phone": "Phone number",
       "emailPlaceholder": "you@company.com",
       "companyPlaceholder": "Your company",
-      "phonePlaceholder": "+31 6 12345678",
       "submit": "Send me the sample",
       "close": "Close",
       "successTitle": "Thank you!",
@@ -901,7 +895,6 @@
     "unavailableBody": "We could not load the articles just now. Please try again in a moment.",
     "retry": "Try again",
     "backToBlog": "Back to the blog",
-    "relatedTitle": "Related posts",
     "breadcrumbHome": "Blog",
     "byline": "AssistSec Team",
     "published": "Published",
@@ -912,8 +905,6 @@
     "copyLink": "Copy link",
     "copied": "Link copied",
     "newsletter": {
-      "ctaTitle": "Get the next one in your inbox.",
-      "ctaBody": "Field notes on pentesting, agentic testing and compliance, written by the team running the tests.",
       "title": "The latest, in your inbox",
       "placeholder": "you@company.com",
       "submit": "Subscribe",
@@ -1087,9 +1078,6 @@
     "progress": {
       "title": "Running your scan",
       "queued": "Queued. Your scan will begin shortly.",
-      "working": "Working",
-      "announce": "Step {{step}} of {{total}}. {{stage}}.",
-      "queuedHint": "This usually takes under a minute.",
       "step": "Step {{step}} of {{total}}",
       "scanning": "Scanning...",
       "scanningHint": "Usually under a minute."
@@ -1208,12 +1196,7 @@
       "stackBody": "Read from the headers and markup the site serves to every visitor. A version appears only where the site stated one.",
       "stackEmpty": "This site announces no server, framework or platform we recognise in its headers or markup. That is the better posture: less for an attacker to match against a vulnerability list.",
       "stackTitle": "What the site is built on",
-      "statusComplete": "Scan complete",
       "statusPartial": "Some checks did not finish",
-      "summaryHosts_one": "{{count}} public host seen for this domain.",
-      "summaryHosts_other": "{{count}} public hosts seen for this domain.",
-      "summaryLine_one": "{{findings}} finding across {{areas}} areas.",
-      "summaryLine_other": "{{findings}} findings across {{areas}} areas.",
       "title": "Your website scan",
       "tryAgain": "Run another scan",
       "unavailableTitle": "This report cannot be opened",
@@ -1266,7 +1249,10 @@
       "known_sources_only": "This report covers breach sources available to us today. Absence of a record is not proof an address was never exposed, and new breaches are published regularly.",
       "dnssec_undetermined": "We could not reach a validating resolver, so DNSSEC status is unknown for this scan.",
       "no_ct_records": "No certificates for this domain appeared in Certificate Transparency logs, so no subdomains were discovered this way.",
-      "waf_undetermined": "A web application firewall that does not announce itself in its headers would not have been detected. We do not send attack traffic to find one."
+      "waf_undetermined": "A web application firewall that does not announce itself in its headers would not have been detected. We do not send attack traffic to find one.",
+      "unauthenticated_only": "Everything here was observed from outside, without an account. What sits behind a login — user data, admin screens, paid features — was not looked at, and that is usually where the impactful findings are.",
+      "no_business_logic": "This is an automated surface check. It does not try to misuse the application: skipping payment steps, reading another customer's records, or chaining small issues into a large one takes a person, and is what a penetration test is for.",
+      "point_in_time": "The picture is as of the moment the scan ran. A new subdomain, a certificate reissued tomorrow, or a header change on the next deploy would not be reflected here."
     },
     "failure": {
       "failed": {

@@ -603,5 +603,3 @@ export function ExposureGraph({ model }: { model: ExposureGraphModel }) {
     </div>
   );
 }
-
-export default ExposureGraph;

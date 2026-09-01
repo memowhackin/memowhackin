@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { tokensMatch } from "../auth/session.js";
 
-export const CSRF_HEADER = "x-csrf-token";
+const CSRF_HEADER = "x-csrf-token";
 
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 

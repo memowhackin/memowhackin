@@ -55,7 +55,7 @@ export const SITE_LOCALE: SupportedLanguage =
   devLocaleFromPath() ?? resolve(import.meta.env.VITE_SITE_LOCALE);
 
 /** URL prefix for a language: "" for the default, "/nl" for the rest. */
-export function localeBasePath(locale: SupportedLanguage): string {
+function localeBasePath(locale: SupportedLanguage): string {
   return locale === DEFAULT_LOCALE ? "" : `/${locale}`;
 }
 

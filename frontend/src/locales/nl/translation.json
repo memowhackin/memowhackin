@@ -53,7 +53,6 @@
   },
   "pages": {
     "moreIn": "Meer in {{group}}",
-    "startHere": "Begin hier",
     "home": {
       "title": "AssistSec | AI-ondersteunde penetratietesten in Europa",
       "description": "AI-ondersteunde penetratietesten door de meest ervaren pentesters van Europa, versterkt door autonome agents. Web, API en continue security testing.",
@@ -758,10 +757,6 @@
       "direct": {
         "title": "Liever direct e-mailen?"
       }
-    },
-    "aside": {
-      "directBody": "Sla het formulier over en bereik het team meteen.",
-      "responseBody": "Uw bericht wordt gelezen door een pentester, niet door een salesafdeling. U hoort binnen één werkdag van ons."
     }
   },
   "aboutPage": {
@@ -878,7 +873,6 @@
       "phone": "Telefoonnummer",
       "emailPlaceholder": "u@bedrijf.nl",
       "companyPlaceholder": "Uw bedrijf",
-      "phonePlaceholder": "+31 6 12345678",
       "submit": "Stuur mij het voorbeeld",
       "close": "Sluiten",
       "successTitle": "Bedankt!",
@@ -901,7 +895,6 @@
     "unavailableBody": "We konden de artikelen nu niet laden. Probeer het zo meteen opnieuw.",
     "retry": "Opnieuw proberen",
     "backToBlog": "Terug naar de blog",
-    "relatedTitle": "Gerelateerde artikelen",
     "breadcrumbHome": "Blog",
     "byline": "AssistSec-team",
     "published": "Gepubliceerd",
@@ -912,8 +905,6 @@
     "copyLink": "Link kopiëren",
     "copied": "Link gekopieerd",
     "newsletter": {
-      "ctaTitle": "Ontvang de volgende in je inbox.",
-      "ctaBody": "Praktijknotities over pentesten, agentic testing en compliance, geschreven door het team dat de tests uitvoert.",
       "title": "Het laatste, in uw inbox",
       "placeholder": "u@bedrijf.nl",
       "submit": "Aanmelden",
@@ -1087,9 +1078,6 @@
     "progress": {
       "title": "Uw scan loopt",
       "queued": "In de wachtrij. Uw scan begint zo.",
-      "working": "Bezig",
-      "announce": "Stap {{step}} van {{total}}. {{stage}}.",
-      "queuedHint": "Dit duurt meestal minder dan een minuut.",
       "step": "Stap {{step}} van {{total}}",
       "scanning": "Scannen...",
       "scanningHint": "Meestal binnen een minuut."
@@ -1208,12 +1196,7 @@
       "stackBody": "Afgelezen uit de headers en markup die de site aan elke bezoeker levert. Een versie verschijnt alleen waar de site die zelf noemde.",
       "stackEmpty": "Deze site maakt in de headers of markup geen server, framework of platform kenbaar dat wij herkennen. Dat is de betere houding: minder voor een aanvaller om te vergelijken met een lijst met kwetsbaarheden.",
       "stackTitle": "Waarop de site is gebouwd",
-      "statusComplete": "Scan voltooid",
       "statusPartial": "Sommige controles zijn niet afgerond",
-      "summaryHosts_one": "{{count}} publieke host gezien voor dit domein.",
-      "summaryHosts_other": "{{count}} publieke hosts gezien voor dit domein.",
-      "summaryLine_one": "{{findings}} bevinding verdeeld over {{areas}} gebieden.",
-      "summaryLine_other": "{{findings}} bevindingen verdeeld over {{areas}} gebieden.",
       "title": "Uw websitescan",
       "tryAgain": "Voer een nieuwe scan uit",
       "unavailableTitle": "Dit rapport kan niet worden geopend",
@@ -1266,7 +1249,10 @@
       "known_sources_only": "Dit rapport dekt de datalekbronnen die vandaag voor ons beschikbaar zijn. Het ontbreken van een vermelding bewijst niet dat een adres nooit is blootgesteld, en er worden regelmatig nieuwe lekken gepubliceerd.",
       "dnssec_undetermined": "We konden geen validerende resolver bereiken, dus de DNSSEC-status is voor deze scan onbekend.",
       "no_ct_records": "Er verschenen geen certificaten voor dit domein in Certificate Transparency-logs, dus langs deze weg zijn geen subdomeinen gevonden.",
-      "waf_undetermined": "Een webapplicatiefirewall die zich niet kenbaar maakt in zijn headers is niet gedetecteerd. Wij sturen geen aanvalsverkeer om er een te vinden."
+      "waf_undetermined": "Een webapplicatiefirewall die zich niet kenbaar maakt in zijn headers is niet gedetecteerd. Wij sturen geen aanvalsverkeer om er een te vinden.",
+      "unauthenticated_only": "Alles hier is van buitenaf waargenomen, zonder account. Wat achter een login zit — gebruikersgegevens, beheerschermen, betaalde functies — is niet bekeken, en juist daar zitten meestal de bevindingen die ertoe doen.",
+      "no_business_logic": "Dit is een geautomatiseerde controle van het aanvalsoppervlak. De applicatie wordt niet daadwerkelijk misbruikt: een betaalstap overslaan, de gegevens van een andere klant inzien of kleine zwakheden aaneenrijgen tot een grote vergt een mens, en daar is een penetratietest voor.",
+      "point_in_time": "Het beeld geldt voor het moment waarop de scan draaide. Een nieuw subdomein, een certificaat dat morgen opnieuw wordt uitgegeven of een header die bij de volgende release verandert, staat hier niet in."
     },
     "failure": {
       "failed": {

@@ -1,4 +1,4 @@
-import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import { and, eq, gt, isNull } from "drizzle-orm";
 import { db } from "../db/client.js";
 import { scanAccessTokens } from "../db/schema.js";
@@ -88,16 +88,4 @@ export async function redeemAccessToken(token: string): Promise<RedeemResult> {
 
   if (row === undefined) return { ok: false, reason: "expired_or_used" };
   return { ok: true, scanId: row.scanId };
-}
-
-/**
- * Constant-time equality for the session value that a redeemed link hands the
- * browser. Used by the report read path, where a fast rejection would leak the
- * value one character at a time.
- */
-export function secretsMatch(a: string, b: string): boolean {
-  const left = Buffer.from(a, "utf8");
-  const right = Buffer.from(b, "utf8");
-  if (left.length !== right.length || left.length === 0) return false;
-  return timingSafeEqual(left, right);
 }

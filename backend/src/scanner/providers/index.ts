@@ -66,9 +66,4 @@ const unavailableEmailProvider: EmailProvider = {
   scanEmail: () => Promise.resolve({ ok: false, failure: "unavailable" }),
 };
 
-/** Whether the API should accept scan requests at all. */
-export function scannerAvailable(): boolean {
-  return resolveProviders() !== undefined;
-}
-
 export type { ScannerProviders };

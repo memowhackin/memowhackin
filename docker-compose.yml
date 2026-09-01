@@ -67,6 +67,18 @@ services:
       # http://localhost run would accept a login and then lose the session.
       # MUST be "true" once this is served over HTTPS.
       SECURE_COOKIES: ${SECURE_COOKIES:-false}
+      # The exposure scanner, off unless switched on in .env. NODE_ENV is
+      # production here, so the `fixture` provider is refused by src/env.ts —
+      # only `live` or `none` are usable through compose. The defaults below
+      # are the values env.ts validates against, not blanks: an empty string
+      # fails the enum and the TTL numbers outright.
+      SCANNER_ENABLED: ${SCANNER_ENABLED:-false}
+      SCANNER_PROVIDER: ${SCANNER_PROVIDER:-none}
+      SCANNER_MAIL_TRANSPORT: ${SCANNER_MAIL_TRANSPORT:-none}
+      SCANNER_ENCRYPTION_KEY: ${SCANNER_ENCRYPTION_KEY:-}
+      SCANNER_PUBLIC_BASE_URL: ${SCANNER_PUBLIC_BASE_URL:-}
+      SCANNER_REPORT_TTL_HOURS: ${SCANNER_REPORT_TTL_HOURS:-72}
+      SCANNER_TOKEN_TTL_MINUTES: ${SCANNER_TOKEN_TTL_MINUTES:-30}
     volumes:
       # Uploaded images are the only copy of themselves — they must outlive any
       # container. Back this volume up alongside the database.

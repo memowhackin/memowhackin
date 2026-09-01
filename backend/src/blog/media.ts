@@ -5,7 +5,7 @@ import multer from "multer";
 import sharp from "sharp";
 import { env } from "../env.js";
 
-export const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
+const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
 
 /** The blog column tops out well under this; 1600 still covers 2x displays. */
 const MAX_DIMENSION = 1600;

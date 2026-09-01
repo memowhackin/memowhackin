@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
+import type { ProcessStepKey } from "@/config/services";
 
 /*
  * The mark beside each step of the process rail — one per stage, each doing the
@@ -278,7 +279,13 @@ function Adjust({ animate }: { animate: boolean }) {
  * here instead of an empty square on the page: adding a stage to a service
  * means drawing its mark, and TypeScript should be the one to say so.
  */
-export function StepGlyph({ step, active }: { step: string; active: boolean }) {
+export function StepGlyph({
+  step,
+  active,
+}: {
+  step: ProcessStepKey;
+  active: boolean;
+}) {
   const glyph = (): ReactNode => {
     switch (step) {
       case "scope":
@@ -302,7 +309,7 @@ export function StepGlyph({ step, active }: { step: string; active: boolean }) {
       case "adjust":
         return <Adjust animate={active} />;
       default:
-        return null;
+        return step satisfies never;
     }
   };
 

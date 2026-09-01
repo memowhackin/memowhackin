@@ -3,7 +3,6 @@ import {
   createDecipheriv,
   createHmac,
   randomBytes,
-  timingSafeEqual,
 } from "node:crypto";
 import { env } from "../env.js";
 
@@ -114,10 +113,4 @@ export function decrypt(payload: string): string | undefined {
  */
 export function subjectDigest(kind: string, value: string): string {
   return createHmac("sha256", key()).update(`${kind}:${value}`).digest("hex");
-}
-
-/** Constant-time comparison of two hex digests of equal length. */
-export function digestsMatch(a: string, b: string): boolean {
-  if (a.length !== b.length || a.length === 0) return false;
-  return timingSafeEqual(Buffer.from(a, "utf8"), Buffer.from(b, "utf8"));
 }

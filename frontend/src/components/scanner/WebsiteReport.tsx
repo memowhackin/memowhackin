@@ -5,6 +5,8 @@ import { ChevronDown } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { SectionShell } from "@/components/common/SectionShell";
+import { Limitations } from "@/components/scanner/Limitations";
+import { useKnownLimitations } from "@/components/scanner/useKnownLimitations";
 import { useMediaQuery } from "@/components/common/useMediaQuery";
 import { EdgeProtection } from "@/components/scanner/EdgeProtection";
 import { PublishedPaths } from "@/components/scanner/PublishedPaths";
@@ -397,6 +399,7 @@ function ProgressiveBlur() {
 export function WebsiteReport({ scan }: { scan: ScanState }) {
   const { t } = useTranslation();
   const result = scan.websiteResult;
+  const limits = useKnownLimitations(result?.limitations ?? []);
   const wideEnough = useMediaQuery("(min-width: 1024px)");
 
   /*
@@ -572,6 +575,9 @@ export function WebsiteReport({ scan }: { scan: ScanState }) {
       count: result.assets.length,
     });
   }
+  if (limits.length > 0) {
+    contents.push({ id: "limits", label: t("scanner.report.limitsTitle") });
+  }
 
   return (
     <>
@@ -688,6 +694,8 @@ export function WebsiteReport({ scan }: { scan: ScanState }) {
               )}
 
               <Subdomains hosts={result.assets} />
+
+              <Limitations codes={limits} />
             </div>
           </div>
 

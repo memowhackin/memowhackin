@@ -7,7 +7,7 @@ import { useTimelineProgress } from "@/components/common/useTimelineProgress";
 import { StepGlyph } from "@/components/services/StepGlyph";
 import { stepTone } from "@/components/services/stepTone";
 import { SectionShell } from "@/components/common/SectionShell";
-import type { ServiceDefinition } from "@/config/services";
+import type { ProcessStepKey, ServiceDefinition } from "@/config/services";
 
 /*
  * The band a step has to enter before it counts as the one being read, written
@@ -117,7 +117,7 @@ function ProcessStep({
   active,
 }: {
   service: ServiceDefinition;
-  step: string;
+  step: ProcessStepKey;
   index: number;
   total: number;
   active: boolean;

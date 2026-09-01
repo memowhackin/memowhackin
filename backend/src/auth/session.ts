@@ -128,11 +128,6 @@ export async function revokeSession(sessionId: string): Promise<void> {
   await db.delete(sessions).where(eq(sessions.id, sessionId));
 }
 
-/** Kill every session for a user — for lockouts and password changes. */
-export async function revokeAllSessions(userId: string): Promise<void> {
-  await db.delete(sessions).where(eq(sessions.userId, userId));
-}
-
 /** Drop every expired row. Cheap enough to call on boot and once a day. */
 export async function pruneSessions(): Promise<void> {
   await db.delete(sessions).where(lt(sessions.expiresAt, new Date()));

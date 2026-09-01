@@ -36,6 +36,24 @@ export interface ServiceListItem {
   icon: LucideIcon;
 }
 
+/**
+ * The stages a service's process rail can show. Each one has a mark drawn for
+ * it in `StepGlyph` and copy under `servicePages.*.process.steps`; naming them
+ * here is what makes a typo in a `process` list a compile error rather than a
+ * blank square on the page.
+ */
+export type ProcessStepKey =
+  | "scope"
+  | "recon"
+  | "testing"
+  | "validation"
+  | "reporting"
+  | "retest"
+  | "baseline"
+  | "training"
+  | "simulation"
+  | "adjust";
+
 export interface ServiceDefinition {
   /**
    * This service's block in `servicePages.*`, and the suffix every `data-testid`
@@ -58,7 +76,7 @@ export interface ServiceDefinition {
   /** What the engagement covers — the grid under "what we test". */
   coverage: readonly ServiceListItem[];
   /** The stages of an engagement, in the order they happen. */
-  process: readonly string[];
+  process: readonly ProcessStepKey[];
   /** What the client is left holding: the report's contents. */
   deliverables: readonly string[];
   /**

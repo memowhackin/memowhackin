@@ -200,7 +200,7 @@ export async function logout(): Promise<void> {
 }
 
 /** Ask the server who we are. The only source of truth for "logged in". */
-export async function refreshSession(): Promise<void> {
+async function refreshSession(): Promise<void> {
   try {
     const session = await request<SessionResponse>("/api/auth/me");
     setAuth(
