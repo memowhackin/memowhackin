@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { chipClass, chipMarkerClass } from "@/components/common/chipClass";
+import { ConstellationField } from "@/components/common/ConstellationField";
 import { LogoMark } from "@/components/common/Logo";
 import { ScrollFillText } from "@/components/common/ScrollFillText";
 import { SectionBadge } from "@/components/common/SectionBadge";
@@ -163,74 +163,23 @@ export function PlatformShowcase() {
         section's midline.
       */}
       <div className="order-last mx-auto w-full max-w-sm px-6 pt-6 pb-20 sm:max-w-md sm:px-10 sm:pt-8 sm:pb-28 lg:absolute lg:top-1/2 lg:left-0 lg:mx-0 lg:w-[52%] lg:max-w-[56rem] lg:-translate-x-[27%] lg:-translate-y-1/2 lg:p-0">
-        <div className="relative aspect-square">
-          <img
-            src="/assets/constellation.webp"
-            alt=""
-            width={1552}
-            height={2172}
-            loading="lazy"
-            aria-hidden="true"
-            className="size-full object-cover mix-blend-screen"
-            /*
-             * Radii of 50% reach exactly the edges of the box, so the screen
-             * blend has faded out completely by the time it gets there and
-             * leaves no rectangle behind.
-             *
-             * The solid core runs to 30% rather than 15%: the graph is the only
-             * thing carrying the left half of this section, and starting the
-             * falloff a sixth of the way out left it a faint smudge with three
-             * bright tags sitting on top of it.
-             */
-            style={{
-              maskImage:
-                "radial-gradient(50% 50% at 50% 50%, #000 30%, transparent 100%)",
-            }}
-          />
-
-          {/*
-            The brand mark at the centre of the graph — node 83:41738, which the
-            frame calls a "Btn": a 150 disc in `ink-deep` behind a 6px edge in
-            `indigo-bright` at 74%, carrying a 25px blur at 18px of spread in
-            the same colour at 70%. That glow is what seats the mark in the
-            constellation; without it the disc reads as a sticker laid on top.
-
-            It had a 1px lavender ring and a much wider, fainter wash in
-            `indigo` — 80px of blur at 24px spread — which is a different thing
-            altogether: too diffuse to bloom and too dim to see. The glyph is
-            40.2% of the disc, as drawn, and the edge steps down on narrow
-            viewports where 6px on a 40px disc would be a third of it.
-          */}
-          <span
-            className="bg-ink-deep absolute top-[47.9%] left-[52.7%] flex aspect-square w-[14%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[0.1875rem] border-[#6046cabd] shadow-[0_0_1.5625rem_1.125rem_#6046cab3] sm:border-[0.25rem] lg:border-[0.375rem]"
-            aria-hidden="true"
-          >
-            <LogoMark className="text-lavender w-[40.2%]" />
-          </span>
-
-          {tags.map((tag) => (
-            <span
-              key={tag.key}
-              data-testid={`platform-tag-${tag.key}`}
-              /*
-                A wrapped capability tag reads as a broken label, so they stay
-                on one line and sit far enough inside the graphic that the
-                section's clipped edges never cut one in half. Same chip as the
-                agent alerts over the skyline — the frame draws both from its
-                "Workflows" component.
-              */
-              className={chipClass(
-                clsx(
-                  "absolute inline-flex -translate-x-1/2 -translate-y-1/2 whitespace-nowrap",
-                  tag.position,
-                ),
-              )}
-            >
-              <span className={chipMarkerClass} aria-hidden="true" />
-              {t(tag.label)}
-            </span>
-          ))}
-        </div>
+        {/*
+          The graph is drawn live (see `ConstellationField`); the frame's still
+          artwork stays underneath as the poster it fades in over. The tags are
+          the same chip as the agent alerts over the skyline — the frame draws
+          both from its "Workflows" component — and sit far enough inside the
+          graphic that the section's clipped edges never cut one in half.
+        */}
+        <ConstellationField
+          poster="/assets/constellation.webp"
+          core={<LogoMark className="text-lavender w-[40.2%]" />}
+          labels={tags.map((tag) => ({
+            key: tag.key,
+            text: t(tag.label),
+            position: tag.position,
+            testId: `platform-tag-${tag.key}`,
+          }))}
+        />
       </div>
 
       {/* Copy column: x=776 to x=1784 on the canvas, set in normal flow. */}

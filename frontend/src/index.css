@@ -237,6 +237,50 @@
   }
 
   /*
+   * The constellation's core (see `ConstellationField`): a wash behind the
+   * disc that breathes between two close states. `opacity` and `scale` only —
+   * the disc's own shadow does not move, because a blur that changes every
+   * frame is a repaint every frame. Slow enough that it is felt rather than
+   * watched; a glow that visibly throbs is a warning light.
+   */
+  --animate-core-pulse: core-pulse 5.2s ease-in-out infinite;
+
+  @keyframes core-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(0.94);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.06);
+    }
+  }
+
+  /*
+   * The capability tags floating over the constellation. A small loop rather
+   * than a bob: three points, none directly above another, so the chip drifts
+   * round a spot instead of nodding. Each tag carries its own duration and a
+   * negative delay from the component, so the three are never in step. The
+   * amplitude is a fraction of a chip's height — a label that visibly travels
+   * is a label the eye keeps chasing.
+   */
+  --animate-tag-float: tag-float 12s ease-in-out infinite;
+
+  @keyframes tag-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    33% {
+      transform: translate3d(0.15rem, -0.3rem, 0);
+    }
+    66% {
+      transform: translate3d(-0.12rem, -0.12rem, 0);
+    }
+  }
+
+  /*
    * The agent alerts landing on the skyline (see `useSkylineAlerts`). An alert
    * is three parts and they are deliberately not simultaneous — played together
    * the whole assembly pops into being like a tooltip, which is the one thing
