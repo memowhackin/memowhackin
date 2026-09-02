@@ -7,7 +7,7 @@
  */
 interface ImportMetaEnv {
   readonly VITE_NO_TRANSLATIONS?: string;
-  /** Base URL of the CMS backend. Used only by the /studio-b78262a861 screens. */
+  /** Base URL of the backend. Empty means same-origin, which is the default. */
   readonly VITE_CMS_API_URL?: string;
   /** Language this bundle is built for; set per build by build-locales.mjs. */
   readonly VITE_SITE_LOCALE?: string;
