@@ -119,6 +119,14 @@
       "heading": "Knowledge base",
       "body": "Guides, documentation and answers on pentesting, ARGUS and secure development."
     },
+    "privacyPolicy": {
+      "title": "Privacy Policy | AssistSec",
+      "description": "How AssistSec handles personal data on assistsec.nl and in the free exposure scanner: what we collect, why, how long we keep it, who receives it and your rights under the GDPR."
+    },
+    "termsOfService": {
+      "title": "Terms of Service | AssistSec",
+      "description": "The terms for using assistsec.nl and the free exposure scanner: permitted use, what the scanner is and is not, intellectual property, liability and governing law."
+    },
     "about": {
       "title": "About AssistSec",
       "description": "AssistSec unites Europe's most experienced pentesters with autonomous AI agents to make organizations digitally resilient. Meet the team behind ARGUS.",
@@ -1022,6 +1030,33 @@
   },
   "trusted": {
     "title": "We partnered with industry experts to deliver the next generation of penetration testing."
+  },
+  "legal": {
+    "eyebrow": "Legal",
+    "updated": "Last updated",
+    "version": "Version",
+    "contents": "Contents",
+    "gapPrefix": "To be completed",
+    "openItems": {
+      "title": "Open items before publication",
+      "count_one": "{{count}} item",
+      "count_other": "{{count}} items",
+      "body": "The details below are not recorded anywhere in our systems and must be supplied and checked by AssistSec before this document is relied on. Each one is marked where it belongs in the text."
+    },
+    "related": {
+      "privacyPolicy": {
+        "title": "Privacy Policy",
+        "body": "What we do with personal data on this site and in the scanner."
+      },
+      "termsOfService": {
+        "title": "Terms of Service",
+        "body": "The rules for using this site and the free exposure scanner."
+      },
+      "contact": {
+        "title": "Questions about this document?"
+      }
+    },
+    "backToTop": "Back to top"
   },
   "footer": {
     "about": "We are an AI-assisted penetration testing company. We provide Ethical Hacking services, and also provide subscriptions in some sort of SaaS model.",

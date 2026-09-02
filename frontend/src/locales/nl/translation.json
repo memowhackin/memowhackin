@@ -119,6 +119,14 @@
       "heading": "Kennisbank",
       "body": "Handleidingen, documentatie en antwoorden over pentesten, ARGUS en veilige ontwikkeling."
     },
+    "privacyPolicy": {
+      "title": "Privacybeleid | AssistSec",
+      "description": "Hoe AssistSec omgaat met persoonsgegevens op assistsec.nl en in de gratis exposure-scanner: wat wij verzamelen, waarom, hoe lang wij het bewaren, wie het ontvangt en uw rechten onder de AVG."
+    },
+    "termsOfService": {
+      "title": "Algemene voorwaarden | AssistSec",
+      "description": "De voorwaarden voor het gebruik van assistsec.nl en de gratis exposure-scanner: toegestaan gebruik, wat de scanner wel en niet is, intellectuele eigendom, aansprakelijkheid en toepasselijk recht."
+    },
     "about": {
       "title": "Over AssistSec",
       "description": "AssistSec verenigt de meest ervaren pentesters van Europa met autonome AI-agents om organisaties digitaal weerbaar te maken. Maak kennis met het team achter ARGUS.",
@@ -1022,6 +1030,33 @@
   },
   "trusted": {
     "title": "Wij werken samen met experts uit de industrie om de volgende generatie penetratietesten te leveren."
+  },
+  "legal": {
+    "eyebrow": "Juridisch",
+    "updated": "Laatst bijgewerkt",
+    "version": "Versie",
+    "contents": "Inhoud",
+    "gapPrefix": "Nog in te vullen",
+    "openItems": {
+      "title": "Openstaande punten vóór publicatie",
+      "count_one": "{{count}} punt",
+      "count_other": "{{count}} punten",
+      "body": "De onderstaande gegevens zijn nergens in onze systemen vastgelegd en moeten door AssistSec worden aangeleverd en gecontroleerd voordat op dit document wordt vertrouwd. Elk punt is in de tekst gemarkeerd op de plek waar het hoort."
+    },
+    "related": {
+      "privacyPolicy": {
+        "title": "Privacybeleid",
+        "body": "Wat wij met persoonsgegevens doen op deze site en in de scanner."
+      },
+      "termsOfService": {
+        "title": "Algemene voorwaarden",
+        "body": "De regels voor het gebruik van deze site en de gratis exposure-scanner."
+      },
+      "contact": {
+        "title": "Vragen over dit document?"
+      }
+    },
+    "backToTop": "Terug naar boven"
   },
   "footer": {
     "about": "Wij zijn een AI-ondersteund penetratietestbedrijf. We leveren ethical hacking-diensten en bieden daarnaast abonnementen aan in een SaaS-model.",

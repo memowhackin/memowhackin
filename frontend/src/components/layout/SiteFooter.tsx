@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { LinkedInIcon, YouTubeIcon } from "@/components/common/BrandIcons";
 import { LogoLockup } from "@/components/common/Logo";
 import { site } from "@/config/site";
+import { legalPaths } from "@/content/legal";
 
 /** The footer's quick links, now real routes rather than in-page anchors. */
 const quickLinks = [
@@ -16,8 +17,8 @@ const quickLinks = [
 
 /**
  * Where to find us. These are the company's own profiles, so they leave the
- * site — hence plain anchors rather than router `Link`s, and the same
- * `noreferrer noopener` the terms and privacy links carry.
+ * site — hence plain anchors rather than router `Link`s, with `noreferrer
+ * noopener` on each.
  *
  * The icon is a component rather than a name to look up, so a typo cannot
  * compile; adding a network means adding its mark to `BrandIcons`.
@@ -275,26 +276,27 @@ export function SiteFooter() {
           <p data-testid="footer-copyright">
             {t("footer.copyright", { year })}
           </p>
+          {/*
+            The site's own legal pages, so router links: they used to point at
+            the scanner app's `/terms` and `/privacy`, which left a visitor on
+            another host reading a policy that never mentioned this site.
+          */}
           <p className="flex items-center gap-3">
-            <a
-              href={`${site.scannerBaseUrl}/terms`}
-              target="_blank"
-              rel="noreferrer noopener"
+            <Link
+              to={legalPaths.termsOfService}
               className="hover:text-lavender inline-flex min-h-9 items-center transition-colors pointer-coarse:min-h-11"
               data-testid="footer-terms"
             >
               {t("footer.terms")}
-            </a>
+            </Link>
             <span aria-hidden="true">·</span>
-            <a
-              href={`${site.scannerBaseUrl}/privacy`}
-              target="_blank"
-              rel="noreferrer noopener"
+            <Link
+              to={legalPaths.privacyPolicy}
               className="hover:text-lavender inline-flex min-h-9 items-center transition-colors pointer-coarse:min-h-11"
               data-testid="footer-privacy"
             >
               {t("footer.privacy")}
-            </a>
+            </Link>
           </p>
         </div>
       </div>
