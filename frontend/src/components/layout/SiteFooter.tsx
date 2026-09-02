@@ -8,7 +8,11 @@ import { legalPaths } from "@/content/legal";
 /** The footer's quick links, now real routes rather than in-page anchors. */
 const quickLinks = [
   { key: "home", to: "/", label: "nav.home" },
-  { key: "argus", to: "/argus/insights", label: "nav.argus.label" },
+  {
+    key: "argus",
+    to: "/argus/live-pentest-workspace",
+    label: "nav.argus.label",
+  },
   { key: "knowledgeBase", to: "/knowledge-base", label: "nav.knowledgeBase" },
   { key: "about", to: "/about", label: "nav.about" },
   { key: "contact", to: "/contact", label: "nav.contact" },

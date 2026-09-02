@@ -14,8 +14,8 @@ import {
   TerminalBlock,
   TicketCard,
 } from "@/components/argus/PortalUI";
+import { relatedLeaves } from "@/components/argus/related";
 import { useSeo } from "@/localization/useSeo";
-import { NAV_ITEMS, type NavLeaf } from "@/config/nav";
 import { SERVICE_AREA_SERVED } from "@/config/services";
 import { site } from "@/config/site";
 
@@ -35,13 +35,6 @@ import { site } from "@/config/site";
 
 const PATH = "/argus/integrations";
 const KEY = "argusPages.integrations";
-
-function relatedLeaves(paths: readonly string[]): NavLeaf[] {
-  const leaves = NAV_ITEMS.flatMap((item) =>
-    item.kind === "dropdown" ? item.groups.flatMap((group) => group.items) : [],
-  );
-  return paths.flatMap((path) => leaves.filter((leaf) => leaf.to === path));
-}
 
 /** The finding as a line in a log, which is all a SIEM ever shows. */
 function LogLines() {
@@ -70,9 +63,9 @@ function LogLines() {
 export function IntegrationsPage() {
   const { t } = useTranslation();
   const related = relatedLeaves([
-    "/argus/insights",
-    "/argus/compliance",
-    "/argus/continuous-scanning",
+    "/argus/live-pentest-workspace",
+    "/argus/monthly-security-scans",
+    "/argus/collaborative-retesting",
   ]);
 
   const { ref: heroRef, className: heroReveal } = useReveal<HTMLDivElement>();

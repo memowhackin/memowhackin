@@ -5,11 +5,11 @@ import { useReveal } from "@/components/common/useReveal";
 
 /** One question, open on click and present in the markup either way. */
 function FaqEntry({
-  serviceKey,
+  base,
   entry,
   index,
 }: {
-  serviceKey: string;
+  base: string;
   entry: string;
   index: number;
 }) {
@@ -59,7 +59,7 @@ function FaqEntry({
         </span>
 
         <h3 className="text-mist group-hover:text-lavender-soft group-open:text-lavender-soft text-base leading-snug font-medium text-pretty transition-colors sm:text-lg">
-          {t(`servicePages.${serviceKey}.faq.items.${entry}.q`)}
+          {t(`${base}.items.${entry}.q`)}
         </h3>
 
         {/*
@@ -81,7 +81,7 @@ function FaqEntry({
           gap above, which is why both are written as fixed track and gap rather
           than left to `auto`. */}
       <p className="text-mist/80 max-w-prose pb-6 text-base leading-relaxed text-pretty sm:pl-14">
-        {t(`servicePages.${serviceKey}.faq.items.${entry}.a`)}
+        {t(`${base}.items.${entry}.a`)}
       </p>
     </details>
   );
@@ -97,14 +97,17 @@ function FaqEntry({
  *
  * The heading lives here rather than in the pages, because it is half of the
  * layout: on a wide screen it holds a column of its own and stays with the
- * reader while they work down the list. Both callers name their block the same
- * way (`servicePages.<key>.faq.title`), so one lookup covers them.
+ * reader while they work down the list. Every caller names its block the same
+ * way (`<base>.title`, `<base>.items.<entry>.{q,a}`), so one lookup covers
+ * them — `base` is the i18n prefix of the block, which is what let the ARGUS
+ * pages take this accordion without dressing up as service pages.
  */
 export function ServiceFaq({
-  serviceKey,
+  base,
   entries,
 }: {
-  serviceKey: string;
+  /** i18n prefix of the FAQ block, e.g. `servicePages.webApp.faq`. */
+  base: string;
   entries: readonly string[];
 }) {
   const { t } = useTranslation();
@@ -125,7 +128,7 @@ export function ServiceFaq({
         )}
       >
         <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
-          {t(`servicePages.${serviceKey}.faq.title`)}
+          {t(`${base}.title`)}
         </h2>
 
         {/*
@@ -139,12 +142,7 @@ export function ServiceFaq({
 
       <div className="border-indigo-deep/60 flex flex-col border-b">
         {entries.map((entry, index) => (
-          <FaqEntry
-            key={entry}
-            serviceKey={serviceKey}
-            entry={entry}
-            index={index}
-          />
+          <FaqEntry key={entry} base={base} entry={entry} index={index} />
         ))}
       </div>
     </div>

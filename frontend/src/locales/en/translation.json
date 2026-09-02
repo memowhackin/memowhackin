@@ -20,18 +20,14 @@
       "label": "ARGUS",
       "features": "Features",
       "tagline": "Continuous security testing, monitoring and compliance in one platform.",
-      "scanning": "Monthly scans",
-      "compliance": "ISO27001 mapping",
-      "insights": "Live insights",
-      "retesting": "Retest module",
-      "expertChat": "Live chat",
+      "monthly": "Monthly security scans",
+      "retest": "Collaborative retesting",
+      "workspace": "Live pentest workspace",
       "integrations": "Integrations",
       "desc": {
-        "scanning": "Recurring scans between pentests.",
-        "compliance": "Findings mapped to ISO 27001 controls.",
-        "insights": "Every finding live, ranked by risk.",
-        "retesting": "Re-verify your fixes on demand.",
-        "expertChat": "Talk to the pentesters in real time.",
+        "monthly": "A fresh pass on the first Monday of every month.",
+        "retest": "Verify fixes with the pentester who found them.",
+        "workspace": "Findings, agent activity and the report, live.",
         "integrations": "Splunk, SIEM and ticketing."
       }
     },
@@ -77,35 +73,23 @@
       "heading": "Security awareness training",
       "body": "Tailored training that gives your colleagues the one thing no control can: the reflex to stop and check. Built around your sector, your size and the risks you actually carry."
     },
-    "argusScanning": {
-      "title": "Monthly security scans | Continuous validation | AssistSec",
-      "description": "ARGUS runs a validated security pass across your whole attack surface every month. New assets found, findings reproduced by a pentester, ranked by real reach.",
-      "heading": "Monthly scans",
-      "body": "A full pass across everything you expose, every month, with every finding checked by a person."
+    "argusMonthly": {
+      "title": "Monthly security scans | Your baseline, rescanned | AssistSec",
+      "description": "The pentest sets a baseline. ARGUS rescans your web applications on the first Monday of every month: new, resolved and reappearing findings, trends, and ISO 27001 mapping.",
+      "heading": "Monthly security scans",
+      "body": "The first Monday of every month, every application rescanned and compared against its baseline."
     },
-    "argusCompliance": {
-      "title": "ISO 27001 mapping | Audit evidence from testing | AssistSec",
-      "description": "ARGUS maps every finding to the ISO 27001 controls it touches and keeps the evidence, with dates. Walk into an audit with the technical controls already answered.",
-      "heading": "ISO 27001 mapping",
-      "body": "Every finding mapped to the controls it touches, with the evidence kept and dated."
+    "argusRetest": {
+      "title": "Collaborative retesting | Verify the fix | AssistSec",
+      "description": "Request a retest on any finding. The pentester who found it replays the original attack, talks with your team on the finding itself, and records resolved or still reproducible.",
+      "heading": "Collaborative retesting",
+      "body": "Request a retest from the finding; the pentester who found it verifies the fix and records the outcome."
     },
-    "argusInsights": {
-      "title": "Live vulnerability insights | Real-time findings | AssistSec",
-      "description": "See every validated finding in the ARGUS portal the moment a pentester confirms it, ranked by real reach, with evidence and a fix attached.",
-      "heading": "Live insights",
-      "body": "Every validated finding in your portal the moment it is confirmed, not weeks later in a report."
-    },
-    "argusRetesting": {
-      "title": "Retest module | Verify your fixes | AssistSec",
-      "description": "Request a retest from the finding itself. The same attack is run again, the finding closes only if the fix holds, and every state change is kept with its date.",
-      "heading": "Retest module",
-      "body": "Request a retest from the finding. It closes only when the fix survives the original attack."
-    },
-    "argusExpertChat": {
-      "title": "Talk to the pentester | Live expert chat | AssistSec",
-      "description": "Every ARGUS finding has a thread on it, with the pentester who found it. Ask what a fix really covers, get an answer from the person who wrote the exploit.",
-      "heading": "Live chat",
-      "body": "A thread on every finding, answered by the pentester who found it."
+    "argusWorkspace": {
+      "title": "Live pentest workspace | See the test as it runs | AssistSec",
+      "description": "Validated findings reach your workspace in real time, ranked with CVSS v4.0. Follow ARGUS agent activity and read the final report in the browser.",
+      "heading": "Live pentest workspace",
+      "body": "Findings arrive as they are validated, ranked by CVSS v4.0, with agent activity in view."
     },
     "argusIntegrations": {
       "title": "Integrations | SIEM, ticketing and CI | AssistSec",
@@ -1773,471 +1757,387 @@
     "labels": {
       "related": "Explore ARGUS"
     },
-    "scanning": {
+    "monthly": {
       "hero": {
-        "heading": "Your attack surface moves every week. Test it every month.",
-        "lede": "ARGUS runs a full pass across everything you expose, every month. Agents do the breadth, a pentester checks the findings, and what lands in your queue has already been proven.",
+        "heading": "Your pentest shouldn't expire after delivery.",
+        "lede": "The initial pentest establishes your baseline. From then on, ARGUS rescans your web applications on the first Monday of every month and shows exactly what changed since the last pass.",
         "points": {
-          "surface": "Assets you forgot you had, found before an attacker finds them",
-          "validated": "Every finding reproduced by a person before you see it",
-          "ranked": "Ordered by what an attacker reaches next, not by a generic score",
-          "retest": "Fixes verified on request, in the same portal"
+          "schedule": "A fixed cadence: the first Monday of every month, planned in advance.",
+          "delta": "Every pass compared against the baseline: new, still open, resolved, reappearing.",
+          "iso": "Findings mapped to the ISO 27001 controls they touch, with dates."
         },
-        "secondary": "Talk to a pentester",
-        "footnote": "Scope agreed with you before the first pass runs."
+        "secondary": "Ask about monthly scans"
       },
-      "problem": {
-        "title": "Twelve months is a long time to be sure of anything",
-        "body": "An annual test describes the systems you had on the day it ran. Since then you have shipped features, added subdomains, stood up a staging box for a demo and left it running. None of that was in scope, and none of it is being watched."
-      },
-      "features": {
-        "title": "What a pass actually does",
-        "items": {
-          "discovery": {
-            "title": "It maps you first, then attacks",
-            "body": "Every pass starts by working out what you expose today rather than trusting last year's scope document. New subdomains, an API that shipped on Friday, the staging host nobody decommissioned."
-          },
-          "validated": {
-            "title": "A person stands behind every finding",
-            "body": "Agents cover the ground and flag candidates. A pentester reproduces each one and writes it up. Nobody on your side spends a morning disproving something that was never real."
-          },
-          "ranked": {
-            "title": "Ordered by reach, not by score",
-            "body": "A medium on an internet-facing login outranks a high on a service that cannot be routed to. The queue is sorted by what an attacker gets to next."
-          },
-          "record": {
-            "title": "Every month keeps its own record",
-            "body": "You can see when an asset appeared, when a finding opened and which release closed it. That history is what turns a scan into evidence."
-          }
-        }
-      },
-      "process": {
-        "title": "How a pass runs",
-        "intro": "Five stages, the same every month, so you know what is happening without asking.",
+      "cycle": {
+        "eyebrow": "How it runs",
+        "title": "One cycle, month after month",
         "steps": {
-          "scope": {
-            "title": "Scope",
-            "body": "We agree what is in and what is off limits, once. Changes after that are a conversation, not a surprise."
+          "pentest": {
+            "title": "Initial pentest",
+            "body": "Pentesters and specialized ARGUS agents test the application in depth."
           },
-          "discover": {
-            "title": "Discover",
-            "body": "Agents map the surface as it is this month: hosts, subdomains, endpoints, roles."
+          "baseline": {
+            "title": "Baseline set",
+            "body": "Every validated finding becomes the reference point later passes are measured against."
           },
-          "test": {
-            "title": "Test",
-            "body": "The mapped surface is attacked the way an outsider would, at a depth a scanner does not reach."
+          "monday": {
+            "title": "First Monday",
+            "body": "The next scan is on the calendar before anyone asks for it."
           },
-          "validate": {
-            "title": "Validate",
-            "body": "A pentester reproduces every candidate finding and throws out what does not hold."
+          "scan": {
+            "title": "Monthly scan",
+            "body": "ARGUS reruns its checks across the same scope as the baseline."
           },
-          "publish": {
-            "title": "Publish",
-            "body": "Findings appear in the portal as they are confirmed, with evidence and a recommendation attached."
+          "compare": {
+            "title": "Comparison",
+            "body": "The pass is compared with the baseline and with last month."
+          },
+          "posture": {
+            "title": "Updated posture",
+            "body": "Totals and trend update, and the direction is visible."
           }
         }
+      },
+      "model": {
+        "eyebrow": "The model",
+        "title": "Baseline versus monthly scans",
+        "p1": "A pentest tells you where you stood on the day it ended. The monthly scans keep that answer current, without commissioning a new engagement every time something ships.",
+        "pentest": {
+          "title": "The initial pentest",
+          "a": "Pentesters and specialized agents test the full scope in depth.",
+          "b": "Every finding is validated by a person before it reaches you.",
+          "c": "The result becomes the baseline all later passes measure against."
+        },
+        "monthly": {
+          "title": "Every month after",
+          "a": "The same scope, rescanned on the first Monday of the month.",
+          "b": "You review what changed, not a hundred pages that mostly did not.",
+          "c": "Fixes that quietly regress come back as reappearing, with history."
+        }
+      },
+      "lifecycle": {
+        "eyebrow": "After every pass",
+        "title": "Every finding lands in one of four states",
+        "p1": "No archaeology through old PDFs to work out what is new. The comparison is done for you, and each state answers one question.",
+        "items": {
+          "new": {
+            "title": "New",
+            "body": "Found this pass and absent from every earlier one. Starts its own record."
+          },
+          "open": {
+            "title": "Still open",
+            "body": "Reported before, not fixed yet. Its age is visible, so nothing quietly slips."
+          },
+          "resolved": {
+            "title": "Resolved",
+            "body": "No longer reproducible this pass. The fix date stays on the record."
+          },
+          "reappearing": {
+            "title": "Reappearing",
+            "body": "Fixed once, back again. It reopens with its full history rather than arriving as new."
+          }
+        }
+      },
+      "trend": {
+        "eyebrow": "Posture",
+        "title": "See whether security is improving or slipping",
+        "p1": "Every pass adds a data point. The trend view plots open findings across months, so a quarter of steady fixes shows up as a falling line and a risky release shows up in the month it happened."
+      },
+      "apps": {
+        "eyebrow": "Portfolio",
+        "title": "Multiple applications, one overview",
+        "p1": "Scope one application or twenty. Each keeps its own baseline, schedule and history, and the overview adds them up so you can see where risk concentrates."
+      },
+      "iso": {
+        "eyebrow": "Audit trail",
+        "title": "Findings, mapped to ISO 27001 controls",
+        "p1": "Each finding names the Annex A controls it touches, with dates and evidence attached. When an auditor asks how a control is tested in practice, the answer is a list you open, not a memory.",
+        "note": "The mapping supports traceability. It does not, by itself, make you compliant or certified; that judgement stays with you and your auditor."
+      },
+      "faq": {
+        "title": "Frequently asked questions",
+        "items": {
+          "scope": {
+            "q": "What do the monthly scans cover?",
+            "a": "The applications agreed in your scope, on the same surface as the baseline pentest. That is what makes results comparable month over month."
+          },
+          "timing": {
+            "q": "Why the first Monday of the month?",
+            "a": "A fixed, predictable date. Your team knows when results land, every pass is exactly a month from the last, and the trend stays honest because the interval never drifts."
+          },
+          "certify": {
+            "q": "Does the ISO 27001 mapping make us compliant?",
+            "a": "No. It shows which controls each finding touches, which supports your audit trail. Compliance and certification remain between you and your auditor."
+          }
+        }
+      },
+      "shots": {
+        "status": "The ARGUS scan status panel: next scan date, last pass and the run of monthly scans.",
+        "trend": "The ARGUS trend chart of open findings per month.",
+        "apps": "The ARGUS application overview with findings per application.",
+        "iso": "ARGUS findings mapped to ISO 27001 Annex A controls."
       },
       "ui": {
-        "queueLabel": "Findings, March pass",
-        "discoveryLabel": "Surface changes",
-        "validationLabel": "Validation",
-        "rankLabel": "Queue order",
-        "historyLabel": "Passes this year",
-        "assets": {
-          "domains": {
-            "label": "Domains",
-            "count": "24"
-          },
-          "apis": {
-            "label": "APIs",
-            "count": "11"
-          },
-          "hosts": {
-            "label": "Hosts",
-            "count": "63"
-          },
-          "staging": {
-            "label": "Staging",
-            "count": "4"
-          }
-        },
-        "findings": {
-          "cookie": {
-            "name": "Session cookie missing the Secure flag",
-            "meta": "web-01"
-          },
-          "admin": {
-            "name": "Dormant admin account still active",
-            "meta": "portal"
-          },
-          "tls": {
-            "name": "TLS 1.0 accepted on the mail gateway",
-            "meta": "mx-02"
-          },
-          "bucket": {
-            "name": "Backup bucket readable without credentials",
-            "meta": "storage"
-          }
-        },
+        "statusLabel": "Scan status",
+        "nextLabel": "Next scan",
+        "nextValue": "Mon 5 Oct, 09:00",
+        "lastLabel": "Last pass",
+        "lastValue": "Mon 7 Sep · 11 findings",
         "callout": {
-          "figure": "17",
-          "label": "findings reproduced by a pentester this pass"
+          "figure": "1st",
+          "label": "Monday of every month, planned in advance."
         },
-        "discovery": {
-          "found": {
-            "name": "api-staging.yourcompany.com"
-          },
-          "known": {
-            "name": "checkout.yourcompany.com"
-          },
-          "gone": {
-            "name": "old-cdn.yourcompany.com"
-          }
-        },
-        "validation": {
-          "finding": "Dormant admin account still active. Reproduced against the portal login, session issued, access confirmed.",
-          "by": "Verified by a senior pentester before publishing"
-        },
-        "rank": {
+        "months": "mar apr may jun jul aug sep oct",
+        "pentestLabel": "Initial pentest · validated findings",
+        "findings": {
           "critical": {
-            "name": "Backup bucket readable without credentials",
-            "meta": "internet"
+            "name": "SQL injection in invoice search",
+            "meta": "ARG-1042"
           },
           "high": {
-            "name": "Dormant admin account still active",
-            "meta": "internet"
+            "name": "Stored XSS in order notes",
+            "meta": "ARG-1044"
           },
           "medium": {
-            "name": "Verbose error page on an internal service",
-            "meta": "internal"
+            "name": "Session cookie without Secure flag",
+            "meta": "ARG-1047"
+          }
+        },
+        "baselineLabel": "Baseline · 12 Mar",
+        "baseline": {
+          "critical": {
+            "label": "Critical",
+            "count": "1"
+          },
+          "high": {
+            "label": "High",
+            "count": "4"
+          },
+          "medium": {
+            "label": "Medium",
+            "count": "9"
+          },
+          "note": "Baseline set. Every later pass is measured against this."
+        },
+        "scheduleLabel": "Schedule",
+        "calendar": {
+          "month": "October 2026",
+          "weekdays": "M T W T F S S",
+          "scanLabel": "Scan · Mon 5"
+        },
+        "runLabel": "Monthly scan · running",
+        "run": {
+          "inventory": {
+            "name": "Surface inventory",
+            "state": "Done"
+          },
+          "checks": {
+            "name": "Vulnerability checks",
+            "state": "Running"
+          },
+          "compare": {
+            "name": "Comparison against baseline",
+            "state": "Queued"
+          }
+        },
+        "compareLabel": "This pass versus last",
+        "delta": {
+          "new": {
+            "label": "New",
+            "count": "2"
+          },
+          "open": {
+            "label": "Still open",
+            "count": "8"
+          },
+          "resolved": {
+            "label": "Resolved",
+            "count": "5"
+          },
+          "reappearing": {
+            "label": "Reappearing",
+            "count": "1"
+          }
+        },
+        "postureLabel": "Open findings by month",
+        "trendMonths": "mar apr may jun jul aug sep oct",
+        "appsLabel": "Applications",
+        "apps": {
+          "portal": {
+            "name": "Customer portal",
+            "open": "4 open",
+            "delta": "−2"
+          },
+          "api": {
+            "name": "Partner API",
+            "open": "2 open",
+            "delta": "−1"
+          },
+          "shop": {
+            "name": "Webshop",
+            "open": "1 open",
+            "delta": "±0"
+          },
+          "totalLabel": "Portfolio",
+          "totalValue": "7 open · 3 apps"
+        },
+        "isoLabel": "ISO 27001 · Annex A",
+        "controls": {
+          "a": {
+            "id": "A.8.8",
+            "title": "Management of technical vulnerabilities",
+            "evidence": "Evidenced by every monthly pass; two findings open, five resolved this quarter."
+          },
+          "b": {
+            "id": "A.8.9",
+            "title": "Configuration management",
+            "evidence": "TLS and header findings on the customer portal map here, with dates."
+          },
+          "c": {
+            "id": "A.8.28",
+            "title": "Secure coding",
+            "evidence": "Injection and XSS findings map here, with fix and retest dates."
           }
         }
       }
     },
-    "insights": {
+    "retest": {
       "hero": {
-        "heading": "The finding is not the problem. Finding out three weeks later is.",
-        "lede": "A validated finding appears in your portal the moment a pentester confirms it. Not at the end of the engagement, not in a document that gets written after the work is already done.",
-        "secondary": "Talk to a pentester"
+        "heading": "Verify the fix with the pentester who found it.",
+        "lede": "Request a retest on any finding. The pentester who reported it replays the original attack, keeps your team in the loop on the finding itself, and records the outcome: resolved, or still reproducible.",
+        "secondary": "Discuss retesting"
       },
-      "delay": {
-        "title": "Where the time actually goes",
-        "body": "In a report model the work finishes early and the paperwork finishes late. Every day in that gap is a day you could have been fixing, and a day the way in stayed open.",
-        "lanes": {
-          "report": {
-            "name": "Report model",
-            "stops": {
-              "found": {
-                "label": "Pentester finds it",
-                "day": "Day 3"
-              },
-              "written": {
-                "label": "Written up",
-                "day": "Day 14"
-              },
-              "delivered": {
-                "label": "Report delivered",
-                "day": "Day 30"
-              }
-            }
+      "flow": {
+        "steps": {
+          "select": {
+            "title": "Finding selected"
           },
-          "argus": {
-            "name": "ARGUS",
-            "stops": {
-              "sameDay": {
-                "label": "Found, reproduced and published",
-                "day": "Day 3"
-              }
-            }
+          "request": {
+            "title": "Retest requested"
+          },
+          "respond": {
+            "title": "Pentester responds"
+          },
+          "verify": {
+            "title": "Verification runs"
+          },
+          "record": {
+            "title": "Result recorded"
           }
         }
       },
-      "anatomy": {
-        "title": "What arrives with it",
-        "body": "A line in a queue is not much use on its own. Each finding lands with everything a developer needs to reproduce it and everything a manager needs to decide when it gets done.",
-        "items": {
-          "reproduction": {
-            "title": "Reproduction",
-            "body": "The exact request, in order, so an engineer can watch it fail on their own machine instead of taking our word for it."
-          },
-          "reach": {
-            "title": "Reach",
-            "body": "What the issue touches and who can get to it. An internal service and an internet-facing login are not the same problem."
-          },
-          "rank": {
-            "title": "Rank",
-            "body": "Where it sits against everything else that is open, so the queue answers what to do next rather than listing what is wrong."
-          },
-          "fix": {
-            "title": "Recommendation",
-            "body": "What to change, written against your stack rather than copied out of a standard."
-          },
-          "state": {
-            "title": "State",
-            "body": "Open, fixed, retested, closed, each with the date it changed. That trail is what an auditor asks for later."
-          }
-        }
+      "request": {
+        "eyebrow": "One action",
+        "title": "Request it from the finding itself",
+        "p1": "Every finding stores its own reproduction steps. When your team ships a fix, the retest is one action on that finding: no scoping call, no new statement of work, no waiting for next month's pass."
       },
-      "changes": {
-        "title": "Your queue stops being a snapshot of last month",
-        "body": "The severity you are looking at is the severity now. A finding you closed shows as verified once a pentester has checked the fix, and one that came back shows as open again. Nobody has to reconcile a spreadsheet against a PDF to work out where things stand."
+      "thread": {
+        "eyebrow": "In context",
+        "title": "The conversation lives on the finding",
+        "p1": "Questions about a fix go to the pentester who wrote the exploit, in a thread attached to the finding. Both sides see the same evidence, and nothing gets lost between a ticket system and a mailbox."
       },
-      "ui": {
-        "queueLabel": "Open findings",
-        "detailLabel": "ARG-2291",
-        "callout": {
-          "figure": "Live",
-          "label": "published the moment it was confirmed"
+      "progress": {
+        "title": "Follow the verification as it moves",
+        "p1": "Requested, picked up, running, recorded: the finding's status updates at each step, stamped with who did it and when."
+      },
+      "outcomes": {
+        "eyebrow": "The verdict",
+        "title": "Resolved, or still reproducible",
+        "p1": "A retest ends in one of two recorded states, and both are useful. One closes the finding with proof. The other saves your team from believing in a fix that did not hold.",
+        "resolved": {
+          "title": "Resolved",
+          "body": "The original attack no longer works. The finding closes with the replayed request and its refusal on the record."
         },
-        "queue": {
-          "bucket": {
-            "name": "Backup bucket readable without credentials",
-            "meta": "storage"
-          },
-          "token": {
-            "name": "API token accepted after password reset",
-            "meta": "api"
-          },
-          "idor": {
-            "name": "Order visible to another tenant",
-            "meta": "checkout"
-          },
-          "headers": {
-            "name": "Security headers missing on the portal",
-            "meta": "web-01"
-          }
-        },
-        "detail": {
-          "title": "Backup bucket readable without credentials",
-          "state": "Open, published 14:12",
-          "rows": {
-            "reproduction": {
-              "label": "Reproduction",
-              "value": "GET /yc-backups-prod/?list-type=2 HTTP/1.1  ->  200 OK, 1284 objects"
-            },
-            "reach": {
-              "label": "Reach",
-              "value": "Reachable from the internet without a session. Contains nightly database exports."
-            },
-            "rank": {
-              "label": "Rank",
-              "value": "First of 14 open findings. Nothing else open is reachable without credentials."
-            },
-            "fix": {
-              "label": "Recommendation",
-              "value": "Block public access at the bucket and the account, then rotate anything the exports contain."
-            }
-          }
+        "reproducible": {
+          "title": "Still reproducible",
+          "body": "The attack still works. The finding stays open, with a note on what still succeeds, and you can request another retest after the next fix."
         }
-      }
-    },
-    "expertChat": {
-      "hero": {
-        "heading": "Ask the person who found it",
-        "lede": "Every finding in ARGUS has a thread on it, and the pentester who wrote that finding is in the thread. No ticket queue, no account manager carrying questions to somebody who was not there.",
-        "secondary": "Talk to a pentester"
       },
-      "notes": {
+      "history": {
+        "eyebrow": "On the record",
+        "title": "The complete remediation history",
+        "p1": "From first report to verified fix, everything that happened to the finding is kept with its date and its actor. That trail is what makes a closed finding provable later, to your own management or an auditor."
+      },
+      "faq": {
+        "title": "Frequently asked questions",
         "items": {
           "who": {
-            "title": "A name, not a queue",
-            "body": "The person answering is the one who found the issue and wrote it up. They already know your setup, so you are not explaining it from the start."
+            "q": "Who performs the retest?",
+            "a": "The pentester who reported the finding wherever possible. Because the original reproduction is stored with the finding, the retest repeats those exact steps either way."
           },
-          "context": {
-            "title": "The finding is the context",
-            "body": "Threads hang on the finding itself. Nobody pastes a screenshot twice or argues about which issue is being discussed, because the evidence is right there above the conversation."
+          "fail": {
+            "q": "What if the fix does not hold?",
+            "a": "The finding stays open, marked still reproducible, with a note on what still works. Fix again and request another retest; every attempt stays on the record."
           },
-          "close": {
-            "title": "It ends in a state change",
-            "body": "When your fix is in, the retest is requested from the same thread. The conversation closes the finding rather than trailing off."
+          "cost": {
+            "q": "Is a retest a new engagement?",
+            "a": "No. You request it from the finding, without a scoping call or a new statement of work. Your agreement with AssistSec sets out how retests are included."
           }
         }
       },
-      "asked": {
-        "title": "The questions people actually send",
-        "items": {
-          "waf": {
-            "q": "Would a WAF rule hold this until we can patch properly?",
-            "a": "You get a straight answer about what the rule stops and what it does not, from the person who wrote the exploit."
-          },
-          "first": {
-            "q": "We have four of these open. Which one first?",
-            "a": "The order in the portal is a starting point. A pentester who knows your architecture will tell you when it is wrong for you."
-          },
-          "staging": {
-            "q": "Can you reproduce it on staging so we can watch?",
-            "a": "Usually yes, if staging is in scope. Being able to see it fail is worth more than reading that it failed."
-          },
-          "tenant": {
-            "q": "Does this reach the other tenant as well?",
-            "a": "That is a test, not an opinion, and the answer comes back with the request that proves it either way."
-          }
-        }
-      },
-      "limits": {
-        "title": "What it is not",
-        "body": "It is not a 24 hour hotline, and pretending otherwise would waste your time. Threads are answered in working hours by the people running your tests. If the pentester who found it is deep in another engagement, someone who has read the finding answers and pulls them in."
+      "shots": {
+        "request": "An ARGUS finding with the request-retest action visible.",
+        "thread": "The thread on an ARGUS finding, between the customer team and the pentester.",
+        "history": "The state history of an ARGUS finding from report to verified fix."
       },
       "ui": {
-        "threadLabel": "ARG-2291, thread",
-        "attachment": "ARG-2291 evidence.har",
-        "state": "Verified",
-        "messages": {
-          "confirm": {
-            "author": "Sanne, ARGUS pentester",
-            "time": "09:14",
-            "body": "Confirmed on storage.yourcompany.com. The bucket lists without a session at all. Request attached so you can watch it happen."
+        "findingLabel": "ARG-2291 · Object storage listing",
+        "finding": {
+          "title": "Backup bucket lists objects to anonymous callers",
+          "asset": "storage.yourcompany.com",
+          "stateOpen": "Open",
+          "stateRequested": "Retest requested",
+          "stateClosed": "Resolved · verified",
+          "requestButton": "Request retest",
+          "requestedNote": "Requested by your team · 14 Mar 16:05"
+        },
+        "threadLabel": "Thread on ARG-2291",
+        "msgs": {
+          "fix": {
+            "author": "Jeroen, your team",
+            "time": "16:02",
+            "body": "Public access is blocked at the bucket and the account. Can you verify?"
           },
-          "askScope": {
-            "author": "You",
-            "time": "09:31",
-            "body": "We just blocked public access on the bucket. Do we need the account level setting too, or is the bucket enough?"
+          "ack": {
+            "author": "Sanne, ARGUS pentester",
+            "time": "16:11",
+            "body": "Picking this up. I will replay the original listing from outside your network."
+          },
+          "question": {
+            "author": "Jeroen, your team",
+            "time": "16:14",
+            "body": "Does the fix also cover the second bucket from the report?"
           },
           "answer": {
             "author": "Sanne, ARGUS pentester",
-            "time": "09:38",
-            "body": "Account level too. With the bucket policy on but the account setting off I still get a listing, so the bucket alone leaves the path open."
-          },
-          "deployed": {
-            "author": "You",
-            "time": "09:52",
-            "body": "Both are on now and deployed to prod. Can you check it?"
-          },
-          "verified": {
-            "author": "Sanne, ARGUS pentester",
-            "time": "10:20",
-            "body": "Retested from outside, no listing, anonymous access refused. Closing this one."
+            "time": "16:20",
+            "body": "Yes. The same policy applies to both; I will verify each and record them separately."
           }
-        }
-      }
-    },
-    "compliance": {
-      "hero": {
-        "heading": "Audits are rarely lost on security. They are lost on evidence.",
-        "lede": "ARGUS maps every finding to the ISO 27001 controls it speaks to and keeps what proves it. When an auditor asks how you test and what you did about it, the answer is already written down, with dates on it.",
-        "secondary": "Talk to a pentester"
-      },
-      "mapping": {
-        "title": "From a technical finding to audit language",
-        "body": "A pentester writes what broke. An auditor asks which control that touches. The mapping happens once, when the finding is published, so nobody translates it under time pressure the week before the visit."
-      },
-      "asks": {
-        "title": "What the auditor asks, and what you hand over",
-        "items": {
-          "how": {
-            "q": "How do you test your applications for vulnerabilities?",
-            "a": "A programme with dates on it, not a policy saying you intend to. Each pass is recorded with its scope and its results."
-          },
-          "when": {
-            "q": "When did you last test, and what did you find?",
-            "a": "Every pass keeps its own record. You can show the month, the scope, the findings and who validated them."
-          },
-          "fixed": {
-            "q": "What did you do about the issues you found?",
-            "a": "The state trail on each finding, from open to fixed to retested, with the date each change happened and the retest that confirmed it."
-          },
-          "scope": {
-            "q": "Does that cover everything in scope?",
-            "a": "The asset list from the pass, so the boundary of what was tested is explicit rather than implied."
-          }
-        }
-      },
-      "limits": {
-        "title": "What this does not do",
-        "body": "It does not certify you, and it does not cover Annex A. Most of that list is about policy, people and physical security, and no amount of testing produces evidence for it. What ARGUS gives you is the technical part, kept continuously and ready to hand over. Your auditor still runs the audit and your ISMS is still yours to run."
-      },
-      "ui": {
-        "gridLabel": "Annex A coverage, March pass",
-        "findingLabel": "Finding",
-        "controlsLabel": "Mapped controls",
-        "legend": {
-          "evidence": "Evidence from this pass",
-          "partial": "Partly covered",
-          "none": "Not evidenced by testing"
         },
-        "finding": {
-          "name": "TLS 1.0 accepted on the mail gateway",
-          "meta": "mx-02",
-          "detail": "Legacy protocol negotiated successfully on port 443. Reproduced 12 March, validated the same day."
-        },
-        "controls": {
-          "a88": {
-            "id": "A.8.8",
-            "title": "Management of technical vulnerabilities",
-            "evidence": "Finding, severity, validation and the date it was closed."
+        "verifyLabel": "Verification · replaying original steps",
+        "verify": {
+          "auth": {
+            "name": "Step 1 · Unauthenticated session, external network",
+            "state": "Done"
           },
-          "a89": {
-            "id": "A.8.9",
-            "title": "Configuration management",
-            "evidence": "The configuration that allowed it, and the change that removed it."
-          },
-          "a824": {
-            "id": "A.8.24",
-            "title": "Use of cryptography",
-            "evidence": "Protocol versions and cipher suites accepted before and after the fix."
+          "list": {
+            "name": "Step 2 · GET /yc-backups-prod/?list-type=2",
+            "state": "Running"
           }
-        }
-      }
-    },
-    "retesting": {
-      "hero": {
-        "heading": "A fix is not a fix until somebody tries again",
-        "lede": "Request a retest from the finding itself. The pentester attacks it again with the same steps, and the finding closes only if it holds. Everything that happened to it stays on the record.",
-        "secondary": "Talk to a pentester"
-      },
-      "proof": {
-        "title": "The same request, before and after",
-        "body": "A retest is not an opinion about your change. It is the original attack run a second time, and you get to read the answer it came back with."
-      },
-      "skipped": {
-        "title": "Why this step goes missing everywhere else",
-        "items": {
-          "cost": {
-            "title": "It is quoted separately",
-            "body": "When verification is a line item, it is the line item that gets cut. The engagement ends at the report and the fix is never checked."
-          },
-          "moved": {
-            "title": "The tester has moved on",
-            "body": "Weeks later, the person who found it is deep in another engagement. Somebody else reads the write-up and makes a judgement call."
-          },
-          "ticket": {
-            "title": "A closed ticket is treated as proof",
-            "body": "The ticket says done, so the risk register says done. Nobody re-ran the request that started it."
-          }
-        }
-      },
-      "does": {
-        "title": "What a retest is here",
-        "items": {
-          "onDemand": {
-            "title": "Requested from the finding",
-            "body": "One action on the finding you just fixed. No scoping call, no new engagement, no waiting for the next scheduled pass."
-          },
-          "sameSteps": {
-            "title": "The same steps, by the same team",
-            "body": "The original reproduction is stored with the finding, so the retest repeats it rather than approximating it."
-          },
-          "verdict": {
-            "title": "A verdict, not a comment",
-            "body": "It holds or it does not. If it does not, the finding stays open with what still works written underneath it."
-          },
-          "regression": {
-            "title": "It stays watched",
-            "body": "If the same issue comes back in a later pass, it reopens with its own history attached rather than arriving as something new."
-          }
-        }
-      },
-      "ui": {
-        "trailLabel": "ARG-2291, history",
-        "request": "GET /yc-backups-prod/?list-type=2 HTTP/1.1   Host: storage.yourcompany.com",
-        "before": {
-          "label": "Before the fix",
-          "response": "HTTP/1.1 200 OK   ListBucketResult, 1284 objects"
         },
-        "after": {
-          "label": "After the retest",
-          "response": "HTTP/1.1 403 Forbidden   AccessDenied, anonymous caller"
+        "resultLabel": "Result · ARG-2291",
+        "pair": {
+          "request": "GET /yc-backups-prod/?list-type=2 HTTP/1.1   Host: storage.yourcompany.com",
+          "before": {
+            "label": "Before the fix",
+            "response": "HTTP/1.1 200 OK   ListBucketResult, 1284 objects"
+          },
+          "after": {
+            "label": "After the retest",
+            "response": "HTTP/1.1 403 Forbidden   AccessDenied, anonymous caller"
+          }
         },
+        "historyLabel": "ARG-2291 · history",
         "trail": {
           "published": {
             "time": "12 Mar 09:14",
@@ -2266,6 +2166,187 @@
             "actor": "Sanne, ARGUS pentester",
             "event": "Anonymous listing refused. Fix confirmed.",
             "state": "Closed, verified"
+          }
+        }
+      }
+    },
+    "workspace": {
+      "hero": {
+        "heading": "See the pentest while it happens.",
+        "lede": "Validated findings reach your workspace the moment they are confirmed, ranked with CVSS v4.0. You can watch what ARGUS agents are working on, and when the test completes, you read the report in the same place.",
+        "secondary": "Ask about the workspace"
+      },
+      "flow": {
+        "eyebrow": "The pipeline",
+        "title": "From agent activity to a report you can open",
+        "steps": {
+          "activity": {
+            "title": "Agent at work",
+            "body": "A specialized agent works through part of the scope, directed by a pentester."
+          },
+          "finding": {
+            "title": "Finding appears",
+            "body": "Validated, it lands in your queue with reproduction steps and evidence."
+          },
+          "cvss": {
+            "title": "Scored with CVSS v4.0",
+            "body": "The score and vector are attached, so the queue ranks itself."
+          },
+          "shared": {
+            "title": "Your team sees it",
+            "body": "The finding is in your workspace the moment it is published, not at the end."
+          },
+          "report": {
+            "title": "Report available",
+            "body": "The final report is delivered in the workspace and read in the browser."
+          }
+        }
+      },
+      "realtime": {
+        "eyebrow": "Real time",
+        "title": "Findings arrive when they are found",
+        "p1": "There is no black-box month that ends in a PDF. A finding is published to your workspace the moment a pentester validates it, with reproduction steps and evidence, so remediation can start while the test is still running."
+      },
+      "cvss": {
+        "eyebrow": "Priority",
+        "title": "Ranked with CVSS v4.0",
+        "p1": "Every finding carries a CVSS v4.0 score and full vector. The queue orders itself by severity, so your team knows what to pick up first and can see exactly why it outranks the rest."
+      },
+      "agents": {
+        "eyebrow": "In the open",
+        "title": "Watch the agents work",
+        "p1": "Our pentesters direct specialized agents, each built for one kind of testing. The activity view shows what is being worked at any moment: which part of your scope, what kind of test, and how far along it is. A finding only reaches your queue after a pentester validates it."
+      },
+      "provenance": {
+        "eyebrow": "Traceable",
+        "title": "Every finding names the work that produced it",
+        "p1": "A finding links back to the agent task and the pentester validation behind it. You can see what was being tested when it surfaced, which is the difference between a result you can act on and an alert you have to interpret."
+      },
+      "report": {
+        "eyebrow": "Hand-over",
+        "title": "The report, read where the work happened",
+        "p1": "When the engagement completes, the final report is delivered in your workspace and read in the browser. It is protected in transit and in the browser, and it does not travel through inboxes as an attachment."
+      },
+      "faq": {
+        "title": "Frequently asked questions",
+        "items": {
+          "humans": {
+            "q": "Do the agents replace pentesters?",
+            "a": "No. Agents carry out testing tasks under a pentester's direction, and a person validates every finding before it reaches your queue."
+          },
+          "realtime": {
+            "q": "How quickly do findings reach us?",
+            "a": "The moment a pentester validates them. Publication is part of validation, not something that waits for the end of the engagement."
+          },
+          "report": {
+            "q": "How is the final report shared?",
+            "a": "In your ARGUS workspace, viewed in the browser over a protected connection. We do not mail it around as an attachment."
+          }
+        }
+      },
+      "shots": {
+        "hero": "The ARGUS workspace during an engagement: agent activity beside the findings queue.",
+        "findings": "The ARGUS findings queue with severities and arrival times.",
+        "cvss": "A CVSS v4.0 score and vector on an ARGUS finding.",
+        "agents": "The ARGUS agent activity view with task states.",
+        "report": "The ARGUS report panel with the in-browser viewer."
+      },
+      "ui": {
+        "queueLabel": "Findings",
+        "queue": {
+          "idor": {
+            "name": "IDOR exposes other customers' invoices",
+            "meta": "12:40"
+          },
+          "xss": {
+            "name": "Stored XSS in support attachments",
+            "meta": "11:52"
+          },
+          "header": {
+            "name": "Missing security headers on portal",
+            "meta": "10:15"
+          },
+          "rate": {
+            "name": "No rate limit on login endpoint",
+            "meta": "09:31"
+          }
+        },
+        "tasks": {
+          "auth": {
+            "title": "Testing authorization on invoice endpoints",
+            "target": "portal.yourcompany.com/api/invoices"
+          },
+          "upload": {
+            "title": "Exercising file upload handling",
+            "target": "support.yourcompany.com/attachments"
+          },
+          "api": {
+            "title": "Enumerating API surface from the OpenAPI spec",
+            "target": "api.yourcompany.com/v2"
+          }
+        },
+        "taskState": {
+          "queued": "Queued",
+          "running": "Running",
+          "validating": "Pentester validating",
+          "done": "Validated"
+        },
+        "callout": {
+          "figure": "8.7",
+          "label": "Highest CVSS v4.0 score right now; first in the queue."
+        },
+        "cvssLabel": "CVSS v4.0",
+        "cvss": {
+          "score": "8.7",
+          "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:L/VA:N",
+          "metrics": {
+            "av": {
+              "label": "Attack vector",
+              "value": "Network"
+            },
+            "ac": {
+              "label": "Attack complexity",
+              "value": "Low"
+            },
+            "pr": {
+              "label": "Privileges",
+              "value": "Low"
+            },
+            "vc": {
+              "label": "Confidentiality",
+              "value": "High"
+            },
+            "vi": {
+              "label": "Integrity",
+              "value": "Low"
+            },
+            "va": {
+              "label": "Availability",
+              "value": "None"
+            }
+          }
+        },
+        "deliveryLabel": "Delivery",
+        "delivery": {
+          "published": {
+            "event": "Published to your workspace",
+            "time": "12:40"
+          },
+          "notified": {
+            "event": "Your team notified",
+            "time": "12:40"
+          }
+        },
+        "provenance": "Found during: authorization testing on invoice endpoints",
+        "reportLabel": "Report",
+        "report": {
+          "title": "Penetration test report",
+          "meta": "Final · v1.0 · 48 pages",
+          "state": "Available",
+          "rows": {
+            "transit": "Protected in transit",
+            "browser": "Read in the browser viewer",
+            "workspace": "Delivered in your workspace, not as an attachment"
           }
         }
       }
@@ -2365,20 +2446,15 @@
       }
     }
   },
-  "shots": {
-    "pending": "Screenshot pending"
-  },
   "argusUi": {
     "severity": {
       "critical": "Critical",
       "high": "High",
       "medium": "Medium"
     },
-    "sample": "Sample data, shown to illustrate the interface.",
-    "state": {
-      "new": "New",
-      "known": "Known",
-      "closed": "Gone"
-    }
+    "sample": "Sample data, shown to illustrate the interface."
+  },
+  "shots": {
+    "pending": "Screenshot pending"
   }
 }

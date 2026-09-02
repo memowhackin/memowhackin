@@ -321,7 +321,9 @@ test("gives every service and ARGUS page more than a heading", async ({
   for (const path of [
     "/services/web-app-pentesting",
     "/services/api-pentesting",
-    "/argus/compliance",
+    "/argus/monthly-security-scans",
+    "/argus/collaborative-retesting",
+    "/argus/live-pentest-workspace",
     "/knowledge-base",
   ]) {
     await page.goto(path);

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
+import { SEVERITY_TONE, type Severity } from "@/components/argus/severityTone";
 
 /*
  * The pieces the ARGUS pages draw the portal with.
@@ -15,15 +16,6 @@ import clsx from "clsx";
  * the composition. They are illustrations of a shape, not screenshots of a
  * tenant, and the moment a real screenshot exists it should replace them.
  */
-
-/** Severity, in the three colours the rest of the site already spends. */
-type Severity = "critical" | "high" | "medium";
-
-const SEVERITY_TONE: Record<Severity, string> = {
-  critical: "bg-ember/15 text-ember border-ember/30",
-  high: "bg-warning/10 text-warning border-warning/25",
-  medium: "bg-lavender/10 text-lavender border-lavender/25",
-};
 
 /**
  * The window everything else sits in.
@@ -100,79 +92,6 @@ export function FindingsRows({ rows }: { rows: readonly FindingRow[] }) {
 
           <span className="text-mist/40 hidden shrink-0 font-mono text-xs sm:block">
             {row.meta}
-          </span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-/** What happened to an asset this pass. Not a severity, and not coloured like one. */
-type AssetState = "new" | "known" | "closed";
-
-const STATE_TONE: Record<AssetState, string> = {
-  new: "bg-lavender/10 text-lavender border-lavender/25",
-  known: "bg-indigo-deep/40 text-mist/50 border-indigo-deep",
-  closed: "bg-indigo-deep/40 text-mist/40 border-indigo-deep",
-};
-
-export interface AssetRow {
-  state: AssetState;
-  name: string;
-}
-
-/**
- * Changes to the surface, as a list of assets rather than of findings.
- *
- * Its own component because the first version reused the findings rows, which
- * put a severity chip on every line. "checkout.example.com unchanged" is not a
- * medium-severity anything, and colouring it as one says something false in the
- * one place on the page that is supposed to be showing the product honestly.
- */
-export function AssetRows({ rows }: { rows: readonly AssetRow[] }) {
-  const { t } = useTranslation();
-
-  return (
-    <ul className="divide-indigo-deep/60 divide-y">
-      {rows.map((row) => (
-        <li
-          key={row.name}
-          className="flex items-center gap-3 px-4 py-3 sm:gap-4"
-        >
-          <span
-            className={clsx(
-              "shrink-0 rounded-md border px-2 py-0.5 text-[0.65rem] font-medium tracking-wide uppercase",
-              STATE_TONE[row.state],
-            )}
-          >
-            {t(`argusUi.state.${row.state}`)}
-          </span>
-
-          <span className="text-mist/85 min-w-0 flex-1 truncate font-mono text-sm">
-            {row.name}
-          </span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-/** The rail of asset counts down the side of the portal. */
-export function AssetRail({
-  items,
-}: {
-  items: readonly { label: string; count: string }[];
-}) {
-  return (
-    <ul className="border-indigo-deep/60 hidden w-40 shrink-0 flex-col gap-3 border-r p-4 sm:flex">
-      {items.map((item) => (
-        <li
-          key={item.label}
-          className="flex items-center justify-between gap-2"
-        >
-          <span className="text-mist/55 truncate text-xs">{item.label}</span>
-          <span className="text-mist/80 font-mono text-xs tabular-nums">
-            {item.count}
           </span>
         </li>
       ))}
@@ -264,188 +183,6 @@ export function ScanStrip({
   );
 }
 
-/**
- * A numbered marker, for a picture whose parts are explained beside it.
- *
- * The number is information here rather than decoration: it is the only thing
- * tying a line in the legend to the row of the panel it describes, so it earns
- * the sequence it implies.
- */
-export function Marker({ index }: { index: number }) {
-  return (
-    <span className="border-lavender/40 text-lavender flex size-5 shrink-0 items-center justify-center rounded-full border font-mono text-[0.6rem] tabular-nums">
-      {index}
-    </span>
-  );
-}
-
-/** One labelled row inside the finding detail. */
-export interface DetailRow {
-  label: string;
-  value: string;
-  /** Renders in the mono face, for a request, a path or a snippet. */
-  mono?: boolean;
-}
-
-/**
- * A finding as it is opened in the portal.
- *
- * Deliberately not a list of features. It is the object the page is arguing
- * about, so it is drawn as the object: a severity, a title, then the rows a
- * developer actually reads before they can start.
- */
-export function FindingDetail({
-  severity,
-  title,
-  rows,
-  state,
-}: {
-  severity: Severity;
-  title: string;
-  rows: readonly DetailRow[];
-  state: string;
-}) {
-  const { t } = useTranslation();
-
-  return (
-    <div className="flex flex-col">
-      <div className="border-indigo-deep/60 flex flex-wrap items-center gap-3 border-b px-5 py-4">
-        <span
-          className={clsx(
-            "shrink-0 rounded-md border px-2 py-0.5 text-[0.65rem] font-medium tracking-wide uppercase",
-            SEVERITY_TONE[severity],
-          )}
-        >
-          {t(`argusUi.severity.${severity}`)}
-        </span>
-        <span className="text-mist min-w-0 flex-1 text-sm font-medium text-pretty">
-          {title}
-        </span>
-      </div>
-
-      <dl className="divide-indigo-deep/60 m-0 divide-y">
-        {rows.map((row, index) => (
-          <div key={row.label} className="flex flex-col gap-1.5 px-5 py-3.5">
-            <dt className="flex items-center gap-2.5">
-              <Marker index={index + 1} />
-              <span className="text-mist/45 text-xs tracking-wide uppercase">
-                {row.label}
-              </span>
-            </dt>
-            <dd
-              className={clsx(
-                "text-mist/80 m-0 pl-7.5 text-sm leading-relaxed text-pretty",
-                row.mono === true && "font-mono text-xs",
-              )}
-            >
-              {row.value}
-            </dd>
-          </div>
-        ))}
-      </dl>
-
-      {/*
-        The state is the last annotated part of a finding, not a footer, so it
-        takes the next marker in the sequence. The list beside this panel counts
-        on that: its numbers and these have to point at the same things.
-      */}
-      <div className="border-indigo-deep/60 flex items-center gap-2.5 border-t px-5 py-3.5">
-        <Marker index={rows.length + 1} />
-        <span className="text-mist/60 text-xs">{state}</span>
-      </div>
-    </div>
-  );
-}
-
-/** One stage on a latency lane. */
-export interface LatencyStop {
-  label: string;
-  day: string;
-}
-
-/**
- * The same finding on two clocks.
- *
- * The picture the insights page is built on. Two lanes, the same four stages,
- * and the only difference is where along the track they fall. The reader does
- * not have to be told what the gap means; the gap is the argument.
- */
-export function LatencyTrack({
-  lanes,
-}: {
-  lanes: readonly {
-    name: string;
-    tone: "them" | "ours";
-    stops: readonly LatencyStop[];
-    /** Where each stop sits along the track, 0 to 100. */
-    positions: readonly number[];
-  }[];
-}) {
-  return (
-    <div aria-hidden="true" className="flex flex-col gap-10">
-      {lanes.map((lane) => (
-        <div key={lane.name} className="flex flex-col gap-4">
-          <span
-            className={clsx(
-              "text-xs tracking-wide uppercase",
-              lane.tone === "ours" ? "text-lavender" : "text-mist/40",
-            )}
-          >
-            {lane.name}
-          </span>
-
-          {/*
-            Padded at both ends: a label is centred on its stop and 5rem wide,
-            so a stop at 0% would hang half a label off the left of the screen.
-          */}
-          <div className="relative mx-10 h-px">
-            <span
-              className={clsx(
-                "absolute inset-0",
-                lane.tone === "ours" ? "bg-lavender/40" : "bg-indigo-deep",
-              )}
-            />
-
-            {lane.stops.map((stop, index) => (
-              <span
-                key={stop.label}
-                style={{ left: `${(lane.positions[index] ?? 0).toString()}%` }}
-                className="absolute top-0 flex -translate-x-1/2 flex-col items-center gap-2"
-              >
-                <span
-                  className={clsx(
-                    "size-2 -translate-y-1/2 rotate-45 rounded-xs",
-                    lane.tone === "ours" ? "bg-lavender" : "bg-indigo",
-                  )}
-                />
-                <span
-                  className={clsx(
-                    "font-mono text-[0.6rem] tabular-nums",
-                    lane.tone === "ours" ? "text-lavender/80" : "text-mist/35",
-                  )}
-                >
-                  {stop.day}
-                </span>
-                <span
-                  className={clsx(
-                    "w-20 text-center text-[0.68rem] leading-tight text-pretty",
-                    lane.tone === "ours" ? "text-mist/75" : "text-mist/40",
-                  )}
-                >
-                  {stop.label}
-                </span>
-              </span>
-            ))}
-          </div>
-
-          {/* The stops are absolutely placed, so the lane needs its own floor. */}
-          <span className="block h-14" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
 /** One message in a thread on a finding. */
 export interface ThreadMessage {
   /** Who wrote it. `them` is the reader's own side. */
@@ -525,55 +262,6 @@ export function ChatThread({
         );
       })}
     </ol>
-  );
-}
-
-/** How much a control is backed by this month's testing. */
-type ControlState = "evidence" | "partial" | "none";
-
-const CONTROL_TONE: Record<ControlState, string> = {
-  evidence: "border-lavender/50 bg-lavender/15 text-lavender",
-  partial: "border-indigo/60 bg-indigo/20 text-mist/70",
-  none: "border-indigo-deep/70 bg-ink text-mist/25",
-};
-
-export interface ControlChip {
-  /** The Annex A identifier, e.g. "A.8.8". */
-  id: string;
-  state: ControlState;
-}
-
-/**
- * The Annex A controls, as a coverage map.
- *
- * The page's signature picture, and deliberately dense: an auditor's world is a
- * long list of numbered controls, and the honest thing to show is how much of
- * that list a testing programme actually speaks to. Most of it is dim, because
- * most of Annex A is about policy and people rather than anything a pentest can
- * evidence. That is the argument the limits section then makes in words.
- */
-export function ControlGrid({
-  controls,
-}: {
-  controls: readonly ControlChip[];
-}) {
-  return (
-    <ul
-      aria-hidden="true"
-      className="grid grid-cols-[repeat(auto-fill,minmax(3.75rem,1fr))] gap-1.5"
-    >
-      {controls.map((control) => (
-        <li
-          key={control.id}
-          className={clsx(
-            "rounded-md border px-2 py-2 text-center font-mono text-[0.7rem] tabular-nums",
-            CONTROL_TONE[control.state],
-          )}
-        >
-          {control.id}
-        </li>
-      ))}
-    </ul>
   );
 }
 

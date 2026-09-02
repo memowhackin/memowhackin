@@ -332,7 +332,10 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
         data-testid={`service-${service.key}-faq`}
         innerClassName="pb-16 lg:pb-24"
       >
-        <ServiceFaq serviceKey={service.key} entries={service.faqs} />
+        <ServiceFaq
+          base={`servicePages.${service.key}.faq`}
+          entries={service.faqs}
+        />
       </SectionShell>
 
       <ClosingCta />

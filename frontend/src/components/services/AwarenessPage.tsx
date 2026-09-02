@@ -306,7 +306,7 @@ export function AwarenessPage({ service }: { service: AwarenessDefinition }) {
         innerClassName="pb-16 lg:pb-24"
       >
         {/* The heading is the accordion's own — see `ServiceFaq`. */}
-        <ServiceFaq serviceKey="awareness" entries={service.faqs} />
+        <ServiceFaq base="servicePages.awareness.faq" entries={service.faqs} />
       </SectionShell>
 
       <ClosingCta />
