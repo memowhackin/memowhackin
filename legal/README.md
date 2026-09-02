@@ -42,8 +42,10 @@ appears anywhere in this repository, so every one of those is a placeholder.
 
 ## Placeholders
 
-Every gap is marked `[TO BE COMPLETED BY ASSISTSEC]`, and each document ends with a register of its
-own open items. To list them all:
+Every gap is marked `[TO BE COMPLETED BY ASSISTSEC]` — 59 of them — and each document ends with a
+register of its own open items. Two consolidated schedules hold the answers that were previously
+asked several times over: **Schedule A** (AI/LLM subprocessors) in Document 01, and **Schedule B**
+(Retention) in Document 02. To list them all:
 
 ```bash
 grep -rn "TO BE COMPLETED BY ASSISTSEC" legal/

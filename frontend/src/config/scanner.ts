@@ -510,3 +510,22 @@ export async function submitLead(input: {
 
   if (!response.ok) throw await failureFor(response);
 }
+
+/*
+ * Fetch a discovered site image so the browser can save it.
+ *
+ * This is the one request in the app that does not go to our own API: the URL
+ * belongs to the scanned site, and it is fetched to turn the image into a blob
+ * a download attribute can point at. It lives here rather than in the lightbox
+ * component so that every outbound request in the frontend is still made from
+ * one of three files, which is what keeps the network surface auditable.
+ *
+ * A third-party host that serves no CORS headers will reject this. That is not
+ * an error worth surfacing — the caller falls back to opening the original in a
+ * new tab, where the reader can save it themselves.
+ */
+export async function fetchImageBlob(url: string): Promise<Blob> {
+  const response = await fetch(url, { mode: "cors" });
+  if (!response.ok) throw new ScannerError("network");
+  return response.blob();
+}

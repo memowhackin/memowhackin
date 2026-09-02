@@ -30,6 +30,9 @@
 | Represented by                        | ______________________ |
 | Email                                 | ______________________ |
 
+Capitalised terms not defined here have the meaning given in the Liability and Risk Allocation
+Terms between the Parties.
+
 Each a **"Party"** and together the **"Parties"**. In this Agreement, **"Discloser"** means the Party
 disclosing Confidential Information and **"Recipient"** means the Party receiving it. Both Parties
 may act in either capacity.
@@ -51,7 +54,7 @@ including information exchanged during scoping discussions that do not lead to a
 
 2.1 **"Confidential Information"** means all information disclosed by or on behalf of the Discloser
 to the Recipient in connection with the Purpose, in any form, whether or not marked as confidential,
-and whether disclosed orally, in writing, electronically, through the customer portal, or by
+and whether disclosed orally, in writing, electronically, through the Portal, or by
 demonstration.
 
 2.2 Confidential Information expressly includes, without limitation:
@@ -83,7 +86,7 @@ existence, timing and results of any test;
 
 (i) **Portal content** — remediation status, progress information, historical trend data,
 ISO/IEC 27001:2022-related compliance information and activity logs made available through the
-customer portal;
+Portal;
 
 (j) **AssistSec internal materials** — AssistSec's testing methodology, AI Engine design and
 configuration, prompts, internal notes, raw output and internal AI reasoning; and
@@ -170,7 +173,12 @@ access control (RBAC); tenant isolation of customer and project data; authentica
 multi-factor authentication (MFA) for customer portal access; and audit logging of important
 actions.
 
-5.4 The description in Section 5.3 reflects AssistSec's practices as at the date of this Agreement
+5.4 **Access control at the Customer.** Reports and Findings describe exploitation paths against
+the Customer's own systems, and are the Confidential Information most likely to be retained longest.
+The Customer shall hold them on access-controlled systems, restrict access to those who need it for
+the Purpose, and not forward them outside that group except as permitted by Section 7.3.
+
+5.5 The description in Section 5.3 reflects AssistSec's practices as at the date of this Agreement
 and is not a warranty of absolute security. Any additional technical and organisational measures to
 be warranted contractually are: [TO BE COMPLETED BY ASSISTSEC].
 
@@ -188,9 +196,8 @@ necessary and agreed in writing with the Customer.
 6.3 The Customer shall provide credentials only for accounts created for testing purposes, and shall
 revoke or rotate them promptly after the end of the engagement.
 
-6.4 AssistSec shall delete or render irrecoverable all Customer credentials and API keys within
-[TO BE COMPLETED BY ASSISTSEC] after the end of the engagement, except where retention is required
-by law.
+6.4 AssistSec shall delete or render irrecoverable all Customer credentials and API keys within the
+period stated for them in **Schedule B (Retention)**, except where retention is required by law.
 
 ---
 
@@ -237,8 +244,8 @@ if it were its own; and
 (c) on request, inform the Customer which providers are used and where they process data.
 
 8.3 The AI/LLM providers used by AssistSec, their processing locations, their data retention
-behaviour, and whether submitted data may be used for model training, are:
-[TO BE COMPLETED BY ASSISTSEC].
+behaviour, and whether submitted data may be used for model training, are set out in **Schedule A
+(AI/LLM subprocessors)** to the Liability and Risk Allocation Terms.
 
 **[LEGAL REVIEW]** Where personal data is involved, these providers are likely to be subprocessors
 under Article 28 GDPR, requiring a Data Processing Agreement, a lawful transfer mechanism under
@@ -278,9 +285,10 @@ facts of that engagement.
 
 ## 11. Retention, return and deletion
 
-11.1 On written request from the Discloser, and in any event within [TO BE COMPLETED BY ASSISTSEC]
-after the end of the engagement or the termination of this Agreement, the Recipient shall return or
-irrevocably delete all Confidential Information in its possession, and confirm this in writing.
+11.1 On written request from the Discloser, and in any event within the period stated in
+**Schedule B (Retention)** after the end of the engagement or the termination of this Agreement, the
+Recipient shall return or irrevocably delete all Confidential Information in its possession, and
+confirm this in writing.
 
 11.2 The Recipient may retain Confidential Information to the extent:
 
@@ -294,8 +302,8 @@ deleted in the ordinary course of the retention cycle; or
 11.3 Confidential Information retained under Section 11.2 remains subject to this Agreement for as
 long as it is retained, notwithstanding any expiry of the term.
 
-11.4 AssistSec's retention periods for engagement data, reports and evidence are:
-[TO BE COMPLETED BY ASSISTSEC].
+11.4 AssistSec's retention periods for every category of Confidential Information are set out in
+**Schedule B (Retention)**, which is the single source for them across all three documents.
 
 ---
 
@@ -371,30 +379,59 @@ possible.
 
 16.4 This Agreement may be signed in counterparts and by electronic signature.
 
+16.5 **Entire agreement on confidentiality.** This Agreement supersedes any prior confidentiality
+agreement or undertaking between the Parties on the same subject matter, including any
+confidentiality terms exchanged during scoping.
+
+16.6 **Language.** This Agreement is drawn up in English. If a Dutch translation is provided, the
+[TO BE COMPLETED BY ASSISTSEC — English / Dutch] text prevails.
+
 **[LEGAL REVIEW]** The evidential status of the intended electronic signature method should be
 checked against the eIDAS Regulation (EU) 910/2014 and Article 3:15a BW.
 
 ---
 
+## Schedule B — Retention
+
+The single source for every retention period across these documents. Sections 6.4, 11.1 and 11.4
+above, and Section 11.4 of the Liability and Risk Allocation Terms, refer to this schedule rather
+than stating their own periods, so that one answer governs.
+
+| Category                                   | Held by   | Retention period               | On expiry        |
+| ------------------------------------------ | --------- | ------------------------------ | ---------------- |
+| Credentials and API keys                   | AssistSec | [TO BE COMPLETED BY ASSISTSEC] | Deleted          |
+| Reports and report versions                | AssistSec | [TO BE COMPLETED BY ASSISTSEC] | Deleted          |
+| Finding evidence and proof-of-concept      | AssistSec | [TO BE COMPLETED BY ASSISTSEC] | Deleted          |
+| Portal data (status, trends, activity log) | AssistSec | [TO BE COMPLETED BY ASSISTSEC] | Deleted          |
+| Confidential Information generally         | Recipient | [TO BE COMPLETED BY ASSISTSEC] | Returned/deleted |
+
+Retention beyond these periods is permitted only on the grounds in Section 11.2.
+
+**[LEGAL REVIEW]** Retention periods interact with statutory retention obligations, the GDPR
+storage-limitation principle, and the period during which AssistSec may need evidence to defend a
+claim. These three pull in different directions and the balance should be set with counsel.
+
+---
+
 ## Register of open items
 
-| #   | Item                                                 | Section |
-| --- | ---------------------------------------------------- | ------- |
-| 1   | AssistSec legal name, legal form, KvK, address       | Parties |
-| 2   | AssistSec authorized signatory                       | Parties |
-| 3   | Additional warranted security measures               | 5.4     |
-| 4   | Credential and API key deletion period               | 6.4     |
-| 5   | Reference / case-study permission                    | 7.2     |
-| 6   | AI/LLM providers, locations, retention, training-use | 8.3     |
-| 7   | Return / deletion period                             | 11.1    |
-| 8   | Engagement data retention periods                    | 11.4    |
-| 9   | Ownership of reports and deliverables                | 12.1    |
-| 10  | Agreement term and notice period                     | 13.1    |
-| 11  | General survival period                              | 13.2    |
-| 12  | Survival for credentials and findings                | 13.3    |
-| 13  | Contractual penalty, if any                          | 14.2    |
-| 14  | Governing law                                        | 15.1    |
-| 15  | Competent court                                      | 15.2    |
+| #   | Item                                     | Section    |
+| --- | ---------------------------------------- | ---------- |
+| 1   | AssistSec legal name, form, KvK, address | Parties    |
+| 2   | AssistSec authorized signatory           | Parties    |
+| 3   | Additional warranted security measures   | 5.5        |
+| 4   | Reference / case-study permission        | 7.2        |
+| 5   | Ownership of reports and deliverables    | 12.1       |
+| 6   | Agreement term and notice period         | 13.1       |
+| 7   | General survival period                  | 13.2       |
+| 8   | Survival for credentials and findings    | 13.3       |
+| 9   | Contractual penalty, if any              | 14.2       |
+| 10  | Governing law                            | 15.1       |
+| 11  | Competent court                          | 15.2       |
+| 12  | Prevailing language                      | 16.6       |
+| 13  | Retention periods (five categories)      | Schedule B |
+
+AI/LLM provider details are in Schedule A to the Liability and Risk Allocation Terms.
 
 ---
 

@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
-import type { SiteImage } from "@/config/scanner";
+import { fetchImageBlob, type SiteImage } from "@/config/scanner";
 
 /*
  * The full-screen viewer for the harvested homepage images.
@@ -107,9 +107,7 @@ export function ImageLightbox({
 
   async function download(target: SiteImage) {
     try {
-      const response = await fetch(target.url, { mode: "cors" });
-      if (!response.ok) throw new Error("unreachable");
-      const blob = await response.blob();
+      const blob = await fetchImageBlob(target.url);
       const href = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = href;

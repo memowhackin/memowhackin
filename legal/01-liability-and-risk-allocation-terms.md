@@ -43,6 +43,17 @@ individual clauses.
 1.3 The Customer's own purchase conditions or general terms are expressly rejected and do not apply,
 unless AssistSec has accepted them in writing.
 
+1.4 **Order of precedence.** Where the documents listed in Section 1.2 conflict, the following order
+applies, the earlier prevailing over the later:
+
+1. the engagement-specific Authorization and Indemnification Letter;
+2. these Terms;
+3. the Mutual Non-Disclosure Agreement;
+4. AssistSec's general terms and conditions.
+
+A Data Processing Agreement prevails over all of the above on any matter concerning the processing
+of personal data, and only on such matters.
+
 ---
 
 ## 2. Definitions
@@ -131,6 +142,12 @@ security posture of that target at any other moment.
 4.1.3 Typical output is one Report containing identified Findings, a risk and severity assessment,
 and remediation recommendations.
 
+4.1.4 **Retest.** Whether a One-Off Penetration Test includes a retest of reported Findings, and on
+what terms, is [TO BE COMPLETED BY ASSISTSEC — included within N days / priced separately / not
+offered]. Where a retest is performed it requires its own authorized retest window under the
+Authorization and Indemnification Letter, because the authorization for the original Testing Window
+has by then expired.
+
 ### 4.2 Monthly Scanning Subscription
 
 4.2.1 A Monthly Scanning Subscription is a recurring security testing service under which the
@@ -149,8 +166,14 @@ managed security service, and not a substitute for any of these. Between scans, 
 Targets are not observed by AssistSec, and changes made to them are not assessed until the next
 scheduled scan.
 
-4.2.4 The subscription term, notice period and renewal mechanism are
-[TO BE COMPLETED BY ASSISTSEC].
+4.2.4 **Verification of resolution.** For a Monthly Scanning Subscription, whether a Finding
+recorded as Resolved has in fact been remediated is verified within the next scheduled scan. No
+separate retest authorization is needed, because each scan is covered by the continuing
+authorization in Section 4.2.2.
+
+4.2.5 The subscription term, notice period and renewal mechanism are
+[TO BE COMPLETED BY ASSISTSEC]. The dates of a particular subscription are recorded in the
+Authorization and Indemnification Letter for that engagement.
 
 ---
 
@@ -219,12 +242,11 @@ testing.
 6.4 **External AI/LLM providers.** Information relating to an Engagement may be processed through
 external AI or large language model providers.
 
-- The AI/LLM providers used by AssistSec are: [TO BE COMPLETED BY ASSISTSEC].
-- The geographic locations in which those providers process data are:
-  [TO BE COMPLETED BY ASSISTSEC].
-- Whether those providers retain data, and for how long, is: [TO BE COMPLETED BY ASSISTSEC].
-- Whether those providers use submitted data for model training, and whether AssistSec has opted out
-  of such use, is: [TO BE COMPLETED BY ASSISTSEC].
+The providers used, the geographic locations in which they process data, their retention behaviour,
+and whether they use submitted data for model training, are set out in **Schedule A (AI/LLM
+subprocessors)** to these Terms. Schedule A carries a version date and is the single source for this
+information; the Mutual Non-Disclosure Agreement and the Authorization and Indemnification Letter
+refer to it rather than restating it.
 
 6.5 AssistSec shall impose confidentiality obligations on such providers consistent with the Mutual
 Non-Disclosure Agreement, and shall not knowingly submit Customer credentials or API keys to an
@@ -294,7 +316,8 @@ Section 7.1(f) are in place, and accepts the operational risk of testing a live 
 
 8.4 AssistSec will observe the agreed rate limits and Testing Conditions and will suspend testing on
 request from a nominated emergency contact in accordance with the Authorization and Indemnification
-Letter.
+Letter. Where source IP addresses are recorded in that Letter, AssistSec will test only from those
+addresses, and will notify the Customer before testing from any other address.
 
 **[LEGAL REVIEW]** The allocation of risk in Sections 8.3 and 12 must be assessed for consistency
 with Article 6:248(2) BW (_redelijkheid en billijkheid_) and, if these Terms are _algemene
@@ -336,7 +359,14 @@ information, and activity logs.
 
 9.7 **Not delivered.** The Customer does not receive live attack logs, AssistSec's internal notes,
 raw terminal output, or internal AI reasoning. These are AssistSec's internal working materials.
-This does not limit AssistSec's obligation to substantiate a Finding on reasonable request.
+This does not limit AssistSec's obligation to substantiate a Finding on reasonable request:
+substantiation means the evidence and reasoning necessary to establish that the Finding is real and
+correctly assessed, which is not the same as disclosure of raw output.
+
+9.9 **Critical findings.** Where AssistSec identifies a Finding it assesses as critical, it notifies
+the Customer's nominated emergency contact within the period stated in the Authorization and
+Indemnification Letter, rather than waiting for the Report. This obligation applies to every
+Engagement.
 
 9.8 **Portal availability.** Portal availability, retention of Reports within the Portal, and export
 options are: [TO BE COMPLETED BY ASSISTSEC].
@@ -347,15 +377,9 @@ options are: [TO BE COMPLETED BY ASSISTSEC].
 
 10.1 Confidentiality is governed by the Mutual Non-Disclosure Agreement between the parties.
 
-10.2 AssistSec applies the following measures to information processed in connection with an
-Engagement: sensitive credentials and API keys are encrypted at rest; role-based access control
-(RBAC) is applied; customer and project data is tenant-isolated; Portal access requires
-authentication and multi-factor authentication (MFA); and important actions are recorded in audit
-logs.
-
-10.3 The description in Section 10.2 reflects AssistSec's practices as at the date of these Terms.
-It is not a warranty of absolute security. Any further technical and organisational measures to be
-warranted contractually are: [TO BE COMPLETED BY ASSISTSEC].
+10.2 The technical and organisational measures AssistSec applies to information processed in
+connection with an Engagement are set out in Section 5.3 of the Mutual Non-Disclosure Agreement.
+They are stated there rather than repeated here, so that one description governs.
 
 ---
 
@@ -374,8 +398,8 @@ Processing Agreement: data minimization; retention periods; deletion or return o
 geographic location of processing; processing by external AI/LLM providers; confidentiality
 obligations imposed on subprocessors; and the allocation of roles between the parties.
 
-11.4 Retention periods applicable to Engagement data, Reports and evidence are:
-[TO BE COMPLETED BY ASSISTSEC].
+11.4 Retention periods applicable to Engagement data, Reports, credentials and evidence are set out
+in **Schedule B (Retention)** to the Mutual Non-Disclosure Agreement.
 
 **[LEGAL REVIEW]** This section deliberately does **not** determine whether a Data Processing
 Agreement is required for any particular Engagement, whether AssistSec acts as processor or
@@ -431,8 +455,10 @@ example: the fees paid by the Customer for the relevant Engagement; or the fees 
 13.2 **One-off and subscription engagements treated separately.** For a One-Off Penetration Test,
 the cap is calculated by reference to the fees for that Engagement. For a Monthly Scanning
 Subscription, the cap is calculated by reference to [TO BE COMPLETED BY ASSISTSEC — for example the
-subscription fees paid in the preceding twelve (12) months], and a series of connected events counts
-as a single event for the purpose of the cap.
+subscription fees paid in the preceding twelve (12) months].
+
+13.2.1 **Connected events.** Under both service models, a series of connected events counts as a
+single event for the purpose of the cap.
 
 13.3 **Excluded categories of loss.** To the extent permitted by law, AssistSec is not liable for
 indirect or consequential loss, including loss of profit, loss of turnover, loss of anticipated
@@ -453,13 +479,17 @@ consequences.
 
 13.5 **Insurance.** AssistSec's professional and business liability insurance is:
 [TO BE COMPLETED BY ASSISTSEC — insurer, policy number, cover per claim, cover per year, territorial
-scope, and whether cyber liability and professional indemnity are included]. Where insurance
-responds, AssistSec's liability is in any event limited to the amount actually paid out under the
-policy plus any applicable deductible.
+scope, and whether cyber liability and professional indemnity are included].
+
+Where insurance responds, AssistSec's liability is limited to the **greater** of (a) the amount
+actually paid out under the policy plus any applicable deductible, and (b) the cap in Section 13.1.
+An insurer's refusal to pay does not reduce AssistSec's liability below that cap.
 
 **[LEGAL REVIEW]** A limitation tied to insurance proceeds is only meaningful if the policy in fact
 covers penetration testing activities, including AI-assisted testing. The policy wording should be
-checked against the services actually delivered before this clause is relied upon.
+checked against the services actually delivered before this clause is relied upon. This clause is
+drafted as a floor rather than a ceiling on purpose: a version limiting liability to the amount
+"actually paid out" would reduce the cap to nil whenever an insurer declined a claim.
 
 13.6 **Notification.** The Customer must notify AssistSec in writing of any claim promptly after
 discovering the facts giving rise to it, and in any event within [TO BE COMPLETED BY ASSISTSEC]
@@ -530,6 +560,30 @@ possible.
 17.3 The Customer may not assign its rights or obligations without AssistSec's prior written
 consent.
 
+17.4 **Language.** These Terms are drawn up in English. If a Dutch translation is provided, the
+[TO BE COMPLETED BY ASSISTSEC — English / Dutch] text prevails.
+
+---
+
+## Schedule A — AI/LLM subprocessors
+
+Version date: [TO BE COMPLETED BY ASSISTSEC]
+
+This schedule is the single source for the information below. Section 8.3 of the Mutual
+Non-Disclosure Agreement and Section 6.4 of the Authorization and Indemnification Letter refer to
+it rather than restating it, so that one answer governs and cannot drift between documents.
+
+| Provider                       | Service used for | Processing location(s) | Data retained | Used for model training |
+| ------------------------------ | ---------------- | ---------------------- | ------------- | ----------------------- |
+| [TO BE COMPLETED BY ASSISTSEC] |                  |                        |               |                         |
+|                                |                  |                        |               |                         |
+
+AssistSec shall notify the Customer before adding or replacing a provider in this schedule.
+
+**[LEGAL REVIEW]** Where personal data is processed, entries in this schedule are subprocessors
+under Article 28 GDPR. The notification and objection mechanism, and the transfer mechanism under
+Chapter V GDPR for any location outside the EEA, must be settled in the Data Processing Agreement.
+
 ---
 
 ## Register of open items
@@ -541,21 +595,22 @@ consent.
 | 3   | VAT number                                   | 1          |
 | 4   | Registered address                           | 1          |
 | 5   | Telephone number                             | 1          |
-| 6   | General terms and conditions, and precedence | 1.2        |
-| 7   | Subscription term, notice period, renewal    | 4.2.4      |
-| 8   | AI/LLM providers used                        | 6.4        |
-| 9   | AI/LLM processing locations                  | 6.4        |
-| 10  | AI/LLM retention and training-use position   | 6.4        |
-| 11  | AI usage pricing metric, if any              | 6.6        |
-| 12  | Portal availability and retention            | 9.8        |
-| 13  | Additional warranted security measures       | 10.3       |
-| 14  | Engagement data retention periods            | 11.4       |
-| 15  | Liability cap — amount and basis             | 13.1, 13.2 |
-| 16  | Insurance details                            | 13.5       |
-| 17  | Claim notification period                    | 13.6       |
-| 18  | Termination rights and consequences          | 15.1       |
-| 19  | Governing law                                | 16.1       |
-| 20  | Competent court                              | 16.2       |
+| 6   | General terms and conditions                 | 1.2        |
+| 7   | Retest policy for one-off engagements        | 4.1.4      |
+| 8   | Subscription term, notice period, renewal    | 4.2.5      |
+| 9   | AI usage pricing metric, if any              | 6.6        |
+| 10  | Portal availability and retention            | 9.8        |
+| 11  | Liability cap — amount and basis             | 13.1, 13.2 |
+| 12  | Insurance details                            | 13.5       |
+| 13  | Claim notification period (see Art. 6:89 BW) | 13.6       |
+| 14  | Termination rights and consequences          | 15.1       |
+| 15  | Governing law                                | 16.1       |
+| 16  | Competent court                              | 16.2       |
+| 17  | Prevailing language                          | 17.4       |
+| 18  | AI/LLM subprocessor entries and version date | Schedule A |
+
+Security measures are stated in the Mutual NDA (Section 5.3) and retention periods in Schedule B to
+that agreement; they are not repeated here.
 
 ---
 

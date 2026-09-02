@@ -23,6 +23,12 @@ legal counsel.
 
 ---
 
+Capitalised terms not defined in this letter have the meaning given in the Liability and Risk
+Allocation Terms between the parties. In particular, **Authorized Targets** means the targets listed
+in Section 3 below and nothing else, and **Testing Window** means the period stated in Section 4.
+
+---
+
 ## 1. Parties
 
 **Testing provider**
@@ -51,16 +57,16 @@ legal counsel.
 
 ## 2. Engagement details
 
-|                                   |                                                                                                                                                     |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Engagement reference              | ______________________                                                                                                                              |
-| Service model                     | ☐ One-Off Penetration Test ☐ Monthly Scanning Subscription                                                                                          |
-| Subscription term (if applicable) | From ____________ to ____________                                                                                                                   |
-| Related agreements                | Liability and Risk Allocation Terms dated ____________; Mutual NDA dated ____________; Data Processing Agreement dated ____________ (if applicable) |
+|                                                                                                               |                                                                                                                                                     |
+| ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Engagement reference                                                                                          | ______________________                                                                                                                              |
+| Service model                                                                                                 | ☐ One-Off Penetration Test ☐ Monthly Scanning Subscription                                                                                          |
+| Subscription term — dates only; term, notice and renewal are governed by Section 4.2.5 of the Liability Terms | From ____________ to ____________                                                                                                                   |
+| Related agreements                                                                                            | Liability and Risk Allocation Terms dated ____________; Mutual NDA dated ____________; Data Processing Agreement dated ____________ (if applicable) |
 
 ---
 
-## 3. Authorized targets
+## 3. Authorized Targets
 
 The Customer authorizes testing of the following, and **only** the following:
 
@@ -73,9 +79,9 @@ The Customer authorizes testing of the following, and **only** the following:
 
 3.1 Any host, URL, endpoint, subdomain, environment or system not listed above is **out of scope**
 and is not authorized, including systems that are connected to, depend on, or are reachable from an
-authorized target.
+Authorized Target.
 
-3.2 Where an authorized target is hosted by a third party, the relevant provider and the status of
+3.2 Where an Authorized Target is hosted by a third party, the relevant provider and the status of
 any required notification or consent are recorded in Section 8.
 
 ---
@@ -102,9 +108,17 @@ cannot assess authenticated functionality, that a lower testing depth covers les
 that rate limits reduce the volume of testing possible, and that leaving WAF protections enabled may
 conceal vulnerabilities in the application behind them.
 
+4.1a **Retest window.** Where a retest of previously reported Findings is agreed, it is authorized
+only within the window recorded here, and only against Findings in the Report identified below. The
+authorization for the original Testing Window does not extend to it.
+
+| Retest authorized | Report / Findings covered | Retest window                     | Testing Conditions                      |
+| ----------------- | ------------------------- | --------------------------------- | --------------------------------------- |
+| ☐ Yes ☐ No        |                           | From ____________ to ____________ | ☐ As in Section 4 ☐ Other: ____________ |
+
 4.2 **Monthly Scanning Subscription — continuing authorization.** Where the service model is a
 Monthly Scanning Subscription, the Customer acknowledges and agrees that this authorization is a
-**continuing authorization for repeated access to the authorized targets throughout the subscription
+**continuing authorization for repeated access to the Authorized Targets throughout the subscription
 term**, and that AssistSec is authorized to perform each recurring scan within that term without a
 further signed authorization, unless and until this letter is revoked under Section 12.
 
@@ -122,7 +136,7 @@ Complete where the testing mode is GREY-BOX.
 
 5.1 The Customer confirms that each account listed is created for testing purposes, that its use for
 testing does not breach any third-party terms, and that it will revoke or rotate the credentials
-after the testing window ends.
+after the Testing Window ends.
 
 5.2 Credentials shall be transmitted by [TO BE COMPLETED BY ASSISTSEC — secure channel] and never by
 unencrypted email.
@@ -136,7 +150,7 @@ engagement.
 ## 6. Authorization to test
 
 6.1 The Customer **expressly authorizes** AssistSec, its personnel and its systems to perform
-security testing against the authorized targets listed in Section 3, within the testing window and
+security testing against the Authorized Targets listed in Section 3, within the Testing Window and
 in accordance with the Testing Conditions in Section 4.
 
 6.2 That authorization extends to activities that are ordinarily part of penetration testing of web
@@ -156,52 +170,56 @@ model providers**, subject to the confidentiality obligations in the Mutual NDA.
 
 6.4 The Customer acknowledges that:
 
-(a) human penetration testers direct and monitor the testing, validate findings, filter false
-positives, assess severity and approve all customer-facing reports;
+(a) human penetration testers direct and monitor the testing, and remain responsible for validating
+findings, interpreting results, filtering false positives, determining severity and approving all
+customer-facing reports;
 
 (b) the AI engine does not independently guarantee complete or exhaustive security testing; and
 
 (c) the AI/LLM providers used, their processing locations, and their retention and training-use
-behaviour are as disclosed at [TO BE COMPLETED BY ASSISTSEC].
+behaviour are as set out in Schedule A (AI/LLM subprocessors) to the Liability and Risk Allocation
+Terms.
 
 6.5 **Not authorized.** This letter does not authorize, and AssistSec shall not perform: standalone
 network or infrastructure penetration testing; physical security testing; social engineering;
 phishing; testing of mobile applications, thick clients or desktop applications, hardware, IoT, or
 OT/ICS environments; Denial-of-Service or Distributed Denial-of-Service testing; deliberately
-destructive testing; or testing of anything outside the authorized targets.
+destructive testing; or testing of anything outside the Authorized Targets.
 
 ---
 
-## 7. Customer representations
+## 7. Customer warranties
 
-The Customer represents and warrants that:
+The Customer warrants that:
 
 7.1 **Authority to authorize.** The signatory is authorized to bind the Customer and to grant the
 authorization in this letter.
 
-7.2 **Ownership or right to test.** The Customer owns each authorized target, or holds a documented
+7.2 **Ownership or right to test.** The Customer owns each Authorized Target, or holds a documented
 right from the owner sufficient to authorize the testing described here.
 
-7.3 **Accuracy.** The authorized targets, environment types and Testing Conditions stated in this
+7.3 **Accuracy.** The Authorized Targets, environment types and Testing Conditions stated in this
 letter are accurate and complete.
 
 7.4 **Environment disclosure.** The Customer has correctly identified in Section 3 which authorized
 targets are production environments and which are not.
 
 7.5 **Backups.** The Customer maintains current, tested and restorable backups of all data and
-systems that could be affected by the testing, taken before the testing window begins.
+systems that could be affected by the testing, taken before the Testing Window begins.
 
 7.6 **No conflicting obligation.** The testing authorized here does not breach any agreement between
 the Customer and a third party, including hosting, cloud, platform or software licence terms.
 
-7.7 **Data protection.** The Customer has assessed whether personal data may be processed during the
-engagement and has concluded any required Data Processing Agreement with AssistSec.
+7.7 **Data protection.** The parties have jointly assessed whether personal data may be processed
+during the engagement, in accordance with Section 11.2 of the Liability Terms, and have concluded any
+required Data Processing Agreement. Outcome of that assessment:
+☐ Personal data not expected ☐ Personal data expected — DPA dated ____________
 
 ---
 
 ## 8. Third-party authorization
 
-8.1 Where an authorized target is hosted, operated or protected by a third party, the Customer is
+8.1 Where an Authorized Target is hosted, operated or protected by a third party, the Customer is
 responsible for notifying that party and obtaining any consent its terms require.
 
 | Provider type            | Provider name | Notification / consent status                | Reference |
@@ -240,7 +258,7 @@ in place.
 
 ## 10. Emergency and escalation contacts
 
-Available throughout the testing window.
+Available throughout the Testing Window.
 
 **Customer — primary**
 
@@ -276,7 +294,7 @@ AssistSec shall suspend testing on such a request without requiring a reason.
 notify the Customer's primary emergency contact within [TO BE COMPLETED BY ASSISTSEC], rather than
 waiting for the report.
 
-10.3 **Evidence of compromise.** Where AssistSec encounters indications that an authorized target
+10.3 **Evidence of compromise.** Where AssistSec encounters indications that an Authorized Target
 is already compromised by a third party, it shall notify the Customer's primary emergency contact
 without undue delay and shall await instructions before continuing.
 
@@ -284,41 +302,24 @@ without undue delay and shall await instructions before continuing.
 
 ## 11. Indemnification and risk allocation
 
-11.1 The Customer shall indemnify, defend and hold harmless AssistSec and its personnel against all
-third-party claims, proceedings, losses, damages, fines, costs and reasonable legal fees arising out
-of or in connection with:
+11.1 The indemnification given by the Customer, and the limitation of AssistSec's liability, are set
+out in Sections 12 and 13 of the Liability and Risk Allocation Terms. They apply to this engagement
+in full and are not restated here, so that one text governs and the two documents cannot drift
+apart.
 
-(a) any inaccuracy in the representations in Section 7, in particular the absence of authority to
-authorize testing of an authorized target;
+11.2 For the avoidance of doubt, the Customer's statements in Section 7 of this letter are
+warranties for the purposes of Section 12.1(a) of those Terms.
 
-(b) any claim by an owner, operator, hosting provider, cloud provider or other third party relating
-to testing performed within the authorized targets, the testing window and the Testing Conditions;
-
-(c) the Customer's failure to notify or obtain consent from a third party under Section 8; and
-
-(d) the Customer's failure to maintain backups under Section 7.5.
-
-11.2 This indemnity does **not** extend to claims to the extent they arise from AssistSec's intent
-(_opzet_) or deliberate recklessness (_bewuste roekeloosheid_), or from testing performed by
-AssistSec outside the authorized targets, outside the testing window, or in breach of the Testing
-Conditions.
-
-11.3 AssistSec's liability in connection with this engagement is limited as set out in the Liability
-and Risk Allocation Terms. In the event of conflict between this letter and those Terms on the
-subject of liability, [TO BE COMPLETED BY ASSISTSEC — specify which document prevails] prevails.
-
-**[LEGAL REVIEW — ENTIRE SECTION]** The scope and enforceability of this indemnity must be assessed
-under Dutch law, including its procedural conditions (notice of claim, conduct of defence, consent
-to settlement), its interaction with the liability cap in the Liability and Risk Allocation Terms,
-and whether it survives where AssistSec has itself failed to observe the Testing Conditions. A broad
-indemnity operating as a disguised exclusion of AssistSec's own liability may not be upheld.
+11.3 Where this letter and the Liability and Risk Allocation Terms conflict, the order of precedence
+in Section 1.4 of those Terms applies.
 
 ---
 
 ## 12. Duration and revocation
 
-12.1 This authorization takes effect on the date of signature and expires at the end of the testing
-window or, for a Monthly Scanning Subscription, at the end of the subscription term.
+12.1 This authorization takes effect on the date of signature and expires at the end of the Testing
+Window or, where a retest window is recorded in Section 4.1a, at the end of that retest window. For
+a Monthly Scanning Subscription it expires at the end of the subscription term.
 
 12.2 The Customer may revoke this authorization at any time by written notice to AssistSec's
 engagement contact. Revocation takes effect on receipt. AssistSec shall cease testing promptly upon
@@ -337,35 +338,41 @@ confirmed].
 13.2 Disputes shall be submitted to [TO BE COMPLETED BY ASSISTSEC — competent court; to be
 confirmed].
 
+13.3 **Language.** This letter is drawn up in English. If a Dutch translation is provided, the
+[TO BE COMPLETED BY ASSISTSEC — English / Dutch] text prevails.
+
 ---
 
 ## Register of open items
 
-| #   | Item                                                      | Section |
-| --- | --------------------------------------------------------- | ------- |
-| 1   | AssistSec legal name, legal form, KvK, address, telephone | 1       |
-| 2   | Secure channel for credential transfer                    | 5.2     |
-| 3   | AI/LLM provider disclosure location                       | 6.4(c)  |
-| 4   | AssistSec engagement and emergency contact                | 10      |
-| 5   | Critical-finding notification deadline                    | 10.2    |
-| 6   | Precedence between this letter and the Liability Terms    | 11.3    |
-| 7   | Governing law                                             | 13.1    |
-| 8   | Competent court                                           | 13.2    |
+| #   | Item                                          | Section |
+| --- | --------------------------------------------- | ------- |
+| 1   | AssistSec legal name, form, KvK, address, tel | 1       |
+| 2   | Secure channel for credential transfer        | 5.2     |
+| 3   | AssistSec engagement and emergency contact    | 10      |
+| 4   | Critical-finding notification deadline        | 10.2    |
+| 5   | Governing law                                 | 13.1    |
+| 6   | Competent court                               | 13.2    |
+| 7   | Prevailing language                           | 13.3    |
+
+Indemnification and liability are governed by the Liability and Risk Allocation Terms; AI/LLM
+provider details by Schedule A to those Terms; retention by Schedule B to the Mutual NDA.
 
 ---
 
 ## Signatures
 
 **On behalf of the Customer** — I confirm that I am authorized to grant this authorization, that the
-representations in Section 7 are accurate, and that I have read and accept the acknowledgments in
+warranties in Section 7 are accurate, and that I have read and accept the acknowledgments in
 Sections 4, 6 and 9.
 
-|           |                        |
-| --------- | ---------------------- |
-| Name      | ______________________ |
-| Position  | ______________________ |
-| Date      | ______________________ |
-| Signature | ______________________ |
+|                        |                                                                     |
+| ---------------------- | ------------------------------------------------------------------- |
+| Name                   | ______________________                                              |
+| Position               | ______________________                                              |
+| Authority evidenced by | ☐ KvK extract dated ____________ ☐ Power of attorney ☐ Not required |
+| Date                   | ______________________                                              |
+| Signature              | ______________________                                              |
 
 **On behalf of AssistSec**
 
