@@ -77,7 +77,7 @@ const CONFIDENCE_ORDER: Record<string, number> = {
 /**
  * The report's contents.
  *
- * Eight sections is enough that a reader arriving at the top cannot see the
+ * Nine sections is enough that a reader arriving at the top cannot see the
  * shape of what they have been given, and a long scroll with no map is the
  * other half of "it is not clear what I am looking at". Set as a single
  * wrapping strip rather than a sidebar: it costs one row, it needs no second

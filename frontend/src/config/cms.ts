@@ -2,13 +2,16 @@ import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { invalidateBlogPosts, type BlogCategory } from "@/config/blog";
 
 /*
- * The only file in this app that talks to a server.
+ * Everything the admin screens ask of the server, and nothing else.
  *
- * Everything public — the blog index, the posts themselves — is baked into the
- * build as static content, so the marketing site makes no network calls at all.
- * These calls exist solely for the admin screens, and every one of them is
- * authorized server-side: nothing here is a security control, it is a UI that
- * asks politely and is told no when it should be.
+ * It is not the only file here that makes a request — `config/blog.ts` reads
+ * published posts and `config/scanner.ts` runs the exposure scanner — but the
+ * split is deliberate and worth keeping: the network surface stays auditable
+ * because each of those three owns one boundary and nothing else reaches for
+ * `fetch`.
+ *
+ * Every call below is authorized server-side. Nothing here is a security
+ * control; it is a UI that asks politely and is told no when it should be.
  */
 
 /*

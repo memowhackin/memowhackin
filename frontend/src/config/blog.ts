@@ -199,7 +199,7 @@ export async function loadPost(slug: string): Promise<BlogPost | undefined> {
 /**
  * The post that used to live at this address, if any.
  *
- * Separate from `loadPostBySlug` so a caller has to decide what to do about a
+ * Separate from `loadPost` so a caller has to decide what to do about a
  * match: an article found this way is at the wrong URL, and the route redirects
  * rather than rendering it, or the old and new address would both serve the
  * same page and compete with each other in an index.
