@@ -146,7 +146,8 @@
     "labels": {
       "timelineStart": "Where it starts",
       "timelineFinish": "Verified and closed",
-      "requestPentest": "Request pentest"
+      "requestPentest": "Request pentest",
+      "requestAwareness": "Request awareness session"
     },
     "pentestTypes": {
       "title": "Types of pentest",
@@ -482,75 +483,6 @@
       }
     },
     "awareness": {
-      "statement": {
-        "body": "A firewall has never once clicked a link. The people who keep your business running are asked to, dozens of times a week, by messages built to look exactly like the ones they are waiting for."
-      },
-      "topics": {
-        "title": "What a programme covers",
-        "intro": "Five subjects, taught with your own tools and your own scenarios rather than stock examples from a slide deck.",
-        "items": {
-          "phishing": {
-            "title": "Phishing",
-            "body": "What a convincing message looks like now that they are written well, arrive on the right day and refer to a project your colleague is genuinely working on, and what to do in the ten seconds after clicking."
-          },
-          "socialEngineering": {
-            "title": "Social engineering",
-            "body": "The phone call from the supplier, the visitor who follows someone through the door, the urgent request from a director who is conveniently unreachable. Pressure and authority are the tools; recognising them is the training."
-          },
-          "passwords": {
-            "title": "Passwords and access",
-            "body": "Why reuse is the risk rather than complexity, how a password manager changes the habit, and what multi-factor authentication does and does not protect against."
-          },
-          "workingSafely": {
-            "title": "Working safely, day to day",
-            "body": "Public networks, personal devices, the AI tool nobody registered, and what leaves the building in a shared link or an attachment sent to the wrong autocomplete."
-          },
-          "dataLeaks": {
-            "title": "When something goes wrong",
-            "body": "How to recognise an incident, who to tell within the hour, and why reporting quickly matters more than not having made the mistake. Blame is what keeps incidents hidden."
-          }
-        }
-      },
-      "cycle": {
-        "title": "How a programme runs",
-        "intro": "A loop, not a course. One session teaches; a rhythm changes what people do.",
-        "phases": {
-          "baseline": {
-            "title": "Measure",
-            "body": "We start with where you actually stand, using a simulation and a short survey, so the training answers your situation and you have something to compare against later."
-          },
-          "training": {
-            "title": "Train",
-            "body": "Live sessions, on site or remote, in groups small enough that people ask the questions they would otherwise be embarrassed to ask."
-          },
-          "simulation": {
-            "title": "Simulate",
-            "body": "Realistic phishing sent to your own people, in your own house style, and used to teach at the moment of clicking rather than to catch anyone out."
-          },
-          "adjust": {
-            "title": "Adjust",
-            "body": "You get the results per department and per scenario, we agree what needs more attention, and the loop starts again where the risk actually is."
-          }
-        }
-      },
-      "fit": {
-        "title": "Cut to your organization",
-        "body": "A hospital, a logistics firm and an accountancy practice are attacked in completely different ways, and a training programme that ignores that spends its hour on somebody else's threats. Three things shape yours.",
-        "items": {
-          "sector": {
-            "title": "Your sector",
-            "body": "The scenarios come from the fraud actually run against your industry, in the tone your suppliers and customers really use."
-          },
-          "size": {
-            "title": "Your size",
-            "body": "Twenty people in one room is a conversation; two thousand across six sites is a programme with a plan behind it. Both work, differently."
-          },
-          "risk": {
-            "title": "Your risk profile",
-            "body": "Finance, HR and support are targeted in ways the rest of the company never sees, so they get material the rest of the company does not need."
-          }
-        }
-      },
       "faq": {
         "title": "Frequently asked questions",
         "items": {
@@ -631,20 +563,6 @@
             "title": "Adjust",
             "body": "You get the results per department and per scenario, we agree what needs more attention, and the loop starts again where the risk actually is."
           }
-        }
-      },
-      "report": {
-        "title": "What you get",
-        "body": "Every round ends with something you can act on, written for the people who run the organisation rather than for a security audience.",
-        "items": {
-          "results": "Results per group, never a score next to a name",
-          "trend": "A comparison against your own baseline, so progress is a number rather than a feeling",
-          "materials": "Material your people keep after the session",
-          "guidance": "Concrete recommendations for the policy and the processes around them"
-        },
-        "shot": {
-          "caption": "The programme dashboard: results per group, measured against your own baseline.",
-          "alt": "The ARGUS awareness dashboard showing results per group against a baseline"
         }
       },
       "comparison": {

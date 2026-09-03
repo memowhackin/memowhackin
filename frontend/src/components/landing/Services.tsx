@@ -7,23 +7,35 @@ import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
 import { sectionIds } from "@/config/site";
 
+/*
+ * Real portal captures, each at its export's own size. The dimensions ride
+ * with the entry because the three exports are three different crops — one
+ * shared width/height pair would misstate every ratio and the browser would
+ * letterbox or stretch to compensate.
+ */
 const services = [
   {
     key: "pentesting",
-    image: "/assets/service-pentesting.webp",
+    image: "/assets/dashboard-2.png",
+    width: 813,
+    height: 498,
     alt: "services.alt.pentesting",
     /** Rows alternate which side the screenshot sits on. */
     imageFirst: false,
   },
   {
     key: "cloud",
-    image: "/assets/service-cloud.webp",
+    image: "/assets/dashboard-3.png",
+    width: 1015,
+    height: 740,
     alt: "services.alt.cloud",
     imageFirst: true,
   },
   {
     key: "redTeaming",
-    image: "/assets/service-red-teaming.webp",
+    image: "/assets/dashboard-4.png",
+    width: 871,
+    height: 765,
     alt: "services.alt.redTeaming",
     imageFirst: false,
   },
@@ -104,20 +116,17 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
         <img
           src={service.image}
           alt={t(service.alt)}
-          width={720}
-          height={586}
+          width={service.width}
+          height={service.height}
           loading="lazy"
           /*
-           * The screenshot keeps its own 720×586 and is never cropped. It was
-           * being forced into three ratios on the way up — 4/3, then 16/10,
-           * then 16/9 — and `object-cover` paid for each of them out of the
-           * bottom of the picture: at `lg` that is the last 31% of it, which is
-           * where these panels keep their axis labels. The first card was
-           * cutting "Persistence" in half.
-           *
-           * Nothing needs the rows to be a fixed height — the grid centres the
-           * copy against whatever the picture comes to — so there is nothing to
-           * buy with the crop.
+           * Each screenshot keeps its export's own ratio and is never cropped.
+           * An earlier version forced three ratios on the way up — 4/3, then
+           * 16/10, then 16/9 — and `object-cover` paid for each of them out of
+           * the bottom of the picture, cutting the panels' axis labels in
+           * half. Nothing needs the rows to be a fixed height — the grid
+           * centres the copy against whatever the picture comes to — so there
+           * is nothing to buy with a crop.
            */
           className="block h-auto w-full"
         />

@@ -4,7 +4,6 @@ import clsx from "clsx";
 import { CheckCircle2 } from "lucide-react";
 import { BrandButton } from "@/components/common/BrandButton";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
-import { PortalShot } from "@/components/common/PortalShot";
 import { ReportStack } from "@/components/common/ReportStack";
 import { CrossingMark } from "@/components/common/CrossingMark";
 import { SectionShell } from "@/components/common/SectionShell";
@@ -125,13 +124,19 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
             beside the first was a choice the reader did not need to make in
             order to get past the fold.
           */}
+          {/* Named for what the button actually asks for: a pentest on the
+              pentest pages, a training session on the awareness page. */}
           <BrandButton
             href={site.bookDemoUrl}
             variant="sweep"
             data-testid="page-book-demo"
             className="mt-2 text-nowrap"
           >
-            {t("servicePages.labels.requestPentest")}
+            {t(
+              service.pentest
+                ? "servicePages.labels.requestPentest"
+                : "servicePages.labels.requestAwareness",
+            )}
           </BrandButton>
         </div>
       </SectionShell>
@@ -226,50 +231,55 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
         The deliverable, against the report still life the home page closes its
         benefits section on — the same picture rather than a second rendering of
         the same idea.
+
+        A pentest's section only. The engagement ends on a document; a training
+        programme does not, and this section on the awareness page was a
+        heading, a wish list and an empty frame waiting for a screenshot that
+        does not exist.
       */}
-      <SectionShell
-        className="overflow-x-clip bg-transparent"
-        data-testid={`service-${service.key}-report`}
-        /* Deeper than the sections above it. Everything from here down is the
-           page arguing for itself rather than describing the work, and the two
-           halves need visibly more air between them than the run of parts
-           does — the report still life ends level with its own copy, so the
-           standard rhythm left the next heading sitting right under it. */
-        innerClassName="grid items-center gap-10 pb-24 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-x-24 lg:pb-36"
-      >
-        <div
-          ref={reportRef}
-          className={clsx("flex flex-col gap-6", reportReveal)}
+      {service.pentest && (
+        <SectionShell
+          className="overflow-x-clip bg-transparent"
+          data-testid={`service-${service.key}-report`}
+          /* Deeper than the sections above it. Everything from here down is the
+             page arguing for itself rather than describing the work, and the two
+             halves need visibly more air between them than the run of parts
+             does — the report still life ends level with its own copy, so the
+             standard rhythm left the next heading sitting right under it. */
+          innerClassName="grid items-center gap-10 pb-24 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-x-24 lg:pb-36"
         >
-          <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
-            {t(`servicePages.${service.key}.report.title`)}
-          </h2>
+          <div
+            ref={reportRef}
+            className={clsx("flex flex-col gap-6", reportReveal)}
+          >
+            <h2 className="font-display text-mist text-2xl font-normal text-balance sm:text-3xl">
+              {t(`servicePages.${service.key}.report.title`)}
+            </h2>
 
-          <p className="text-mist/85 max-w-prose text-base leading-relaxed text-pretty sm:text-lg">
-            {t(`servicePages.${service.key}.report.body`)}
-          </p>
+            <p className="text-mist/85 max-w-prose text-base leading-relaxed text-pretty sm:text-lg">
+              {t(`servicePages.${service.key}.report.body`)}
+            </p>
 
-          <ul className="flex flex-col gap-3">
-            {service.deliverables.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <CheckCircle2
-                  aria-hidden="true"
-                  className="text-lavender mt-0.5 size-5 shrink-0"
-                />
-                <span className="text-mist/85 text-base leading-relaxed text-pretty">
-                  {t(`servicePages.${service.key}.report.items.${item}`)}
-                </span>
-              </li>
-            ))}
-          </ul>
+            <ul className="flex flex-col gap-3">
+              {service.deliverables.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <CheckCircle2
+                    aria-hidden="true"
+                    className="text-lavender mt-0.5 size-5 shrink-0"
+                  />
+                  <span className="text-mist/85 text-base leading-relaxed text-pretty">
+                    {t(`servicePages.${service.key}.report.items.${item}`)}
+                  </span>
+                </li>
+              ))}
+            </ul>
 
-          {/*
-            The same request the home page makes, wired to the same dialog. It
-            is a `<button>` because it opens something rather than going
-            somewhere, and takes the call-to-action's look from the shared class
-            list instead of a second definition of it.
-          */}
-          {service.pentest && (
+            {/*
+              The same request the home page makes, wired to the same dialog. It
+              is a `<button>` because it opens something rather than going
+              somewhere, and takes the call-to-action's look from the shared class
+              list instead of a second definition of it.
+            */}
             <button
               type="button"
               data-testid={`service-${service.key}-sample-report`}
@@ -280,30 +290,19 @@ export function ServicePage({ service }: { service: ServiceDefinition }) {
             >
               {t("benefits.cta")}
             </button>
-          )}
-        </div>
+          </div>
 
-        {/*
-          What the engagement leaves you with, as a picture. A pentest ends on
-          the report, so it gets the still life the home page uses. Awareness
-          ends on results per group, so it gets the screen those live on, held
-          by a placeholder until the screenshot exists.
-        */}
-        <div
-          ref={stackRef}
-          className={clsx("mx-auto w-full max-w-lg lg:max-w-none", stackReveal)}
-        >
-          {service.pentest ? (
+          <div
+            ref={stackRef}
+            className={clsx(
+              "mx-auto w-full max-w-lg lg:max-w-none",
+              stackReveal,
+            )}
+          >
             <ReportStack />
-          ) : (
-            <PortalShot
-              src={`/assets/services/${service.key}-dashboard.webp`}
-              altKey={`servicePages.${service.key}.report.shot.alt`}
-              captionKey={`servicePages.${service.key}.report.shot.caption`}
-            />
-          )}
-        </div>
-      </SectionShell>
+          </div>
+        </SectionShell>
+      )}
 
       {service.pentest && (
         <SampleReportModal

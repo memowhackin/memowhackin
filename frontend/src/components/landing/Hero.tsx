@@ -324,14 +324,22 @@ export function Hero() {
             decode is handed off the main thread so a 3076px-wide asset cannot
             block the first frame of the headline beside it.
           */}
+          {/*
+            The export is 1919×1040 — the ARGUS dashboard at native laptop
+            resolution. It is never cropped and never stretched: the width and
+            height attributes carry its real ratio and `w-full h-auto` scales
+            it uniformly inside the column, which never exceeds the export's
+            own pixel width — so on a standard display the browser only ever
+            scales it down.
+          */}
           <img
-            src="/assets/hero-dashboard.webp"
+            src="/assets/dashboard-1.png"
             alt={t("hero.dashboardAlt")}
-            width={3076}
-            height={1230}
+            width={1919}
+            height={1040}
             fetchPriority="high"
             decoding="async"
-            className="border-indigo-deep/70 mx-auto block w-full rounded-t-2xl border border-b-0 shadow-2xl"
+            className="border-indigo-deep/70 mx-auto block h-auto w-full rounded-t-2xl border border-b-0 shadow-2xl"
           />
         </div>
       </div>

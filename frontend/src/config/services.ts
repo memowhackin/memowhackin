@@ -139,20 +139,6 @@ export const WEB_APP_PENTESTING: ServiceDefinition = {
   pentest: true,
 };
 
-export interface AwarenessDefinition {
-  key: string;
-  pageKey: string;
-  path: string;
-  serviceType: string;
-  /** The subjects a programme covers, in the order they are taught. */
-  topics: readonly string[];
-  /** The loop a programme runs on — it ends where it started, on purpose. */
-  phases: readonly string[];
-  /** What a programme is cut to fit. */
-  tailoring: readonly string[];
-  faqs: readonly string[];
-}
-
 export const SECURITY_AWARENESS: ServiceDefinition = {
   key: "awareness",
   pageKey: "servicesAwareness",

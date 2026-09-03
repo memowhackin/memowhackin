@@ -146,7 +146,8 @@
     "labels": {
       "timelineStart": "Waar het begint",
       "timelineFinish": "Geverifieerd en gesloten",
-      "requestPentest": "Pentest aanvragen"
+      "requestPentest": "Pentest aanvragen",
+      "requestAwareness": "Awareness-sessie aanvragen"
     },
     "pentestTypes": {
       "title": "Soorten pentests",
@@ -482,75 +483,6 @@
       }
     },
     "awareness": {
-      "statement": {
-        "body": "Een firewall heeft nog nooit op een link geklikt. De mensen die uw bedrijf draaiende houden wordt dat tientallen keren per week gevraagd, door berichten die er precies uitzien als de berichten waar zij op zitten te wachten."
-      },
-      "topics": {
-        "title": "Wat een programma behandelt",
-        "intro": "Vijf onderwerpen, getraind met uw eigen tooling en uw eigen scenario's in plaats van met standaardvoorbeelden uit een presentatie.",
-        "items": {
-          "phishing": {
-            "title": "Phishing",
-            "body": "Hoe een overtuigend bericht er tegenwoordig uitziet: goed geschreven, op de juiste dag verstuurd en verwijzend naar een project waar uw collega echt aan werkt, en wat te doen in de tien seconden ná het klikken."
-          },
-          "socialEngineering": {
-            "title": "Social engineering",
-            "body": "Het telefoontje van de leverancier, de bezoeker die met iemand mee naar binnen loopt, het spoedverzoek van een directeur die net onbereikbaar is. Druk en autoriteit zijn het gereedschap; die herkennen is de training."
-          },
-          "passwords": {
-            "title": "Wachtwoorden en toegang",
-            "body": "Waarom hergebruik het risico is en niet de complexiteit, hoe een wachtwoordmanager de gewoonte verandert, en waar multifactor-authenticatie wél en niet tegen beschermt."
-          },
-          "workingSafely": {
-            "title": "Veilig werken, elke dag",
-            "body": "Openbare netwerken, privéapparaten, de AI-tool die niemand heeft aangemeld, en wat er het pand verlaat via een gedeelde link of een bijlage naar de verkeerde automatische aanvulling."
-          },
-          "dataLeaks": {
-            "title": "Als het misgaat",
-            "body": "Hoe u een incident herkent, wie u binnen het uur inlicht, en waarom snel melden zwaarder weegt dan de fout niet gemaakt hebben. Schuld is wat incidenten verborgen houdt."
-          }
-        }
-      },
-      "cycle": {
-        "title": "Hoe een programma verloopt",
-        "intro": "Een cyclus, geen cursus. Eén sessie leert iets; een ritme verandert wat mensen doen.",
-        "phases": {
-          "baseline": {
-            "title": "Meten",
-            "body": "Wij beginnen bij waar u werkelijk staat, met een simulatie en een korte vragenlijst, zodat de training uw situatie beantwoordt en u later iets heeft om mee te vergelijken."
-          },
-          "training": {
-            "title": "Trainen",
-            "body": "Live sessies, op locatie of op afstand, in groepen die klein genoeg zijn om de vragen te stellen die mensen anders niet durven te stellen."
-          },
-          "simulation": {
-            "title": "Simuleren",
-            "body": "Realistische phishing naar uw eigen mensen, in uw eigen huisstijl, gebruikt om te leren op het moment van klikken, niet om iemand te betrappen."
-          },
-          "adjust": {
-            "title": "Bijsturen",
-            "body": "U krijgt de resultaten per afdeling en per scenario, we spreken af wat meer aandacht nodig heeft, en de cyclus begint opnieuw daar waar het risico zit."
-          }
-        }
-      },
-      "fit": {
-        "title": "Op maat van uw organisatie",
-        "body": "Een ziekenhuis, een logistiek bedrijf en een accountantskantoor worden op totaal verschillende manieren aangevallen, en een training die dat negeert besteedt zijn uur aan andermans dreigingen. Drie dingen bepalen die van u.",
-        "items": {
-          "sector": {
-            "title": "Uw sector",
-            "body": "De scenario's komen uit de fraude die daadwerkelijk op uw branche wordt losgelaten, in de toon die uw leveranciers en klanten echt gebruiken."
-          },
-          "size": {
-            "title": "Uw omvang",
-            "body": "Twintig mensen in één ruimte is een gesprek; tweeduizend verspreid over zes locaties is een programma met een plan erachter. Allebei werkt, anders."
-          },
-          "risk": {
-            "title": "Uw risicoprofiel",
-            "body": "Finance, HR en support worden benaderd op manieren die de rest van het bedrijf nooit ziet, dus krijgen zij materiaal dat de rest niet nodig heeft."
-          }
-        }
-      },
       "faq": {
         "title": "Veelgestelde vragen",
         "items": {
@@ -631,20 +563,6 @@
             "title": "Bijsturen",
             "body": "U krijgt de resultaten per afdeling en per scenario, we spreken af wat meer aandacht nodig heeft, en de cyclus begint opnieuw daar waar het risico zit."
           }
-        }
-      },
-      "report": {
-        "title": "Wat u krijgt",
-        "body": "Elke ronde eindigt met iets waar u mee vooruit kunt, geschreven voor de mensen die de organisatie leiden en niet voor een securitypubliek.",
-        "items": {
-          "results": "Resultaten per groep, nooit een score naast een naam",
-          "trend": "Een vergelijking met uw eigen nulmeting, zodat vooruitgang een getal is en geen gevoel",
-          "materials": "Materiaal dat uw mensen na de sessie houden",
-          "guidance": "Concrete aanbevelingen voor het beleid en de processen eromheen"
-        },
-        "shot": {
-          "caption": "Het programmaoverzicht: resultaten per groep, afgezet tegen uw eigen nulmeting.",
-          "alt": "Het ARGUS-awarenessoverzicht met resultaten per groep tegen een nulmeting"
         }
       },
       "comparison": {

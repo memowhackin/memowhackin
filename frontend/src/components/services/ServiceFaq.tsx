@@ -26,31 +26,29 @@ function FaqEntry({
      * questions with no answers on it. It also keeps the keyboard and the
      * screen-reader behaviour the browser already implements correctly.
      *
-     * A hairline above rather than a box around, which is how the ruled lists
-     * on these pages are drawn (see the coverage grid and the process rail).
-     * The rule is the only thing that changes colour on open, so an opened
-     * question is marked without the row growing a border it did not have.
+     * Each question is a card rather than a row on a hairline. The open one
+     * takes the accent on its edge and a slightly deeper fill, so the reader
+     * can see from across the page which answer is standing open.
      */
     <details
       ref={ref}
       style={style}
       data-testid={`service-faq-${entry}`}
       className={clsx(
-        "faq-reveal group border-indigo-deep/60 open:border-lavender/50 border-t transition-colors",
+        "faq-reveal group border-indigo-deep/70 bg-ink-deep/50 open:border-lavender/40 open:bg-indigo-deep/30 rounded-2xl border transition-colors",
         className,
       )}
     >
       {/*
         The number sits in a column of its own rather than inline, so the
-        questions all start at the same x whatever their index — the same figure
-        the coverage cells make with their icons. It is decorative: the ordinal
-        is a reading aid, and announcing "zero one" before every question is
-        noise on a screen reader.
+        questions all start at the same x whatever their index. It is
+        decorative: the ordinal is a reading aid, and announcing "zero one"
+        before every question is noise on a screen reader.
 
         Below `sm` the column is dropped entirely; a phone needs the width for
         the question more than it needs the count.
       */}
-      <summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-start gap-4 py-5 sm:grid-cols-[2rem_minmax(0,1fr)_auto] sm:gap-6 sm:py-6 [&::-webkit-details-marker]:hidden">
+      <summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-start gap-4 p-5 sm:grid-cols-[2rem_minmax(0,1fr)_auto] sm:gap-6 sm:p-6 [&::-webkit-details-marker]:hidden">
         <span
           aria-hidden="true"
           className="font-display text-lavender/60 group-open:text-lavender hidden pt-1 text-sm tabular-nums transition-colors sm:block"
@@ -67,7 +65,7 @@ function FaqEntry({
           states of a chevron are an arrow pointing somewhere; the plus/cross
           pair says "there is more here" and "close this" without either reading
           as a direction. It fills with the brand lavender when open, which is
-          the one piece of colour the section takes.
+          the one piece of colour the card takes beyond its edge.
         */}
         <span
           aria-hidden="true"
@@ -90,10 +88,10 @@ function FaqEntry({
 /**
  * A page's questions, answered on the page.
  *
- * Shared by the pentest template and the awareness page, which are otherwise
+ * Shared by the service pages and the ARGUS feature pages, which are otherwise
  * built quite differently: the questions a buyer asks are the same *kind* of
- * thing whatever the service, and two copies of an accordion is how two pages
- * end up opening at different speeds.
+ * thing whatever the page, and two copies of an accordion is how two pages end
+ * up opening at different speeds.
  *
  * The heading lives here rather than in the pages, because it is half of the
  * layout: on a wide screen it holds a column of its own and stays with the
@@ -140,7 +138,7 @@ export function ServiceFaq({
         <span aria-hidden="true" className="bg-lavender/70 h-px w-16" />
       </div>
 
-      <div className="border-indigo-deep/60 flex flex-col border-b">
+      <div className="flex flex-col gap-3 sm:gap-4">
         {entries.map((entry, index) => (
           <FaqEntry key={entry} base={base} entry={entry} index={index} />
         ))}
