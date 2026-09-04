@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
 import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { LogoLockup } from "@/components/common/Logo";
-import { BrandButton } from "@/components/common/BrandButton";
+import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import { HeaderDropdown } from "@/components/layout/HeaderDropdown";
 import { NAV_ITEMS } from "@/config/nav";
@@ -267,21 +267,28 @@ export function SiteHeader() {
             </a>
 
             <div className="hidden sm:block">
-              <BrandButton
-                href={site.bookDemoUrl}
-                variant="sweep"
-                size="sm"
+              {/*
+                A router link rather than `BrandButton`: booking a demo is a
+                page of this site now, and an internal destination has to go
+                through the router or the Dutch build walks out of its own
+                `/nl` prefix. The look comes from the shared class list.
+
+                `text-nowrap`, not `whitespace-nowrap`: the button's base
+                classes set `text-balance`, and both are `text-wrap`
+                longhands — an inherited white-space rule loses to it, so the
+                label broke across two lines once the bar got tight.
+              */}
+              <Link
+                to="/demo"
                 data-testid="header-book-demo"
-                /*
-                  `text-nowrap`, not `whitespace-nowrap`: the button's base
-                  classes set `text-balance`, and both are `text-wrap`
-                  longhands — an inherited white-space rule loses to it, so the
-                  label broke across two lines once the bar got tight.
-                */
-                className="text-nowrap"
+                className={brandButtonClass({
+                  variant: "sweep",
+                  size: "sm",
+                  className: "text-nowrap",
+                })}
               >
                 {t("nav.bookDemo")}
-              </BrandButton>
+              </Link>
             </div>
 
             <button
@@ -436,14 +443,14 @@ export function SiteHeader() {
             {/* Duplicated from the bar above so the action is in reach once the
                 menu covers it; hidden from `sm` up, where the bar shows it. */}
             <div className="sm:hidden">
-              <BrandButton
-                href={site.bookDemoUrl}
-                variant="sweep"
-                size="sm"
+              <Link
+                to="/demo"
+                onClick={closeMenu}
                 data-testid="mobile-book-demo"
+                className={brandButtonClass({ variant: "sweep", size: "sm" })}
               >
                 {t("nav.bookDemo")}
-              </BrandButton>
+              </Link>
             </div>
 
             {!env.noTranslations && (

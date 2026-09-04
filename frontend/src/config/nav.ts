@@ -1,10 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,
+  BadgeCheck,
   CalendarClock,
   Globe,
   GraduationCap,
-  Plug,
   RefreshCw,
   Webhook,
 } from "lucide-react";
@@ -123,11 +123,11 @@ export const NAV_ITEMS: readonly NavItem[] = [
             icon: Activity,
           },
           {
-            key: "integrations",
-            to: "/argus/integrations",
-            labelKey: "nav.argus.integrations",
-            descKey: "nav.argus.desc.integrations",
-            icon: Plug,
+            key: "compliance",
+            to: "/argus/continuous-compliance",
+            labelKey: "nav.argus.compliance",
+            descKey: "nav.argus.desc.compliance",
+            icon: BadgeCheck,
           },
         ],
       },

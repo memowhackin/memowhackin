@@ -8,6 +8,8 @@ import { LatticeDivider } from "@/components/common/LatticeDivider";
 import { SectionShell } from "@/components/common/SectionShell";
 import { SelectField } from "@/components/common/SelectField";
 import { useReveal } from "@/components/common/useReveal";
+import { submitInquiry } from "@/config/inquiries";
+import { SITE_LOCALE } from "@/config/locale";
 import { useSeo } from "@/localization/useSeo";
 import { site } from "@/config/site";
 
@@ -15,11 +17,19 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-/** The services a visitor can ask about, in the order the site sells them. */
-const SERVICES = ["webApp", "api", "awareness", "other"] as const;
-
-/** What is true of a message here, whichever way it is sent. */
-const FACTS = ["reply", "reader", "region"] as const;
+/**
+ * The services a visitor can ask about, in the order the site sells them. The
+ * two pentests are asked for the way they are bought: as a one-off engagement
+ * or as the monthly subscription that follows one.
+ */
+const SERVICES = [
+  "webAppOnce",
+  "webAppMonthly",
+  "apiOnce",
+  "apiMonthly",
+  "awareness",
+  "other",
+] as const;
 
 /** A text field's value. FormData can also carry files; this form never does. */
 function fieldValue(data: FormData, key: string): string {
@@ -125,25 +135,26 @@ function Field({
 }
 
 /**
- * Contact: the about page's hero voice over the same glow, three facts about
- * what a message here gets, then the form in its own panel with the other ways
- * in as a ruled list beside it, the direct address closing that list.
+ * Contact: the about page's hero voice over the same glow, then the form in
+ * its own panel with the other ways in as a ruled list beside it, the direct
+ * address closing that list.
  *
- * There is no data layer on this site, so a valid submit composes the message
- * into the visitor's own mail client, addressed to the team. Nothing is posted
- * anywhere, and the visitor keeps a copy in their sent mail.
+ * A valid submit posts to the backend, which stores the inquiry before it
+ * attempts to mail it. That order is what makes the success state honest: by
+ * the time this form says we have the message, a row exists, whatever the mail
+ * provider happens to be doing.
  */
 function ContactPage() {
   const { t } = useTranslation();
   const { ref: heroRef, className: heroReveal } = useReveal<HTMLDivElement>();
-  const { ref: factsRef, className: factsReveal } = useReveal<HTMLDListElement>(
-    { delay: 120 },
-  );
   const { ref: formRef, className: formReveal } = useReveal<HTMLDivElement>();
   const { ref: channelsRef, className: channelsReveal } =
     useReveal<HTMLDivElement>({ delay: 120 });
   const [service, setService] = useState("");
   const [serviceError, setServiceError] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">(
+    "idle",
+  );
 
   useSeo({
     title: t("pages.contact.title"),
@@ -160,7 +171,7 @@ function ContactPage() {
     [t],
   );
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     // The custom select is not a native required control, so it is checked here
@@ -171,25 +182,27 @@ function ContactPage() {
       return;
     }
 
-    const data = new FormData(event.currentTarget);
-    const name = fieldValue(data, "name");
-    const email = fieldValue(data, "email");
-    const company = fieldValue(data, "company");
-    const note = fieldValue(data, "note");
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setStatus("sending");
 
-    const serviceLabel = t(`contactPage.form.services.${service}`);
-    const subject = `${serviceLabel} - ${company.length > 0 ? company : name}`;
-    const body = [
-      `${t("contactPage.form.name")}: ${name}`,
-      `${t("contactPage.form.email")}: ${email}`,
-      company.length > 0 ? `${t("contactPage.form.company")}: ${company}` : "",
-      "",
-      note,
-    ]
-      .filter((line, index) => line.length > 0 || index === 3)
-      .join("\n");
-
-    window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    try {
+      await submitInquiry({
+        kind: "contact",
+        name: fieldValue(data, "name"),
+        email: fieldValue(data, "email"),
+        company: fieldValue(data, "company"),
+        subject: t(`contactPage.form.services.${service}`),
+        message: fieldValue(data, "note"),
+        locale: SITE_LOCALE,
+        website: fieldValue(data, "website"),
+      });
+      setStatus("sent");
+      form.reset();
+      setService("");
+    } catch {
+      setStatus("failed");
+    }
   }
 
   return (
@@ -225,38 +238,6 @@ function ContactPage() {
             {t("contactPage.heroBody")}
           </p>
         </div>
-
-        {/*
-          What a message here gets, before any way of sending one is offered.
-          Three short facts on hairlines rather than three cards: they are not
-          options to choose between, and every claim in them is one the site
-          already makes elsewhere. This row is what the reference design spends
-          on office addresses; we have no offices to list, and what a visitor
-          actually wants to know at this point is who reads their message and
-          how fast.
-        */}
-        <dl
-          ref={factsRef}
-          data-testid="contact-facts"
-          className={clsx(
-            "grid w-full max-w-4xl gap-6 text-left sm:grid-cols-3 sm:gap-8",
-            factsReveal,
-          )}
-        >
-          {FACTS.map((fact) => (
-            <div
-              key={fact}
-              className="border-indigo-deep flex flex-col gap-1 border-l pl-5"
-            >
-              <dt className="text-mist text-base font-medium">
-                {t(`contactPage.facts.${fact}.title`)}
-              </dt>
-              <dd className="text-mist/75 text-base leading-relaxed text-pretty">
-                {t(`contactPage.facts.${fact}.body`)}
-              </dd>
-            </div>
-          ))}
-        </dl>
       </SectionShell>
 
       {/*
@@ -286,7 +267,9 @@ function ContactPage() {
             )}
           >
             <form
-              onSubmit={handleSubmit}
+              onSubmit={(event) => {
+                void handleSubmit(event);
+              }}
               data-testid="contact-form"
               className="flex flex-col gap-4"
             >
@@ -382,15 +365,50 @@ function ContactPage() {
                 />
               </Field>
 
+              {/* The honeypot: off-screen, unlabelled, never focusable. A bot
+                  filling every input it finds is dropped server-side. */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="sr-only"
+              />
+
               <button
                 type="submit"
+                disabled={status === "sending"}
                 data-testid="contact-submit"
                 className={brandButtonClass({
-                  className: "mt-1 w-full sm:w-fit",
+                  className:
+                    "mt-1 w-full sm:w-fit disabled:pointer-events-none disabled:opacity-60",
                 })}
               >
-                {t("contactPage.form.submit")}
+                {t(
+                  status === "sending"
+                    ? "contactPage.form.sending"
+                    : "contactPage.form.submit",
+                )}
               </button>
+
+              {status !== "idle" && status !== "sending" && (
+                <p
+                  role="status"
+                  data-testid="contact-status"
+                  className={
+                    status === "sent"
+                      ? "text-success text-sm"
+                      : "text-ember text-sm"
+                  }
+                >
+                  {t(
+                    status === "sent"
+                      ? "contactPage.form.sent"
+                      : "contactPage.form.failed",
+                  )}
+                </p>
+              )}
             </form>
           </div>
 

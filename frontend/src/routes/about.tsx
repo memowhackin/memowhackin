@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState, type CSSProperties } from "react";
+import { useMemo, type CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BrandButton } from "@/components/common/BrandButton";
@@ -44,52 +44,13 @@ function visitorRegion(fallback: string): string {
 }
 
 /**
- * The founder's portrait, in the same frame the home page gives the portal
- * screenshot. Until the photograph lands at `/assets/ceo-portrait.webp` the
- * frame holds the mark on the report-stack gradient instead — deliberately a
- * designed placeholder, not a broken image.
- */
-function CeoPortrait() {
-  const { t } = useTranslation();
-  const [missing, setMissing] = useState(false);
-
-  if (missing) {
-    return (
-      <div
-        className="border-indigo-deep/70 flex aspect-[4/5] w-full items-center justify-center rounded-2xl border bg-gradient-to-br from-[#1d1948] to-[#131029] shadow-2xl"
-        data-testid="about-ceo-placeholder"
-        aria-hidden="true"
-      >
-        <LogoMark className="text-lavender/60 w-2/5" />
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src="/assets/ceo-portrait.webp"
-      alt={t("aboutPage.ceo.imageAlt")}
-      width={880}
-      height={1100}
-      loading="lazy"
-      data-testid="about-ceo-portrait"
-      className="border-indigo-deep/70 aspect-[4/5] w-full rounded-2xl border object-cover shadow-2xl"
-      onError={() => {
-        setMissing(true);
-      }}
-    />
-  );
-}
-
-/**
  * About AssistSec: the mission, the lattice the brand is drawn from, the
- * story, a manifesto that fills in as it is read, and the founder's word —
- * closing on the ARGUS registration call to action.
+ * story and a manifesto that fills in as it is read, closing on the ARGUS
+ * registration call to action.
  */
 function AboutPage() {
   const { t, i18n } = useTranslation();
   const { ref: heroRef, className: heroReveal } = useReveal<HTMLDivElement>();
-  const { ref: quoteRef, className: quoteReveal } = useReveal<HTMLElement>();
   const { ref: ctaRef, className: ctaReveal } = useReveal<HTMLDivElement>();
 
   /*
@@ -209,55 +170,6 @@ function AboutPage() {
             <ScrollFillText>{t("aboutPage.manifesto.body")}</ScrollFillText>
           </p>
         </div>
-      </SectionShell>
-
-      {/* The founder, in his own words. */}
-      <SectionShell
-        data-testid="about-ceo"
-        className="bg-ink"
-        innerClassName="py-14 lg:py-20"
-      >
-        <figure
-          ref={quoteRef}
-          className={clsx(
-            "grid items-center gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-20",
-            quoteReveal,
-          )}
-        >
-          <div className="mx-auto w-full max-w-sm lg:mx-0">
-            <CeoPortrait />
-          </div>
-
-          <div className="flex flex-col gap-6">
-            {/*
-              The opening quotation mark, oversized and set in the etched-light
-              fill — typography doing the work an icon would otherwise be asked
-              to do. `leading-[0.5]` crops the glyph's own empty descent so the
-              quote text starts close under it, the way a pulled quote hangs in
-              print.
-            */}
-            <span
-              className="font-display bg-clip-text text-7xl leading-[0.5] font-normal text-transparent select-none sm:text-8xl"
-              style={ETCHED_FILL}
-              aria-hidden="true"
-            >
-              &ldquo;
-            </span>
-
-            <blockquote className="font-display text-mist text-2xl leading-snug font-normal text-pretty sm:text-3xl lg:text-[2.125rem]">
-              {t("aboutPage.ceo.quote")}
-            </blockquote>
-
-            <figcaption className="flex flex-col gap-1">
-              <span className="text-mist text-base font-medium">
-                {t("aboutPage.ceo.role")}
-              </span>
-              <span className="text-mist/50 text-sm">
-                {t("aboutPage.ceo.company")}
-              </span>
-            </figcaption>
-          </div>
-        </figure>
       </SectionShell>
 
       {/*

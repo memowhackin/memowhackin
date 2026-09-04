@@ -43,6 +43,13 @@
       "when": 1787428374359,
       "tag": "0005_left_randall_flagg",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1788483784473,
+      "tag": "0006_fluffy_sunspot",
+      "breakpoints": true
     }
   ]
 }

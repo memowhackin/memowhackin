@@ -126,15 +126,7 @@ export const WEB_APP_PENTESTING: ServiceDefinition = {
   ],
   process: ["scope", "recon", "testing", "validation", "reporting", "retest"],
   deliverables: ["findings", "risk", "fixes", "summary", "compliance"],
-  comparison: [
-    "approach",
-    "cadence",
-    "findings",
-    "retesting",
-    "contact",
-    "compliance",
-    "integrations",
-  ],
+  comparison: ["approach", "cadence", "findings", "retesting", "compliance"],
   faqs: ["blackbox", "duration", "production", "remediation", "compliance"],
   pentest: true,
 };
@@ -199,15 +191,7 @@ export const API_PENTESTING: ServiceDefinition = {
    */
   process: ["scope", "recon", "testing", "validation", "reporting", "retest"],
   deliverables: ["findings", "risk", "fixes", "summary", "compliance"],
-  comparison: [
-    "approach",
-    "cadence",
-    "findings",
-    "retesting",
-    "contact",
-    "compliance",
-    "integrations",
-  ],
+  comparison: ["approach", "cadence", "findings", "retesting", "compliance"],
   faqs: ["protocols", "documentation", "access", "production", "compliance"],
   pentest: true,
 };

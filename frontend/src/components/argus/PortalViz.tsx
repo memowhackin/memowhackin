@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import type { LucideIcon } from "lucide-react";
-import { Check, Plus, RotateCcw, Timer } from "lucide-react";
 
 /*
  * The charts and instruments the new ARGUS pages draw the portal with.
@@ -9,133 +7,11 @@ import { Check, Plus, RotateCcw, Timer } from "lucide-react";
  * Same doctrine as `PortalUI`: drawn rather than photographed, from the page's
  * own tokens, with sample data marked as sample data at the foot of each
  * composition. `PortalUI` holds the list-shaped fragments (queues, threads,
- * trails); this file holds the ones that are pictures — a calendar, a trend
- * line, a score. Split so neither file becomes the junk drawer.
+ * trails); this file holds the ones that are pictures — a trend line, a score. Split so neither file becomes the junk drawer.
  *
  * Everything here is illustration. Compositions sit inside `PortalPanel`, which
  * is aria-hidden; the copy beside them carries the meaning.
  */
-
-/** The lifecycle a finding can be in after a monthly pass. */
-export type DeltaKind = "new" | "open" | "resolved" | "reappearing";
-
-const DELTA_TONE: Record<DeltaKind, { icon: LucideIcon; chip: string }> = {
-  new: { icon: Plus, chip: "border-lavender/30 bg-lavender/10 text-lavender" },
-  open: { icon: Timer, chip: "border-indigo-deep bg-ink/60 text-mist/70" },
-  resolved: {
-    icon: Check,
-    chip: "border-success/30 bg-success/10 text-success",
-  },
-  reappearing: {
-    icon: RotateCcw,
-    chip: "border-warning/30 bg-warning/10 text-warning",
-  },
-};
-
-/**
- * What a monthly pass changed, as four counted states.
- *
- * Icon and label on every tile, never colour alone: the tone is a reading aid,
- * the word is the information.
- */
-export function DeltaBoard({
-  items,
-}: {
-  items: readonly { kind: DeltaKind; count: string; label: string }[];
-}) {
-  return (
-    <ul className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-4">
-      {items.map((item) => {
-        const tone = DELTA_TONE[item.kind];
-        return (
-          <li
-            key={item.kind}
-            className="border-indigo-deep/70 bg-ink/40 flex flex-col gap-2 rounded-lg border p-3"
-          >
-            <span
-              className={clsx(
-                "flex w-fit items-center gap-1.5 rounded-md border px-2 py-0.5 text-[0.65rem] font-medium tracking-wide uppercase",
-                tone.chip,
-              )}
-            >
-              <tone.icon className="size-3" />
-              {item.label}
-            </span>
-            <span className="font-display text-mist text-2xl leading-none tabular-nums">
-              {item.count}
-            </span>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
-/**
- * One month, with the scan day lit.
- *
- * A real grid of numbered days rather than an icon of a calendar, because the
- * argument it carries is specific: the first Monday, every month, and you can
- * see exactly where that lands.
- */
-export function MonthCalendar({
-  month,
-  weekdays,
-  offset,
-  days,
-  scanDay,
-  scanLabel,
-}: {
-  month: string;
-  /** Seven initials, Monday first. */
-  weekdays: readonly string[];
-  /** Blank cells before day 1 (0 when the month opens on Monday). */
-  offset: number;
-  days: number;
-  scanDay: number;
-  scanLabel: string;
-}) {
-  return (
-    <div className="flex flex-col gap-3 p-4">
-      <div className="flex items-baseline justify-between gap-3">
-        <span className="font-display text-mist/80 text-sm">{month}</span>
-        <span className="text-lavender text-xs">{scanLabel}</span>
-      </div>
-
-      <div className="grid grid-cols-7 gap-1 text-center">
-        {weekdays.map((day, index) => (
-          <span
-            key={`${day}-${index.toString()}`}
-            className="text-mist/35 pb-1 text-[0.6rem] tracking-wide uppercase"
-          >
-            {day}
-          </span>
-        ))}
-
-        {Array.from({ length: offset }, (_, index) => (
-          <span key={`pad-${index.toString()}`} />
-        ))}
-
-        {Array.from({ length: days }, (_, index) => {
-          const day = index + 1;
-          return (
-            <span
-              key={day}
-              className={clsx(
-                "rounded-md py-1 font-mono text-[0.65rem] tabular-nums",
-                day === scanDay
-                  ? "bg-lavender text-ink-deep font-medium"
-                  : "text-mist/45",
-              )}
-            >
-              {day}
-            </span>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
 
 /*
  * The chart draws itself the first time it is seen, not on mount: mounted below

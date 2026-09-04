@@ -14,6 +14,11 @@ import { AlertTriangle, ArrowRight, ArrowUp } from "lucide-react";
 import { LatticeDivider } from "@/components/common/LatticeDivider";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
+import {
+  blockSignature,
+  inlineSignature,
+  keyed,
+} from "@/components/legal/legalKeys";
 import { site } from "@/config/site";
 import {
   legalDocument,
@@ -188,17 +193,17 @@ function GapMarker({ gap }: { gap: LegalGap }) {
 function Inline({ content }: { content: readonly LegalInline[] }) {
   return (
     <>
-      {content.map((piece, index) => {
+      {keyed(content, inlineSignature).map(({ key, item: piece }) => {
         if (typeof piece === "string") return piece;
 
         switch (piece.kind) {
           case "gap":
-            return <GapMarker key={index} gap={piece} />;
+            return <GapMarker key={key} gap={piece} />;
 
           case "anchor":
             return (
               <a
-                key={index}
+                key={key}
                 href={`#${piece.id}`}
                 className={LINK_CLASS}
                 onClick={(event) => {
@@ -211,7 +216,7 @@ function Inline({ content }: { content: readonly LegalInline[] }) {
 
           case "route":
             return (
-              <Link key={index} to={piece.to} className={LINK_CLASS}>
+              <Link key={key} to={piece.to} className={LINK_CLASS}>
                 {piece.text}
               </Link>
             );
@@ -219,7 +224,7 @@ function Inline({ content }: { content: readonly LegalInline[] }) {
           case "external":
             return (
               <a
-                key={index}
+                key={key}
                 href={piece.href}
                 className={LINK_CLASS}
                 target="_blank"
@@ -232,7 +237,7 @@ function Inline({ content }: { content: readonly LegalInline[] }) {
           case "mail":
             return (
               <a
-                key={index}
+                key={key}
                 href={`mailto:${piece.address}`}
                 className={LINK_CLASS}
               >
@@ -257,8 +262,10 @@ function Block({ block }: { block: LegalBlock }) {
     case "list":
       return (
         <ul className="text-mist/85 flex flex-col gap-2.5 text-base leading-relaxed sm:text-lg">
-          {block.items.map((item, index) => (
-            <li key={index} className="flex gap-3.5 text-pretty">
+          {keyed(block.items, (item) =>
+            item.map(inlineSignature).join("|"),
+          ).map(({ key, item }) => (
+            <li key={key} className="flex gap-3.5 text-pretty">
               {/* The square marker the chips and lists on this site use. */}
               <span
                 aria-hidden="true"
@@ -303,8 +310,8 @@ function Block({ block }: { block: LegalBlock }) {
 function Blocks({ blocks }: { blocks: readonly LegalBlock[] }) {
   return (
     <div className="flex flex-col gap-5">
-      {blocks.map((block, index) => (
-        <Block key={index} block={block} />
+      {keyed(blocks, blockSignature).map(({ key, item }) => (
+        <Block key={key} block={item} />
       ))}
     </div>
   );

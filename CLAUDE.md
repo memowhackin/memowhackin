@@ -54,10 +54,11 @@ changes the site with no rebuild. `VITE_CMS_API_URL` is empty by default, meanin
 nginx, the vite dev server and the static servers used for prerendering and e2e all proxy `/api`
 to the backend, so no cross-origin request is ever made and there is no CORS entry to maintain.
 
-**Exactly three files in `frontend/src/` make network calls — keep it that way**, so the network
+**Exactly four files in `frontend/src/` make network calls — keep it that way**, so the network
 surface stays auditable in one place: `config/blog.ts` reads published posts, `config/cms.ts` does
 everything the admin area needs (`/studio-b78262a861` and its login: sign in, CRUD, uploads,
-publish), and `config/scanner.ts` does everything the exposure scanner needs. Nothing in the
+publish), `config/scanner.ts` does everything the exposure scanner needs, and
+`config/inquiries.ts` posts the contact and demo forms. Nothing in the
 frontend is a security control: the server authorizes every request, and the UI hiding a button is
 a courtesy, not a boundary. In particular the scanner's field validation exists so a typo gets an
 answer without a round trip; `backend/src/scanner/normalize.ts` re-derives every rule and its

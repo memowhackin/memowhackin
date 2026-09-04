@@ -10,10 +10,8 @@ test("renders every landing section", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.getByTestId("landing-page")).toBeVisible();
-  // The hyphen in "AI‑assisted" is U+2011 (see Hero.test.tsx), so match either
-  // hyphen rather than pinning the assertion to one codepoint.
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    /AI[-‑]assisted pentesting/,
+    "Where AI meets pentesting.",
   );
 
   for (const section of [
@@ -31,16 +29,19 @@ test("renders every landing section", async ({ page }) => {
   }
 });
 
-test("points login and demo at the scanner app", async ({ page }) => {
+test("points login at the scanner app and demo at its own page", async ({
+  page,
+}) => {
   await page.goto("/");
 
+  // The customer portal's sign-in, not the pentesting dashboard's.
   await expect(page.getByTestId("header-login")).toHaveAttribute(
     "href",
-    "https://scanner.assistsec.nl/login",
+    "https://scanner.assistsec.nl/portal/login",
   );
   await expect(page.getByTestId("header-book-demo")).toHaveAttribute(
     "href",
-    "https://scanner.assistsec.nl/demo",
+    "/demo",
   );
 });
 
@@ -51,7 +52,7 @@ test("switches language to Dutch", async ({ page }) => {
   await page.getByTestId("language-switcher-nl").click();
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Cyberveiligheid",
+    "AI-gedreven pentesting.",
   );
   await expect(page.getByTestId("header-login")).toHaveText("Inloggen");
 

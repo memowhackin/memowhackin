@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
-import { BrandButton } from "@/components/common/BrandButton";
+import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { useMediaQuery } from "@/components/common/useMediaQuery";
 import { useReveal } from "@/components/common/useReveal";
-import { site } from "@/config/site";
 
 /**
  * Final conversion block, with the two robotic hands reaching in from the sides.
@@ -242,13 +242,19 @@ export function ClosingCta() {
             {t("cta.body")}
           </p>
 
-          <BrandButton
-            href={site.bookDemoUrl}
+          {/*
+            A router link rather than `BrandButton`: this closes every page on
+            the contact form, and an internal destination has to go through the
+            router or the Dutch build walks out of its own `/nl` prefix. The
+            look comes from the shared class list.
+          */}
+          <Link
+            to="/contact"
             data-testid="closing-book-demo"
-            className="mt-2"
+            className={brandButtonClass({ className: "mt-2" })}
           >
             {t("cta.action")}
-          </BrandButton>
+          </Link>
         </div>
       </div>
     </section>

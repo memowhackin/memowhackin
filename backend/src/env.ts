@@ -67,6 +67,23 @@ const schema = z.object({
   /** `log` writes the mail to the process log; nothing leaves the machine. */
   SCANNER_MAIL_TRANSPORT: z.enum(["none", "log"]).default("none"),
 
+  /*
+   * SMTP, for contact and demo requests. Plain SMTP rather than a provider
+   * SDK, so switching provider is configuration rather than a code change.
+   *
+   * An empty host switches delivery off without switching the feature off:
+   * inquiries are still stored, and the undelivered rows are the queue to
+   * send once credentials exist. See `inquiries/mail.ts`.
+   */
+  SMTP_HOST: z.string().default(""),
+  SMTP_PORT: z.coerce.number().int().positive().default(587),
+  SMTP_USER: z.string().default(""),
+  SMTP_PASSWORD: z.string().default(""),
+  /** Envelope sender. Must be a domain we are allowed to send as. */
+  SMTP_FROM: z.string().default("AssistSec <noreply@assistsec.nl>"),
+  /** Where contact and demo requests land. */
+  INQUIRY_RECIPIENT: z.string().default("contact@assistsec.nl"),
+
   /** 32 bytes, base64. Encrypts the subject address and the stored findings. */
   SCANNER_ENCRYPTION_KEY: z.string().default(""),
 

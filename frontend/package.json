@@ -20,11 +20,11 @@
   "dependencies": {
     "@tanstack/react-router": "^1.170.32",
     "clsx": "^2.1.1",
-    "i18next": "^26.4.0",
-    "lucide-react": "^1.35.0",
+    "i18next": "^26.4.2",
+    "lucide-react": "^1.40.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-i18next": "^17.0.12"
+    "react-i18next": "^17.0.13"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
@@ -33,17 +33,17 @@
     "@tanstack/router-plugin": "^1.168.35",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5",
+    "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/coverage-v8": "^4.1.11",
-    "daisyui": "^5.7.22",
+    "@vitest/coverage-v8": "^5.0.0",
+    "daisyui": "^5.7.28",
     "jsdom": "^30.0.1",
     "playwright": "^1.62.1",
     "tailwindcss": "^4.3.3",
     "typescript": "7.0.2",
     "vite": "^8.2.2",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.0"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "landing-cms",
+  "name": "backend",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -28,23 +28,25 @@
     "express-rate-limit": "^8.7.0",
     "helmet": "^8.3.0",
     "multer": "^2.3.0",
+    "nodemailer": "^9.1.1",
     "pg": "^8.23.0",
     "pino": "^10.3.1",
     "sanitize-html": "^2.17.7",
     "sharp": "^0.35.4",
-    "zod": "^4.5.2"
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/multer": "^2.2.0",
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.4.1",
+    "@types/nodemailer": "^8.0.1",
     "@types/pg": "^8.23.1",
     "@types/sanitize-html": "^2.16.1",
     "drizzle-kit": "^0.31.10",
     "tsx": "^4.23.13",
     "typescript": "7.0.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   }
 }

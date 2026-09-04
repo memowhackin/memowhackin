@@ -16,6 +16,7 @@ import { pool } from "./db/client.js";
 import { env, isProduction } from "./env.js";
 import { logger } from "./logger.js";
 import { scannerRouter } from "./scanner/routes.public.js";
+import { inquiryRouter } from "./inquiries/routes.js";
 import { requireAllowedOrigin } from "./security/origin.js";
 
 export const app = express();
@@ -93,6 +94,7 @@ app.use("/api/auth", authRouter);
  * that one ends in a terminal 404 for anything it does not recognise.
  */
 app.use("/api/public/scanner", scannerRouter);
+app.use("/api/public", inquiryRouter);
 app.use("/api/public", publicRouter);
 app.use("/api", adminRouter);
 

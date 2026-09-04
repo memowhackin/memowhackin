@@ -9,7 +9,13 @@ export const site = {
   baseUrl: "https://assistsec.nl",
   scannerBaseUrl: "https://scanner.assistsec.nl",
   contactEmail: "contact@assistsec.nl",
-  loginUrl: "https://scanner.assistsec.nl/login",
+  /*
+   * The customer portal's own sign-in, not the pentesting dashboard's. Both
+   * live on the scanner host and the paths differ by one segment, so this is
+   * worth naming: `/login` is where our own testers sign in, `/portal/login`
+   * is where a customer does, and the header link is for customers.
+   */
+  loginUrl: "https://scanner.assistsec.nl/portal/login",
   bookDemoUrl: "https://scanner.assistsec.nl/demo",
   linkedInUrl: "https://www.linkedin.com/company/assistsec",
   youTubeUrl: "https://www.youtube.com/@assistsec",

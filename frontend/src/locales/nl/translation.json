@@ -23,12 +23,12 @@
       "monthly": "Maandelijkse security scans",
       "retest": "Collaboratief hertesten",
       "workspace": "Live pentest-workspace",
-      "integrations": "Integraties",
+      "compliance": "Continue compliance",
       "desc": {
-        "monthly": "Elke eerste maandag van de maand een nieuwe ronde.",
+        "monthly": "Elke eerste maandag van de maand een nieuwe scan.",
         "retest": "Verifieer fixes met de pentester die ze vond.",
         "workspace": "Bevindingen, agent-activiteit en het rapport, live.",
-        "integrations": "Splunk, SIEM en ticketing."
+        "compliance": "ISO 27001-koppeling, altijd actueel."
       }
     },
     "knowledgeBase": "Kennisbank",
@@ -59,7 +59,7 @@
       "title": "Web applicatie pentesting | Nederland & EU | AssistSec",
       "description": "Penetratietesten van webapplicaties door de meest ervaren pentesters van Europa, versterkt door AI-agents. Heldere bevindingen, risicoanalyse en concrete oplossingen.",
       "heading": "Web applicatie pentesting",
-      "body": "Wij testen uw webapplicaties zoals een aanvaller dat zou doen. Ervaren Europese pentesters en autonome AI-agents werken op hetzelfde doelwit, zodat kwetsbaarheden sneller boven water komen zonder in te leveren op diepgang."
+      "body": "Ontdek kwetsbaarheden voordat aanvallers dat doen. AssistSec combineert ervaren pentesters met autonome AI-agents om webapplicaties en API's sneller, breder en consistenter te testen. Iedere bevinding wordt door een expert gevalideerd en voorzien van een heldere, directe aanbeveling, die vervolgens inzichtelijk wordt gemaakt in het klantportaal."
     },
     "servicesApi": {
       "title": "API pentesting | Nederland & EU | AssistSec",
@@ -91,11 +91,11 @@
       "heading": "Live pentest-workspace",
       "body": "Bevindingen komen binnen zodra ze gevalideerd zijn, gerangschikt op CVSS v4.0, met agent-activiteit in beeld."
     },
-    "argusIntegrations": {
-      "title": "Integraties | SIEM, ticketing en CI | AssistSec",
-      "description": "Stuur gevalideerde ARGUS-bevindingen naar uw SIEM, uw backlog en uw pijplijn, met de status die terugkomt. Routeringsregels bepalen wat waarheen gaat.",
-      "heading": "Integraties",
-      "body": "Bevindingen in de tools waar uw teams al in werken, met hun status die terugkomt."
+    "argusCompliance": {
+      "title": "Continue compliance | ISO 27001-mapping | AssistSec",
+      "description": "Elke ARGUS-bevinding benoemt de ISO 27001 Annex A-controls die ze raakt, met datum en bewijs erbij. Stap een audit binnen met uw technische controls al beantwoord.",
+      "heading": "Continue compliance",
+      "body": "Elke bevinding gekoppeld aan de controls die ze raakt, met het bewijs bewaard en gedateerd."
     },
     "knowledgeBase": {
       "title": "Kennisbank | AssistSec",
@@ -123,6 +123,11 @@
       "heading": "Contact",
       "body": "Neem contact op voor penetratietesten, ARGUS of een voorbeeldrapport."
     },
+    "demo": {
+      "title": "Demo boeken | Zie ARGUS live | AssistSec",
+      "description": "Boek een demo van 15 minuten met een van onze pentesters: live bevindingen, agent-activiteit en rapportage, getoond op het echte product.",
+      "heading": "Demo boeken"
+    },
     "blog": {
       "title": "Blog | AssistSec",
       "description": "Het laatste nieuws over pentesten, hacking, security research en compliance van het AssistSec-team.",
@@ -145,7 +150,6 @@
   "servicePages": {
     "labels": {
       "timelineStart": "Waar het begint",
-      "timelineFinish": "Geverifieerd en gesloten",
       "requestPentest": "Pentest aanvragen",
       "requestAwareness": "Awareness-sessie aanvragen"
     },
@@ -186,11 +190,11 @@
       "definition": {
         "title": "Wat web applicatie pentesting is",
         "p1": "Web applicatie pentesting is een securityonderzoek waarbij uw applicatie onder gecontroleerde omstandigheden wordt aangevallen, precies zoals een echte aanvaller dat zou doen, maar met een rapport als uitkomst in plaats van een incident. Alles wat een gebruiker kan bereiken valt binnen de scope: de login, de rollen daarachter, de data die elk account kan raken en de business logica die het geheel verbindt.",
-        "p2": "Wij combineren ervaren Europese pentesters met AI-ondersteunde security tooling. De agents dekken de breedte van de applicatie af, terwijl onze specialisten de bevindingen oppakken die menselijk oordeel vragen. Dat maakt de detectie sneller zonder in te leveren op diepgang."
+        "p2": "Wij combineren ervaren Europese pentesters met AI-ondersteunde security tooling. De agents dekken de breedte van de applicatie af, terwijl onze specialisten de bevindingen oppakken die menselijk oordeel vragen."
       },
       "coverage": {
         "title": "Wat wij testen",
-        "intro": "Elk onderzoek dekt het volledige aanvalsoppervlak van uw applicatie, van het inlogscherm tot de business logica erachter.",
+        "intro": "Wij testen met behulp van autonome AI-agents volgens het OWASP Top 10 en PTES.",
         "items": {
           "auth": {
             "title": "Authenticatie en sessies",
@@ -255,24 +259,24 @@
           "findings": "Elke bevinding met reproductiestappen en bewijs",
           "risk": "Een risicoanalyse per bevinding, afgewogen tegen de werkelijke bedrijfsimpact",
           "fixes": "Concrete, geprioriteerde aanbevelingen waar uw ontwikkelaars mee vooruit kunnen",
-          "summary": "Een management summary die het risico uitlegt zonder jargon",
+          "summary": "Een management samenvatting die het risico op een begrijpbare manier uitlegt",
           "compliance": "Bevindingen gekoppeld aan de relevante ISO 27001-controls via ARGUS"
         }
       },
       "comparison": {
         "title": "AssistSec v.s. anderen",
         "intro": "Dezelfde test, geleverd zoals security tegenwoordig werkt: doorlopend, in de open lucht, en met de mensen die het lek vonden bereikbaar terwijl u het dicht zet.",
-        "caption": "AssistSec vergeleken met een conventionele penetratietest",
+        "caption": "AssistSec vergeleken met een traditionele penetratietest",
         "columns": {
           "aspect": "Onderdeel",
           "ours": "AssistSec",
-          "theirs": "Een conventionele pentest"
+          "theirs": "Traditionele pentest"
         },
         "rows": {
           "approach": {
             "aspect": "Aanpak",
             "ours": "Senior Europese pentesters en autonome agents op hetzelfde doelwit",
-            "theirs": "Een scanner of een consultant, zelden allebei"
+            "theirs": "Een junior pentester op de test"
           },
           "cadence": {
             "aspect": "Frequentie",
@@ -281,28 +285,18 @@
           },
           "findings": {
             "aspect": "Bevindingen",
-            "ours": "Live in het ARGUS-portaal, op risico gerangschikt, zodra ze gevonden zijn",
+            "ours": "Live in het ARGUS-portaal, direct inzichtelijk als iets gevonden is",
             "theirs": "Een PDF, weken na afloop van de test"
           },
           "retesting": {
             "aspect": "Hertesten",
-            "ours": "Op aanvraag, rechtstreeks vanuit het portaal",
+            "ours": "Op aanvraag, rechtstreeks vanuit het portaal, geen extra kosten",
             "theirs": "Apart geoffreerd en opnieuw ingepland"
-          },
-          "contact": {
-            "aspect": "Contact",
-            "ours": "Direct contact met de pentester die het vond",
-            "theirs": "Een ticketwachtrij en een accountmanager"
           },
           "compliance": {
             "aspect": "Compliance",
             "ours": "Elke bevinding gekoppeld aan de relevante ISO 27001-controls",
             "theirs": "Bewijs dat u zelf bij elkaar zoekt"
-          },
-          "integrations": {
-            "aspect": "Uw eigen tooling",
-            "ours": "Bevindingen rechtstreeks in uw SIEM en ticketing",
-            "theirs": "Met de hand overgetypt uit het rapport"
           }
         }
       },
@@ -405,24 +399,24 @@
           "findings": "Elke bevinding met de exacte request en response die het bewijst",
           "risk": "Een risicoanalyse per bevinding, afgewogen tegen de werkelijke bedrijfsimpact",
           "fixes": "Concrete, geprioriteerde oplossingen, geschreven voor wie het endpoint beheert",
-          "summary": "Een management summary die het risico uitlegt zonder jargon",
+          "summary": "Een management samenvatting die het risico op een begrijpbare manier uitlegt",
           "compliance": "Bevindingen gekoppeld aan de relevante ISO 27001-controls via ARGUS"
         }
       },
       "comparison": {
         "title": "AssistSec v.s. anderen",
         "intro": "API's veranderen bij elke release. Dat is precies het probleem met één keer per jaar testen en de PDF opbergen.",
-        "caption": "AssistSec vergeleken met een conventionele API-penetratietest",
+        "caption": "AssistSec vergeleken met een traditionele API-penetratietest",
         "columns": {
           "aspect": "Onderdeel",
           "ours": "AssistSec",
-          "theirs": "Een conventionele pentest"
+          "theirs": "Traditionele pentest"
         },
         "rows": {
           "approach": {
             "aspect": "Aanpak",
             "ours": "Agents die elk endpoint tegen elke rol afgaan, met senior pentesters op de logica",
-            "theirs": "Een scanner die uw specificatie leest en daar stopt"
+            "theirs": "Een junior pentester op de test"
           },
           "cadence": {
             "aspect": "Frequentie",
@@ -431,28 +425,18 @@
           },
           "findings": {
             "aspect": "Bevindingen",
-            "ours": "Live in het ARGUS-portaal, op risico gerangschikt, zodra ze gevonden zijn",
+            "ours": "Live in het ARGUS-portaal, direct inzichtelijk als iets gevonden is",
             "theirs": "Een PDF, weken na afloop van de test"
           },
           "retesting": {
             "aspect": "Hertesten",
-            "ours": "Op aanvraag, rechtstreeks vanuit het portaal",
+            "ours": "Op aanvraag, rechtstreeks vanuit het portaal, geen extra kosten",
             "theirs": "Apart geoffreerd en opnieuw ingepland"
-          },
-          "contact": {
-            "aspect": "Contact",
-            "ours": "Uw developers spreken de pentester die het vond",
-            "theirs": "Een ticketwachtrij en een accountmanager"
           },
           "compliance": {
             "aspect": "Compliance",
             "ours": "Elke bevinding gekoppeld aan de relevante ISO 27001-controls",
             "theirs": "Bewijs dat u zelf bij elkaar zoekt"
-          },
-          "integrations": {
-            "aspect": "Uw eigen tooling",
-            "ours": "Bevindingen rechtstreeks in uw SIEM en ticketing",
-            "theirs": "Met de hand overgetypt uit het rapport"
           }
         }
       },
@@ -568,11 +552,11 @@
       "comparison": {
         "title": "Waar AssistSec het verschil maakt",
         "intro": "Awareness is een gewoonte, geen module. Daar zit het hele verschil tussen een programma dat gedrag verandert en een programma dat een aanwezigheidslijst oplevert.",
-        "caption": "AssistSec vergeleken met conventionele awareness training",
+        "caption": "AssistSec vergeleken met traditionele awareness training",
         "columns": {
           "aspect": "Onderdeel",
           "ours": "AssistSec",
-          "theirs": "Conventionele training"
+          "theirs": "Traditionele training"
         },
         "rows": {
           "approach": {
@@ -630,26 +614,17 @@
       "notePlaceholder": "Vertel ons over uw applicatie, uw planning of wat we verder moeten weten.",
       "submit": "Verstuur bericht",
       "services": {
-        "webApp": "Web applicatie pentesting",
-        "api": "API pentesting",
+        "webAppOnce": "Web applicatie pentesting (One-off)",
+        "webAppMonthly": "Web applicatie pentesting (Maandabonnement)",
+        "apiOnce": "API pentesting (One-off)",
+        "apiMonthly": "API pentesting (Maandabonnement)",
         "awareness": "Security awareness",
         "other": "Iets anders"
       },
-      "title": "Stuur ons een bericht"
-    },
-    "facts": {
-      "reply": {
-        "title": "Binnen één werkdag",
-        "body": "Elk bericht krijgt binnen één werkdag antwoord."
-      },
-      "reader": {
-        "title": "Gelezen door een pentester",
-        "body": "Uw bericht komt bij het team terecht, niet bij een salesafdeling."
-      },
-      "region": {
-        "title": "Vanuit Nederland",
-        "body": "We werken vanuit Nederland voor organisaties in heel Europa."
-      }
+      "title": "Stuur ons een bericht",
+      "sending": "Versturen...",
+      "sent": "Dank u. We hebben uw bericht ontvangen en reageren snel.",
+      "failed": "Er ging iets mis. Probeer het opnieuw, of mail ons rechtstreeks."
     },
     "channels": {
       "demo": {
@@ -670,8 +645,8 @@
     }
   },
   "aboutPage": {
-    "heroTitle": "Onze missie is organisaties digitaal weerbaar maken, vanuit het perspectief van de hacker.",
-    "heroBody": "Wij vinden dat een pentest geen jaarlijks ritueel hoort te zijn. Onze pentesters en hun AI-agents testen elke dag door, en u kijkt live mee in plaats van te wachten op een rapport.",
+    "heroTitle": "Over AssistSec",
+    "heroBody": "Wij vinden dat een pentest geen jaarlijks ritueel hoort te zijn. Onze pentesters en onze AI-agents testen elke maand door, en u kijkt live mee in plaats van te wachten op een rapport.",
     "story": {
       "title": "Ons verhaal",
       "p1": "AssistSec is gestart door pentesters die zich begonnen te ergeren aan hun eigen vak. Een week testen, een dik rapport, een handtekening en tot volgend jaar. Ondertussen verandert de code elke dag, en een aanvaller wacht niet op de volgende auditronde.",
@@ -679,17 +654,11 @@
     },
     "argusWhy": {
       "title": "Waarom we ARGUS bouwden",
-      "body": "Een rapport begint te verouderen op de dag dat het wordt opgeleverd. ARGUS niet. Het portaal scant elke maand opnieuw, zet bevindingen op volgorde van risico, hertest zodra u een fix live zet en houdt bij waar u staat voor ISO 27001. Geen losse PDF's meer, gewoon één plek waar alles staat."
+      "body": "Een rapport begint te verouderen op de dag dat het wordt opgeleverd. ARGUS niet. Het portaal scant elke maand opnieuw, zet bevindingen op volgorde van risico, hertest zodra u een fix live zet en houdt bij waar u staat voor ISO 27001. U ontvangt nog steeds een volledig pentestrapport, opgesteld volgens de standaard die uw auditor en uw klanten verwachten. Wat verandert is dat het rapport niet langer de enige plek is waar uw security leeft: in plaats van losse pdf's verspreid over mailboxen blijft alles actueel op één plek."
     },
     "manifesto": {
       "title": "Wat ons drijft",
       "body": "Wij geloven niet in jaarlijkse momentopnames. Security is een levende praktijk: continu testen, elke bevinding met menselijk oordeel valideren en blijven tot het is opgelost. Dat is wat ons drijft."
-    },
-    "ceo": {
-      "quote": "Elk bedrijf zegt dat security een prioriteit is. Wij bouwden AssistSec zodat het een praktijk kan zijn: continu, transparant en menselijk op de momenten die ertoe doen.",
-      "role": "Oprichter & CEO",
-      "company": "AssistSec",
-      "imageAlt": "Portret van de oprichter van AssistSec"
     },
     "cta": {
       "title": "Laat u door ons hacken voordat iemand anders het doet.",
@@ -698,14 +667,14 @@
     }
   },
   "hero": {
-    "title": "Cyberveiligheid met AI‑assisted pentesting.",
-    "body": "Wij zetten de beste pentesters van Europa in om organisaties digitaal weerbaar te maken. Met geavanceerde tests en red teaming leggen we kwetsbaarheden bloot voordat aanvallers ze misbruiken.",
+    "title": "AI-gedreven pentesting.",
+    "body": "Wij combineren de meest ervaren pentesters van Europa met AI-gedreven pentests om webapplicaties en API's beter te beveiligen. Iedere bevinding wordt door een expert gevalideerd, zodat organisaties kwetsbaarheden gericht kunnen verhelpen voordat aanvallers ze misbruiken.",
     "cta": "Start vandaag!",
     "dashboardAlt": "AssistSec-portaal met API-beveiligingsbevindingen"
   },
   "platform": {
     "eyebrow": "Over AssistSec",
-    "poweredBy": "Aangedreven door innovatie en next-generation kunstmatige intelligentie",
+    "poweredBy": "Aangedreven door innovatie en next-generatie AI",
     "tags": {
       "apiTesting": "API-testen",
       "xss": "Cross-Site Scripting",
@@ -715,8 +684,8 @@
     "partnerAlt": "{{name}}-logo"
   },
   "agents": {
-    "title": "Autonome agents\nvoor het testwerk.",
-    "subtitle": "Senior securityexperts beoordelen elke bevinding.",
+    "title": "AI-agents testen.\nPentesters houden toezicht.",
+    "subtitle": "Senior pentesters beoordelen elke bevinding.",
     "cta": "Start vandaag",
     "skylineAlt": "Skyline van de stad in de schemering",
     "alerts": {
@@ -762,7 +731,7 @@
     },
     "experts": {
       "title": "AI + experts",
-      "body": "Agents doen het zware werk. Elke bevinding wordt gevalideerd."
+      "body": "AI-agents voeren de scans uit. Elke bevinding wordt gevalideerd."
     },
     "insight": {
       "title": "Direct inzicht",
@@ -771,7 +740,7 @@
   },
   "benefits": {
     "title": "Een assistsec rapport.",
-    "reportIntro": "De bevindingen worden opgenomen in een eindrapport, inclusief een heldere managementsamenvatting.",
+    "reportIntro": "De bevindingen worden opgenomen in een eindrapport, inclusief een duidelijke managementsamenvatting.",
     "reportBody": "Kwetsbaarheden worden beoordeeld en voorzien van aanbevelingen, geprioriteerd op basis van risico.",
     "cta": "Voorbeeldrapport aanvragen",
     "reportAlt": "Een voorbeeld van een AssistSec pentestrapport, geopend bij de managementsamenvatting, met de technische bijlage half zichtbaar erachter",
@@ -961,7 +930,7 @@
     "backToTop": "Terug naar boven"
   },
   "footer": {
-    "about": "Wij zijn een AI-ondersteund penetratietestbedrijf. We leveren ethical hacking-diensten en bieden daarnaast abonnementen aan in een SaaS-model.",
+    "about": "AI-ondersteunde pentests voor webapplicaties en API's, eenmalig of doorlopend.",
     "quickLinks": "Snelle links",
     "connect": "Volg ons op",
     "linkedIn": "LinkedIn",
@@ -1672,105 +1641,79 @@
     }
   },
   "argusPages": {
-    "labels": {
-      "related": "Ontdek ARGUS"
+    "agentic": {
+      "title": "Wat is agentic pentesting?",
+      "intro": "Dezelfde opdracht, uitgevoerd door honderden gespecialiseerde agents onder leiding van onze pentesters.",
+      "items": {
+        "attack": {
+          "title": "Honderden agents, aanvallend als pentesters",
+          "body": "Autonome agents werken uw applicaties, API's en infrastructuur door zoals een echte aanvaller dat zou doen, en ontdekken en misbruiken zwakke plekken op machinesnelheid."
+        },
+        "prove": {
+          "title": "Elke bevinding wordt gevalideerd voordat u hem ziet",
+          "body": "Aparte agents exploiteren elke kandidaat-bevinding opnieuw om te bevestigen dat hij echt is. Wat u bereikt is gevalideerd, met een werkend proof of concept, geen stapel ongecontroleerde meldingen."
+        },
+        "report": {
+          "title": "Een rapport op dezelfde dag",
+          "body": "Wat weken duurde, duurt nu uren. Resultaten worden gevalideerd en geëxporteerd als het rapport dat u nodig hebt: een managementsamenvatting, een klantversie of het volledige auditorrapport."
+        }
+      }
     },
     "monthly": {
       "hero": {
-        "heading": "Uw pentest hoort niet te verlopen na oplevering.",
-        "lede": "De eerste pentest legt uw baseline vast. Daarna scant ARGUS uw webapplicaties elke eerste maandag van de maand opnieuw en ziet u precies wat er sinds de vorige ronde is veranderd.",
+        "heading": "Maandelijkse pentests.",
+        "lede": "De eerste pentest legt uw baseline vast. Daarna scant ARGUS uw webapplicaties elke eerste maandag van de maand opnieuw en ziet u precies wat er sinds de vorige scan is veranderd.",
         "points": {
           "schedule": "Een vast ritme: de eerste maandag van elke maand, vooraf ingepland.",
-          "delta": "Elke ronde vergeleken met de baseline: nieuw, nog open, opgelost, teruggekeerd.",
+          "delta": "Elke scan vergeleken met de baseline: nieuw, nog open, opgelost, teruggekeerd.",
           "iso": "Bevindingen gekoppeld aan de ISO 27001-controls die ze raken, met datum."
-        },
-        "secondary": "Vraag naar maandelijkse scans"
-      },
-      "cycle": {
-        "eyebrow": "Zo draait het",
-        "title": "Eén cyclus, maand na maand",
-        "steps": {
-          "pentest": {
-            "title": "Eerste pentest",
-            "body": "Pentesters en gespecialiseerde ARGUS-agents testen de applicatie diepgaand."
-          },
-          "baseline": {
-            "title": "Baseline vastgelegd",
-            "body": "Elke gevalideerde bevinding wordt het referentiepunt voor latere rondes."
-          },
-          "monday": {
-            "title": "Eerste maandag",
-            "body": "De volgende scan staat op de kalender voordat iemand erom vraagt."
-          },
-          "scan": {
-            "title": "Maandelijkse scan",
-            "body": "ARGUS draait zijn checks opnieuw over dezelfde scope als de baseline."
-          },
-          "compare": {
-            "title": "Vergelijking",
-            "body": "De ronde wordt vergeleken met de baseline en met vorige maand."
-          },
-          "posture": {
-            "title": "Actueel beeld",
-            "body": "Totalen en trend werken bij, en de richting is zichtbaar."
-          }
         }
       },
       "model": {
-        "eyebrow": "Het model",
-        "title": "Baseline versus maandelijkse scans",
+        "title": "Eenmalige pentests vs maandelijkse pentests",
         "p1": "Een pentest vertelt waar u stond op de dag dat hij eindigde. De maandelijkse scans houden dat antwoord actueel, zonder telkens een nieuwe opdracht uit te zetten zodra er iets live gaat.",
         "pentest": {
           "title": "De eerste pentest",
           "a": "Pentesters en gespecialiseerde agents testen de volledige scope diepgaand.",
-          "b": "Elke bevinding wordt door een mens gevalideerd voordat ze u bereikt.",
-          "c": "Het resultaat wordt de baseline waaraan alle latere rondes worden gemeten."
+          "b": "Elke bevinding wordt door een expert gevalideerd voordat ze u bereikt.",
+          "c": "Het resultaat wordt de baseline waaraan alle latere scans worden gemeten."
         },
         "monthly": {
           "title": "Elke maand daarna",
           "a": "Dezelfde scope, opnieuw gescand op de eerste maandag van de maand.",
-          "b": "U beoordeelt wat er veranderde, niet honderd pagina's die grotendeels gelijk bleven.",
+          "b": "Wij beoordelen wat er veranderd is en leveren een helder overzicht dat dit begrijpelijk maakt.",
           "c": "Fixes die stilletjes sneuvelen komen terug als teruggekeerd, met historie."
         }
       },
       "lifecycle": {
-        "eyebrow": "Na elke ronde",
-        "title": "Elke bevinding valt in een van vier statussen",
+        "title": "Meerdere statussen om bevindingen te volgen",
         "p1": "Geen archeologie door oude pdf's om te achterhalen wat nieuw is. De vergelijking is al gedaan, en elke status beantwoordt één vraag.",
         "items": {
           "new": {
-            "title": "Nieuw",
-            "body": "Deze ronde gevonden en in geen eerdere ronde aanwezig. Start een eigen dossier."
+            "body": "Deze scan gevonden en in geen enkele eerdere scan aanwezig. Start een eigen dossier."
           },
           "open": {
-            "title": "Nog open",
             "body": "Eerder gemeld en nog niet opgelost. De leeftijd is zichtbaar, dus niets glipt stilletjes weg."
           },
           "resolved": {
-            "title": "Opgelost",
-            "body": "Deze ronde niet meer reproduceerbaar. De fixdatum blijft in het dossier."
+            "body": "Deze scan niet meer reproduceerbaar. De fixdatum blijft in het dossier."
           },
           "reappearing": {
-            "title": "Teruggekeerd",
             "body": "Eén keer opgelost, nu terug. Heropent met volledige historie in plaats van als nieuw binnen te komen."
           }
         }
       },
       "trend": {
-        "eyebrow": "Beeld",
         "title": "Zie of de beveiliging verbetert of wegzakt",
-        "p1": "Elke ronde voegt een meetpunt toe. De trendweergave zet open bevindingen per maand uit, dus een kwartaal aan gestage fixes is een dalende lijn en een riskante release valt op in de maand zelf."
+        "p1": "Elke scan voegt een meetpunt toe. De trendweergave zet open bevindingen per maand uit, dus een kwartaal aan gestage fixes is een dalende lijn en een riskante release valt op in de maand zelf."
       },
       "apps": {
-        "eyebrow": "Portfolio",
         "title": "Meerdere applicaties, één overzicht",
         "p1": "Neem één applicatie in scope of twintig. Elke houdt haar eigen baseline, planning en historie, en het overzicht telt ze op zodat u ziet waar risico zich ophoopt."
       },
       "iso": {
-        "eyebrow": "Auditspoor",
         "title": "Bevindingen, gekoppeld aan ISO 27001-controls",
-        "p1": "Elke bevinding benoemt de Annex A-controls die ze raakt, met datum en bewijs erbij. Vraagt een auditor hoe een control in de praktijk wordt getest, dan is het antwoord een lijst die u opent, geen herinnering.",
-        "note": "De koppeling ondersteunt traceerbaarheid. Ze maakt u niet vanzelf compliant of gecertificeerd; dat oordeel blijft bij u en uw auditor."
+        "p1": "Elke bevinding benoemt de Annex A-controls die ze raakt, met datum en bewijs erbij. Vraagt een auditor hoe een control in de praktijk wordt getest, dan is het antwoord een lijst die u opent, geen herinnering."
       },
       "faq": {
         "title": "Veelgestelde vragen",
@@ -1781,7 +1724,7 @@
           },
           "timing": {
             "q": "Waarom de eerste maandag van de maand?",
-            "a": "Een vaste, voorspelbare datum. Uw team weet wanneer resultaten binnenkomen, elke ronde ligt precies een maand na de vorige, en de trend blijft eerlijk omdat het interval nooit verschuift."
+            "a": "Een vaste, voorspelbare datum. Uw team weet wanneer resultaten binnenkomen, elke scan ligt precies een maand na de vorige, en de trend blijft eerlijk omdat het interval nooit verschuift."
           },
           "certify": {
             "q": "Maakt de ISO 27001-koppeling ons compliant?",
@@ -1790,93 +1733,13 @@
         }
       },
       "shots": {
-        "status": "Het ARGUS-scanstatuspaneel: volgende scandatum, laatste ronde en de reeks maandscans.",
         "trend": "De ARGUS-trendgrafiek van open bevindingen per maand.",
         "apps": "Het ARGUS-applicatieoverzicht met bevindingen per applicatie.",
-        "iso": "ARGUS-bevindingen gekoppeld aan ISO 27001 Annex A-controls."
+        "iso": "ARGUS-bevindingen gekoppeld aan ISO 27001 Annex A-controls.",
+        "hero": "Het ARGUS-dashboard met de maandelijkse scanhistorie en bevindingen in de tijd.",
+        "lifecycle": "De ARGUS-maandscanweergave, met bevindingen gegroepeerd op status."
       },
       "ui": {
-        "statusLabel": "Scanstatus",
-        "nextLabel": "Volgende scan",
-        "nextValue": "ma 5 okt, 09:00",
-        "lastLabel": "Laatste ronde",
-        "lastValue": "ma 7 sep · 11 bevindingen",
-        "callout": {
-          "figure": "1e",
-          "label": "maandag van elke maand, vooraf ingepland."
-        },
-        "months": "mrt apr mei jun jul aug sep okt",
-        "pentestLabel": "Eerste pentest · gevalideerde bevindingen",
-        "findings": {
-          "critical": {
-            "name": "SQL-injectie in factuurzoekfunctie",
-            "meta": "ARG-1042"
-          },
-          "high": {
-            "name": "Stored XSS in ordernotities",
-            "meta": "ARG-1044"
-          },
-          "medium": {
-            "name": "Sessiecookie zonder Secure-vlag",
-            "meta": "ARG-1047"
-          }
-        },
-        "baselineLabel": "Baseline · 12 mrt",
-        "baseline": {
-          "critical": {
-            "label": "Kritiek",
-            "count": "1"
-          },
-          "high": {
-            "label": "Hoog",
-            "count": "4"
-          },
-          "medium": {
-            "label": "Middel",
-            "count": "9"
-          },
-          "note": "Baseline vastgelegd. Elke latere ronde wordt hieraan gemeten."
-        },
-        "scheduleLabel": "Planning",
-        "calendar": {
-          "month": "Oktober 2026",
-          "weekdays": "M D W D V Z Z",
-          "scanLabel": "Scan · ma 5"
-        },
-        "runLabel": "Maandscan · bezig",
-        "run": {
-          "inventory": {
-            "name": "Inventarisatie aanvalsoppervlak",
-            "state": "Klaar"
-          },
-          "checks": {
-            "name": "Kwetsbaarheidschecks",
-            "state": "Bezig"
-          },
-          "compare": {
-            "name": "Vergelijking met baseline",
-            "state": "In wachtrij"
-          }
-        },
-        "compareLabel": "Deze ronde versus vorige",
-        "delta": {
-          "new": {
-            "label": "Nieuw",
-            "count": "2"
-          },
-          "open": {
-            "label": "Nog open",
-            "count": "8"
-          },
-          "resolved": {
-            "label": "Opgelost",
-            "count": "5"
-          },
-          "reappearing": {
-            "label": "Teruggekeerd",
-            "count": "1"
-          }
-        },
         "postureLabel": "Open bevindingen per maand",
         "trendMonths": "mrt apr mei jun jul aug sep okt",
         "appsLabel": "Applicaties",
@@ -1899,23 +1762,25 @@
           "totalLabel": "Portfolio",
           "totalValue": "7 open · 3 apps"
         },
-        "isoLabel": "ISO 27001 · Annex A",
-        "controls": {
-          "a": {
-            "id": "A.8.8",
-            "title": "Beheer van technische kwetsbaarheden",
-            "evidence": "Elke maandronde levert bewijs; twee bevindingen open, vijf dit kwartaal opgelost."
+        "lifecycle": {
+          "new": {
+            "chip": "Nieuw deze scan",
+            "widget": "Deze scan gevonden, in geen enkele eerdere scan aanwezig."
           },
-          "b": {
-            "id": "A.8.9",
-            "title": "Configuratiebeheer",
-            "evidence": "TLS- en headerbevindingen op het klantportaal vallen hieronder, met datum."
+          "open": {
+            "chip": "Nog open",
+            "widget": "Eerder gemeld en nog niet opgelost. De leeftijd is zichtbaar."
           },
-          "c": {
-            "id": "A.8.28",
-            "title": "Veilig ontwikkelen",
-            "evidence": "Injectie- en XSS-bevindingen vallen hieronder, met fix- en hertestdatums."
-          }
+          "resolved": {
+            "chip": "Opgelost",
+            "widget": "Niet meer reproduceerbaar. De fixdatum blijft in het dossier."
+          },
+          "reappearing": {
+            "chip": "Teruggekeerd",
+            "widget": "Eén keer opgelost, nu terug. Heropent met volledige historie."
+          },
+          "widgetFigure": "1 teruggekeerd deze scan",
+          "widgetNote": "heropend met volledige historie"
         }
       }
     },
@@ -1923,43 +1788,26 @@
       "hero": {
         "heading": "Verifieer de fix met de pentester die hem vond.",
         "lede": "Vraag op elke bevinding een hertest aan. De pentester die de bevinding meldde voert de oorspronkelijke aanval opnieuw uit, houdt uw team op de bevinding zelf aangehaakt en legt de uitkomst vast: opgelost, of nog reproduceerbaar.",
-        "secondary": "Overleg over hertesten"
-      },
-      "flow": {
-        "steps": {
-          "select": {
-            "title": "Bevinding geselecteerd"
-          },
+        "widgets": {
           "request": {
-            "title": "Hertest aangevraagd"
+            "figure": "Hertest aanvragen",
+            "label": "één handeling op de bevinding"
           },
-          "respond": {
-            "title": "Pentester reageert"
-          },
-          "verify": {
-            "title": "Verificatie loopt"
-          },
-          "record": {
-            "title": "Uitkomst vastgelegd"
+          "verdict": {
+            "figure": "Opgelost · geverifieerd",
+            "label": "vastgelegd met bewijs"
           }
         }
       },
       "request": {
-        "eyebrow": "Eén handeling",
         "title": "Vraag hem aan vanuit de bevinding zelf",
-        "p1": "Elke bevinding bewaart haar eigen reproductiestappen. Zodra uw team een fix uitrolt, is de hertest één handeling op die bevinding: geen scopinggesprek, geen nieuwe opdracht, geen wachten op de ronde van volgende maand."
+        "p1": "Elke bevinding bewaart haar eigen reproductiestappen. Zodra uw team een fix uitrolt, is de hertest één handeling op die bevinding: geen scopinggesprek, geen nieuwe opdracht, geen wachten op de scan van volgende maand."
       },
       "thread": {
-        "eyebrow": "In context",
         "title": "Het gesprek leeft op de bevinding",
         "p1": "Vragen over een fix gaan naar de pentester die de exploit schreef, in een discussie die aan de bevinding hangt. Beide kanten zien hetzelfde bewijs, en er raakt niets zoek tussen een ticketsysteem en een mailbox."
       },
-      "progress": {
-        "title": "Volg de verificatie terwijl die loopt",
-        "p1": "Aangevraagd, opgepakt, bezig, vastgelegd: de status van de bevinding verspringt bij elke stap, gestempeld met wie en wanneer."
-      },
       "outcomes": {
-        "eyebrow": "Het oordeel",
         "title": "Opgelost, of nog reproduceerbaar",
         "p1": "Een hertest eindigt in een van twee vastgelegde statussen, en allebei zijn ze bruikbaar. De ene sluit de bevinding met bewijs. De andere behoedt uw team voor geloof in een fix die niet standhield.",
         "resolved": {
@@ -1970,11 +1818,6 @@
           "title": "Nog reproduceerbaar",
           "body": "De aanval werkt nog. De bevinding blijft open, met een notitie over wat nog lukt, en na de volgende fix vraagt u opnieuw een hertest aan."
         }
-      },
-      "history": {
-        "eyebrow": "In het dossier",
-        "title": "De volledige remediëringshistorie",
-        "p1": "Van eerste melding tot geverifieerde fix: alles wat er met de bevinding gebeurde staat gedateerd en op naam in het dossier. Dat spoor maakt een gesloten bevinding later bewijsbaar, voor uw eigen management of een auditor."
       },
       "faq": {
         "title": "Veelgestelde vragen",
@@ -1996,152 +1839,32 @@
       "shots": {
         "request": "Een ARGUS-bevinding met de hertestknop in beeld.",
         "thread": "De discussie op een ARGUS-bevinding, tussen het klantteam en de pentester.",
-        "history": "De statushistorie van een ARGUS-bevinding van melding tot geverifieerde fix."
+        "hero": "De ARGUS-wachtrij met bevindingen waaruit een hertest wordt aangevraagd."
       },
-      "ui": {
-        "findingLabel": "ARG-2291 · Objectopslag-listing",
-        "finding": {
-          "title": "Back-upbucket toont objecten aan anonieme aanroepers",
-          "asset": "storage.uwbedrijf.nl",
-          "stateOpen": "Open",
-          "stateRequested": "Hertest aangevraagd",
-          "stateClosed": "Opgelost · geverifieerd",
-          "requestButton": "Hertest aanvragen",
-          "requestedNote": "Aangevraagd door uw team · 14 mrt 16:05"
-        },
-        "threadLabel": "Discussie op ARG-2291",
-        "msgs": {
-          "fix": {
-            "author": "Jeroen, uw team",
-            "time": "16:02",
-            "body": "Publieke toegang is geblokkeerd op de bucket en op het account. Kunnen jullie dit verifiëren?"
-          },
-          "ack": {
-            "author": "Sanne, ARGUS-pentester",
-            "time": "16:11",
-            "body": "Ik pak hem op. Ik voer de oorspronkelijke listing opnieuw uit van buiten jullie netwerk."
-          },
-          "question": {
-            "author": "Jeroen, uw team",
-            "time": "16:14",
-            "body": "Dekt de fix ook de tweede bucket uit het rapport?"
-          },
-          "answer": {
-            "author": "Sanne, ARGUS-pentester",
-            "time": "16:20",
-            "body": "Ja. Hetzelfde beleid geldt voor beide; ik verifieer ze allebei en leg ze apart vast."
-          }
-        },
-        "verifyLabel": "Verificatie · oorspronkelijke stappen opnieuw",
-        "verify": {
-          "auth": {
-            "name": "Stap 1 · Sessie zonder authenticatie, extern netwerk",
-            "state": "Klaar"
-          },
-          "list": {
-            "name": "Stap 2 · GET /uw-backups-prod/?list-type=2",
-            "state": "Bezig"
-          }
-        },
-        "resultLabel": "Resultaat · ARG-2291",
-        "pair": {
-          "request": "GET /uw-backups-prod/?list-type=2 HTTP/1.1   Host: storage.uwbedrijf.nl",
-          "before": {
-            "label": "Voor de fix",
-            "response": "HTTP/1.1 200 OK   ListBucketResult, 1284 objecten"
-          },
-          "after": {
-            "label": "Na de hertest",
-            "response": "HTTP/1.1 403 Forbidden   AccessDenied, anonieme aanroeper"
-          }
-        },
-        "historyLabel": "ARG-2291 · historie",
-        "trail": {
-          "published": {
-            "time": "12 mrt 09:14",
-            "actor": "Sanne, ARGUS-pentester",
-            "event": "Bevinding gepubliceerd met reproductie en bewijs.",
-            "state": "Open"
-          },
-          "deployed": {
-            "time": "14 mrt 16:02",
-            "actor": "Uw team",
-            "event": "Publieke toegang geblokkeerd op de bucket en op het account."
-          },
-          "requested": {
-            "time": "14 mrt 16:05",
-            "actor": "Uw team",
-            "event": "Hertest aangevraagd vanuit de bevinding.",
-            "state": "Hertest aangevraagd"
-          },
-          "attacked": {
-            "time": "15 mrt 10:20",
-            "actor": "Sanne, ARGUS-pentester",
-            "event": "Oorspronkelijk verzoek opnieuw uitgevoerd van buiten het netwerk."
-          },
-          "closed": {
-            "time": "15 mrt 10:24",
-            "actor": "Sanne, ARGUS-pentester",
-            "event": "Anonieme listing geweigerd. Fix bevestigd.",
-            "state": "Gesloten, geverifieerd"
-          }
-        }
-      }
+      "ui": {}
     },
     "workspace": {
       "hero": {
         "heading": "Zie de pentest terwijl hij loopt.",
-        "lede": "Gevalideerde bevindingen bereiken uw workspace zodra ze bevestigd zijn, gerangschikt met CVSS v4.0. U ziet waar ARGUS-agents aan werken, en zodra de test klaar is leest u het rapport op dezelfde plek.",
-        "secondary": "Vraag naar de workspace"
-      },
-      "flow": {
-        "eyebrow": "De pijplijn",
-        "title": "Van agent-activiteit naar een rapport dat u opent",
-        "steps": {
-          "activity": {
-            "title": "Agent aan het werk",
-            "body": "Een gespecialiseerde agent werkt een deel van de scope af, aangestuurd door een pentester."
-          },
-          "finding": {
-            "title": "Bevinding verschijnt",
-            "body": "Gevalideerd landt hij in uw wachtrij, met reproductiestappen en bewijs."
-          },
-          "cvss": {
-            "title": "Gescoord met CVSS v4.0",
-            "body": "Score en vector hangen eraan, dus de wachtrij rangschikt zichzelf."
-          },
-          "shared": {
-            "title": "Uw team ziet hem",
-            "body": "De bevinding staat in uw workspace op het moment van publicatie, niet pas aan het einde."
-          },
-          "report": {
-            "title": "Rapport beschikbaar",
-            "body": "Het eindrapport wordt in de workspace geleverd en in de browser gelezen."
-          }
-        }
+        "lede": "Gevalideerde bevindingen bereiken uw workspace zodra ze bevestigd zijn, gerangschikt met CVSS v4.0. U ziet waar ARGUS-agents aan werken, en zodra de test klaar is leest u het rapport op dezelfde plek."
       },
       "realtime": {
-        "eyebrow": "Realtime",
         "title": "Bevindingen komen binnen zodra ze er zijn",
         "p1": "Er is geen black-boxmaand die eindigt in een pdf. Een bevinding wordt naar uw workspace gepubliceerd zodra een pentester hem valideert, met reproductiestappen en bewijs, dus herstel kan beginnen terwijl de test nog loopt."
       },
       "cvss": {
-        "eyebrow": "Prioriteit",
         "title": "Gerangschikt met CVSS v4.0",
         "p1": "Elke bevinding draagt een CVSS v4.0-score en volledige vector. De wachtrij ordent zichzelf op ernst, dus uw team weet wat het eerst oppakt en ziet precies waarom dat boven de rest staat."
       },
       "agents": {
-        "eyebrow": "Open kaart",
         "title": "Kijk mee met de agents",
         "p1": "Onze pentesters sturen gespecialiseerde agents aan, elk gebouwd voor één soort test. De activiteitenweergave toont wat er op elk moment loopt: welk deel van uw scope, welk soort test en hoe ver die is. Een bevinding bereikt uw wachtrij pas nadat een pentester hem heeft gevalideerd."
       },
       "provenance": {
-        "eyebrow": "Herleidbaar",
         "title": "Elke bevinding benoemt het werk erachter",
         "p1": "Een bevinding verwijst terug naar de agent-taak en de pentestervalidatie erachter. U ziet wat er getest werd toen hij opdook, en dat is het verschil tussen een resultaat waarop u kunt handelen en een melding die u moet interpreteren."
       },
       "report": {
-        "eyebrow": "Overdracht",
         "title": "Het rapport, gelezen waar het werk gebeurde",
         "p1": "Zodra de opdracht is afgerond, wordt het eindrapport in uw workspace geleverd en leest u het in de browser. Het is beschermd onderweg en in de browser, en het reist niet als bijlage door mailboxen."
       },
@@ -2175,18 +1898,6 @@
           "idor": {
             "name": "IDOR toont facturen van andere klanten",
             "meta": "12:40"
-          },
-          "xss": {
-            "name": "Stored XSS in supportbijlagen",
-            "meta": "11:52"
-          },
-          "header": {
-            "name": "Ontbrekende security-headers op portaal",
-            "meta": "10:15"
-          },
-          "rate": {
-            "name": "Geen rate-limit op login-endpoint",
-            "meta": "09:31"
           }
         },
         "tasks": {
@@ -2208,10 +1919,6 @@
           "running": "Bezig",
           "validating": "Pentester valideert",
           "done": "Gevalideerd"
-        },
-        "callout": {
-          "figure": "8,7",
-          "label": "Hoogste CVSS v4.0-score op dit moment; eerste in de wachtrij."
         },
         "cvssLabel": "CVSS v4.0",
         "cvss": {
@@ -2244,17 +1951,6 @@
             }
           }
         },
-        "deliveryLabel": "Levering",
-        "delivery": {
-          "published": {
-            "event": "Gepubliceerd naar uw workspace",
-            "time": "12:40"
-          },
-          "notified": {
-            "event": "Uw team op de hoogte gebracht",
-            "time": "12:40"
-          }
-        },
         "provenance": "Gevonden tijdens: autorisatietests op factuur-endpoints",
         "reportLabel": "Rapport",
         "report": {
@@ -2269,98 +1965,65 @@
         }
       }
     },
-    "integrations": {
+    "compliance": {
       "hero": {
-        "heading": "Een bevinding is niets waard in een tabblad dat niemand open heeft",
-        "lede": "ARGUS stuurt gevalideerde bevindingen naar de tools waar uw teams al in werken, en haalt hun status weer op. Het portaal blijft de vastlegging. Niemand hoeft er langs om het werk te doen.",
-        "secondary": "Spreek een pentester"
+        "heading": "ISO 27001-mapping tijdens de pentest",
+        "lede": "Elke bevinding benoemt de ISO 27001 Annex A-controls die ze raakt, met de datums en het bewijs ernaast bewaard. Vraagt een auditor hoe een control in de praktijk getest wordt, dan is het antwoord een lijst die u opent.",
+        "points": {
+          "mapped": "Elke bevinding gekoppeld aan de Annex A-controls die ze werkelijk raakt.",
+          "dated": "Gevonden, opgelost en geverifieerd, elk met de datum waarop het gebeurde.",
+          "export": "Per control te exporteren, zodat een auditor het direct leest."
+        }
       },
-      "destinations": {
-        "title": "Dezelfde bevinding, in drie talen",
-        "body": "Een logregel, een ticket en een buildcontrole zijn niet hetzelfde object dat je drie keer tekent. Elke bestemming krijgt de bevinding in de vorm die die tool ook echt leest, en dat is het verschil tussen een integratie en een link in een mail.",
+      "mapping": {
+        "title": "Elke bevinding benoemt haar controls",
+        "p1": "Een ontbrekende security-header, een injectiefout en een verouderde toegangsregel horen niet bij hetzelfde deel van Annex A. ARGUS hangt de controls die een bevinding echt raakt eraan op het moment van publicatie, zodat de koppeling gemaakt wordt door de mensen die de bevinding begrijpen in plaats van achteraf gereconstrueerd door iemand die een pdf leest."
+      },
+      "coverage": {
+        "title": "Dekking die u in één blik laat zien",
+        "p1": "De compliance-weergave telt de koppeling op over uw applicaties, zodat u ziet welke technische controls uw testprogramma raakt en waar het bewijs dun is, voordat een auditor dat voor u ontdekt."
+      },
+      "scope": {
+        "title": "Wat de koppeling wel en niet is",
+        "p1": "Hier eerlijk over zijn is meer waard dan een stoerdere claim. Testbewijs dekt de technische kant van Annex A goed af en de rest ervan helemaal niet.",
+        "does": {
+          "title": "Wat het u geeft",
+          "items": {
+            "evidence": "Actueel bewijs voor de technische controls die een pentest daadwerkelijk kan beproeven.",
+            "trail": "Een gedateerd spoor per bevinding, van eerste melding tot geverifieerde fix.",
+            "gaps": "Helder zicht op welke controls uw testen niet bereiken."
+          }
+        },
+        "doesNot": {
+          "title": "Wat van u blijft",
+          "items": {
+            "certify": "Certificering. Dat oordeel ligt bij u en uw auditor, en geen enkele koppeling vervangt dat.",
+            "scope": "Controls over beleid, mensen en processen, die met testen niet te bewijzen zijn.",
+            "policy": "Uw managementsysteem zelf. Wij leveren er bewijs aan, wij voeren het niet."
+          }
+        }
+      },
+      "faq": {
+        "title": "Veelgestelde vragen",
         "items": {
-          "siem": {
-            "title": "Naar uw SIEM",
-            "body": "Gevalideerde bevindingen komen op dezelfde tijdlijn als uw eigen events, zodat correleren geen handmatige vergelijking tussen twee schermen meer is."
+          "certify": {
+            "q": "Zijn wij hiermee ISO 27001-gecertificeerd?",
+            "a": "Nee. U krijgt gedateerd, technisch bewijs voor de controls die een pentest kan beproeven, en dat is een echt onderdeel van uw auditspoor. Certificering bepaalt uw auditor."
           },
-          "ticket": {
-            "title": "Naar de backlog",
-            "body": "Een ticket in de tool waar uw ontwikkelaars al in zitten, met de reproductie, het bewijs en de aanbeveling erbij. De status komt terug, dus het portaal is geen tweede plek om bij te werken."
+          "standards": {
+            "q": "Welke standaard volgt de koppeling?",
+            "a": "ISO 27001 Annex A. Bevindingen benoemen de controls die ze raken; raakt een bevinding er meerdere, dan worden ze allemaal gekoppeld."
           },
-          "pipeline": {
-            "title": "Naar de pijplijn",
-            "body": "Vraag wat er openstaat op een dienst voordat hij uitrolt. Waarschuwen of blokkeren, net wat uw beleid zegt."
+          "auditor": {
+            "q": "Kan onze auditor dit direct lezen?",
+            "a": "Ja. Het bewijs per control is exporteerbaar, zodat het in uw auditdossier terechtkomt zonder dat iemand het uit een rapport overtypt."
           }
         }
       },
-      "routing": {
-        "title": "U bepaalt wat er weggaat",
-        "body": "Routering is een set regels en geen aan-uitknop. Match op severity, op de asset, op wat er veranderde, en stuur elke match naar de plek waar de mensen zitten die hem bezitten."
-      },
-      "boundary": {
-        "title": "Wat er overgaat, en welke kant op",
-        "items": {
-          "out": {
-            "title": "Eruit gaat de bevinding",
-            "body": "Titel, severity, de asset waar hij op zit, de reproductie en de aanbeveling. Genoeg om mee te handelen zonder iets anders te openen."
-          },
-          "back": {
-            "title": "Terug komt de status",
-            "body": "Sluit het ticket en de bevinding volgt. Dat is wat voorkomt dat twee systemen het oneens zijn over of iets nog openstaat."
-          },
-          "truth": {
-            "title": "Het portaal blijft de vastlegging",
-            "body": "Elke statuswissel wordt daar met datum vastgelegd, in welke tool hij ook gemaakt is. Een auditor leest één historie, geen vier."
-          }
-        }
-      },
-      "ui": {
-        "rulesLabel": "Routeringsregels",
-        "gate": {
-          "command": "argus check --service checkout --fail-on high",
-          "scanning": "openstaande bevindingen voor checkout ophalen ...",
-          "open": "2 open op high of hoger",
-          "blocked": "ARG-2291 critical  storage.uwbedrijf.nl  blokkeert",
-          "hint": "gebruik --warn-only om te melden zonder de build te laten falen"
-        },
-        "log": {
-          "before": "10:19:58  auth      session.renewed        user 8821",
-          "finding": "10:20:04  argus     finding.published     ARG-2291 critical  storage",
-          "after": "10:20:11  gateway   request.denied        203.0.113.44"
-        },
-        "ticket": {
-          "id": "SEC-4471",
-          "title": "Back-upbucket leesbaar zonder inloggegevens",
-          "labels": {
-            "severity": "critical",
-            "source": "argus",
-            "asset": "storage"
-          },
-          "footer": "Reproductie en bewijs zitten erbij. Dit sluiten sluit ARG-2291."
-        },
-        "check": {
-          "command": "argus check --service payments",
-          "pass": "0 open op high of hoger, geslaagd",
-          "note": "laatste ronde 12 maart, 14 bevindingen gesloten"
-        },
-        "rules": {
-          "critical": {
-            "match": "Critical op een asset aan het internet",
-            "destination": "piket oppiepen"
-          },
-          "high": {
-            "match": "High of hoger, elke asset",
-            "destination": "ticket, eigen team"
-          },
-          "checkout": {
-            "match": "Alles op checkout",
-            "destination": "kanaal payments"
-          },
-          "reopened": {
-            "match": "Heropend na een hertest",
-            "destination": "terug naar de sluiter"
-          }
-        }
+      "shots": {
+        "hero": "Het ARGUS-compliancedashboard met de ISO 27001-score en gekoppelde controls.",
+        "controls": "Een ARGUS-bevinding met de ISO 27001-controls die ze raakt.",
+        "coverage": "Het ARGUS-complianceoverzicht over applicaties heen."
       }
     }
   },
@@ -2369,10 +2032,46 @@
       "critical": "Kritiek",
       "high": "Hoog",
       "medium": "Middel"
-    },
-    "sample": "Voorbeeldgegevens, ter illustratie van de interface."
+    }
   },
   "shots": {
     "pending": "Screenshot volgt"
+  },
+  "demoPage": {
+    "heroTitle": "Ervaar AssistSec",
+    "heroBody": "Plan een demo van 15 minuten met een van onze pentesters door ARGUS, ons AI-assisted pentestplatform. Zie hoe bevindingen binnenkomen terwijl de test loopt, waar de agents mee bezig zijn en hoe het rapport eruitziet.",
+    "form": {
+      "firstName": "Voornaam",
+      "firstNamePlaceholder": "Sanne",
+      "lastName": "Achternaam",
+      "lastNamePlaceholder": "Jansen",
+      "email": "Zakelijk e-mailadres",
+      "emailPlaceholder": "sanne@bedrijf.nl",
+      "jobTitle": "Functietitel",
+      "jobTitlePlaceholder": "Hoofd engineering",
+      "phone": "Telefoonnummer (optioneel)",
+      "phonePlaceholder": "+31 6 12 34 56 78",
+      "consent": "U mag mij per e-mail op de hoogte houden over ARGUS en AssistSec.",
+      "submit": "Demo boeken",
+      "mailSubject": "Demoverzoek",
+      "mailConsent": "E-mailupdates: ja",
+      "sending": "Versturen...",
+      "sent": "Dank u. We hebben uw bericht ontvangen en reageren snel.",
+      "failed": "Er ging iets mis. Probeer het opnieuw, of mail ons rechtstreeks."
+    },
+    "see": {
+      "title": "Wat u te zien krijgt",
+      "items": {
+        "live": "Hoe gevalideerde bevindingen uw workspace bereiken terwijl de test nog loopt, gerangschikt met CVSS v4.0.",
+        "agents": "Hoe honderden gespecialiseerde agents aanvallen en bevindingen bewijzen onder leiding van onze pentesters.",
+        "after": "Hoe maandelijkse scans en collaboratief hertesten uw fixes geverifieerd houden na oplevering."
+      }
+    },
+    "shotAlt": "Het ARGUS-dashboard met het beveiligingsoverzicht.",
+    "scan": {
+      "title": "Nog niet klaar voor een live demo?",
+      "body": "Doe eerst de gratis exposure-scan en zie wat er al publiek is over uw organisatie.",
+      "cta": "Start de gratis scan"
+    }
   }
 }

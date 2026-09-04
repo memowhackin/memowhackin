@@ -1,10 +1,10 @@
 import type { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { BrandButton } from "@/components/common/BrandButton";
+import { Link } from "@tanstack/react-router";
+import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { useMediaQuery } from "@/components/common/useMediaQuery";
 import { BannerFootage } from "@/components/landing/BannerFootage";
-import { site } from "@/config/site";
 
 /*
  * The backdrop plays everywhere except where someone has asked it not to. A
@@ -262,14 +262,21 @@ export function Hero() {
           </p>
         </div>
 
-        <BrandButton
-          href={site.bookDemoUrl}
-          variant="sweep"
+        {/*
+          A router link rather than `BrandButton`: an internal destination has
+          to go through the router, or the Dutch build walks out of its own
+          `/nl` prefix. The look comes from the shared class list.
+        */}
+        <Link
+          to="/contact"
           data-testid="hero-book-demo"
-          className="relative z-10 mt-8 sm:mt-10"
+          className={brandButtonClass({
+            variant: "sweep",
+            className: "relative z-10 mt-8 sm:mt-10",
+          })}
         >
           {t("hero.cta")}
-        </BrandButton>
+        </Link>
       </div>
 
       {/*

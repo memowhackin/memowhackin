@@ -73,15 +73,25 @@ function StepNode({ active }: { active: boolean }) {
 }
 
 /**
- * One end of the rail: what the sequence starts from, and what it ends in.
+ * One end of the rail.
  *
  * Without these the rail ran off the top and bottom of the list, which left six
- * numbered steps and no statement about where the process opens or what it
- * closes on. The two ends are deliberately not symmetric — the start is a plain
- * tick across the line, the finish is the brand mark — so the sequence reads as
- * running towards something rather than between two identical pins.
+ * numbered steps and nothing to open or close the sequence. The two ends are
+ * deliberately not symmetric — the start is a plain tick across the line, the
+ * finish is the brand mark — so it reads as running towards something rather
+ * than between two identical pins.
+ *
+ * The label is optional, and the foot goes without one: the last step already
+ * says what the engagement ends on, so a caption under it restating that was a
+ * caption on a caption.
  */
-function RailEnd({ label, tone }: { label: string; tone: "start" | "finish" }) {
+function RailEnd({
+  label,
+  tone,
+}: {
+  label?: string;
+  tone: "start" | "finish";
+}) {
   const finish = tone === "finish";
 
   return (
@@ -100,11 +110,13 @@ function RailEnd({ label, tone }: { label: string; tone: "start" | "finish" }) {
         />
       )}
 
-      <span
-        className={clsx("eyebrow", finish ? "text-lavender" : "text-mist/70")}
-      >
-        {label}
-      </span>
+      {label !== undefined && (
+        <span
+          className={clsx("eyebrow", finish ? "text-lavender" : "text-mist/70")}
+        >
+          {label}
+        </span>
+      )}
     </div>
   );
 }
@@ -322,7 +334,7 @@ function ProcessRail({
         ))}
       </ol>
 
-      <RailEnd tone="finish" label={t("servicePages.labels.timelineFinish")} />
+      <RailEnd tone="finish" />
     </div>
   );
 }

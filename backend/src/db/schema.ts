@@ -338,7 +338,56 @@ export const scanLeads = pgTable(
   (table) => [index("ix_scan_leads_created").on(table.createdAt)],
 );
 
+/*
+ * Contact and demo requests from the marketing site.
+ *
+ * The row is written before any mail is attempted, and that order is the whole
+ * point: delivery depends on a third party that can be down, misconfigured or
+ * rate-limiting us, and an inquiry that only ever existed as an SMTP attempt is
+ * an inquiry that can be lost silently. Persisting first means the worst case
+ * is a mail that has to be resent from a row we still hold, not a customer who
+ * wondered why nobody replied.
+ *
+ * `deliveredAt` records that the mail was accepted by the transport. A row with
+ * a null `deliveredAt` is the queue of things somebody still has to look at.
+ *
+ * Stored in the clear: every field is something the visitor typed into a public
+ * form in order to be contacted back, so there is every reason to keep it
+ * readable and none to encrypt it.
+ */
+export const inquiries = pgTable(
+  "inquiries",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    /** `contact` from /contact, `demo` from /demo. */
+    kind: varchar("kind", { length: 20 }).notNull(),
+    name: varchar("name", { length: 200 }).notNull(),
+    email: varchar("email", { length: 320 }).notNull(),
+    company: varchar("company", { length: 200 }),
+    /** Job title on a demo request, the chosen service on a contact request. */
+    subject: varchar("subject", { length: 200 }),
+    phone: varchar("phone", { length: 60 }),
+    message: text("message"),
+    /** Whether they asked to be emailed about the product. */
+    consent: boolean("consent").notNull().default(false),
+    /** Which language the form was filled in, so the reply matches. */
+    locale: varchar("locale", { length: 10 }).notNull().default("en"),
+    deliveredAt: timestamp("delivered_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    index("ix_inquiries_created").on(table.createdAt),
+    // The undelivered queue is the one query that has to stay fast.
+    index("ix_inquiries_delivered").on(table.deliveredAt),
+    check("ck_inquiries_kind", sql`${table.kind} in ('contact', 'demo')`),
+  ],
+);
+
 export type AdminUser = typeof adminUsers.$inferSelect;
+export type Inquiry = typeof inquiries.$inferSelect;
+export type NewInquiry = typeof inquiries.$inferInsert;
 export type Scan = typeof scans.$inferSelect;
 export type ScanLead = typeof scanLeads.$inferSelect;
 export type NewScanLead = typeof scanLeads.$inferInsert;

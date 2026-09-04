@@ -60,10 +60,16 @@ const EXCLUDED_PREFIXES = ["/studio-b78262a861", "/security-scan/report"];
  */
 const RETIRED_ROUTES = [
   ["/argus/continuous-scanning", "/argus/monthly-security-scans"],
-  ["/argus/compliance", "/argus/monthly-security-scans"],
   ["/argus/insights", "/argus/live-pentest-workspace"],
   ["/argus/expert-chat", "/argus/collaborative-retesting"],
   ["/argus/retesting", "/argus/collaborative-retesting"],
+  /*
+   * The old compliance page pointed at the monthly scans while there was no
+   * compliance page to send it to. There is one now, so the address goes where
+   * a crawler holding it expected to land all along.
+   */
+  ["/argus/compliance", "/argus/continuous-compliance"],
+  ["/argus/integrations", "/argus/continuous-compliance"],
 ];
 
 /*
