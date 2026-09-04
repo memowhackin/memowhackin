@@ -21,7 +21,7 @@
       "features": "Features",
       "tagline": "Continuous security testing, monitoring and compliance in one platform.",
       "monthly": "Monthly security scans",
-      "retest": "Collaborative retesting",
+      "retest": "Instant retesting",
       "workspace": "Live pentest workspace",
       "compliance": "Continuous compliance",
       "desc": {
@@ -891,6 +891,24 @@
         "email": "Work email",
         "date": "Captured"
       }
+    },
+    "viewContactInquiries": "Contact inquiries",
+    "viewDemoInquiries": "Demo inquiries",
+    "inquiries": {
+      "contact": {
+        "title": "Contact inquiries"
+      },
+      "demo": {
+        "title": "Demo inquiries"
+      },
+      "subheading": "{{count}} received",
+      "loading": "Loading inquiries...",
+      "empty": "No inquiries yet.",
+      "error": "Could not load the inquiries.",
+      "delivered": "Emailed",
+      "notDelivered": "Not emailed",
+      "consentYes": "Consented to updates",
+      "consentNo": "No marketing consent"
     }
   },
   "cta": {
@@ -1786,7 +1804,7 @@
     },
     "retest": {
       "hero": {
-        "heading": "Verify the fix with the pentester who found it.",
+        "heading": "Instantly retest findings",
         "lede": "Request a retest on any finding. The pentester who reported it replays the original attack, keeps your team in the loop on the finding itself, and records the outcome: resolved, or still reproducible.",
         "widgets": {
           "request": {
@@ -1806,18 +1824,6 @@
       "thread": {
         "title": "The conversation lives on the finding",
         "p1": "Questions about a fix go to the pentester who wrote the exploit, in a thread attached to the finding. Both sides see the same evidence, and nothing gets lost between a ticket system and a mailbox."
-      },
-      "outcomes": {
-        "title": "Resolved, or still reproducible",
-        "p1": "A retest ends in one of two recorded states, and both are useful. One closes the finding with proof. The other saves your team from believing in a fix that did not hold.",
-        "resolved": {
-          "title": "Resolved",
-          "body": "The original attack no longer works. The finding closes with the replayed request and its refusal on the record."
-        },
-        "reproducible": {
-          "title": "Still reproducible",
-          "body": "The attack still works. The finding stays open, with a note on what still succeeds, and you can request another retest after the next fix."
-        }
       },
       "faq": {
         "title": "Frequently asked questions",
@@ -1852,10 +1858,6 @@
         "title": "Findings arrive when they are found",
         "p1": "There is no black-box month that ends in a PDF. A finding is published to your workspace the moment a pentester validates it, with reproduction steps and evidence, so remediation can start while the test is still running."
       },
-      "cvss": {
-        "title": "Ranked with CVSS v4.0",
-        "p1": "Every finding carries a CVSS v4.0 score and full vector. The queue orders itself by severity, so your team knows what to pick up first and can see exactly why it outranks the rest."
-      },
       "agents": {
         "title": "Watch the agents work",
         "p1": "Our pentesters direct specialized agents, each built for one kind of testing. The activity view shows what is being worked at any moment: which part of your scope, what kind of test, and how far along it is. A finding only reaches your queue after a pentester validates it."
@@ -1863,10 +1865,6 @@
       "provenance": {
         "title": "Every finding names the work that produced it",
         "p1": "A finding links back to the agent task and the pentester validation behind it. You can see what was being tested when it surfaced, which is the difference between a result you can act on and an alert you have to interpret."
-      },
-      "report": {
-        "title": "The report, read where the work happened",
-        "p1": "When the engagement completes, the final report is delivered in your workspace and read in the browser. It is protected in transit and in the browser, and it does not travel through inboxes as an attachment."
       },
       "faq": {
         "title": "Frequently asked questions",
@@ -1886,11 +1884,9 @@
         }
       },
       "shots": {
-        "hero": "The ARGUS workspace during an engagement: agent activity beside the findings queue.",
+        "hero": "An ARGUS pentest run: the phases it moved through, what it sent, and every agent that worked on it.",
         "findings": "The ARGUS findings queue with severities and arrival times.",
-        "cvss": "A CVSS v4.0 score and vector on an ARGUS finding.",
-        "agents": "The ARGUS agent activity view with task states.",
-        "report": "The ARGUS report panel with the in-browser viewer."
+        "agents": "The agents of one ARGUS run, each card naming what that agent worked on and how it finished."
       },
       "ui": {
         "queueLabel": "Findings",
@@ -1904,14 +1900,6 @@
           "auth": {
             "title": "Testing authorization on invoice endpoints",
             "target": "portal.yourcompany.com/api/invoices"
-          },
-          "upload": {
-            "title": "Exercising file upload handling",
-            "target": "support.yourcompany.com/attachments"
-          },
-          "api": {
-            "title": "Enumerating API surface from the OpenAPI spec",
-            "target": "api.yourcompany.com/v2"
           }
         },
         "taskState": {
@@ -1920,49 +1908,7 @@
           "validating": "Pentester validating",
           "done": "Validated"
         },
-        "cvssLabel": "CVSS v4.0",
-        "cvss": {
-          "score": "8.7",
-          "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:L/VA:N",
-          "metrics": {
-            "av": {
-              "label": "Attack vector",
-              "value": "Network"
-            },
-            "ac": {
-              "label": "Attack complexity",
-              "value": "Low"
-            },
-            "pr": {
-              "label": "Privileges",
-              "value": "Low"
-            },
-            "vc": {
-              "label": "Confidentiality",
-              "value": "High"
-            },
-            "vi": {
-              "label": "Integrity",
-              "value": "Low"
-            },
-            "va": {
-              "label": "Availability",
-              "value": "None"
-            }
-          }
-        },
-        "provenance": "Found during: authorization testing on invoice endpoints",
-        "reportLabel": "Report",
-        "report": {
-          "title": "Penetration test report",
-          "meta": "Final · v1.0 · 48 pages",
-          "state": "Available",
-          "rows": {
-            "transit": "Protected in transit",
-            "browser": "Read in the browser viewer",
-            "workspace": "Delivered in your workspace, not as an attachment"
-          }
-        }
+        "provenance": "Found during: authorization testing on invoice endpoints"
       }
     },
     "compliance": {
@@ -1973,6 +1919,16 @@
           "mapped": "Each finding mapped to the Annex A controls it actually speaks to.",
           "dated": "Found, fixed and verified, each with the date it happened.",
           "export": "Exportable per control, so an auditor reads it directly."
+        },
+        "widgets": {
+          "mapped": {
+            "figure": "Mapped to Annex A",
+            "label": "controls named per finding"
+          },
+          "evidence": {
+            "figure": "Dated evidence",
+            "label": "found, fixed and verified"
+          }
         }
       },
       "mapping": {
@@ -1982,26 +1938,6 @@
       "coverage": {
         "title": "Coverage you can show at a glance",
         "p1": "The compliance view rolls the mapping up across your applications, so you can see which technical controls your testing programme speaks to and where the evidence is thin before an auditor finds it for you."
-      },
-      "scope": {
-        "title": "What the mapping is, and what it is not",
-        "p1": "Being straight about this is worth more than a bolder claim. Testing evidence covers the technical end of Annex A well and the rest of it not at all.",
-        "does": {
-          "title": "What it gives you",
-          "items": {
-            "evidence": "Live evidence for the technical controls a pentest can actually exercise.",
-            "trail": "A dated trail per finding, from first report to verified fix.",
-            "gaps": "A clear view of which controls your testing does not reach."
-          }
-        },
-        "doesNot": {
-          "title": "What stays yours",
-          "items": {
-            "certify": "Certification. That judgement belongs to you and your auditor, and no mapping replaces it.",
-            "scope": "Controls about policy, people and process, which no amount of testing can evidence.",
-            "policy": "Your management system itself. We supply evidence into it, we do not run it."
-          }
-        }
       },
       "faq": {
         "title": "Frequently asked questions",
@@ -2067,11 +2003,6 @@
         "after": "How monthly scans and collaborative retesting keep your fixes verified after delivery."
       }
     },
-    "shotAlt": "The ARGUS dashboard with the security posture overview.",
-    "scan": {
-      "title": "Not ready for a live demo?",
-      "body": "Run the free exposure scan first and see what is already public about your organization.",
-      "cta": "Run the free scan"
-    }
+    "shotAlt": "The ARGUS dashboard with the security posture overview."
   }
 }

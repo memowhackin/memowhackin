@@ -1,15 +1,12 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import clsx from "clsx";
-import { Check, Minus } from "lucide-react";
+import { BadgeCheck, CalendarCheck } from "lucide-react";
 import { SectionShell } from "@/components/common/SectionShell";
-import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { AgenticPentesting } from "@/components/argus/AgenticPentesting";
-import { ArgusHero } from "@/components/argus/ArgusHero";
+import { ArgusHero, type SkeletonNav } from "@/components/argus/ArgusHero";
 import { FeatureRow, FeatureRows } from "@/components/argus/FeatureRow";
-import { LightBand } from "@/components/argus/LightBand";
 import { useSeo } from "@/localization/useSeo";
 import { SERVICE_AREA_SERVED } from "@/config/services";
 
@@ -28,80 +25,47 @@ import { SERVICE_AREA_SERVED } from "@/config/services";
  * something.
  */
 
+/**
+ * The captured sidebar, with every nav item masked except Compliance, so the
+ * hero shows the one screen this page is about. Percentages of the export, so
+ * they hold at any rendered width; see `SkeletonNav`.
+ */
+const SKELETON_NAV: SkeletonNav = {
+  sidebar: 14.9,
+  rows: [
+    { top: 23.8, height: 1.6 },
+    { top: 28.6, height: 1.6 },
+    { top: 33.3, height: 1.8 },
+    { top: 38.4, height: 1.4 },
+    { top: 52.6, height: 1.8 },
+    { top: 57.5, height: 1.5 },
+    { top: 67.3, height: 1.9 },
+  ],
+};
+
 const PATH = "/argus/continuous-compliance";
 const KEY = "argusPages.compliance";
 
 const FAQ_ENTRIES = ["certify", "standards", "auditor"] as const;
 
+/** The two things the compliance capture is showing, named over it. */
+const HERO_WIDGETS = [
+  {
+    key: "mapped",
+    icon: BadgeCheck,
+    tone: "border-indigo/30 bg-indigo/10 text-indigo",
+    // Above the readable Compliance row, below the project card.
+    at: "top-[17%] -left-8",
+  },
+  {
+    key: "evidence",
+    icon: CalendarCheck,
+    tone: "border-success/40 bg-success/10 text-success",
+    at: "bottom-[6%] left-12",
+  },
+] as const;
+
 const HERO_POINTS = ["mapped", "dated", "export"] as const;
-
-/** Which of the two columns in the light band a line belongs to. */
-const DOES = ["evidence", "trail", "gaps"] as const;
-const DOES_NOT = ["certify", "scope", "policy"] as const;
-
-/** What the mapping is, and what it is not. Stated as two lists, not a footnote. */
-function ScopeOfTheMapping() {
-  const { t } = useTranslation();
-  const { ref, className } = useReveal<HTMLDivElement>();
-
-  return (
-    <div ref={ref} className={clsx("flex flex-col gap-10", className)}>
-      <div className="flex max-w-2xl flex-col gap-4">
-        <h2 className="font-display text-service text-ink-deep font-normal text-balance">
-          {t(`${KEY}.scope.title`)}
-        </h2>
-        <p className="text-ink-deep/70 text-base leading-relaxed text-pretty sm:text-lg">
-          {t(`${KEY}.scope.p1`)}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:gap-6">
-        <div className="border-ink-deep/10 flex flex-col gap-5 rounded-2xl border bg-white/70 p-6 lg:p-8">
-          <h3 className="font-display text-ink-deep text-xl font-normal">
-            {t(`${KEY}.scope.does.title`)}
-          </h3>
-          <ul className="flex flex-col gap-3.5">
-            {DOES.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <Check
-                  aria-hidden="true"
-                  className="text-success mt-0.5 size-5 shrink-0"
-                />
-                <span className="text-ink-deep/75 text-base leading-relaxed text-pretty">
-                  {t(`${KEY}.scope.does.items.${item}`)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/*
-          The second column is the honest one, and it is given exactly the same
-          weight as the first: a compliance page that buries its limits is the
-          page most likely to be quoted back at us.
-        */}
-        <div className="border-ink-deep/10 flex flex-col gap-5 rounded-2xl border bg-white/70 p-6 lg:p-8">
-          <h3 className="font-display text-ink-deep text-xl font-normal">
-            {t(`${KEY}.scope.doesNot.title`)}
-          </h3>
-          <ul className="flex flex-col gap-3.5">
-            {DOES_NOT.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <Minus
-                  aria-hidden="true"
-                  className="text-ink-deep/35 mt-0.5 size-5 shrink-0"
-                />
-                <span className="text-ink-deep/75 text-base leading-relaxed text-pretty">
-                  {t(`${KEY}.scope.doesNot.items.${item}`)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function ContinuousCompliancePage() {
   const { t } = useTranslation();
@@ -150,9 +114,8 @@ export function ContinuousCompliancePage() {
           height: 857,
         }}
         points={HERO_POINTS}
-        // A 1.68 ratio: the widest export of the four, so it takes the wider
-        // column to land at the same visual weight as the others.
-        wideImage
+        widgets={HERO_WIDGETS}
+        skeletonNav={SKELETON_NAV}
         data-testid="argus-compliance-hero"
       />
 
@@ -194,10 +157,6 @@ export function ContinuousCompliancePage() {
           }
         />
       </FeatureRows>
-
-      <LightBand data-testid="argus-compliance-scope">
-        <ScopeOfTheMapping />
-      </LightBand>
 
       <SectionShell
         className="bg-transparent"

@@ -234,6 +234,36 @@ export function listLeads(): Promise<AdminLead[]> {
   return request<AdminLead[]>("/api/scanner/leads");
 }
 
+/** Which form an inquiry came from. */
+export type InquiryKind = "contact" | "demo";
+
+/**
+ * One contact or demo request, as the admin screens show it.
+ *
+ * `deliveredAt` is null when the row was stored but the notification never
+ * left. That is what makes this list a queue rather than an archive: the
+ * server records the inquiry before it attempts any mail, so a null here is a
+ * message somebody still has to answer by hand.
+ */
+export interface AdminInquiry {
+  id: string;
+  kind: InquiryKind;
+  name: string;
+  email: string;
+  company: string | null;
+  subject: string | null;
+  phone: string | null;
+  message: string | null;
+  consent: boolean;
+  locale: string;
+  deliveredAt: string | null;
+  createdAt: string;
+}
+
+export function listInquiries(kind: InquiryKind): Promise<AdminInquiry[]> {
+  return request<AdminInquiry[]>(`/api/inquiries?kind=${kind}`);
+}
+
 /*
  * Every write drops the public site's cached post list. The studio and the
  * site share one single-page app, so without this an admin who publishes and

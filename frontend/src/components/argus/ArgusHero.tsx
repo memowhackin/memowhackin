@@ -19,12 +19,6 @@ import { site } from "@/config/site";
  * frame takes the export's own ratio.
  */
 
-/**
- * Where a hero widget hangs, in the order they are given. Two is the limit on
- * purpose: they annotate the screenshot, and a third starts covering it.
- */
-const WIDGET_PLACEMENT = ["-top-5 -left-6", "-bottom-6 left-10"] as const;
-
 interface ArgusHeroProps {
   /** i18n prefix, e.g. `argusPages.monthly`. */
   base: string;
@@ -35,18 +29,82 @@ interface ArgusHeroProps {
    * Small cards pinned over the screenshot, each naming one thing the screen
    * behind it does. Keys under `<base>.hero.widgets.<key>.{figure,label}`.
    */
-  widgets?: readonly { key: string; icon: LucideIcon; tone: string }[];
+  widgets?: readonly {
+    key: string;
+    icon: LucideIcon;
+    tone: string;
+    /**
+     * Where the card hangs, as position utilities. Per widget rather than one
+     * shared table: these annotate a capture whose left column carries the
+     * logo, the project card and the one nav row left readable, and which
+     * bands are free to cover differs from page to page.
+     */
+    at: string;
+  }[];
   /**
-   * Give the screenshot more of the row.
+   * Mask rows of the captured sidebar so only the page being described stays
+   * readable, and draw a loading skeleton over each masked row.
    *
-   * These captures are not all the same shape, and the column is one width, so
-   * a wide-and-short export lands visibly shorter than a squarer one and reads
-   * as the small thing on the page next to a tall column of copy. Widening its
-   * share buys back the height. Set it where the export's ratio is past about
-   * 1.6 and the copy beside it runs long.
+   * The captures are flat PNGs, so this is an overlay rather than an edit: the
+   * sidebar in every export is exactly `ink-deep`, which is why a patch in that
+   * colour is invisible against it. Positions are percentages of the image, so
+   * they hold at every width the frame is rendered at.
    */
-  wideImage?: boolean;
+  skeletonNav?: SkeletonNav;
   "data-testid": string;
+}
+
+/**
+ * Every hero frame takes this ratio, whatever the export's own shape.
+ *
+ * The captures come in different ratios, and the column is one width, so left
+ * to their own shapes the four pages opened at four visibly different sizes.
+ * The frame now fixes the shape and `object-cover`, anchored to the top-left
+ * corner, absorbs the difference: the sidebar and header — the parts the
+ * skeleton work and the page name live in — always survive, and what gives is
+ * the far right or the bottom, which is where a dashboard trails off anyway.
+ */
+const FRAME_RATIO = 1.6;
+
+export interface SkeletonNav {
+  /** Sidebar width, as a percentage of the image's width. */
+  sidebar: number;
+  /** Each row to mask: top edge and height, as percentages of the height. */
+  rows: readonly { top: number; height: number }[];
+}
+
+/** The masked rows, drawn as a nav that has not loaded yet. */
+function SkeletonSidebar({ sidebar, rows }: SkeletonNav) {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+      {rows.map((row, index) => (
+        <div
+          key={row.top}
+          className="bg-ink-deep absolute flex items-center"
+          /*
+           * A little taller than the row it covers: the detected band is the
+           * ink itself, and a patch flush to it leaves the odd antialiased
+           * pixel of the original showing at the edges.
+           */
+          style={{
+            top: `${(row.top - 0.7).toString()}%`,
+            height: `${(row.height + 1.4).toString()}%`,
+            left: `${(sidebar * 0.03).toString()}%`,
+            width: `${(sidebar * 0.94).toString()}%`,
+          }}
+        >
+          <span className="flex h-[45%] w-full items-center gap-[6%]">
+            <span className="bg-mist/12 aspect-square h-full rounded-[0.2rem] motion-safe:animate-pulse" />
+            {/* Widths vary so the column reads as content, not as a pattern. */}
+            <span
+              className="bg-mist/10 h-[70%] rounded-full motion-safe:animate-pulse"
+              style={{ width: `${(52 + ((index * 13) % 30)).toString()}%` }}
+            />
+          </span>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export function ArgusHero({
@@ -54,7 +112,7 @@ export function ArgusHero({
   image,
   points,
   widgets,
-  wideImage = false,
+  skeletonNav,
   "data-testid": testId,
 }: ArgusHeroProps) {
   const { t } = useTranslation();
@@ -63,16 +121,32 @@ export function ArgusHero({
     delay: 120,
   });
 
+  /*
+   * The skeleton positions are measured as percentages of the export, but the
+   * masks are drawn on the frame, whose shape is fixed. Cover-fitting the
+   * image stretches one axis of that mapping — which one depends on whether
+   * the export is wider or squarer than the frame — so the measured values are
+   * rescaled here rather than re-measured on every page.
+   */
+  const imgRatio = image.width / image.height;
+  const hScale = Math.max(1, imgRatio / FRAME_RATIO);
+  const vScale = Math.max(1, FRAME_RATIO / imgRatio);
+  const scaledNav =
+    skeletonNav === undefined
+      ? undefined
+      : {
+          sidebar: skeletonNav.sidebar * hScale,
+          rows: skeletonNav.rows.map((row) => ({
+            top: row.top * vScale,
+            height: row.height * vScale,
+          })),
+        };
+
   return (
     <SectionShell
       className="overflow-x-clip bg-transparent"
       data-testid={testId}
-      innerClassName={clsx(
-        "grid grid-cols-1 items-center gap-12 pt-10 pb-16 lg:gap-x-16 lg:pt-16 lg:pb-24",
-        wideImage
-          ? "lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]"
-          : "lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]",
-      )}
+      innerClassName="grid grid-cols-1 items-center gap-12 pt-10 pb-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-x-16 lg:pt-16 lg:pb-24"
     >
       <div
         ref={copyRef}
@@ -126,7 +200,7 @@ export function ArgusHero({
           gutter is gone and the formula drops it. The section's
           `overflow-x-clip` swallows the excess.
         */}
-        <div className="border-indigo-deep/70 bg-ink-deep overflow-hidden rounded-2xl border lg:w-[calc(100%+4rem+max(0px,(100vw-90rem)/2))] lg:rounded-r-none lg:border-r-0 2xl:w-[calc(100%+(100vw-90rem)/2)]">
+        <div className="border-indigo-deep/70 bg-ink-deep relative aspect-8/5 overflow-hidden rounded-2xl border lg:w-[calc(100%+4rem+max(0px,(100vw-90rem)/2))] lg:rounded-r-none lg:border-r-0 2xl:w-[calc(100%+(100vw-90rem)/2)]">
           <img
             src={image.src}
             alt={t(`${base}.shots.hero`)}
@@ -134,8 +208,10 @@ export function ArgusHero({
             height={image.height}
             fetchPriority="high"
             decoding="async"
-            className="block h-auto w-full"
+            className="block h-full w-full object-cover object-left-top"
           />
+
+          {scaledNav !== undefined && <SkeletonSidebar {...scaledNav} />}
         </div>
 
         {/*
@@ -144,13 +220,13 @@ export function ArgusHero({
           full width and a card over it would hide the screen it annotates,
           and every widget repeats something the copy already says.
         */}
-        {widgets?.map((widget, index) => (
+        {widgets?.map((widget) => (
           <div
             key={widget.key}
             aria-hidden="true"
             className={clsx(
               "border-ink-deep/10 absolute hidden items-center gap-3 rounded-xl border bg-white p-3.5 shadow-[0_1rem_2.5rem_-1rem_rgba(13,11,33,0.55)] lg:flex",
-              WIDGET_PLACEMENT[index],
+              widget.at,
             )}
           >
             <span

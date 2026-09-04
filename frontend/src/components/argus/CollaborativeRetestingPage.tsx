@@ -1,15 +1,12 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import clsx from "clsx";
 import { Check, RotateCcw } from "lucide-react";
 import { SectionShell } from "@/components/common/SectionShell";
-import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { AgenticPentesting } from "@/components/argus/AgenticPentesting";
-import { ArgusHero } from "@/components/argus/ArgusHero";
+import { ArgusHero, type SkeletonNav } from "@/components/argus/ArgusHero";
 import { FeatureRow, FeatureRows } from "@/components/argus/FeatureRow";
-import { LightBand } from "@/components/argus/LightBand";
 import { useSeo } from "@/localization/useSeo";
 import { SERVICE_AREA_SERVED } from "@/config/services";
 
@@ -18,9 +15,26 @@ import { SERVICE_AREA_SERVED } from "@/config/services";
  *
  * The page follows one finding from "we shipped a fix" to a recorded verdict.
  * It opens on the queue those requests are made from, explains the agentic
- * engine behind it, walks the workflow on the home page's service rows, and
- * closes the argument on the two outcomes a retest can record.
+ * engine behind it, and walks the workflow on the home page's service rows.
  */
+
+/**
+ * The captured sidebar, with every nav item masked except Findings, so the
+ * hero shows the one screen this page is about. Percentages of the export, so
+ * they hold at any rendered width; see `SkeletonNav`.
+ */
+const SKELETON_NAV: SkeletonNav = {
+  sidebar: 14.8,
+  rows: [
+    { top: 22.5, height: 1.5 },
+    { top: 31.5, height: 1.7 },
+    { top: 36.3, height: 1.3 },
+    { top: 40.6, height: 1.5 },
+    { top: 49.8, height: 1.7 },
+    { top: 54.4, height: 1.4 },
+    { top: 63.7, height: 1.8 },
+  ],
+};
 
 const PATH = "/argus/collaborative-retesting";
 const KEY = "argusPages.retest";
@@ -33,18 +47,19 @@ const HERO_WIDGETS = [
     key: "request",
     icon: RotateCcw,
     tone: "border-indigo/25 bg-indigo/10 text-indigo",
+    // Clear of the logo, the project card and the readable Findings row.
+    at: "top-[31%] -left-8",
   },
   {
     key: "verdict",
     icon: Check,
     tone: "border-success/40 bg-success/10 text-success",
+    at: "-bottom-6 left-12",
   },
 ] as const;
 
 export function CollaborativeRetestingPage() {
   const { t } = useTranslation();
-  const { ref: outcomeRef, className: outcomeReveal } =
-    useReveal<HTMLDivElement>();
 
   const faq = useMemo(
     () =>
@@ -90,6 +105,7 @@ export function CollaborativeRetestingPage() {
           height: 906,
         }}
         widgets={HERO_WIDGETS}
+        skeletonNav={SKELETON_NAV}
         data-testid="argus-retest-hero"
       />
 
@@ -132,52 +148,6 @@ export function CollaborativeRetestingPage() {
           }
         />
       </FeatureRows>
-
-      {/* Resolved versus still reproducible — the page's light passage. */}
-      <LightBand data-testid="argus-retest-outcomes">
-        <div
-          ref={outcomeRef}
-          className={clsx("flex flex-col gap-10", outcomeReveal)}
-        >
-          <div className="flex max-w-2xl flex-col gap-4">
-            <h2 className="font-display text-service text-ink-deep font-normal text-balance">
-              {t(`${KEY}.outcomes.title`)}
-            </h2>
-            <p className="text-ink-deep/70 text-base leading-relaxed text-pretty sm:text-lg">
-              {t(`${KEY}.outcomes.p1`)}
-            </p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2">
-            {(["resolved", "reproducible"] as const).map((outcome) => (
-              <div
-                key={outcome}
-                data-testid={`argus-outcome-${outcome}`}
-                className="border-ink-deep/10 flex flex-col gap-3 rounded-2xl border bg-white/60 p-6"
-              >
-                <span
-                  className={clsx(
-                    "flex w-fit items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium tracking-wide uppercase",
-                    outcome === "resolved"
-                      ? "border-success/40 bg-success/10 text-ink-deep"
-                      : "border-warning/50 bg-warning/15 text-ink-deep",
-                  )}
-                >
-                  {outcome === "resolved" ? (
-                    <Check aria-hidden="true" className="size-3.5" />
-                  ) : (
-                    <RotateCcw aria-hidden="true" className="size-3.5" />
-                  )}
-                  {t(`${KEY}.outcomes.${outcome}.title`)}
-                </span>
-                <p className="text-ink-deep/75 text-base leading-relaxed text-pretty">
-                  {t(`${KEY}.outcomes.${outcome}.body`)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </LightBand>
 
       <SectionShell
         className="bg-transparent"

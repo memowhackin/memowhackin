@@ -6,7 +6,13 @@ import { audit } from "../audit.js";
 import { currentAdmin, requireAdmin } from "../auth/middleware.js";
 import { writeLimiter, uploadLimiter } from "../auth/rateLimit.js";
 import { db } from "../db/client.js";
-import { images, postSlugs, posts, scanLeads } from "../db/schema.js";
+import {
+  images,
+  inquiries,
+  postSlugs,
+  posts,
+  scanLeads,
+} from "../db/schema.js";
 import { triggerDeploy } from "../deploy.js";
 import { uuidParam } from "../http/params.js";
 import { requireCsrfToken } from "../security/csrf.js";
@@ -181,6 +187,47 @@ adminRouter.get("/scanner/leads", async (_req, res) => {
       company: row.company,
       position: row.position,
       email: row.email,
+      createdAt: row.createdAt.toISOString(),
+    })),
+  );
+});
+
+/*
+ * Contact and demo requests, newest first.
+ *
+ * One endpoint for both, narrowed by `kind`, because they are the same row
+ * shape and the admin shows them as two views of one table. Capped like the
+ * leads list: this screen is for reading the recent ones, not for exporting
+ * the archive.
+ *
+ * `deliveredAt` is included deliberately. A null there means the row was
+ * stored but the notification never left, which is the one thing somebody
+ * reading this screen needs to know that the inquiry itself does not tell
+ * them.
+ */
+adminRouter.get("/inquiries", async (req, res) => {
+  const kind = req.query.kind === "demo" ? "demo" : "contact";
+
+  const rows = await db
+    .select()
+    .from(inquiries)
+    .where(eq(inquiries.kind, kind))
+    .orderBy(desc(inquiries.createdAt))
+    .limit(500);
+
+  res.json(
+    rows.map((row) => ({
+      id: row.id,
+      kind: row.kind,
+      name: row.name,
+      email: row.email,
+      company: row.company,
+      subject: row.subject,
+      phone: row.phone,
+      message: row.message,
+      consent: row.consent,
+      locale: row.locale,
+      deliveredAt: row.deliveredAt?.toISOString() ?? null,
       createdAt: row.createdAt.toISOString(),
     })),
   );
