@@ -42,7 +42,9 @@ function DropdownItem({
         <span className="text-mist group-hover/item:text-lavender text-sm leading-tight font-medium transition-colors">
           {t(item.labelKey)}
         </span>
-        <span className="text-mist/45 text-xs leading-snug">
+        {/* 65%, not 45%. At 45 this line measured 4.0:1 against the card,
+            under the 4.5:1 floor for text this size; 65 puts it at 7.3:1. */}
+        <span className="text-mist/65 text-xs leading-snug">
           {t(item.descKey)}
         </span>
       </span>
@@ -163,18 +165,54 @@ export function HeaderDropdown({ dropdown, onNavigate }: HeaderDropdownProps) {
           )}
         >
           {mega && (
-            <div className="border-indigo-deep/70 bg-indigo-deep/25 flex w-48 shrink-0 flex-col justify-between rounded-xl border p-5">
-              <div className="flex flex-col gap-3">
-                <LogoMark className="text-lavender h-6 w-auto" />
-                <p className="font-display text-mist text-lg leading-none font-normal">
+            /*
+             * The product's own panel, set apart from the list of pages beside
+             * it: a dashed lavender edge rather than the solid indigo the rest
+             * of the card uses, so it reads as a plate laid on the menu rather
+             * than another cell of it. The dashes are the footer's, which is
+             * where this site already spells a soft boundary.
+             */
+            <div className="border-lavender/25 relative flex w-48 shrink-0 flex-col overflow-hidden rounded-xl border border-dashed p-5">
+              <div className="flex flex-col gap-3.5">
+                <span className="border-lavender/30 bg-lavender/10 grid size-10 place-items-center rounded-lg border">
+                  <LogoMark className="text-lavender w-5" />
+                </span>
+
+                {/* The product name in the spacing the ARGUS pages give it:
+                    display face, wide tracking, upper case. */}
+                <p className="font-display text-mist text-sm font-light tracking-[0.4em] uppercase">
                   {t(dropdown.labelKey)}
                 </p>
+
+                {/* Set at the weight the menu items beside it use rather than
+                    the muted one a caption would take: this is the sentence
+                    that says what the product is, and it was the dimmest text
+                    in the card. */}
                 {dropdown.taglineKey && (
-                  <p className="text-mist/55 text-sm leading-relaxed text-pretty">
+                  <p className="text-mist/85 text-sm leading-relaxed text-pretty">
                     {t(dropdown.taglineKey)}
                   </p>
                 )}
               </div>
+
+              {/*
+                A run of the brand's diamond, fading out along the foot. The
+                mark the whole site is drawn from, used as an ornament rather
+                than a stock icon: it closes the plate without adding a second
+                thing to read.
+              */}
+              <span
+                aria-hidden="true"
+                className="mt-auto flex items-center gap-1.5 pt-5"
+              >
+                {[1, 0.7, 0.45, 0.25, 0.12].map((strength) => (
+                  <span
+                    key={strength}
+                    className="bg-lavender size-1.5 rotate-45 rounded-xs"
+                    style={{ opacity: strength }}
+                  />
+                ))}
+              </span>
             </div>
           )}
 

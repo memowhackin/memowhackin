@@ -21,7 +21,7 @@
       "features": "Functies",
       "tagline": "Continue security testing, monitoring en compliance in één platform.",
       "monthly": "Maandelijkse security scans",
-      "retest": "Collaboratief hertesten",
+      "retest": "Instant retesting",
       "workspace": "Live pentest-workspace",
       "compliance": "Continue compliance",
       "desc": {
@@ -891,6 +891,24 @@
         "email": "Zakelijk e-mail",
         "date": "Vastgelegd"
       }
+    },
+    "viewContactInquiries": "Contactaanvragen",
+    "viewDemoInquiries": "Demoaanvragen",
+    "inquiries": {
+      "contact": {
+        "title": "Contactaanvragen"
+      },
+      "demo": {
+        "title": "Demoaanvragen"
+      },
+      "subheading": "{{count}} ontvangen",
+      "loading": "Aanvragen laden...",
+      "empty": "Nog geen aanvragen.",
+      "error": "De aanvragen konden niet worden geladen.",
+      "delivered": "Gemaild",
+      "notDelivered": "Niet gemaild",
+      "consentYes": "Akkoord met updates",
+      "consentNo": "Geen marketingtoestemming"
     }
   },
   "cta": {
@@ -1786,7 +1804,7 @@
     },
     "retest": {
       "hero": {
-        "heading": "Verifieer de fix met de pentester die hem vond.",
+        "heading": "Bevindingen direct hertesten",
         "lede": "Vraag op elke bevinding een hertest aan. De pentester die de bevinding meldde voert de oorspronkelijke aanval opnieuw uit, houdt uw team op de bevinding zelf aangehaakt en legt de uitkomst vast: opgelost, of nog reproduceerbaar.",
         "widgets": {
           "request": {
@@ -1806,18 +1824,6 @@
       "thread": {
         "title": "Het gesprek leeft op de bevinding",
         "p1": "Vragen over een fix gaan naar de pentester die de exploit schreef, in een discussie die aan de bevinding hangt. Beide kanten zien hetzelfde bewijs, en er raakt niets zoek tussen een ticketsysteem en een mailbox."
-      },
-      "outcomes": {
-        "title": "Opgelost, of nog reproduceerbaar",
-        "p1": "Een hertest eindigt in een van twee vastgelegde statussen, en allebei zijn ze bruikbaar. De ene sluit de bevinding met bewijs. De andere behoedt uw team voor geloof in een fix die niet standhield.",
-        "resolved": {
-          "title": "Opgelost",
-          "body": "De oorspronkelijke aanval werkt niet meer. De bevinding sluit met het herhaalde verzoek en de weigering in het dossier."
-        },
-        "reproducible": {
-          "title": "Nog reproduceerbaar",
-          "body": "De aanval werkt nog. De bevinding blijft open, met een notitie over wat nog lukt, en na de volgende fix vraagt u opnieuw een hertest aan."
-        }
       },
       "faq": {
         "title": "Veelgestelde vragen",
@@ -1852,10 +1858,6 @@
         "title": "Bevindingen komen binnen zodra ze er zijn",
         "p1": "Er is geen black-boxmaand die eindigt in een pdf. Een bevinding wordt naar uw workspace gepubliceerd zodra een pentester hem valideert, met reproductiestappen en bewijs, dus herstel kan beginnen terwijl de test nog loopt."
       },
-      "cvss": {
-        "title": "Gerangschikt met CVSS v4.0",
-        "p1": "Elke bevinding draagt een CVSS v4.0-score en volledige vector. De wachtrij ordent zichzelf op ernst, dus uw team weet wat het eerst oppakt en ziet precies waarom dat boven de rest staat."
-      },
       "agents": {
         "title": "Kijk mee met de agents",
         "p1": "Onze pentesters sturen gespecialiseerde agents aan, elk gebouwd voor één soort test. De activiteitenweergave toont wat er op elk moment loopt: welk deel van uw scope, welk soort test en hoe ver die is. Een bevinding bereikt uw wachtrij pas nadat een pentester hem heeft gevalideerd."
@@ -1863,10 +1865,6 @@
       "provenance": {
         "title": "Elke bevinding benoemt het werk erachter",
         "p1": "Een bevinding verwijst terug naar de agent-taak en de pentestervalidatie erachter. U ziet wat er getest werd toen hij opdook, en dat is het verschil tussen een resultaat waarop u kunt handelen en een melding die u moet interpreteren."
-      },
-      "report": {
-        "title": "Het rapport, gelezen waar het werk gebeurde",
-        "p1": "Zodra de opdracht is afgerond, wordt het eindrapport in uw workspace geleverd en leest u het in de browser. Het is beschermd onderweg en in de browser, en het reist niet als bijlage door mailboxen."
       },
       "faq": {
         "title": "Veelgestelde vragen",
@@ -1886,11 +1884,9 @@
         }
       },
       "shots": {
-        "hero": "De ARGUS-workspace tijdens een opdracht: agent-activiteit naast de wachtrij met bevindingen.",
+        "hero": "Een ARGUS-pentestrun: de fases die hij doorliep, wat er verstuurd is en elke agent die eraan werkte.",
         "findings": "De ARGUS-wachtrij met bevindingen, ernst en binnenkomsttijden.",
-        "cvss": "Een CVSS v4.0-score en vector op een ARGUS-bevinding.",
-        "agents": "De ARGUS-activiteitenweergave met taakstatussen.",
-        "report": "Het ARGUS-rapportpaneel met de browserviewer."
+        "agents": "De agents van één ARGUS-run, elke kaart benoemt waar die agent aan werkte en hoe hij afsloot."
       },
       "ui": {
         "queueLabel": "Bevindingen",
@@ -1904,14 +1900,6 @@
           "auth": {
             "title": "Autorisatie testen op factuur-endpoints",
             "target": "portaal.uwbedrijf.nl/api/facturen"
-          },
-          "upload": {
-            "title": "Bestandsupload-afhandeling beproeven",
-            "target": "support.uwbedrijf.nl/bijlagen"
-          },
-          "api": {
-            "title": "API-oppervlak in kaart brengen via de OpenAPI-spec",
-            "target": "api.uwbedrijf.nl/v2"
           }
         },
         "taskState": {
@@ -1920,49 +1908,7 @@
           "validating": "Pentester valideert",
           "done": "Gevalideerd"
         },
-        "cvssLabel": "CVSS v4.0",
-        "cvss": {
-          "score": "8,7",
-          "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:L/VA:N",
-          "metrics": {
-            "av": {
-              "label": "Aanvalsvector",
-              "value": "Netwerk"
-            },
-            "ac": {
-              "label": "Complexiteit",
-              "value": "Laag"
-            },
-            "pr": {
-              "label": "Rechten",
-              "value": "Laag"
-            },
-            "vc": {
-              "label": "Vertrouwelijkheid",
-              "value": "Hoog"
-            },
-            "vi": {
-              "label": "Integriteit",
-              "value": "Laag"
-            },
-            "va": {
-              "label": "Beschikbaarheid",
-              "value": "Geen"
-            }
-          }
-        },
-        "provenance": "Gevonden tijdens: autorisatietests op factuur-endpoints",
-        "reportLabel": "Rapport",
-        "report": {
-          "title": "Pentestrapport",
-          "meta": "Definitief · v1.0 · 48 pagina's",
-          "state": "Beschikbaar",
-          "rows": {
-            "transit": "Beschermd onderweg",
-            "browser": "Gelezen in de browserviewer",
-            "workspace": "Geleverd in uw workspace, niet als bijlage"
-          }
-        }
+        "provenance": "Gevonden tijdens: autorisatietests op factuur-endpoints"
       }
     },
     "compliance": {
@@ -1973,6 +1919,16 @@
           "mapped": "Elke bevinding gekoppeld aan de Annex A-controls die ze werkelijk raakt.",
           "dated": "Gevonden, opgelost en geverifieerd, elk met de datum waarop het gebeurde.",
           "export": "Per control te exporteren, zodat een auditor het direct leest."
+        },
+        "widgets": {
+          "mapped": {
+            "figure": "Gekoppeld aan Annex A",
+            "label": "controls per bevinding benoemd"
+          },
+          "evidence": {
+            "figure": "Gedateerd bewijs",
+            "label": "gevonden, opgelost, geverifieerd"
+          }
         }
       },
       "mapping": {
@@ -1982,26 +1938,6 @@
       "coverage": {
         "title": "Dekking die u in één blik laat zien",
         "p1": "De compliance-weergave telt de koppeling op over uw applicaties, zodat u ziet welke technische controls uw testprogramma raakt en waar het bewijs dun is, voordat een auditor dat voor u ontdekt."
-      },
-      "scope": {
-        "title": "Wat de koppeling wel en niet is",
-        "p1": "Hier eerlijk over zijn is meer waard dan een stoerdere claim. Testbewijs dekt de technische kant van Annex A goed af en de rest ervan helemaal niet.",
-        "does": {
-          "title": "Wat het u geeft",
-          "items": {
-            "evidence": "Actueel bewijs voor de technische controls die een pentest daadwerkelijk kan beproeven.",
-            "trail": "Een gedateerd spoor per bevinding, van eerste melding tot geverifieerde fix.",
-            "gaps": "Helder zicht op welke controls uw testen niet bereiken."
-          }
-        },
-        "doesNot": {
-          "title": "Wat van u blijft",
-          "items": {
-            "certify": "Certificering. Dat oordeel ligt bij u en uw auditor, en geen enkele koppeling vervangt dat.",
-            "scope": "Controls over beleid, mensen en processen, die met testen niet te bewijzen zijn.",
-            "policy": "Uw managementsysteem zelf. Wij leveren er bewijs aan, wij voeren het niet."
-          }
-        }
       },
       "faq": {
         "title": "Veelgestelde vragen",
@@ -2067,11 +2003,6 @@
         "after": "Hoe maandelijkse scans en collaboratief hertesten uw fixes geverifieerd houden na oplevering."
       }
     },
-    "shotAlt": "Het ARGUS-dashboard met het beveiligingsoverzicht.",
-    "scan": {
-      "title": "Nog niet klaar voor een live demo?",
-      "body": "Doe eerst de gratis exposure-scan en zie wat er al publiek is over uw organisatie.",
-      "cta": "Start de gratis scan"
-    }
+    "shotAlt": "Het ARGUS-dashboard met het beveiligingsoverzicht."
   }
 }

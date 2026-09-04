@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import {
   ArrowUpRight,
+  CalendarCheck,
   Eye,
+  Inbox,
   LogOut,
   Pencil,
   Plus,
@@ -223,6 +225,22 @@ function BlogAdmin() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              to="/studio-b78262a861/contact-inquiries"
+              data-testid="admin-view-contact-inquiries"
+              className="border-indigo-deep text-mist hover:border-lavender/50 hover:text-lavender inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors"
+            >
+              <Inbox className="size-4" aria-hidden="true" />
+              {t("admin.viewContactInquiries")}
+            </Link>
+            <Link
+              to="/studio-b78262a861/demo-inquiries"
+              data-testid="admin-view-demo-inquiries"
+              className="border-indigo-deep text-mist hover:border-lavender/50 hover:text-lavender inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors"
+            >
+              <CalendarCheck className="size-4" aria-hidden="true" />
+              {t("admin.viewDemoInquiries")}
+            </Link>
             <Link
               to="/studio-b78262a861/leads"
               data-testid="admin-view-leads"

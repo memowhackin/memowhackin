@@ -1,8 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
@@ -16,8 +16,7 @@ export const Route = createFileRoute("/demo")({
 
 /*
  * Book a demo: the claim and the form on the left, what the demo shows on the
- * right over the product itself, and the free scan as the softer next step for
- * whoever is not ready to talk yet.
+ * right over the product itself.
  *
  * Same doctrine as the contact page: a valid submit posts to the backend,
  * which stores the request before it attempts to mail it, so a success here
@@ -225,16 +224,9 @@ function DemoPage() {
                   className="accent-lavender mt-0.5 size-4 shrink-0"
                   data-testid="demo-consent"
                 />
-                <span>
-                  {t("demoPage.form.consent")}{" "}
-                  <Link
-                    to="/privacy-policy"
-                    className="text-lavender underline underline-offset-2"
-                    data-testid="demo-privacy-link"
-                  >
-                    {t("footer.privacy")}
-                  </Link>
-                </span>
+                {/* No privacy-policy link while that page is withdrawn; the
+                    sentence stands on its own until the page returns. */}
+                <span>{t("demoPage.form.consent")}</span>
               </label>
 
               {/* The honeypot: off-screen, unlabelled, never focusable. */}
@@ -315,27 +307,6 @@ function DemoPage() {
               loading="lazy"
               className="block h-auto w-full"
             />
-          </div>
-
-          {/* The softer next step, for whoever is not ready to talk yet. */}
-          <div className="border-indigo-deep/70 bg-ink-deep/50 flex flex-col gap-2 rounded-2xl border p-6">
-            <h2 className="font-display text-mist text-lg font-normal">
-              {t("demoPage.scan.title")}
-            </h2>
-            <p className="text-mist/70 text-base leading-relaxed text-pretty">
-              {t("demoPage.scan.body")}
-            </p>
-            <Link
-              to="/security-scan"
-              data-testid="demo-scan-link"
-              className="group text-lavender hover:text-lavender-soft mt-1 inline-flex w-fit items-center gap-2 py-1 text-base font-medium transition-colors pointer-coarse:min-h-11"
-            >
-              {t("demoPage.scan.cta")}
-              <ArrowRight
-                aria-hidden="true"
-                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Link>
           </div>
         </div>
       </SectionShell>

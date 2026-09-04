@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { LinkedInIcon, YouTubeIcon } from "@/components/common/BrandIcons";
 import { LogoLockup } from "@/components/common/Logo";
 import { site } from "@/config/site";
-import { legalPaths } from "@/content/legal";
 
 /** The footer's quick links, now real routes rather than in-page anchors. */
 const quickLinks = [
@@ -276,31 +275,15 @@ export function SiteFooter() {
           </div>
         </div>
 
+        {/*
+          No legal links for now: the privacy policy and terms pages are
+          withdrawn until their content is complete, and a footer link to a
+          missing page is worse than no link. The routes, this block and the
+          demo form's consent link all come back together.
+        */}
         <div className="border-lavender/15 text-mist/55 mt-12 flex flex-col gap-2 border-t border-dashed pt-6 pb-12 text-sm leading-6 sm:flex-row sm:items-center sm:justify-between lg:mt-16 lg:pb-16">
           <p data-testid="footer-copyright">
             {t("footer.copyright", { year })}
-          </p>
-          {/*
-            The site's own legal pages, so router links: they used to point at
-            the scanner app's `/terms` and `/privacy`, which left a visitor on
-            another host reading a policy that never mentioned this site.
-          */}
-          <p className="flex items-center gap-3">
-            <Link
-              to={legalPaths.termsOfService}
-              className="hover:text-lavender inline-flex min-h-9 items-center transition-colors pointer-coarse:min-h-11"
-              data-testid="footer-terms"
-            >
-              {t("footer.terms")}
-            </Link>
-            <span aria-hidden="true">·</span>
-            <Link
-              to={legalPaths.privacyPolicy}
-              className="hover:text-lavender inline-flex min-h-9 items-center transition-colors pointer-coarse:min-h-11"
-              data-testid="footer-privacy"
-            >
-              {t("footer.privacy")}
-            </Link>
           </p>
         </div>
       </div>

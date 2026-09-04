@@ -3,6 +3,7 @@ import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { ArrowRight } from "lucide-react";
+import { LogoMark } from "@/components/common/Logo";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { LatticeDivider } from "@/components/common/LatticeDivider";
 import { SectionShell } from "@/components/common/SectionShell";
@@ -111,6 +112,100 @@ function ChannelRow({
     >
       {inner}
     </a>
+  );
+}
+
+/*
+ * The people who answer the form, as a stacked row beside the send button.
+ *
+ * Initials rather than photographs, and deliberately: there are no portraits
+ * of the team on this site, and a row of stock faces on a security company's
+ * contact page is the kind of detail that reads as false the moment anyone
+ * looks twice. These are the brand's own surfaces with the mark closing the
+ * stack, which says "a small team, ours" without claiming a likeness.
+ *
+ * `ring-ink-deep` is what separates the overlap: each disc carries a ring in
+ * the panel's own colour, so the stack reads as layered rather than merged.
+ */
+const PENTESTERS = [
+  { file: "pentester-1", initials: "JW" },
+  { file: "pentester-2", initials: "SA" },
+  { file: "pentester-3", initials: "MK" },
+] as const;
+
+/**
+ * One face, or their initials until the photograph exists.
+ *
+ * The image is rendered first and the initials only replace it if the file is
+ * not there, which is the pattern this site already uses for the portal
+ * captures. Dropping `pentester-1.webp` into `public/assets/team/` is the
+ * whole of publishing that portrait: no code change, no deploy to pair with
+ * the asset, and the page is never broken while one is missing.
+ */
+function PentesterAvatar({
+  person,
+  index,
+}: {
+  person: (typeof PENTESTERS)[number];
+  index: number;
+}) {
+  const [missing, setMissing] = useState(false);
+
+  const shell =
+    "ring-ink-deep border-lavender/25 size-10 shrink-0 rounded-full border object-cover ring-2";
+
+  if (missing) {
+    return (
+      <span
+        className={clsx(
+          shell,
+          "text-lavender font-display grid place-items-center text-[0.65rem]",
+        )}
+        style={{
+          // A short ramp across the brand indigo, so the discs are
+          // distinguishable without any of them shouting.
+          background: `color-mix(in oklab, var(--color-indigo) ${String(
+            60 - index * 14,
+          )}%, var(--color-ink-deep))`,
+        }}
+      >
+        {person.initials}
+      </span>
+    );
+  }
+
+  return (
+    <img
+      src={`/assets/team/${person.file}.webp`}
+      alt=""
+      width={80}
+      height={80}
+      loading="lazy"
+      className={shell}
+      onError={() => {
+        setMissing(true);
+      }}
+    />
+  );
+}
+
+function PentesterGroup() {
+  return (
+    /*
+     * Decorative: the faces say a small team reads this, and nothing here is
+     * information a screen reader would be missing. Announcing four unnamed
+     * portraits would be noise.
+     */
+    <span className="flex -space-x-3" aria-hidden="true">
+      {PENTESTERS.map((person, index) => (
+        <PentesterAvatar key={person.file} person={person} index={index} />
+      ))}
+
+      {/* The mark closes the stack: this is who the group belongs to. */}
+      <span className="ring-ink-deep border-lavender/35 bg-lavender/15 grid size-10 shrink-0 place-items-center rounded-full border ring-2">
+        <LogoMark className="text-lavender w-4" />
+      </span>
+    </span>
   );
 }
 
@@ -262,7 +357,7 @@ function ContactPage() {
           <div
             ref={formRef}
             className={clsx(
-              "border-indigo-deep bg-ink-deep/50 rounded-2xl border p-5 sm:p-7",
+              "border-indigo-deep bg-ink-deep/60 rounded-2xl border p-5 shadow-[inset_0_1px_0_color-mix(in_oklab,var(--color-lavender)_14%,transparent)] sm:p-7",
               formReveal,
             )}
           >
@@ -376,21 +471,31 @@ function ContactPage() {
                 className="sr-only"
               />
 
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                data-testid="contact-submit"
-                className={brandButtonClass({
-                  className:
-                    "mt-1 w-full sm:w-fit disabled:pointer-events-none disabled:opacity-60",
-                })}
-              >
-                {t(
-                  status === "sending"
-                    ? "contactPage.form.sending"
-                    : "contactPage.form.submit",
-                )}
-              </button>
+              {/*
+                The action and the people who answer it, on one line. The
+                avatars sit opposite the button rather than under the heading
+                because this is the moment the reader is deciding to send: who
+                reads it is the reassurance that belongs here.
+              */}
+              <div className="border-indigo-deep/60 mt-2 flex flex-col gap-4 border-t pt-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  data-testid="contact-submit"
+                  className={brandButtonClass({
+                    className:
+                      "w-full sm:w-fit disabled:pointer-events-none disabled:opacity-60",
+                  })}
+                >
+                  {t(
+                    status === "sending"
+                      ? "contactPage.form.sending"
+                      : "contactPage.form.submit",
+                  )}
+                </button>
+
+                <PentesterGroup />
+              </div>
 
               {status !== "idle" && status !== "sending" && (
                 <p

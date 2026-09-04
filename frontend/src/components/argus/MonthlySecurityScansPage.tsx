@@ -8,7 +8,7 @@ import { useReveal } from "@/components/common/useReveal";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 import { ServiceFaq } from "@/components/services/ServiceFaq";
 import { AgenticPentesting } from "@/components/argus/AgenticPentesting";
-import { ArgusHero } from "@/components/argus/ArgusHero";
+import { ArgusHero, type SkeletonNav } from "@/components/argus/ArgusHero";
 import { FeatureRow, FeatureRows } from "@/components/argus/FeatureRow";
 import { LightBand } from "@/components/argus/LightBand";
 import { useSeo } from "@/localization/useSeo";
@@ -23,6 +23,24 @@ import { SERVICE_AREA_SERVED } from "@/config/services";
  * baseline against the months that follow as a real comparison, and then walks
  * its features on the home page's service rows.
  */
+
+/**
+ * The captured sidebar, with every nav item masked except Monthly scans, so the
+ * hero shows the one screen this page is about. Percentages of the export, so
+ * they hold at any rendered width; see `SkeletonNav`.
+ */
+const SKELETON_NAV: SkeletonNav = {
+  sidebar: 19.1,
+  rows: [
+    { top: 23.1, height: 1.6 },
+    { top: 27.7, height: 1.6 },
+    { top: 32.2, height: 1.7 },
+    { top: 41.6, height: 1.6 },
+    { top: 51, height: 1.7 },
+    { top: 55.7, height: 1.5 },
+    { top: 65.2, height: 1.8 },
+  ],
+};
 
 const PATH = "/argus/monthly-security-scans";
 const KEY = "argusPages.monthly";
@@ -226,6 +244,7 @@ export function MonthlySecurityScansPage() {
           height: 885,
         }}
         points={HERO_POINTS}
+        skeletonNav={SKELETON_NAV}
         data-testid="argus-monthly-hero"
       />
 
