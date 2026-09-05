@@ -7,13 +7,99 @@ import { LogoLockup } from "@/components/common/Logo";
 import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import { HeaderDropdown } from "@/components/layout/HeaderDropdown";
-import { NAV_ITEMS } from "@/config/nav";
+import { NAV_ITEMS, type NavExternal, type NavRoute } from "@/config/nav";
 import { env } from "@/config/env";
 import { site } from "@/config/site";
 
 /** Only "/" is matched exactly; every other route stays active on its children. */
 function activeOptionsFor(to: string) {
   return to === "/" ? { exact: true } : undefined;
+}
+
+/*
+ * A plain nav entry — one that is not a dropdown — in either bar.
+ *
+ * Split out of the two `NAV_ITEMS.map` calls below because a router link and an
+ * outbound one differ by more than an attribute: only the router link has
+ * active styling, and only it can take a typed `to`. Deciding that inside the
+ * map would mean a second ternary nested in the first.
+ */
+const desktopNavLinkClass =
+  "decoration-lavender relative inline-flex items-center py-2 text-sm whitespace-nowrap underline-offset-8 transition-colors hover:underline xl:text-base pointer-coarse:min-h-11";
+
+function DesktopNavLink({ item }: { item: NavRoute | NavExternal }) {
+  const { t } = useTranslation();
+
+  /*
+   * Same tab, deliberately, even though the login link below opens a new one.
+   * The knowledge base is our own site rather than a separate application, so
+   * following it is a navigation like any other in this bar — a new tab there
+   * reads as the site losing track of where you were.
+   */
+  if (item.kind === "external") {
+    return (
+      <a
+        href={item.href}
+        data-testid={`nav-${item.key}`}
+        className={clsx(desktopNavLinkClass, "hover:text-lavender text-white")}
+      >
+        {t(item.labelKey)}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      to={item.to}
+      activeOptions={activeOptionsFor(item.to)}
+      data-testid={`nav-${item.key}`}
+      className={desktopNavLinkClass}
+      activeProps={{ className: "text-lavender" }}
+      inactiveProps={{ className: "hover:text-lavender text-white" }}
+    >
+      {t(item.labelKey)}
+    </Link>
+  );
+}
+
+const mobileNavLinkClass =
+  "hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-colors";
+
+function MobileNavLink({
+  item,
+  onNavigate,
+}: {
+  item: NavRoute | NavExternal;
+  onNavigate: () => void;
+}) {
+  const { t } = useTranslation();
+
+  if (item.kind === "external") {
+    return (
+      <a
+        href={item.href}
+        onClick={onNavigate}
+        data-testid={`mobile-nav-${item.key}`}
+        className={clsx(mobileNavLinkClass, "text-mist")}
+      >
+        {t(item.labelKey)}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      to={item.to}
+      activeOptions={activeOptionsFor(item.to)}
+      onClick={onNavigate}
+      data-testid={`mobile-nav-${item.key}`}
+      className={mobileNavLinkClass}
+      activeProps={{ className: "bg-indigo-deep/30 text-lavender" }}
+      inactiveProps={{ className: "text-mist" }}
+    >
+      {t(item.labelKey)}
+    </Link>
+  );
 }
 
 export function SiteHeader() {
@@ -225,19 +311,7 @@ export function SiteHeader() {
               item.kind === "dropdown" ? (
                 <HeaderDropdown key={item.key} dropdown={item} />
               ) : (
-                <Link
-                  key={item.key}
-                  to={item.to}
-                  activeOptions={activeOptionsFor(item.to)}
-                  data-testid={`nav-${item.key}`}
-                  className="decoration-lavender relative inline-flex items-center py-2 text-sm whitespace-nowrap underline-offset-8 transition-colors hover:underline xl:text-base pointer-coarse:min-h-11"
-                  activeProps={{ className: "text-lavender" }}
-                  inactiveProps={{
-                    className: "hover:text-lavender text-white",
-                  }}
-                >
-                  {t(item.labelKey)}
-                </Link>
+                <DesktopNavLink key={item.key} item={item} />
               ),
             )}
           </nav>
@@ -336,19 +410,12 @@ export function SiteHeader() {
           className="flex max-h-[calc(100dvh-var(--header-height))] min-h-0 flex-col gap-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-10"
         >
           {NAV_ITEMS.map((item) =>
-            item.kind === "route" ? (
-              <Link
+            item.kind !== "dropdown" ? (
+              <MobileNavLink
                 key={item.key}
-                to={item.to}
-                activeOptions={activeOptionsFor(item.to)}
-                onClick={closeMenu}
-                data-testid={`mobile-nav-${item.key}`}
-                className="hover:bg-indigo-deep/40 hover:text-lavender active:bg-indigo-deep/60 flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-colors"
-                activeProps={{ className: "bg-indigo-deep/30 text-lavender" }}
-                inactiveProps={{ className: "text-mist" }}
-              >
-                {t(item.labelKey)}
-              </Link>
+                item={item}
+                onNavigate={closeMenu}
+              />
             ) : (
               /*
                 Expandable, rather than every leaf listed at once. Spelled out

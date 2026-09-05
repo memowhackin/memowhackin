@@ -1,11 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { BrandButton } from "@/components/common/BrandButton";
+import { Link } from "@tanstack/react-router";
+import { brandButtonClass } from "@/components/common/brandButtonClass";
 import { chipClass } from "@/components/common/chipClass";
 import type { Perch } from "@/components/landing/useSkylineAlerts";
 import { useSkylineAlerts } from "@/components/landing/useSkylineAlerts";
-import { sectionIds, site } from "@/config/site";
+import { sectionIds } from "@/config/site";
 
 /**
  * The findings the agents surface, drawn from at random. Each carries the two
@@ -284,22 +285,22 @@ export function AutonomousAgents() {
           them read as clutter under the button rather than as a live city.
         */}
         <div className="lg:hidden">
-          <BrandButton
-            href={site.bookDemoUrl}
-            variant="solid"
+          <Link
+            to="/contact"
             data-testid="agents-book-demo-mobile"
+            className={brandButtonClass({ variant: "solid" })}
           >
             {t("agents.cta")}
-          </BrandButton>
+          </Link>
         </div>
         <div className="hidden lg:block">
-          <BrandButton
-            href={site.bookDemoUrl}
-            variant="dark"
+          <Link
+            to="/contact"
             data-testid="agents-book-demo"
+            className={brandButtonClass({ variant: "dark" })}
           >
             {t("agents.cta")}
-          </BrandButton>
+          </Link>
         </div>
       </div>
 

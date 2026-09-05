@@ -2,9 +2,16 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { LinkedInIcon, YouTubeIcon } from "@/components/common/BrandIcons";
 import { LogoLockup } from "@/components/common/Logo";
-import { site } from "@/config/site";
+import { knowledgeBaseUrl, site } from "@/config/site";
 
-/** The footer's quick links, now real routes rather than in-page anchors. */
+/**
+ * The footer's quick links, now real routes rather than in-page anchors.
+ *
+ * The knowledge base is the odd one out: it is a separate site on its own host,
+ * so its entry carries an outbound `href` where the rest carry a route `to`.
+ * Keeping it in this one list is what holds it in its place in the column —
+ * a second list rendered after this one would drop it to the bottom.
+ */
 const quickLinks = [
   { key: "home", to: "/", label: "nav.home" },
   {
@@ -12,11 +19,49 @@ const quickLinks = [
     to: "/argus/live-pentest-workspace",
     label: "nav.argus.label",
   },
-  { key: "knowledgeBase", to: "/knowledge-base", label: "nav.knowledgeBase" },
+  {
+    key: "knowledgeBase",
+    href: knowledgeBaseUrl(),
+    label: "nav.knowledgeBase",
+  },
   { key: "about", to: "/about", label: "nav.about" },
   { key: "contact", to: "/contact", label: "nav.contact" },
   { key: "blog", to: "/blog", label: "nav.blog" },
 ] as const;
+
+/*
+ * The tighter desktop row is for mice only. Keyed to `lg` alone it also applied
+ * to a 1024px tablet, where these links are thumbed and 36px is too small to
+ * hit.
+ */
+const quickLinkClass =
+  "text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition-colors lg:pointer-fine:min-h-9";
+
+function FooterQuickLink({ link }: { link: (typeof quickLinks)[number] }) {
+  const { t } = useTranslation();
+
+  if ("href" in link) {
+    return (
+      <a
+        href={link.href}
+        data-testid={`footer-link-${link.key}`}
+        className={quickLinkClass}
+      >
+        {t(link.label)}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      to={link.to}
+      data-testid={`footer-link-${link.key}`}
+      className={quickLinkClass}
+    >
+      {t(link.label)}
+    </Link>
+  );
+}
 
 /**
  * Where to find us. These are the company's own profiles, so they leave the
@@ -202,18 +247,7 @@ export function SiteFooter() {
               <ul className="flex flex-col">
                 {quickLinks.map((link) => (
                   <li key={link.key}>
-                    <Link
-                      to={link.to}
-                      data-testid={`footer-link-${link.key}`}
-                      /*
-                       * The tighter desktop row is for mice only. Keyed to `lg`
-                       * alone it also applied to a 1024px tablet, where these
-                       * links are thumbed and 36px is too small to hit.
-                       */
-                      className="text-mist/80 hover:text-lavender active:text-lavender-soft flex min-h-11 items-center text-base leading-6 transition-colors lg:pointer-fine:min-h-9"
-                    >
-                      {t(link.label)}
-                    </Link>
+                    <FooterQuickLink link={link} />
                   </li>
                 ))}
               </ul>

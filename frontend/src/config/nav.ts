@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { knowledgeBaseUrl } from "@/config/site";
 import {
   Activity,
   BadgeCheck,
@@ -51,7 +52,19 @@ export interface NavRoute {
   to: string;
 }
 
-export type NavItem = NavDropdown | NavRoute;
+/**
+ * A destination on another host. Separate from `NavRoute` because it cannot go
+ * through the router: `to` is a typed route path, and the knowledge base is a
+ * different site.
+ */
+export interface NavExternal {
+  kind: "external";
+  key: string;
+  labelKey: string;
+  href: string;
+}
+
+export type NavItem = NavDropdown | NavRoute | NavExternal;
 
 export const NAV_ITEMS: readonly NavItem[] = [
   { kind: "route", key: "home", labelKey: "nav.home", to: "/" },
@@ -133,11 +146,17 @@ export const NAV_ITEMS: readonly NavItem[] = [
       },
     ],
   },
+  /*
+   * The knowledge base is a separate site (kennisbank.assistsec.nl), not a page
+   * here. The stub that used to sit at /knowledge-base is gone; that address
+   * now 301s to the same destination this links to, so an indexed or bookmarked
+   * copy of the old URL still lands in the right place and language.
+   */
   {
-    kind: "route",
+    kind: "external",
     key: "knowledgeBase",
     labelKey: "nav.knowledgeBase",
-    to: "/knowledge-base",
+    href: knowledgeBaseUrl(),
   },
   { kind: "route", key: "about", labelKey: "nav.about", to: "/about" },
   { kind: "route", key: "contact", labelKey: "nav.contact", to: "/contact" },

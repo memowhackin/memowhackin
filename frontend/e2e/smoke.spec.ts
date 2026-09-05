@@ -1,4 +1,9 @@
-import { test, expect, type APIRequestContext } from "@playwright/test";
+import {
+  test,
+  expect,
+  devices,
+  type APIRequestContext,
+} from "@playwright/test";
 
 /**
  * Browser smoke tests for the landing page. The marketing pages are static; the
@@ -311,11 +316,11 @@ test("gives every service and ARGUS page more than a heading", async ({
    * These pages used to render a heading and one sentence and then stop, so
    * each hit the footer under half a screen of nothing.
    *
-   * Most of them now have components of their own; only the knowledge base
-   * still comes from the shared `RoutePage` template. What is asserted here is
-   * therefore the property they must all hold however they are built — a single
-   * heading, a way to act, a closing section rather than a bare footer, and no
-   * sideways scroll — not the internals of any one of them.
+   * Each now has components of its own — the shared `RoutePage` template is
+   * gone, along with the knowledge-base stub that was its last user. What is
+   * asserted here is therefore the property they must all hold however they are
+   * built — a single heading, a way to act, a closing section rather than a
+   * bare footer, and no sideways scroll — not the internals of any one of them.
    */
   await page.setViewportSize({ width: 1280, height: 900 });
 
@@ -325,7 +330,6 @@ test("gives every service and ARGUS page more than a heading", async ({
     "/argus/monthly-security-scans",
     "/argus/collaborative-retesting",
     "/argus/live-pentest-workspace",
-    "/knowledge-base",
   ]) {
     await page.goto(path);
 
@@ -338,16 +342,6 @@ test("gives every service and ARGUS page more than a heading", async ({
     });
     expect(overflow, `${path} scrolls sideways`).toBeLessThanOrEqual(1);
   }
-
-  /*
-   * The template's own rule: it offers the sibling pages of the nav group it
-   * belongs to, and renders no empty section when there are none. The knowledge
-   * base is a top-level nav entry with no siblings, and is the last route still
-   * rendered by the template.
-   */
-  await page.goto("/knowledge-base");
-  await expect(page.getByTestId("page-knowledgeBase")).toBeAttached();
-  await expect(page.getByTestId("page-more")).toHaveCount(0);
 });
 
 /*
@@ -395,4 +389,95 @@ test("keeps the menu button on screen at the narrowest width", async ({
 
   await toggle.click();
   await expect(page.getByTestId("mobile-book-demo")).toBeVisible();
+});
+
+/*
+ * A phone, emulated properly rather than by width alone.
+ *
+ * The overflow checks above set a viewport size and nothing else, so `pointer:
+ * coarse` never matches and the mobile viewport is never applied — they cannot
+ * see what a real phone sees. They also measure `scrollWidth`, and that is the
+ * trap: a root that clips its overflow reports `scrollWidth === clientWidth`
+ * whether the layout is correct or merely hidden, so the measurement reads
+ * clean either way.
+ *
+ * This asserts the property that actually matters and that a measurement cannot
+ * fake: after asking the page to scroll sideways by every means available, it
+ * has not moved. The hero backdrop is deliberately wider than the viewport —
+ * 108.49% with a negative offset, so the vignette has room to bleed — and that
+ * surplus was reachable on a phone until the clip was put in.
+ */
+/*
+ * The parts of the device profile that matter here, named rather than spread.
+ * A whole `devices[...]` entry carries `defaultBrowserType`, and Playwright
+ * refuses that inside a `describe` because it would force a new worker — so
+ * spreading the profile stops the entire file from loading, not just this
+ * group. `isMobile` and `hasTouch` are the two that make this a phone rather
+ * than a narrow window: they apply the mobile viewport and make `pointer:
+ * coarse` match.
+ */
+const IPHONE_12 = {
+  viewport: devices["iPhone 12"].viewport,
+  userAgent: devices["iPhone 12"].userAgent,
+  deviceScaleFactor: devices["iPhone 12"].deviceScaleFactor,
+  isMobile: devices["iPhone 12"].isMobile,
+  hasTouch: devices["iPhone 12"].hasTouch,
+};
+
+test.describe("on a phone", () => {
+  test.use(IPHONE_12);
+
+  for (const path of ["/", "/nl/"]) {
+    test(`never scrolls sideways at ${path}`, async ({ page }) => {
+      await page.goto(path);
+      await expect(page.getByTestId("hero")).toBeVisible();
+
+      const moved = await page.evaluate(async () => {
+        const doc = document.documentElement;
+        window.scrollTo(9999, 0);
+        doc.scrollLeft = 9999;
+        document.body.scrollLeft = 9999;
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        return Math.max(
+          window.scrollX,
+          doc.scrollLeft,
+          document.body.scrollLeft,
+        );
+      });
+
+      expect(moved, `${path} can be dragged sideways`).toBe(0);
+    });
+  }
+
+  /*
+   * The backdrop is wallpaper. Every control a browser attaches to a <video> by
+   * itself — the pause button that was showing on a phone, picture-in-picture,
+   * casting — is switched off, and it takes no pointer, so a tap goes to the
+   * page rather than waking those controls.
+   */
+  test("gives the hero backdrop no media controls", async ({ page }) => {
+    await page.goto("/");
+
+    const state = await page.evaluate(() => {
+      const video = document.querySelector<HTMLVideoElement>(
+        '[data-testid="hero-backdrop-video"]',
+      );
+      if (video === null) return null;
+      return {
+        controls: video.controls,
+        pictureInPicture: video.disablePictureInPicture,
+        remotePlayback: video.disableRemotePlayback,
+        pointerEvents: getComputedStyle(video).pointerEvents,
+      };
+    });
+
+    // Reduced motion withholds the video outright; there is then nothing to check.
+    test.skip(state === null, "the backdrop video is not rendered here");
+    if (state === null) return;
+
+    expect(state.controls).toBe(false);
+    expect(state.pictureInPicture).toBe(true);
+    expect(state.remotePlayback).toBe(true);
+    expect(state.pointerEvents).toBe("none");
+  });
 });

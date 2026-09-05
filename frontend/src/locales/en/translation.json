@@ -97,12 +97,6 @@
       "heading": "Continuous compliance",
       "body": "Every finding mapped to the controls it touches, with the evidence kept and dated."
     },
-    "knowledgeBase": {
-      "title": "Knowledge base | AssistSec",
-      "description": "Guides, documentation and answers on penetration testing, ARGUS and secure development from the AssistSec team.",
-      "heading": "Knowledge base",
-      "body": "Guides, documentation and answers on pentesting, ARGUS and secure development."
-    },
     "privacyPolicy": {
       "title": "Privacy Policy | AssistSec",
       "description": "How AssistSec handles personal data on assistsec.nl and in the free exposure scanner: what we collect, why, how long we keep it, who receives it and your rights under the GDPR."

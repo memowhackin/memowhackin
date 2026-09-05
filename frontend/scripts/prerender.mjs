@@ -73,6 +73,32 @@ const RETIRED_ROUTES = [
 ];
 
 /*
+ * Pages that left this site altogether, and where each language now lives.
+ *
+ * Kept apart from RETIRED_ROUTES because that list prefixes both sides with the
+ * locale being built, which is exactly wrong for an address on another host:
+ * the knowledge base is its own site and puts Dutch at the root with every
+ * other language prefixed, the mirror image of this one. The destination is
+ * therefore resolved per locale rather than derived.
+ *
+ * `nginx.conf` carries the same mapping for the deployment that does not read
+ * `_redirects`, and `src/config/site.ts` carries it for the nav and footer
+ * links. Change one, change all three.
+ */
+const KNOWLEDGE_BASE_ORIGIN = "https://kennisbank.assistsec.nl";
+const KNOWLEDGE_BASE_DEFAULT_LOCALE = "nl";
+
+const EXTERNAL_MOVES = [
+  [
+    "/knowledge-base",
+    (locale) =>
+      locale === KNOWLEDGE_BASE_DEFAULT_LOCALE
+        ? KNOWLEDGE_BASE_ORIGIN
+        : `${KNOWLEDGE_BASE_ORIGIN}/${locale}`,
+  ],
+];
+
+/*
  * Matched by prefix, not by exact path.
  *
  * This was a set of exact routes, so every page added under the admin path had
@@ -565,6 +591,14 @@ async function main() {
       RETIRED_ROUTES.map(
         ([from, to]) =>
           `${localePrefix(locale)}${from}    ${localePrefix(locale)}${to}    301`,
+      ),
+    ),
+    "",
+    "# Pages that moved to another host, each language to its own address.",
+    ...LOCALES.flatMap((locale) =>
+      EXTERNAL_MOVES.map(
+        ([from, to]) =>
+          `${localePrefix(locale)}${from}    ${to(locale)}    301`,
       ),
     ),
     "",

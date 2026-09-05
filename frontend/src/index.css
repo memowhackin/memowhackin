@@ -509,11 +509,35 @@ html {
   scroll-margin-top: calc(var(--header-height) + 1.5rem);
 }
 
+/*
+ * The design is drawn edge to edge; nothing may scroll sideways.
+ *
+ * Both elements, and `clip` rather than `hidden`, for two reasons that each
+ * cost a real bug:
+ *
+ * - `overflow-x: hidden` on `body` alone does not stop the page scrolling
+ *   sideways. On a phone the scrolling viewport is `html`, so anything wider
+ *   than it still drags the whole page across while body clips nothing that
+ *   matters. This is why the site scrolled left and right on a phone while
+ *   this rule looked like it already covered it.
+ * - `hidden` establishes a scroll container, which silently breaks
+ *   `position: sticky` on any descendant — the site header is sticky. `clip`
+ *   clips without becoming a scroll container, so the header keeps working.
+ *
+ * This is a backstop, not the fix: an element that overflows is a layout bug
+ * and gets corrected where it lives. This only guarantees that one can never
+ * again turn into a sideways-scrolling page.
+ */
+html,
+body {
+  overflow-x: clip;
+  /* `clip` needs a clip origin; without a max-width the box can still stretch. */
+  max-width: 100%;
+}
+
 body {
   background-color: var(--color-ink);
   font-family: var(--font-sans);
-  /* The design is drawn edge to edge; nothing may scroll sideways. */
-  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -32,7 +32,7 @@ Dutch (https://assistsec.nl/nl).
 
 - [Blog](https://assistsec.nl/blog): research, advisories and news.
 - [RSS feed](https://assistsec.nl/blog/rss.xml)
-- [Knowledge base](https://assistsec.nl/knowledge-base)
+- [Knowledge base](https://kennisbank.assistsec.nl/en): a separate site — guides, CVE and CWE references, and a Dutch edition at the root.
 - [About](https://assistsec.nl/about)
 - [Contact](https://assistsec.nl/contact)
 

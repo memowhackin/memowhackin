@@ -12,7 +12,7 @@ import { useReveal } from "@/components/common/useReveal";
 import { submitInquiry } from "@/config/inquiries";
 import { SITE_LOCALE } from "@/config/locale";
 import { useSeo } from "@/localization/useSeo";
-import { site } from "@/config/site";
+import { knowledgeBaseUrl, site } from "@/config/site";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
@@ -59,18 +59,25 @@ const rowClass =
  * height, each mostly padding. A row is exactly as tall as what it says.
  *
  * Internal destinations come as `to` and go through the router, which is what
- * keeps the Dutch build inside its own `/nl` prefix; the demo comes as `href`
- * because it lives on the scanner app, and external app links open in a new
- * tab everywhere else on this site.
+ * keeps the Dutch build inside its own `/nl` prefix; anything on another host
+ * comes as `href`.
+ *
+ * `newTab` splits the two kinds of outbound link. The demo opens a new tab
+ * because it hands the reader over to the scanner application and they will
+ * want this page back afterwards. The knowledge base does not: it is our own
+ * site, so following it is an ordinary navigation and a new tab there reads as
+ * the site losing track of where you were.
  */
 function ChannelRow({
   to,
   href,
+  newTab = true,
   channel,
   "data-testid": testId,
 }: {
-  to?: "/security-scan" | "/knowledge-base";
+  to?: "/security-scan";
   href?: string;
+  newTab?: boolean;
   channel: string;
   "data-testid": string;
 }) {
@@ -105,8 +112,8 @@ function ChannelRow({
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noreferrer noopener"
+      target={newTab ? "_blank" : undefined}
+      rel={newTab ? "noreferrer noopener" : undefined}
       data-testid={testId}
       className={rowClass}
     >
@@ -544,8 +551,10 @@ function ContactPage() {
               channel="scan"
               data-testid="contact-channel-scan"
             />
+            {/* A separate site on its own host, so an href rather than a route. */}
             <ChannelRow
-              to="/knowledge-base"
+              href={knowledgeBaseUrl()}
+              newTab={false}
               channel="knowledge"
               data-testid="contact-channel-knowledge"
             />

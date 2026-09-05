@@ -97,12 +97,6 @@
       "heading": "Continue compliance",
       "body": "Elke bevinding gekoppeld aan de controls die ze raakt, met het bewijs bewaard en gedateerd."
     },
-    "knowledgeBase": {
-      "title": "Kennisbank | AssistSec",
-      "description": "Handleidingen, documentatie en antwoorden over penetratietesten, ARGUS en veilige ontwikkeling van het AssistSec-team.",
-      "heading": "Kennisbank",
-      "body": "Handleidingen, documentatie en antwoorden over pentesten, ARGUS en veilige ontwikkeling."
-    },
     "privacyPolicy": {
       "title": "Privacybeleid | AssistSec",
       "description": "Hoe AssistSec omgaat met persoonsgegevens op assistsec.nl en in de gratis exposure-scanner: wat wij verzamelen, waarom, hoe lang wij het bewaren, wie het ontvangt en uw rechten onder de AVG."

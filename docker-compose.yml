@@ -67,6 +67,21 @@ services:
       # http://localhost run would accept a login and then lose the session.
       # MUST be "true" once this is served over HTTPS.
       SECURE_COOKIES: ${SECURE_COOKIES:-false}
+      # SMTP for the contact and demo forms. Without SMTP_HOST the backend
+      # still stores every inquiry and answers the visitor normally — it just
+      # logs that it could not mail, and the row keeps a null delivered_at to
+      # retry. So an unset mailer loses no leads, it only delays them.
+      #
+      # SMTP_FROM must be an address the SMTP account is allowed to send as.
+      # Most providers, Strato included, reject a From that is not the
+      # authenticated mailbox, which is why this does not keep the noreply@
+      # default that env.ts falls back to.
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-AssistSec <noreply@assistsec.nl>}
+      INQUIRY_RECIPIENT: ${INQUIRY_RECIPIENT:-contact@assistsec.nl}
       # The exposure scanner, off unless switched on in .env. NODE_ENV is
       # production here, so the `fixture` provider is refused by src/env.ts —
       # only `live` or `none` are usable through compose. The defaults below

@@ -122,13 +122,22 @@ export function Hero() {
       id="top"
       data-testid="hero"
       /*
-       * Not clipped: the banner reaches a header's height above this section,
-       * and a clip here is what kept cutting that off. The banner is the only
-       * thing that leaves the box, it leaves it upwards over a section that is
-       * the same ground colour, and it is flush to both edges — so nothing
-       * escapes sideways.
+       * Clipped sideways only.
+       *
+       * The banner reaches a header's height *above* this section, so a plain
+       * `overflow-hidden` here cuts its top off — which is why this used to
+       * carry no clip at all, on the reasoning that the banner leaves the box
+       * upwards and nothing escapes sideways. That reasoning was wrong: the
+       * footage is deliberately 108.49% wide and offset -4.219% so the vignette
+       * has room to bleed, and on a phone that surplus was reachable — the page
+       * scrolled right to the far edge of the video.
+       *
+       * `overflow-x: clip` is what settles it. Unlike `hidden` it does not force
+       * the other axis to `auto`, so the vertical bleed still escapes while the
+       * horizontal surplus is cut, and it establishes no scroll container to
+       * break the sticky header.
        */
-      className="bg-ink-deep relative isolate w-full"
+      className="bg-ink-deep relative isolate w-full overflow-x-clip"
     >
       {/*
         The backdrop the frame draws behind the hero ("Moodboard - 2 → Banner
