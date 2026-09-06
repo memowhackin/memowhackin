@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { CookieConsent } from "@/components/common/CookieConsent";
+import { trackPageView } from "@/config/analytics";
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -37,6 +39,22 @@ function RootLayout() {
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
+  /*
+   * One page view per settled navigation, including the first.
+   *
+   * GA's own page view is switched off in `analytics.ts`, because it fires when
+   * the script loads and never again — in a single-page app that counts the
+   * landing page and nothing a visitor does afterwards. Reporting from here
+   * instead means the router decides what a page view is.
+   *
+   * `trackPageView` is a no-op until a measurement id is configured and consent
+   * has been granted, so this runs on every navigation and sends nothing at all
+   * for a visitor who refused.
+   */
+  useEffect(() => {
+    trackPageView(pathname);
+  }, [pathname]);
+
   return (
     <div className="bg-ink text-mist flex min-h-screen flex-col">
       <a
@@ -52,6 +70,12 @@ function RootLayout() {
         <Outlet />
       </main>
       {!cms && <SiteFooter />}
+      {/*
+        Outside the `cms` guard: the CMS is ours and carries no marketing
+        chrome, but consent is about what runs in a browser, not about which
+        part of the site is being looked at.
+      */}
+      <CookieConsent />
     </div>
   );
 }

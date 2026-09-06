@@ -47,6 +47,12 @@
       "nl": "Dutch"
     }
   },
+  "consent": {
+    "title": "May we measure how this site is used?",
+    "body": "We would like to count visits with Google Analytics. It stores an identifier in your browser, so it loads only if you agree.",
+    "accept": "Allow",
+    "decline": "Refuse"
+  },
   "pages": {
     "moreIn": "More in {{group}}",
     "home": {
@@ -266,6 +272,25 @@
           "ours": "AssistSec",
           "theirs": "Traditional pentest"
         },
+        "guarantee": {
+          "question": "Zero findings?",
+          "answer": "Zero invoice.",
+          "body": "The guarantee behind every pentest we run: if the report ends up empty, so does the bill. We are paid for what we find, which means the risk of a quiet result sits with us and never with you.",
+          "terms": {
+            "counts": {
+              "term": "What counts",
+              "detail": "Every security finding that makes the report, from critical down to low. One is enough for the engagement to be invoiced as agreed."
+            },
+            "pay": {
+              "term": "What you pay",
+              "detail": "Nothing at all if there are none. No invoice, no partial fee, no hours billed for the time we spent looking."
+            },
+            "keep": {
+              "term": "What you keep",
+              "detail": "The full report either way, including the evidence of what was tested and the proof that it held."
+            }
+          }
+        },
         "rows": {
           "approach": {
             "aspect": "Approach",
@@ -405,6 +430,25 @@
           "aspect": "Aspect",
           "ours": "AssistSec",
           "theirs": "Traditional pentest"
+        },
+        "guarantee": {
+          "question": "Zero findings?",
+          "answer": "Zero invoice.",
+          "body": "The guarantee behind every pentest we run: if the report ends up empty, so does the bill. We are paid for what we find, which means the risk of a quiet result sits with us and never with you.",
+          "terms": {
+            "counts": {
+              "term": "What counts",
+              "detail": "Every security finding that makes the report, from critical down to low. One is enough for the engagement to be invoiced as agreed."
+            },
+            "pay": {
+              "term": "What you pay",
+              "detail": "Nothing at all if there are none. No invoice, no partial fee, no hours billed for the time we spent looking."
+            },
+            "keep": {
+              "term": "What you keep",
+              "detail": "The full report either way, including the evidence of what was tested and the proof that it held."
+            }
+          }
         },
         "rows": {
           "approach": {

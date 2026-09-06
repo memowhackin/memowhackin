@@ -99,7 +99,7 @@ export const privacyPolicyEn: LegalDocument = {
           ],
         ),
         note(
-          "This website uses no analytics, advertising or tracking technology, sets no cookies of its own and does not build profiles of its visitors. We do not sell or rent personal data.",
+          "This website uses Google Analytics to count visits, and only after you have agreed to it. It carries no advertising, builds no profiles across other websites, and we do not sell or rent personal data. If you refuse, or have not answered yet, no analytics script is loaded and nothing is stored in your browser.",
         ),
       ],
     },
@@ -384,7 +384,7 @@ export const privacyPolicyEn: LegalDocument = {
       title: "Cookies and local storage",
       blocks: [
         p(
-          "The public website sets no cookies, and no third party sets cookies through it. There is no cookie banner because there is nothing to consent to.",
+          "The public website asks before it stores anything that is not strictly necessary. Until you agree, the only things kept in your browser are the functional items below; the analytics entry appears only after you have said yes.",
         ),
         records(
           {
@@ -403,6 +403,21 @@ export const privacyPolicyEn: LegalDocument = {
             term: "Google Fonts",
             detail: ["Sets no cookies."],
           },
+          {
+            term: "Your analytics choice",
+            detail: [
+              "One entry in local storage, assistsec.consent.analytics, recording whether you allowed or refused measurement so you are not asked on every page. It is never sent to a server. It is the only thing this site stores before you answer.",
+            ],
+          },
+          {
+            term: "Google Analytics",
+            detail: [
+              "Set only after you allow measurement. Google places its own _ga cookies to recognise a returning browser and to count a visit as one session. Refuse, and none of them are ever set, because the script that would set them is not loaded.",
+            ],
+          },
+        ),
+        p(
+          "You can change your mind at any time by clearing this site\u2019s data in your browser, which removes your stored choice and makes the question appear again.",
         ),
       ],
     },
@@ -456,6 +471,9 @@ export const privacyPolicyEn: LegalDocument = {
         list(
           [
             "Google LLC (United States) receives your IP address when your browser loads the web fonts. Google is certified under the EU-U.S. Data Privacy Framework, which the European Commission has recognised as providing adequate protection.",
+          ],
+          [
+            "If you allow measurement, Google LLC also receives the pages you view on this site, together with your IP address and browser details, through Google Analytics. This happens under the same Data Privacy Framework certification, and only for as long as your consent stands.",
           ],
           [
             "When you run a scan, the domain name you entered is sent to SSLMate, Inc. (United States) and HackerTarget (Australia) as part of the lookups. These parties receive no data about you.",

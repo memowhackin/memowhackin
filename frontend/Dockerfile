@@ -28,6 +28,13 @@ RUN npx playwright install --with-deps chromium
 ARG VITE_CMS_API_URL=""
 ENV VITE_CMS_API_URL=$VITE_CMS_API_URL
 
+# The GA4 property, e.g. "G-XXXXXXXXXX". Vite inlines it, so it is a build
+# argument and not a runtime setting: changing it means rebuilding this image.
+# Empty is the default and means the bundle loads no analytics at all and shows
+# no consent banner — there is then nothing to consent to.
+ARG VITE_GA_MEASUREMENT_ID=""
+ENV VITE_GA_MEASUREMENT_ID=$VITE_GA_MEASUREMENT_ID
+
 # Renders every route to real HTML and emits sitemap.xml, the RSS feed and
 # robots.txt.
 #

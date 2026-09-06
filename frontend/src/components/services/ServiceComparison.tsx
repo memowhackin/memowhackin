@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { Check, Minus } from "lucide-react";
 import { LogoLockup } from "@/components/common/Logo";
 import { useReveal } from "@/components/common/useReveal";
+import { ServiceGuarantee } from "@/components/services/ServiceGuarantee";
 import type { ServiceDefinition } from "@/config/services";
 
 /*
@@ -163,6 +164,18 @@ export function ServiceComparison({ service }: { service: ServiceDefinition }) {
             </tbody>
           </table>
         </div>
+
+        {/*
+          The promise the table has been building towards, so it lands as the
+          conclusion of the comparison rather than as a sixth row competing
+          with the others for attention.
+
+          Only on the tests. `pentest` already distinguishes the two
+          penetration tests from the awareness training, and a training does
+          not produce security findings to be short of — promising not to
+          invoice when there are none would be meaningless there.
+        */}
+        {service.pentest && <ServiceGuarantee service={service} />}
       </div>
     </div>
   );

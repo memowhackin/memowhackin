@@ -27,6 +27,16 @@ const quickLinks = [
   { key: "about", to: "/about", label: "nav.about" },
   { key: "contact", to: "/contact", label: "nav.contact" },
   { key: "blog", to: "/blog", label: "nav.blog" },
+  {
+    key: "privacyPolicy",
+    to: "/privacy-policy",
+    label: "legal.related.privacyPolicy.title",
+  },
+  {
+    key: "termsOfService",
+    to: "/terms-of-service",
+    label: "legal.related.termsOfService.title",
+  },
 ] as const;
 
 /*

@@ -12,6 +12,13 @@ interface Reveal<T extends HTMLElement> {
   ref: React.RefObject<T | null>;
   className: string;
   style: React.CSSProperties | undefined;
+  /**
+   * Whether the element has been seen yet. Exposed so a component that has
+   * something to start on arrival — a count, a typed line — can hang it off
+   * the same observation rather than opening a second one on the same element
+   * with its own idea of when "in view" begins.
+   */
+  revealed: boolean;
 }
 
 /**
@@ -71,6 +78,7 @@ export function useReveal<T extends HTMLElement>({
 
   return {
     ref,
+    revealed,
     className: revealed
       ? "motion-safe:animate-reveal"
       : "motion-safe:opacity-0",

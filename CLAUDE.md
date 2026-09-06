@@ -54,11 +54,17 @@ changes the site with no rebuild. `VITE_CMS_API_URL` is empty by default, meanin
 nginx, the vite dev server and the static servers used for prerendering and e2e all proxy `/api`
 to the backend, so no cross-origin request is ever made and there is no CORS entry to maintain.
 
-**Exactly four files in `frontend/src/` make network calls — keep it that way**, so the network
+**Exactly five files in `frontend/src/` make network calls — keep it that way**, so the network
 surface stays auditable in one place: `config/blog.ts` reads published posts, `config/cms.ts` does
 everything the admin area needs (`/studio-b78262a861` and its login: sign in, CRUD, uploads,
 publish), `config/scanner.ts` does everything the exposure scanner needs, and
-`config/inquiries.ts` posts the contact and demo forms. Nothing in the
+`config/inquiries.ts` posts the contact and demo forms. `config/analytics.ts` is the fifth, and
+the only one that talks to anyone but us: it loads Google Analytics. That one is gated twice over: it does nothing without a
+`VITE_GA_MEASUREMENT_ID`, and nothing until `config/consent.ts` says the visitor
+agreed. GA4 stores an identifier in the browser, so it may not run before that
+consent, which is why the tag is injected from code rather than sitting in
+`index.html` where it would fire on parse. `config/analytics.test.ts` is the
+guard — do not weaken it to make measurement easier to test. Nothing in the
 frontend is a security control: the server authorizes every request, and the UI hiding a button is
 a courtesy, not a boundary. In particular the scanner's field validation exists so a typo gets an
 answer without a round trip; `backend/src/scanner/normalize.ts` re-derives every rule and its

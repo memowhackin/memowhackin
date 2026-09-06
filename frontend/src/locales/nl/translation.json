@@ -47,6 +47,12 @@
       "nl": "Nederlands"
     }
   },
+  "consent": {
+    "title": "Mogen we meten hoe deze site gebruikt wordt?",
+    "body": "We tellen bezoeken graag met Google Analytics. Daarvoor komt er een identifier in uw browser, dus dat gebeurt alleen als u akkoord gaat.",
+    "accept": "Toestaan",
+    "decline": "Weigeren"
+  },
   "pages": {
     "moreIn": "Meer in {{group}}",
     "home": {
@@ -266,6 +272,25 @@
           "ours": "AssistSec",
           "theirs": "Traditionele pentest"
         },
+        "guarantee": {
+          "question": "Nul bevindingen?",
+          "answer": "Nul factuur.",
+          "body": "De garantie onder elke pentest die we uitvoeren: blijft het rapport leeg, dan blijft de factuur dat ook. Wij worden betaald voor wat we vinden, dus het risico van een stille uitkomst ligt bij ons en nooit bij u.",
+          "terms": {
+            "counts": {
+              "term": "Wat telt",
+              "detail": "Elke securitybevinding die het rapport haalt, van kritiek tot laag. Eén is genoeg om de opdracht te factureren zoals afgesproken."
+            },
+            "pay": {
+              "term": "Wat u betaalt",
+              "detail": "Helemaal niets als die er niet zijn. Geen factuur, geen deelbedrag, geen uren voor de tijd die we hebben gezocht."
+            },
+            "keep": {
+              "term": "Wat u houdt",
+              "detail": "Hoe dan ook het volledige rapport, met het bewijs van wat er getest is en dat het standhield."
+            }
+          }
+        },
         "rows": {
           "approach": {
             "aspect": "Aanpak",
@@ -405,6 +430,25 @@
           "aspect": "Onderdeel",
           "ours": "AssistSec",
           "theirs": "Traditionele pentest"
+        },
+        "guarantee": {
+          "question": "Nul bevindingen?",
+          "answer": "Nul factuur.",
+          "body": "De garantie onder elke pentest die we uitvoeren: blijft het rapport leeg, dan blijft de factuur dat ook. Wij worden betaald voor wat we vinden, dus het risico van een stille uitkomst ligt bij ons en nooit bij u.",
+          "terms": {
+            "counts": {
+              "term": "Wat telt",
+              "detail": "Elke securitybevinding die het rapport haalt, van kritiek tot laag. Eén is genoeg om de opdracht te factureren zoals afgesproken."
+            },
+            "pay": {
+              "term": "Wat u betaalt",
+              "detail": "Helemaal niets als die er niet zijn. Geen factuur, geen deelbedrag, geen uren voor de tijd die we hebben gezocht."
+            },
+            "keep": {
+              "term": "Wat u houdt",
+              "detail": "Hoe dan ook het volledige rapport, met het bewijs van wat er getest is en dat het standhield."
+            }
+          }
         },
         "rows": {
           "approach": {

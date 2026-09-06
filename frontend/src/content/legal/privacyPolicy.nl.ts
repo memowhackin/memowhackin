@@ -99,7 +99,7 @@ export const privacyPolicyNl: LegalDocument = {
           ],
         ),
         note(
-          "Deze website gebruikt geen analytics-, advertentie- of trackingtechnologie, plaatst zelf geen cookies en bouwt geen profielen van bezoekers op. Wij verkopen of verhuren geen persoonsgegevens.",
+          "Deze website gebruikt Google Analytics om bezoeken te tellen, en uitsluitend nadat u daarmee akkoord bent gegaan. Er staat geen advertentietechnologie op, wij bouwen geen profielen over andere websites heen, en wij verkopen of verhuren geen persoonsgegevens. Weigert u, of heeft u nog niet geantwoord, dan wordt er geen analytics-script geladen en wordt er niets in uw browser opgeslagen.",
         ),
       ],
     },
@@ -388,7 +388,7 @@ export const privacyPolicyNl: LegalDocument = {
       title: "Cookies en lokale opslag",
       blocks: [
         p(
-          "De openbare website plaatst geen cookies, en geen derde plaatst cookies via de site. Er is geen cookiebanner, omdat er niets is om toestemming voor te vragen.",
+          "De openbare website vraagt het eerst, voordat er iets wordt opgeslagen dat niet strikt noodzakelijk is. Tot u akkoord gaat, staan alleen de functionele items hieronder in uw browser; de analytics-regel verschijnt pas nadat u ja heeft gezegd.",
         ),
         records(
           {
@@ -407,6 +407,21 @@ export const privacyPolicyNl: LegalDocument = {
             term: "Google Fonts",
             detail: ["Plaatst geen cookies."],
           },
+          {
+            term: "Uw analytics-keuze",
+            detail: [
+              "\u00c9\u00e9n regel in local storage, assistsec.consent.analytics, die vastlegt of u meting hebt toegestaan of geweigerd, zodat het niet op elke pagina opnieuw wordt gevraagd. Deze wordt nooit naar een server gestuurd en is het enige dat deze site opslaat voordat u antwoordt.",
+            ],
+          },
+          {
+            term: "Google Analytics",
+            detail: [
+              "Wordt alleen geplaatst nadat u meting toestaat. Google plaatst dan eigen _ga-cookies om een terugkerende browser te herkennen en een bezoek als \u00e9\u00e9n sessie te tellen. Weigert u, dan worden ze nooit geplaatst, omdat het script dat ze zou plaatsen niet wordt geladen.",
+            ],
+          },
+        ),
+        p(
+          "U kunt hier altijd op terugkomen door de gegevens van deze site in uw browser te wissen. Daarmee verdwijnt uw opgeslagen keuze en verschijnt de vraag opnieuw.",
         ),
       ],
     },
@@ -460,6 +475,9 @@ export const privacyPolicyNl: LegalDocument = {
         list(
           [
             "Google LLC (Verenigde Staten) ontvangt uw IP-adres wanneer uw browser de webfonts laadt. Google is gecertificeerd onder het EU-VS Data Privacy Framework, dat de Europese Commissie heeft erkend als passend beschermingsniveau.",
+          ],
+          [
+            "Als u meting toestaat, ontvangt Google LLC via Google Analytics ook welke pagina\u2019s u op deze site bekijkt, samen met uw IP-adres en browsergegevens. Dat gebeurt onder dezelfde certificering onder het Data Privacy Framework, en alleen zolang uw toestemming geldt.",
           ],
           [
             "Wanneer u een scan uitvoert, wordt de ingevoerde domeinnaam als onderdeel van de opzoekingen verzonden naar SSLMate, Inc. (Verenigde Staten) en HackerTarget (Australië). Deze partijen ontvangen geen gegevens over u.",

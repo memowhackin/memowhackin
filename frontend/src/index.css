@@ -312,6 +312,20 @@
   --animate-alert-ping: alert-ping 2.6s cubic-bezier(0, 0, 0.2, 1) 0.7s infinite
     backwards;
 
+  /*
+   * The caret on the typed guarantee. `steps(2, jump-none)` rather than a fade:
+   * a text cursor is on or off, and easing between the two reads as a glow.
+   * The reveal it belongs to is skipped outright under reduced motion, so this
+   * never runs there either.
+   */
+  --animate-caret-blink: caret-blink 1.1s steps(2, jump-none) infinite;
+
+  @keyframes caret-blink {
+    to {
+      opacity: 0;
+    }
+  }
+
   @keyframes alert-in {
     from {
       opacity: 0;

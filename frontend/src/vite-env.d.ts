@@ -11,6 +11,11 @@ interface ImportMetaEnv {
   readonly VITE_CMS_API_URL?: string;
   /** Language this bundle is built for; set per build by build-locales.mjs. */
   readonly VITE_SITE_LOCALE?: string;
+  /**
+   * GA4 property, e.g. "G-XXXXXXXXXX". Absent or empty means no analytics:
+   * see `config/analytics.ts`.
+   */
+  readonly VITE_GA_MEASUREMENT_ID?: string;
 }
 
 interface ImportMeta {
