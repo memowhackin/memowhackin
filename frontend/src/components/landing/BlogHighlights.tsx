@@ -38,13 +38,18 @@ function BlogCard({ post, index }: { post: BlogSummary; index: number }) {
      * The whole card is the target: the "View details" link is stretched
      * over it so a tap anywhere opens the article, which is what a card
      * of this shape promises on touch.
+     *
+     * The lift transitions `translate`, not `transform`: Tailwind's
+     * `-translate-y-1` writes the `translate` property (see the note on
+     * `--animate-reveal` in `index.css`), and a list naming `transform` eased
+     * the border and shadow while the card itself jumped the 4px in one frame.
      */
     <li
       ref={revealRef}
       style={revealStyle}
       data-testid={`blog-post-${post.slug}`}
       className={clsx(
-        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
+        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 relative flex flex-col overflow-hidden rounded-2xl border transition-[border-color,translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
         revealClassName,
       )}
     >

@@ -791,6 +791,46 @@ body {
   );
 }
 
+/*
+ * A row on the scan's grid (see `ScrollSignal`), and the two things it
+ * carries — the copy and the picture — which come up to full strength as the
+ * scan runs the rule above them.
+ *
+ * `--signal-t` is written by the hook: 0 with the scan still above the row,
+ * 1 once its energy has run the rule to both ends. It defaults to 1, so where
+ * the script never runs, or where reduced motion is asked for and the hook
+ * leaves the rows alone, the row is simply delivered at full strength and is
+ * never dimmed. The lift sits behind the same preference, so a reader who
+ * asked for stillness gets the brightening without the movement.
+ *
+ * The quiet state is deliberately close to the lit one. The row is still there
+ * to be read while it waits its turn, so 0.72 is a hush over it, not a blank.
+ */
+@utility signal-row-content {
+  opacity: calc(0.72 + 0.28 * var(--signal-t, 1));
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: translateY(calc((1 - var(--signal-t, 1)) * 0.5rem));
+  }
+}
+
+/*
+ * The light that passes along a row's picture as the scan arrives: an inset
+ * hairline of lavender with a short fall-off inside it, brought up and taken
+ * away by `--signal-edge`. Only the opacity moves; the shadow is painted once.
+ * Inside the picture's frame, so it takes the frame's radius and its clip.
+ */
+@utility signal-row-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--signal-edge, 0);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--color-lavender) 75%, transparent),
+    inset 0 0 1.5rem color-mix(in oklab, var(--color-lavender) 22%, transparent);
+}
+
 /* Gradient hairline used between sections and under the footer links. */
 @utility brand-rule {
   height: 1px;

@@ -150,7 +150,13 @@ export function HeaderDropdown({ dropdown, onNavigate }: HeaderDropdownProps) {
         className={clsx(
           // Transparent bridge keeps the pointer inside the group between the
           // trigger and the card.
-          "absolute top-full left-0 z-50 pt-2.5 transition duration-200 ease-out motion-reduce:transition-none",
+          //
+          // The three properties are listed by hand because `visibility` is
+          // the one that matters and Tailwind's stock `transition` leaves it
+          // out. Without it `invisible` lands on the first frame of the close
+          // and the 200ms fade below never shows; in the list, visibility
+          // holds `visible` until the fade has finished and only then hides.
+          "absolute top-full left-0 z-50 pt-2.5 transition-[opacity,translate,visibility] duration-200 ease-out motion-reduce:transition-none",
           open
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-1 opacity-0",

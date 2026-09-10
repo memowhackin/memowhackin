@@ -75,7 +75,7 @@ function ArticleCard({ post, index }: { post: BlogSummary; index: number }) {
       style={style}
       data-testid={`blog-card-${post.slug}`}
       className={clsx(
-        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 group relative flex flex-col overflow-hidden rounded-2xl border transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
+        "border-indigo-deep bg-ink-deep hover:border-lavender/60 focus-within:border-lavender/60 group relative flex flex-col overflow-hidden rounded-2xl border transition-[border-color,translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_1.5rem_3rem_-1rem_rgba(13,11,33,0.9)]",
         className,
       )}
     >

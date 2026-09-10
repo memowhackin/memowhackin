@@ -13,10 +13,11 @@ import { BannerFootage } from "@/components/landing/BannerFootage";
  * of being fetched and then hidden.
  *
  * There is deliberately no width in this query. There used to be — the footage
- * was withheld under 48rem to keep a 1.7MB download off phones — but that asset
- * is long gone and the one in its place is a 164KB webm, less than the hero
- * screenshot beside it. What the breakpoint bought after that was nothing, and
- * what it cost was a width at which the backdrop changed character: the video
+ * was withheld under 48rem to keep a 1.7MB download off phones. The clip now
+ * ships as a VP9 webm of about 600KB, with that 1.7MB MP4 kept only as the
+ * fallback for browsers without VP9 (see `BannerFootage`), and a still of its
+ * first frame sits under it. What the breakpoint bought was nothing, and what
+ * it cost was a width at which the backdrop changed character: the video
  * stopped and a CSS approximation took over, so the page had a seam at 768 that
  * had to be kept invisible from both sides. It never quite was. One backdrop, at
  * every width, is both simpler and the thing that actually moves on a phone.

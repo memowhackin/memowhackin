@@ -12,15 +12,23 @@ export function Benefits() {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
 
-  const {
-    ref: stackRef,
-    className: stackClassName,
-    style: stackStyle,
-  } = useReveal<HTMLDivElement>();
+  /*
+   * Staggered in the order the reader meets them: the heading, then the
+   * artwork, then the button. That is the visual order on a phone (see the
+   * `order-*` classes below) and the reading order on a desktop, where the
+   * heading is the first thing the eye lands on whichever column it is in.
+   * The stack used to go first, which on a phone lit the middle item before
+   * the one above it.
+   */
   const {
     ref: copyRef,
     className: copyClassName,
     style: copyStyle,
+  } = useReveal<HTMLDivElement>();
+  const {
+    ref: stackRef,
+    className: stackClassName,
+    style: stackStyle,
   } = useReveal<HTMLDivElement>({ delay: 120 });
   const {
     ref: ctaRef,

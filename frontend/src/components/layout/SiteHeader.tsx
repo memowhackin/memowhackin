@@ -239,7 +239,14 @@ export function SiteHeader() {
     <header
       ref={headerRef}
       className={clsx(
-        "sticky top-0 z-50 w-full transition-colors duration-200",
+        /*
+         * The backdrop blur is transitioned alongside the background colour.
+         * On `transition-colors` alone the ground faded in over 200ms while
+         * the blur switched on in one frame at the 8px mark, which read as a
+         * flicker at the top of every scroll. Both vendor spellings, because
+         * Safari still transitions the prefixed property.
+         */
+        "sticky top-0 z-50 w-full transition-[background-color,-webkit-backdrop-filter,backdrop-filter] duration-200",
         scrolled || menuOpen
           ? "bg-ink-deep/80 backdrop-blur-sm"
           : "bg-transparent",

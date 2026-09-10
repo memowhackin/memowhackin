@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { ArrowUpRight } from "lucide-react";
 import { RuleNode } from "@/components/common/RuleNode";
+import { ScrollSignal } from "@/components/common/ScrollSignal";
 import { SectionBadge } from "@/components/common/SectionBadge";
 import { SectionShell } from "@/components/common/SectionShell";
 import { useReveal } from "@/components/common/useReveal";
@@ -50,6 +51,12 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
   return (
     <li
       ref={revealRef}
+      /*
+       * A station on the scan (see `ScrollSignal`): the overlay measures its
+       * crossings off these rows, and writes `--signal-t` and `--signal-edge`
+       * back onto them as the scan runs the rule above each one.
+       */
+      data-signal-row
       data-testid={`service-${service.key}`}
       className={clsx(
         "relative grid items-center gap-8 py-10 sm:gap-10 lg:grid-cols-2 lg:gap-0 lg:py-14",
@@ -76,9 +83,16 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
       <RuleNode className="top-0 left-1/2 z-20 hidden -translate-x-1/2 -translate-y-1/2 lg:block" />
       <RuleNode className="bottom-0 left-1/2 z-20 hidden -translate-x-1/2 translate-y-1/2 lg:block" />
 
+      {/*
+        Both halves of the row wake as the scan reaches it — a hush of opacity
+        and half a rem of lift, from `signal-row-content` in `index.css`. On
+        the halves rather than the row: the row's own transform and opacity
+        belong to the reveal that brings it in, and the two must not fight over
+        one property.
+      */}
       <div
         className={clsx(
-          "flex flex-col gap-5 sm:gap-6",
+          "signal-row-content flex flex-col gap-5 sm:gap-6",
           service.imageFirst
             ? "lg:order-2 lg:pl-10 xl:pl-14"
             : "lg:pr-10 xl:pr-14",
@@ -107,7 +121,7 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
 
       <div
         className={clsx(
-          "border-indigo-deep/70 bg-ink-deep relative overflow-hidden rounded-xl border",
+          "signal-row-content border-indigo-deep/70 bg-ink-deep relative overflow-hidden rounded-xl border",
           service.imageFirst
             ? "lg:order-1 lg:mr-10 xl:mr-14"
             : "lg:ml-10 xl:ml-14",
@@ -130,6 +144,13 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
            */
           className="block h-auto w-full"
         />
+
+        {/*
+          The light that passes along the picture's edge as the scan arrives.
+          Inside the frame, so it takes the frame's radius and clip; only its
+          opacity moves (see `signal-row-edge`).
+        */}
+        <span aria-hidden="true" className="signal-row-edge" />
       </div>
     </li>
   );
@@ -182,11 +203,19 @@ export function Services() {
         {t("services.badge")}
       </SectionBadge>
 
-      <ul className="relative flex w-full flex-col">
-        {services.map((service) => (
-          <ServiceRow key={service.key} service={service} />
-        ))}
-      </ul>
+      {/*
+        The rows on their hairline grid, with the scan drawn over it. The
+        wrapper is what the overlay measures against, so the list itself is no
+        longer positioned: a positioned list would become the rows' offset
+        parent and put every crossing a list's offset out.
+      */}
+      <ScrollSignal className="w-full">
+        <ul className="flex w-full flex-col">
+          {services.map((service) => (
+            <ServiceRow key={service.key} service={service} />
+          ))}
+        </ul>
+      </ScrollSignal>
     </SectionShell>
   );
 }

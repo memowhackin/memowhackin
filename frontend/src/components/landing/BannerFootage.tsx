@@ -3,6 +3,15 @@ import clsx from "clsx";
 
 const FOOTAGE_BOX =
   "absolute top-0 left-[-4.219%] h-[108.52%] w-[108.49%] max-w-none";
+
+/**
+ * The footage's first frame. It sits under the video as the picture that is
+ * on screen before the first frame decodes, and it is the whole of the
+ * backdrop wherever the video is withheld — `prefers-reduced-motion` asks for
+ * a still, not for an empty band where the light used to be.
+ */
+const POSTER = "/assets/hero-banner-poster.webp";
+
 export function BannerFootage({ playing }: { playing: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -38,6 +47,16 @@ export function BannerFootage({ playing }: { playing: boolean }) {
 
   return (
     <>
+      <img
+        src={POSTER}
+        alt=""
+        width={1920}
+        height={1080}
+        aria-hidden="true"
+        decoding="async"
+        className={clsx(FOOTAGE_BOX, "pointer-events-none object-cover")}
+      />
+
       {playing && (
         <video
           ref={videoRef}
@@ -47,6 +66,7 @@ export function BannerFootage({ playing }: { playing: boolean }) {
           loop
           playsInline
           preload="metadata"
+          poster={POSTER}
           /*
            * This is wallpaper, not media. Every affordance a browser attaches
            * to a <video> by itself is wrong here and is switched off:
@@ -68,6 +88,12 @@ export function BannerFootage({ playing }: { playing: boolean }) {
           aria-hidden="true"
           data-testid="hero-backdrop-video"
         >
+          {/*
+            The VP9 encode first: it is a fraction of the size of the same
+            clip as H.264, and every current browser plays it. The MP4 stays
+            as the fallback for the few that do not.
+          */}
+          <source src="/assets/hero-banner.webm" type="video/webm" />
           <source src="/assets/hero-banner.mp4" type="video/mp4" />
         </video>
       )}

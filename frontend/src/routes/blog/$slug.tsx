@@ -405,7 +405,7 @@ function RelatedCard({ post, index }: { post: BlogSummary; index: number }) {
         to="/blog/$slug"
         params={{ slug: post.slug }}
         data-testid={`blog-more-${post.slug}`}
-        className="group border-indigo-deep bg-ink-deep hover:border-lavender/60 flex h-full flex-col overflow-hidden rounded-2xl border transition-[border-color,transform] duration-300 hover:-translate-y-1"
+        className="group border-indigo-deep bg-ink-deep hover:border-lavender/60 flex h-full flex-col overflow-hidden rounded-2xl border transition-[border-color,translate] duration-300 hover:-translate-y-1"
       >
         <img
           src="/assets/blog-pattern.webp"
