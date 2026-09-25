@@ -699,7 +699,7 @@
       "body": "We do not believe in yearly snapshots. Security is a living practice: test continuously, validate every finding with human judgment and stay until it is fixed. That is what drives us."
     },
     "cta": {
-      "title": "Get hacked by us before someone else does.",
+      "title": "Find your weaknesses before someone else does.",
       "body": "Create an ARGUS account and schedule your first pentest in minutes. Findings appear live and the pentesters are one chat away.",
       "primary": "Create your ARGUS account"
     }
