@@ -291,7 +291,7 @@
    * utilities, and the two must not fight over one property.
    *
    * The flow runs after it, on a loop: a short bright length travels the route
-   * the draw-in took. Each keyframe is one leg of a 6s cycle — a fifth of it
+   * the draw-in took. Each keyframe is one leg of a 4s cycle — a fifth of it
    * moving, the rest parked out of sight past the far end — so the legs are put
    * in order by delay alone, and the cycle length here is what keeps them in
    * step. The travelling length is 45% of its segment and runs from -50% to
@@ -304,10 +304,10 @@
   --animate-rail-draw-x: rail-draw-x 0.7s cubic-bezier(0.2, 0, 0, 1) both;
   --animate-rail-draw-y: rail-draw-y 0.6s cubic-bezier(0.2, 0, 0, 1) both;
   --animate-rail-node: rail-node 0.45s cubic-bezier(0, 0, 0.2, 1) both;
-  --animate-rail-flow-x: rail-flow-x 6s linear infinite both;
-  --animate-rail-flow-x-back: rail-flow-x-back 6s linear infinite both;
-  --animate-rail-flow-y: rail-flow-y 6s linear infinite both;
-  --animate-rail-cta-glow: rail-cta-glow 6s ease-in-out infinite both;
+  --animate-rail-flow-x: rail-flow-x 4s linear infinite both;
+  --animate-rail-flow-x-back: rail-flow-x-back 4s linear infinite both;
+  --animate-rail-flow-y: rail-flow-y 4s linear infinite both;
+  --animate-rail-cta-glow: rail-cta-glow 4s ease-in-out infinite both;
 
   @keyframes rail-draw-x {
     from {

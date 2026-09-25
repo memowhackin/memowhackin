@@ -52,9 +52,9 @@ const DRAW = {
 /**
  * Then a light runs the same route on a loop — upper rail, drops, lower rail,
  * and into the button. The keyframes (see `--animate-rail-flow-*`) are one leg
- * of a 6s cycle each, so a leg's place in the sequence is only its delay.
+ * of a 4s cycle each, so a leg's place in the sequence is only its delay.
  */
-const FLOW = { start: 2800, leg: 1200 } as const;
+const FLOW = { start: 2800, leg: 800 } as const;
 
 interface RailProps {
   axis: "x" | "y";
