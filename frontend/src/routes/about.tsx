@@ -174,7 +174,7 @@ function AboutPage() {
 
       {/*
         The ARGUS invitation, closing the page against the footer. The product's
-        name is set the way the home page sets "Find it before they do." — wide
+        name is set the way the home page sets "Find what's exploitable." — wide
         tracking, the etched-light fill — so the platform arrives as a quiet
         line of light rather than a label. The glow beneath is the same lavender
         the footer rises out of, so the two read as one ending.
