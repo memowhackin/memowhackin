@@ -3,7 +3,7 @@ import clsx from "clsx";
 interface SectionStripesProps {
   /**
    * `dark` — the muted band between the showcase and the skyline.
-   * `bright` — the lavender band that opens the "Get hacked" section.
+   * `bright` — the lavender band that opens the "Why AssistSec" section.
    */
   tone?: "dark" | "bright";
   className?: string;

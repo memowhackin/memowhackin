@@ -761,8 +761,8 @@
     }
   },
   "why": {
-    "title": "Laat u hacken door AssistSec.",
-    "cta": "Laat u hacken!",
+    "title": "Wees de aanvaller voor.",
+    "cta": "Demo boeken",
     "scope": {
       "title": "Eigen scope",
       "body": "Webapplicatie of API"

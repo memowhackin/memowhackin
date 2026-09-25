@@ -761,8 +761,8 @@
     }
   },
   "why": {
-    "title": "Get hacked by AssistSec.",
-    "cta": "Get hacked!",
+    "title": "Find it before they do.",
+    "cta": "Book a demo",
     "scope": {
       "title": "Custom scope",
       "body": "Web application or API"

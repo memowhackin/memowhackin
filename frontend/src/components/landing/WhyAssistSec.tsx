@@ -134,7 +134,7 @@ function Pillar({
 }
 
 /**
- * "Get hacked by AssistSec." — three pillars threaded onto the hairline rails
+ * "Find it before they do." — three pillars threaded onto the hairline rails
  * from the design, with the demo call-to-action sitting on the lower rail.
  *
  * Each pillar draws its own segment of the upper rail across its own cell, so

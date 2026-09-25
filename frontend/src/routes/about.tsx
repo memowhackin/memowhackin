@@ -16,7 +16,7 @@ export const Route = createFileRoute("/about")({
 });
 
 /**
- * The etched-light fill the "Get hacked" heading wears on the home page:
+ * The etched-light fill the "Why AssistSec" heading wears on the home page:
  * near-white at the cap line falling into the sky's lavender. The ARGUS word
  * above the closing call to action takes the same ramp, so the page's
  * brightest type reads as one family.
@@ -174,7 +174,7 @@ function AboutPage() {
 
       {/*
         The ARGUS invitation, closing the page against the footer. The product's
-        name is set the way the home page sets "Get hacked by AssistSec" — wide
+        name is set the way the home page sets "Find it before they do." — wide
         tracking, the etched-light fill — so the platform arrives as a quiet
         line of light rather than a label. The glow beneath is the same lavender
         the footer rises out of, so the two read as one ending.
