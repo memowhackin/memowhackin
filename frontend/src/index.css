@@ -281,6 +281,123 @@
   }
 
   /*
+   * The rails of the pillars section (see `WhyAssistSec`). Two movements.
+   *
+   * The draw-in runs once, when the figure arrives: each segment grows out of
+   * the thing it connects — a rail out of its disc, a drop out of its junction,
+   * the lower rail out of its foot towards the button — so the figure is seen
+   * being wired up rather than appearing already wired. It animates `transform`
+   * and not `scale`: the segments' resting state is written with the `scale`
+   * utilities, and the two must not fight over one property.
+   *
+   * The flow runs after it, on a loop: a short bright length travels the route
+   * the draw-in took. Each keyframe is one leg of a 6s cycle — a fifth of it
+   * moving, the rest parked out of sight past the far end — so the legs are put
+   * in order by delay alone, and the cycle length here is what keeps them in
+   * step. The travelling length is 45% of its segment and runs from -50% to
+   * 272% of itself, which carries its centre from one end of the segment
+   * exactly to the other: the light is born at the port and dies at the
+   * junction. It is a little thicker than the rail and glows, so the rail does
+   * not clip it; the fade at either end of the run is what keeps its tails
+   * from showing past a disc or a junction.
+   */
+  --animate-rail-draw-x: rail-draw-x 0.7s cubic-bezier(0.2, 0, 0, 1) both;
+  --animate-rail-draw-y: rail-draw-y 0.6s cubic-bezier(0.2, 0, 0, 1) both;
+  --animate-rail-node: rail-node 0.45s cubic-bezier(0, 0, 0.2, 1) both;
+  --animate-rail-flow-x: rail-flow-x 6s linear infinite both;
+  --animate-rail-flow-x-back: rail-flow-x-back 6s linear infinite both;
+  --animate-rail-flow-y: rail-flow-y 6s linear infinite both;
+  --animate-rail-cta-glow: rail-cta-glow 6s ease-in-out infinite both;
+
+  @keyframes rail-draw-x {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes rail-draw-y {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes rail-node {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes rail-flow-x {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%);
+    }
+    3%,
+    17% {
+      opacity: 1;
+    }
+    20%,
+    100% {
+      opacity: 0;
+      transform: translateX(272%);
+    }
+  }
+
+  @keyframes rail-flow-x-back {
+    0% {
+      opacity: 0;
+      transform: translateX(272%);
+    }
+    3%,
+    17% {
+      opacity: 1;
+    }
+    20%,
+    100% {
+      opacity: 0;
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes rail-flow-y {
+    0% {
+      opacity: 0;
+      transform: translateY(-50%);
+    }
+    3%,
+    17% {
+      opacity: 1;
+    }
+    20%,
+    100% {
+      opacity: 0;
+      transform: translateY(272%);
+    }
+  }
+
+  @keyframes rail-cta-glow {
+    0%,
+    20%,
+    100% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.8;
+    }
+  }
+
+  /*
    * The agent alerts landing on the skyline (see `useSkylineAlerts`). An alert
    * is three parts and they are deliberately not simultaneous — played together
    * the whole assembly pops into being like a tooltip, which is the one thing
